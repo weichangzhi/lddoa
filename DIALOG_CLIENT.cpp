@@ -160,6 +160,8 @@ void CDIALOG_CLIENT::OnButtonClientSelect()
 							m_list_Clinet.SetItemText(index,2,strPermission);
 						}
                     }
+					if(index%2==0)
+						m_list_Clinet.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
 					index++;
                 }
             }

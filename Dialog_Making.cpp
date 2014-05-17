@@ -147,6 +147,8 @@ void CDialog_Making::OnMakingQuery()
 						else
 							m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
+					if(index%2==0)
+						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
 					index++;
                 }//while
             }

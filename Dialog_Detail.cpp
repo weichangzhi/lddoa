@@ -119,7 +119,8 @@ void CDialog_Detail::OnDetailSelect()
 					m_listdetail.SetItemText(index,12,strtime_people);
 					strtime_people.Format("%s | %d | %s",sql_row[22],atoi(sql_row[23]),sql_row[24]);
 					m_listdetail.SetItemText(index,13,strtime_people);
-
+					if(index%2==0)
+						m_listdetail.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
 					index++;
                 }//while
             }

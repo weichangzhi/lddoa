@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Output dialog
 
+#include "LineColorListCtrl.h"
 class CDialog_Output : public CDialog
 {
 // Construction
@@ -19,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Output)
 	enum { IDD = IDD_DIALOG_OUTPUT };
-	CListCtrl	m_list_output;
+	CLineColorListCtrl	m_list_output;
 	CComboBox	m_com_output;
 	CTime	m_time_start;
 	CTime	m_time_end;

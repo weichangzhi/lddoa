@@ -7,6 +7,7 @@
 // Dialog_Detail.h : header file
 //
 
+#include "LineColorListCtrl.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Detail dialog
 
@@ -19,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Detail)
 	enum { IDD = IDD_DIALOG_DETAIL };
-	CListCtrl	m_listdetail;
+	CLineColorListCtrl	m_listdetail;
 	CString	m_listid;
 	//}}AFX_DATA
 

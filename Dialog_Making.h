@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Making.h : header file
 //
-
+#include "LineColorListCtrl.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Making dialog
 
@@ -19,7 +19,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Making)
 	enum { IDD = IDD_DIALOG_MAKEING };
-	CListCtrl	m_list_schedule;
+	CLineColorListCtrl 	m_list_schedule;
 	CTime	m_timebegin;
 	CTime	m_timeend;
 		// NOTE: the ClassWizard will add data members here

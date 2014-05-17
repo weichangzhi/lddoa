@@ -142,7 +142,8 @@ void CDialog_Output::OnOK()
 						}
 						m_list_output.SetItemText(index,i,sql_row[i-1]);
 					}
-
+					if(index%2==0)
+						m_list_output.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
 					index++;
                 }//while
 				m_list_output.InsertItem(index++," ");
@@ -159,6 +160,7 @@ void CDialog_Output::OnOK()
 					m_list_output.SetItemText(index,5,"****");
 				strtmp.Format("%d",volume);
 				m_list_output.SetItemText(index,6,strtmp);
+				m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));
 
             }
         }

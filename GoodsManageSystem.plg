@@ -6,13 +6,13 @@
 --------------------Configuration: GoodsManageSystem - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\WEICHA~1\AppData\Local\Temp\RSPC8E.tmp" with contents
+Creating temporary file "C:\Users\WEICHA~1\AppData\Local\Temp\RSP216C.tmp" with contents
 [
 /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /FR"Debug/" /Fp"Debug/GoodsManageSystem.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"F:\erp\LDDOA\Dialog_Login.cpp"
+"F:\lddoa\Dialog_Output.cpp"
 ]
-Creating command line "cl.exe @C:\Users\WEICHA~1\AppData\Local\Temp\RSPC8E.tmp" 
-Creating temporary file "C:\Users\WEICHA~1\AppData\Local\Temp\RSPC8F.tmp" with contents
+Creating command line "cl.exe @C:\Users\WEICHA~1\AppData\Local\Temp\RSP216C.tmp" 
+Creating temporary file "C:\Users\WEICHA~1\AppData\Local\Temp\RSP216D.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/LDD办公系统.pdb" /debug /machine:I386 /out:"Debug/LDD办公系统.exe" /pdbtype:sept 
 .\Debug\Dialog_AddUser.obj
@@ -40,11 +40,12 @@ Creating temporary file "C:\Users\WEICHA~1\AppData\Local\Temp\RSPC8F.tmp" with c
 .\Debug\Preview.obj
 .\Debug\StdAfx.obj
 .\Debug\GoodsManageSystem.res
+.\Debug\LineColorListCtrl.obj
 ]
-Creating command line "link.exe @C:\Users\WEICHA~1\AppData\Local\Temp\RSPC8F.tmp"
+Creating command line "link.exe @C:\Users\WEICHA~1\AppData\Local\Temp\RSP216D.tmp"
 <h3>Output Window</h3>
 Compiling...
-Dialog_Login.cpp
+Dialog_Output.cpp
 Linking...
 
 

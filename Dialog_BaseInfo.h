@@ -7,6 +7,7 @@
 // Dialog_BaseInfo.h : header file
 //
 
+#include "LineColorListCtrl.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_BaseInfo dialog
 
@@ -19,7 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_BaseInfo)
 	enum { IDD = IDD_DIALOG_BASEINFO };
-	CListCtrl	m_list_baseinfo;
+	CLineColorListCtrl	m_list_baseinfo;
 	CComboBox	m_com_baseinfo;
 	CString	m_str_select_baseinfo;
 	CTime	m_time_bgein;

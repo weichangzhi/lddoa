@@ -6,8 +6,9 @@
 #endif // _MSC_VER > 1000
 // DIALOG_CLIENT.h : header file
 //
-#include "SortListCtrl.h"
 
+#include "SortListCtrl.h"
+#include "LineColorListCtrl.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDIALOG_CLIENT dialog
 
@@ -20,7 +21,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDIALOG_CLIENT)
 	enum { IDD = IDD_DIALOG_CLIENT };
-	CListCtrl	m_list_Clinet;
+	CLineColorListCtrl	m_list_Clinet;
 	CComboBox	m_com_Client;
 	CString	m_strInput;
 	CString	m_strinput;

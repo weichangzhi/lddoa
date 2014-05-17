@@ -10,6 +10,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Schdeule dialog
 
+#include "LineColorListCtrl.h"
 class CDialog_Schdeule : public CDialog
 {
 // Construction
@@ -20,7 +21,7 @@ public:
 	//{{AFX_DATA(CDialog_Schdeule)
 	enum { IDD = IDD_DIALOG_SCHEDULE };
 	CComboBox	m_com_schdeule2;
-	CListCtrl	m_list_schedule;
+	CLineColorListCtrl	m_list_schedule;
 	CComboBox	m_com_schdeule;
 	CTime	m_timebegin;
 	CTime	m_timeend;
