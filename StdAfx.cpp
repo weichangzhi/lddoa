@@ -80,7 +80,8 @@ void CreateExcel(CString filename,CListCtrl *listctl)
 
 	m_ExlBooks.AttachDispatch(m_ExlApp.GetWorkbooks(),TRUE); 
 
-	m_ExlBook.AttachDispatch(m_ExlBooks.Add((_variant_t)TempPath),TRUE);//加载EXCEL模板 
+	//m_ExlBook.AttachDispatch(m_ExlBooks.Add((_variant_t)TempPath),TRUE);//加载EXCEL模板 
+	m_ExlBook.AttachDispatch(m_ExlBooks.Add(covOptional),TRUE);//加载EXCEL模板 
 
 	m_ExlSheets.AttachDispatch(m_ExlBook.GetSheets(),TRUE);//加载Sheet页面 
 
