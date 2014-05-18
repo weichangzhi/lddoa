@@ -226,6 +226,7 @@
 #define IDC_CHECK_QC                    1165
 #define ID_MODIFY                       1167
 #define IDC_STATIC_CONNECT              1168
+#define IDC_EXCEL                       1169
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -241,7 +242,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        218
 #define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1169
+#define _APS_NEXT_CONTROL_VALUE         1170
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

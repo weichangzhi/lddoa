@@ -37,6 +37,7 @@ void CDialog_Detail::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDialog_Detail, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Detail)
 	ON_BN_CLICKED(IDC_BUTTON_DETAIL_SELECT, OnDetailSelect)
+	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -158,4 +159,9 @@ BOOL CDialog_Detail::PreTranslateMessage(MSG* pMsg)
 		}  
 	}	
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CDialog_Detail::OnExcel() 
+{
+	CreateExcel("½ø¶ÈÃ÷Ï¸.xls",&m_listdetail);
 }

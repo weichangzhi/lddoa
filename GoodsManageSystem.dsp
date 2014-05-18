@@ -184,6 +184,10 @@ SOURCE=.\GoodsManageSystemDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\LineColorListCtrl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Preview.cpp
 # End Source File
 # Begin Source File
@@ -286,6 +290,10 @@ SOURCE=.\GoodsManageSystem.h
 # Begin Source File
 
 SOURCE=.\GoodsManageSystemDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\LineColorListCtrl.h
 # End Source File
 # Begin Source File
 

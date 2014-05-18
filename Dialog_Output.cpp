@@ -39,6 +39,7 @@ void CDialog_Output::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDialog_Output, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Output)
+	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -199,4 +200,9 @@ BOOL CDialog_Output::PreTranslateMessage(MSG* pMsg)
 		}  
 	}
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CDialog_Output::OnExcel() 
+{
+	CreateExcel("产能统计.xls",&m_list_output);
 }

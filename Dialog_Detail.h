@@ -41,6 +41,7 @@ protected:
 	//{{AFX_MSG(CDialog_Detail)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDetailSelect();
+	afx_msg void OnExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

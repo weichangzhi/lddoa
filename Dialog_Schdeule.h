@@ -45,6 +45,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSchdeuleSelect();
 	afx_msg void OnSelchangeComboSchedule();
+	afx_msg void OnExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

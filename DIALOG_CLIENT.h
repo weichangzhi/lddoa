@@ -53,6 +53,7 @@ protected:
 	afx_msg void OnModifyPasswd();
 	afx_msg void OnDeleteUser();
 	afx_msg void OnModifyPermission();
+	afx_msg void OnExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

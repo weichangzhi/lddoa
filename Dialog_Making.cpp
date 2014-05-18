@@ -40,6 +40,7 @@ BEGIN_MESSAGE_MAP(CDialog_Making, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Making)
 	ON_BN_CLICKED(IDC_BUTTON_SCHDEULE_SELECT, OnMakingQuery)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST_SCHDEULE, OnCustomDraw)         
+	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -189,4 +190,9 @@ void CDialog_Making::OnCustomDraw(NMHDR *pnotify, LRESULT *result)
 		//	lplvcd->clrText = RGB(0, 0, 255);
 		*result = CDRF_DODEFAULT;
 	}
+}
+
+void CDialog_Making::OnExcel() 
+{
+	CreateExcel("在制品清单.xls",&m_list_schedule);		
 }

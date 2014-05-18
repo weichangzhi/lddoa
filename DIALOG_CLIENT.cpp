@@ -51,6 +51,7 @@ BEGIN_MESSAGE_MAP(CDIALOG_CLIENT, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_MODIFY_PASSWD, OnModifyPasswd)
 	ON_BN_CLICKED(IDC_BUTTON_DELETE_USER, OnDeleteUser)
 	ON_BN_CLICKED(IDC_BUTTON1, OnModifyPermission)
+	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -172,7 +173,6 @@ void CDIALOG_CLIENT::OnButtonClientSelect()
 			CString str;
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
-			if(result!=NULL) mysql_free_result(result);//释放结果资源
 			mysql_close(&myCont);//断开连接
 			return;
         }
@@ -336,4 +336,9 @@ void CDIALOG_CLIENT::OnModifyPermission()
 {
 	CDialog_Modify_Permission	dlg;
 	dlg.DoModal();
+}
+
+void CDIALOG_CLIENT::OnExcel() 
+{
+	CreateExcel("权限查询.xls",&m_list_Clinet);
 }

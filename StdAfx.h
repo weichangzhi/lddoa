@@ -22,7 +22,7 @@
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
-
+#include "comdef.h"
 #include "winsock.h"
 #include "mysql.h"
 #pragma comment(lib,"libmysql.lib")
@@ -35,6 +35,7 @@ extern int nLastColToSort;
 //static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort);
 bool IsNumber( LPCTSTR pszText );
 int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 );
+void CreateExcel(CString filename,CListCtrl *listctl);
 static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort) 
 { 	
 	// lParamSort contains a pointer to the list view control. 

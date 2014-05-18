@@ -43,6 +43,7 @@ protected:
 	//{{AFX_MSG(CDialog_Output)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
+	afx_msg void OnExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

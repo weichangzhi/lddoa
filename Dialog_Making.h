@@ -43,6 +43,7 @@ protected:
 	afx_msg void OnMakingQuery();
 	afx_msg void OnCustomDraw(NMHDR *pnotify, LRESULT *result);
 	virtual BOOL OnInitDialog();
+	afx_msg void OnExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
