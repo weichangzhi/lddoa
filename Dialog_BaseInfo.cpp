@@ -23,7 +23,6 @@ CDialog_BaseInfo::CDialog_BaseInfo(CWnd* pParent /*=NULL*/)
 	: CDialog(CDialog_BaseInfo::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CDialog_BaseInfo)
-	m_str_select_baseinfo = _T("");
 	m_time_bgein = 0;
 	m_time_end = 0;
 	//}}AFX_DATA_INIT
@@ -36,7 +35,6 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(CDialog_BaseInfo)
 	DDX_Control(pDX, IDC_LIST_BASEINFO, m_list_baseinfo);
 	DDX_Control(pDX, IDC_COMBO_BASEINFO, m_com_baseinfo);
-	DDX_Text(pDX, IDC_EDIT_BASEINFO, m_str_select_baseinfo);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER1, m_time_bgein);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER2, m_time_end);
 	//}}AFX_DATA_MAP
@@ -46,12 +44,11 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDialog_BaseInfo, CDialog)
 	//{{AFX_MSG_MAP(CDialog_BaseInfo)
 	ON_BN_CLICKED(IDC_BUTTON_SELL_SELECT, OnButtonSellSelect)
-	ON_BN_CLICKED(IDC_BUTTON_BASEINFO_ADD, OnButtonBaseinfoAdd)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST_BASEINFO, OnDblclkListBaseinfo)
-	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BASEINFO, OnColumnclickListBaseinfo)
 	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnExcel)
 	ON_CBN_SELCHANGE(IDC_COMBO_BASEINFO, OnSelchangeComboBaseinfo)
-	ON_BN_CLICKED(IDC_BUTTON1, OnModifyList)
+	ON_WM_HSCROLL()
+	ON_WM_SIZE()
+	ON_WM_VSCROLL()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -64,8 +61,6 @@ void CDialog_BaseInfo::OnButtonSellSelect()
 	m_list_baseinfo.DeleteAllItems();
 	UpdateData();
 	CString csSql;
-	m_str_select_baseinfo.TrimLeft();
-	m_str_select_baseinfo.TrimRight();
 	CString starttime;
 	starttime.Format("%04d-%02d-%02d",m_time_bgein.GetYear(),m_time_bgein.GetMonth(),m_time_bgein.GetDay());
 	CString endtime;
@@ -150,36 +145,6 @@ void CDialog_BaseInfo::OnButtonSellSelect()
 
 }
 
-void CDialog_BaseInfo::OnButtonBaseinfoAdd() 
-{
-	// TODO: Add your control notification handler code here
-	CDialog_New_List dlg;
-	dlg.DoModal();
-	return;
-	CDialog_InputBaseinfo dlg_baseinfo;
-	if (dlg_baseinfo.DoModal()==IDOK)
-	{
-		m_list_baseinfo.DeleteAllItems();
-
-		m_list_baseinfo.InsertItem(0,dlg_baseinfo.m_ListID);
-		m_list_baseinfo.SetItemText(0,1,dlg_baseinfo.m_ClientName);
-		m_list_baseinfo.SetItemText(0,2,dlg_baseinfo.m_str_reveive_time);
-		m_list_baseinfo.SetItemText(0,3,dlg_baseinfo.m_str_end_date);
-		m_list_baseinfo.SetItemText(0,4,dlg_baseinfo.m_department);
-		m_list_baseinfo.SetItemText(0,5,dlg_baseinfo.m_adress);
-		m_list_baseinfo.SetItemText(0,6,dlg_baseinfo.m_Phone);
-		m_list_baseinfo.SetItemText(0,7,dlg_baseinfo.m_Mondy);
-		m_list_baseinfo.SetItemText(0,8,dlg_baseinfo.m_size);
-		m_list_baseinfo.SetItemText(0,9,dlg_baseinfo.m_material);
-		m_list_baseinfo.SetItemText(0,10,dlg_baseinfo.m_color);
-		m_list_baseinfo.SetItemText(0,11,dlg_baseinfo.m_paint);
-		m_list_baseinfo.SetItemText(0,12,dlg_baseinfo.m_bottom);
-		m_list_baseinfo.SetItemText(0,13,dlg_baseinfo.m_accuracy);
-		m_list_baseinfo.SetItemText(0,14,dlg_baseinfo.m_errorrange);
-		m_list_baseinfo.SetItemText(0,15,dlg_baseinfo.m_other);
-	}
-}
-
 BOOL CDialog_BaseInfo::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
@@ -193,7 +158,7 @@ BOOL CDialog_BaseInfo::OnInitDialog()
 	m_com_baseinfo.InsertString(1,"µ¥ºÅ");
 	m_com_baseinfo.SetCurSel(0);
 	
-	m_list_baseinfo.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
+	m_list_baseinfo.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES | WS_HSCROLL | WS_VSCROLL);
 	m_list_baseinfo.InsertColumn(0, _T("ÐòºÅ"), LVCFMT_LEFT,60);
 	m_list_baseinfo.InsertColumn(1, _T("µ¥ºÅ"), LVCFMT_LEFT,100);
 	m_list_baseinfo.InsertColumn(2, _T("¶©µ¥Ãû³Æ"), LVCFMT_LEFT,80);
@@ -229,67 +194,6 @@ BOOL CDialog_BaseInfo::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CDialog_BaseInfo::OnDblclkListBaseinfo(NMHDR* pNMHDR, LRESULT* pResult) 
-{
-	// TODO: Add your control notification handler code here
-	int sel=m_list_baseinfo.GetSelectionMark();
-	if(sel==-1) return;
-	return;
-	/*
-	CDialog_InputBaseinfo *dlg_baseinfo=new CDialog_InputBaseinfo(); 
-	dlg_baseinfo->Create(IDD_DIALOG_INPUT_BASEINFO); 
-	dlg_baseinfo->m_bModify = 1;
-	dlg_baseinfo->m_ListID = m_list_baseinfo.GetItemText(sel,0);
-	dlg_baseinfo->m_ClientName = m_list_baseinfo.GetItemText(sel,1);
-	dlg_baseinfo->m_str_reveive_time = m_list_baseinfo.GetItemText(sel,2);
-	dlg_baseinfo->m_str_end_date = m_list_baseinfo.GetItemText(sel,3);
-	dlg_baseinfo->m_department = m_list_baseinfo.GetItemText(sel,4);
-	dlg_baseinfo->m_adress = m_list_baseinfo.GetItemText(sel,5);
-	dlg_baseinfo->m_Phone = m_list_baseinfo.GetItemText(sel,6);
-	dlg_baseinfo->m_Mondy = m_list_baseinfo.GetItemText(sel,7);
-	dlg_baseinfo->m_size = m_list_baseinfo.GetItemText(sel,8);
-	dlg_baseinfo->m_material = m_list_baseinfo.GetItemText(sel,9);
-	dlg_baseinfo->m_color = m_list_baseinfo.GetItemText(sel,10);
-	dlg_baseinfo->m_paint = m_list_baseinfo.GetItemText(sel,11);
-	dlg_baseinfo->m_bottom = m_list_baseinfo.GetItemText(sel,12);
-	dlg_baseinfo->m_accuracy = m_list_baseinfo.GetItemText(sel,13);
-	dlg_baseinfo->m_errorrange = m_list_baseinfo.GetItemText(sel,14);
-	dlg_baseinfo->m_other = m_list_baseinfo.GetItemText(sel,15);
-	dlg_baseinfo->ShowWindow(SW_SHOW);
-	*/
-	/*
-	CDialog_InputBaseinfo dlg_baseinfo;
-	dlg_baseinfo.m_bModify = 1;
-	dlg_baseinfo.m_ListID = m_list_baseinfo.GetItemText(sel,0);
-	dlg_baseinfo.m_ClientName = m_list_baseinfo.GetItemText(sel,1);
-	dlg_baseinfo.m_str_reveive_time = m_list_baseinfo.GetItemText(sel,2);
-	dlg_baseinfo.m_str_end_date = m_list_baseinfo.GetItemText(sel,3);
-	dlg_baseinfo.m_department = m_list_baseinfo.GetItemText(sel,4);
-	dlg_baseinfo.m_adress = m_list_baseinfo.GetItemText(sel,5);
-	dlg_baseinfo.m_Phone = m_list_baseinfo.GetItemText(sel,6);
-	dlg_baseinfo.m_Mondy = m_list_baseinfo.GetItemText(sel,7);
-	dlg_baseinfo.m_size = m_list_baseinfo.GetItemText(sel,8);
-	dlg_baseinfo.m_material = m_list_baseinfo.GetItemText(sel,9);
-	dlg_baseinfo.m_color = m_list_baseinfo.GetItemText(sel,10);
-	dlg_baseinfo.m_paint = m_list_baseinfo.GetItemText(sel,11);
-	dlg_baseinfo.m_bottom = m_list_baseinfo.GetItemText(sel,12);
-	dlg_baseinfo.m_accuracy = m_list_baseinfo.GetItemText(sel,13);
-	dlg_baseinfo.m_errorrange = m_list_baseinfo.GetItemText(sel,14);
-	dlg_baseinfo.m_other = m_list_baseinfo.GetItemText(sel,15);
-
-	if (dlg_baseinfo.DoModal()==IDOK)
-	{}
-	*/
-	*pResult = 0;
-}
-
-void CDialog_BaseInfo::OnColumnclickListBaseinfo(NMHDR* pNMHDR, LRESULT* pResult) 
-{
-	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: Add your control notification handler code here
-	
-	*pResult = 0;
-}
 
 void CDialog_BaseInfo::OnExcel() 
 {
@@ -325,8 +229,29 @@ void CDialog_BaseInfo::OnSelchangeComboBaseinfo()
 
 }
 
-void CDialog_BaseInfo::OnModifyList() 
+void CDialog_BaseInfo::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
 {
-	CDialog_ModifyList	dlg;
-	dlg.DoModal();
+	// TODO: Add your message handler code here and/or call default
+	
+	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CDialog_BaseInfo::OnSize(UINT nType, int cx, int cy) 
+{
+/*
+	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
+	CRect m_rect(0,0,width,height);
+	m_rect.DeflateRect(200,0,20,20);
+	this->MoveWindow(m_rect);
+	*/
+	CDialog::OnSize(nType, cx, cy);
+	
+}
+
+void CDialog_BaseInfo::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+{
+	// TODO: Add your message handler code here and/or call default
+	
+	CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }

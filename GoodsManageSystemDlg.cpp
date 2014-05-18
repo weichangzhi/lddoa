@@ -230,13 +230,12 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 
 	//把Dialog移到合适位置
 
+	m_tree.MoveWindow(0,0,200,height-20);
+
 	CRect m_rect;
 	GetClientRect(m_rect);
-	//m_rect.left=150;
-	m_rect.DeflateRect(200,0,m_rect.right-width,m_rect.bottom-height);
-//	CRect
-	//m_rect.DeflateRect(0,0,m_rect.right-width,m_rect.bottom-height);
-	m_tree.MoveWindow(0,0,200,height);
+	m_rect.DeflateRect(200,0,20,20);
+
 	for(i=0;i<MAX_TREE_PAGE;i++)
 	{
 		m_treePages[i]->MoveWindow(m_rect);
@@ -244,6 +243,21 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 			m_treePages[i]->ShowWindow(SW_HIDE);
 	}
 	m_treePages[8]->ShowWindow(SW_SHOW);
+
+/*	CRect rect,rect1,rec;
+	this->GetClientRect(&rect);  
+	ClientToScreen(&rect);
+	
+	for(i=0;i<MAX_TREE_PAGE;i++)
+	{
+		m_treePages[i]->GetClientRect(&rect1);
+		m_treePages[i]->CalcWindowRect(&rect1);
+		m_treePages[i]->MoveWindow(200,0,rect1.Width(),rect1.Height());
+		if(i!=8)
+			m_treePages[i]->ShowWindow(SW_HIDE);
+	}
+	m_treePages[8]->ShowWindow(SW_SHOW);
+*/
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
 	m_tree.Expand(sub_son0,TVE_EXPAND);
@@ -320,8 +334,19 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 	
-	// TODO: Add your message handler code here
-	
+/*	int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
+	CRect m_rect(0,0,width,height);
+	m_rect.DeflateRect(200,0,20,20);
+	//this->MoveWindow(m_rect);
+	int i=0;
+	for(i=0;i<MAX_TREE_PAGE;i++)
+	{
+		m_treePages[i]->GetClientRect(&m_rect);
+		m_treePages[i]->CalcWindowRect(&m_rect);
+		m_treePages[i]->MoveWindow(200,0,m_rect.Width(),m_rect.Height());
+	}
+	*/
 }
 
 void CGoodsManageSystemDlg::OnHelp() 

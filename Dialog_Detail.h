@@ -42,6 +42,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnDetailSelect();
 	afx_msg void OnExcel();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

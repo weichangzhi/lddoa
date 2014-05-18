@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CDialog_Detail, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Detail)
 	ON_BN_CLICKED(IDC_BUTTON_DETAIL_SELECT, OnDetailSelect)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
+	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -59,11 +60,11 @@ BOOL CDialog_Detail::OnInitDialog()
 	m_listdetail.InsertColumn(6, _T("收单日期"), LVCFMT_LEFT,100);
 	m_listdetail.InsertColumn(7, _T("交货日期"), LVCFMT_LEFT,100);
 	m_listdetail.InsertColumn(8, _T("业务部  (下单时间 | 下单数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(9, _T("技术部  (过账时间 | 过账数量  负责人)"), LVCFMT_LEFT,250);
-	m_listdetail.InsertColumn(10, _T("生产部  (过账时间 | 过账数量  负责人)"), LVCFMT_LEFT,250);
-	m_listdetail.InsertColumn(11, _T("质检  (过账时间 | 过账数量  负责人)"), LVCFMT_LEFT,250);
-	m_listdetail.InsertColumn(12, _T("成品仓  (过账时间 | 过账数量  负责人)"), LVCFMT_LEFT,250);
-	m_listdetail.InsertColumn(13, _T("物流  (过账时间 | 过账数量  负责人)"), LVCFMT_LEFT,250);
+	m_listdetail.InsertColumn(9, _T("技术部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(10, _T("生产部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(11, _T("质检  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(12, _T("成品仓  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(13, _T("物流  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -164,4 +165,16 @@ BOOL CDialog_Detail::PreTranslateMessage(MSG* pMsg)
 void CDialog_Detail::OnExcel() 
 {
 	CreateExcel("进度明细.xls",&m_listdetail);
+}
+
+void CDialog_Detail::OnSize(UINT nType, int cx, int cy) 
+{
+	/*int width = GetSystemMetrics(SM_CXSCREEN);
+	int height = GetSystemMetrics(SM_CYSCREEN);
+	CRect m_rect(0,0,width,height);
+	m_rect.DeflateRect(200,0,20,20);
+	this->MoveWindow(m_rect); 
+	*/
+	CDialog::OnSize(nType, cx, cy);
+
 }

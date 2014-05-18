@@ -22,7 +22,6 @@ public:
 	enum { IDD = IDD_DIALOG_BASEINFO };
 	CLineColorListCtrl	m_list_baseinfo;
 	CComboBox	m_com_baseinfo;
-	CString	m_str_select_baseinfo;
 	CTime	m_time_bgein;
 	CTime	m_time_end;
 	//}}AFX_DATA
@@ -43,13 +42,12 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(CDialog_BaseInfo)
 	afx_msg void OnButtonSellSelect();
-	afx_msg void OnButtonBaseinfoAdd();
 	virtual BOOL OnInitDialog();
-	afx_msg void OnDblclkListBaseinfo(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnColumnclickListBaseinfo(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnExcel();
 	afx_msg void OnSelchangeComboBaseinfo();
-	afx_msg void OnModifyList();
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
