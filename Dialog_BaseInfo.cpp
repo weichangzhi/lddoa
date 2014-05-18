@@ -124,7 +124,7 @@ void CDialog_BaseInfo::OnButtonSellSelect()
 					m_list_baseinfo.SetItemText(index,26,sql_row[4]);
 					m_list_baseinfo.SetItemText(index,27,sql_row[29]);
 					if(index%2==0)
-						m_list_baseinfo.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
+						m_list_baseinfo.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
                 }
             }

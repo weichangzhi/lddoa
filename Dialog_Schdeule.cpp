@@ -255,7 +255,7 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 					}//switch
 					*/
 					if(index%2==0)
-						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(192,192,192));
+						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
                 }//while
             }
