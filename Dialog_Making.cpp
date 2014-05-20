@@ -131,7 +131,7 @@ void CDialog_Making::OnMakingQuery()
 				int index = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
-					if((atoi(sql_row[12]) >= atoi(sql_row[2])) && (atoi(sql_row[2])!=0))//成品仓已过账的数目达到总数，就不显示
+					if((atoi(sql_row[11]) >= atoi(sql_row[2])) && (atoi(sql_row[2])!=0))//成品仓已过账的数目达到总数，就不显示
 						continue;
 					CString strindex ;
 					strindex.Format("%d",index+1);
