@@ -60,11 +60,11 @@ BOOL CDialog_Making::OnInitDialog()
 	m_list_schedule.InsertColumn(5, _T("产品体积"), LVCFMT_LEFT,80);
 	m_list_schedule.InsertColumn(6, _T("收单日期"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(7, _T("交货日期"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(8, _T("快递单号"), LVCFMT_LEFT,120);
-	m_list_schedule.InsertColumn(9, _T("技术部"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(10, _T("生产部"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(11, _T("质检"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(12, _T("成品仓"), LVCFMT_LEFT,60);     
+	//m_list_schedule.InsertColumn(8, _T("快递单号"), LVCFMT_LEFT,120);
+	m_list_schedule.InsertColumn(8, _T("技术部"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(9, _T("生产部"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(10, _T("质检"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(11, _T("成品仓"), LVCFMT_LEFT,60);     
 	CTime time1 = CTime::GetCurrentTime();
 	m_timebegin = time1;
 	m_timeend = time1;
@@ -109,7 +109,7 @@ void CDialog_Making::OnMakingQuery()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_timeend.GetYear(),m_timeend.GetMonth(),m_timeend.GetDay()+1);
 			
-	csSql.Format("select baseinfo.listid,baseinfo.listname,truelistnumber,material,volume,reveivedate,enddate,sendid,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and  businessendtime>=\"%s\" and businessendtime<=\"%s\" " ,starttime,endtime);
+	csSql.Format("select baseinfo.listid,baseinfo.listname,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and  businessendtime>=\"%s\" and businessendtime<=\"%s\" " ,starttime,endtime);
 
 	MYSQL myCont;
     MYSQL_RES *result;
@@ -137,11 +137,11 @@ void CDialog_Making::OnMakingQuery()
 					strindex.Format("%d",index+1);
 					m_list_schedule.InsertItem(index,strindex);
 					int i=0;
-					for(i=1;i<=8;i++)
+					for(i=1;i<=7;i++)
 					{
 						m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
-					for(i=9;i<=12;i++)
+					for(i=8;i<=11;i++)
 					{
 						if(atoi(sql_row[i-1])==0)
 							m_list_schedule.SetItemText(index,i,"");
