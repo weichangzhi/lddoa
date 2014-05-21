@@ -234,8 +234,38 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 
 	CRect m_rect;
 	GetClientRect(m_rect);
+	CRect rectlist(m_rect);
 	m_rect.DeflateRect(200,0,20,20);
+	rectlist.DeflateRect(0,50,220,20);
 
+	m_treePages[0]->MoveWindow(m_rect);
+	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
+	m_treePages[0]->ShowWindow(SW_HIDE);
+	m_treePages[1]->MoveWindow(m_rect);
+	((CDialog_BaseInfo*)(m_treePages[1]))->m_list_baseinfo.MoveWindow(rectlist);
+	m_treePages[1]->ShowWindow(SW_HIDE);
+	m_treePages[2]->MoveWindow(m_rect);
+	m_treePages[2]->ShowWindow(SW_HIDE);
+	m_treePages[3]->MoveWindow(m_rect);
+	((CDialog_Schdeule*)(m_treePages[3]))->m_list_schedule.MoveWindow(rectlist);
+	m_treePages[3]->ShowWindow(SW_HIDE);
+	m_treePages[4]->MoveWindow(m_rect);
+	((CDialog_Detail*)(m_treePages[4]))->m_listdetail.MoveWindow(rectlist);
+	m_treePages[4]->ShowWindow(SW_HIDE);
+	m_treePages[5]->MoveWindow(m_rect);
+	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlist);
+	m_treePages[5]->ShowWindow(SW_HIDE);
+	m_treePages[6]->MoveWindow(m_rect);
+	m_treePages[6]->ShowWindow(SW_HIDE);
+	m_treePages[7]->MoveWindow(m_rect);
+	m_treePages[7]->ShowWindow(SW_HIDE);
+	m_treePages[8]->MoveWindow(m_rect);
+	((CDialog_Making*)(m_treePages[8]))->m_list_schedule.MoveWindow(rectlist);
+	m_treePages[8]->ShowWindow(SW_SHOW);
+	m_treePages[9]->MoveWindow(m_rect);
+	m_treePages[9]->ShowWindow(SW_HIDE);
+
+/*
 	for(i=0;i<MAX_TREE_PAGE;i++)
 	{
 		m_treePages[i]->MoveWindow(m_rect);
@@ -243,21 +273,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 			m_treePages[i]->ShowWindow(SW_HIDE);
 	}
 	m_treePages[8]->ShowWindow(SW_SHOW);
-
-/*	CRect rect,rect1,rec;
-	this->GetClientRect(&rect);  
-	ClientToScreen(&rect);
-	
-	for(i=0;i<MAX_TREE_PAGE;i++)
-	{
-		m_treePages[i]->GetClientRect(&rect1);
-		m_treePages[i]->CalcWindowRect(&rect1);
-		m_treePages[i]->MoveWindow(200,0,rect1.Width(),rect1.Height());
-		if(i!=8)
-			m_treePages[i]->ShowWindow(SW_HIDE);
-	}
-	m_treePages[8]->ShowWindow(SW_SHOW);
 */
+
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
 	m_tree.Expand(sub_son0,TVE_EXPAND);
