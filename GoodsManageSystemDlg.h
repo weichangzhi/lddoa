@@ -36,6 +36,8 @@ public:
 	CDialog * m_treePages[MAX_TREE_PAGE];
 	CString node_name;
 	BOOL InitMytree();
+	BOOL bFirstin;
+	int icurrentpage;
 // Dialog Data
 	//{{AFX_DATA(CGoodsManageSystemDlg)
 	enum { IDD = IDD_GOODSMANAGESYSTEM_DIALOG };

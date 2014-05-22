@@ -106,7 +106,7 @@ BOOL CDialog_Query_list::OnInitDialog()
 	CTime time1 = CTime::GetCurrentTime();
 	m_receivedate = time1;
 	m_enddate = time1;	
-	
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }

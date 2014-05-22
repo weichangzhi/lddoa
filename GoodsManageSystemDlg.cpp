@@ -69,6 +69,8 @@ CGoodsManageSystemDlg::CGoodsManageSystemDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	bFirstin = 1;
+	icurrentpage = 8;
 }
 
 void CGoodsManageSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -124,6 +126,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	}
 
 	this->ShowWindow(SW_SHOWMAXIMIZED);
+	bFirstin = 1;
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -265,17 +268,6 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[9]->MoveWindow(m_rect);
 	m_treePages[9]->ShowWindow(SW_HIDE);
 
-/*
-	for(i=0;i<MAX_TREE_PAGE;i++)
-	{
-		m_treePages[i]->MoveWindow(m_rect);
-		if(i!=8)
-			m_treePages[i]->ShowWindow(SW_HIDE);
-	}
-	m_treePages[8]->ShowWindow(SW_SHOW);
-*/
-
-
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
 	m_tree.Expand(sub_son0,TVE_EXPAND);
 	m_tree.Expand(sub_son1,TVE_EXPAND);
@@ -351,19 +343,38 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 	
-/*	int width = GetSystemMetrics(SM_CXSCREEN);
-	int height = GetSystemMetrics(SM_CYSCREEN);
-	CRect m_rect(0,0,width,height);
+	CRect m_rect;
+	GetClientRect(m_rect);
+	CRect rectlist(m_rect);
 	m_rect.DeflateRect(200,0,20,20);
-	//this->MoveWindow(m_rect);
-	int i=0;
-	for(i=0;i<MAX_TREE_PAGE;i++)
-	{
-		m_treePages[i]->GetClientRect(&m_rect);
-		m_treePages[i]->CalcWindowRect(&m_rect);
-		m_treePages[i]->MoveWindow(200,0,m_rect.Width(),m_rect.Height());
-	}
-	*/
+	rectlist.DeflateRect(0,50,220,20);
+
+	m_treePages[0]->MoveWindow(m_rect);
+	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
+	//m_treePages[0]->ShowWindow(SW_HIDE);
+	m_treePages[1]->MoveWindow(m_rect);
+	((CDialog_BaseInfo*)(m_treePages[1]))->m_list_baseinfo.MoveWindow(rectlist);
+	//m_treePages[1]->ShowWindow(SW_HIDE);
+	m_treePages[2]->MoveWindow(m_rect);
+	//m_treePages[2]->ShowWindow(SW_HIDE);
+	m_treePages[3]->MoveWindow(m_rect);
+	((CDialog_Schdeule*)(m_treePages[3]))->m_list_schedule.MoveWindow(rectlist);
+	//m_treePages[3]->ShowWindow(SW_HIDE);
+	m_treePages[4]->MoveWindow(m_rect);
+	((CDialog_Detail*)(m_treePages[4]))->m_listdetail.MoveWindow(rectlist);
+	//m_treePages[4]->ShowWindow(SW_HIDE);
+	m_treePages[5]->MoveWindow(m_rect);
+	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlist);
+	//m_treePages[5]->ShowWindow(SW_HIDE);
+	m_treePages[6]->MoveWindow(m_rect);
+	//m_treePages[6]->ShowWindow(SW_HIDE);
+	m_treePages[7]->MoveWindow(m_rect);
+	//m_treePages[7]->ShowWindow(SW_HIDE);
+	m_treePages[8]->MoveWindow(m_rect);
+	((CDialog_Making*)(m_treePages[8]))->m_list_schedule.MoveWindow(rectlist);
+	//m_treePages[8]->ShowWindow(SW_SHOW);
+	m_treePages[9]->MoveWindow(m_rect);
+	//m_treePages[9]->ShowWindow(SW_HIDE);
 }
 
 void CGoodsManageSystemDlg::OnHelp() 
@@ -420,13 +431,25 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		m_treePages[i]->ShowWindow(SW_HIDE);
 	}
 
-	if(node_name=="增加用户"){
+	if(node_name=="LDD办公系统"){
+		if(bFirstin==1)
+		{
+			m_treePages[8]->ShowWindow(SW_SHOW);
+		}
+		else
+		{
+			m_treePages[icurrentpage]->ShowWindow(SW_SHOW);
+		}
+		bFirstin = 0 ;
+	}
+	else if(node_name=="增加用户"){
 		m_treePages[0]->ShowWindow(SW_SHOW);
 		if(g_permission & PERMISSION)
 		{
 			CDialog_AddUser dlg;
 			dlg.DoModal();
 		}
+		icurrentpage = 0;
 	}
 	else if(node_name=="修改权限"){
 		m_treePages[0]->ShowWindow(SW_SHOW);
@@ -435,6 +458,7 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 			CDialog_Modify_Permission	dlg;
 			dlg.DoModal();
 		}
+		icurrentpage = 0;
 	}
 	else if(node_name=="修改密码"){
 		m_treePages[0]->ShowWindow(SW_SHOW);
@@ -443,9 +467,11 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 			CDialog_ModifyPW_Admin dlg;
 			dlg.DoModal();
 		}
+		icurrentpage = 0;
 	}
 	else if(node_name=="查询权限" || node_name=="权限管理"){
 		m_treePages[0]->ShowWindow(SW_SHOW);
+		icurrentpage = 0;
 	}
 	else if(node_name=="删除用户"){
 		m_treePages[0]->ShowWindow(SW_SHOW);
@@ -454,33 +480,43 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 			CDialog_Delete_User dlg;
 			dlg.DoModal();
 		}
+		icurrentpage = 0;
 	}
 	else if(node_name=="新增订单"){
 		m_treePages[6]->ShowWindow(SW_SHOW);
+		icurrentpage = 6;
 	}
 	else if(node_name=="修改订单" ){
 		m_treePages[7]->ShowWindow(SW_SHOW);
+		icurrentpage = 7;
 	}
 	else if(node_name=="查询订单" || node_name=="订单资料"){
 		m_treePages[1]->ShowWindow(SW_SHOW);
+		icurrentpage = 1;
 	}
 	else if(node_name=="过账" || node_name=="账目流转"){
 		m_treePages[2]->ShowWindow(SW_SHOW);
+		icurrentpage = 2;
 	}
 	else if(node_name=="退账"){
 		m_treePages[9]->ShowWindow(SW_SHOW);
+		icurrentpage = 9;
 	}
-	else if(node_name=="在制品进度" || node_name=="LDD办公系统"){
+	else if(node_name=="在制品进度"){
 		m_treePages[8]->ShowWindow(SW_SHOW);
+		icurrentpage = 8;
 	}
 	else if(node_name=="订单进度"){
 		m_treePages[3]->ShowWindow(SW_SHOW);
+		icurrentpage = 3;
 	}
 	else if(node_name=="进度明细"){
 		m_treePages[4]->ShowWindow(SW_SHOW);
+		icurrentpage = 4;
 	}
 	else if(node_name=="产能统计"){
 		m_treePages[5]->ShowWindow(SW_SHOW);
+		icurrentpage = 5;
 	}
 	UpdateData(false);
 
