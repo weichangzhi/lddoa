@@ -214,7 +214,11 @@ void CDialog_New_List::OnSubmitlist()
 	}
 	else
 	{
-		MessageBox("连接数据库失败，请检查网络是否正确连接","提示",MB_OK);
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
 		return;
 	}
 	mysql_close(&myCont);//断开连接
@@ -379,7 +383,11 @@ void CDialog_New_List::OnStartList()
 	}
 	else
     {
-		MessageBox("连接数据库失败，请检查网络是否正确连接","提示",MB_OK);
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
 		return;
     }
 	mysql_close(&myCont);//断开连接

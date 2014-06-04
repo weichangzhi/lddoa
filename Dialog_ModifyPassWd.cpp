@@ -186,7 +186,11 @@ void CDialog_ModifyPassWd::OnOK()
 	}
 	else
 	{
-		MessageBox("连接数据库失败","提示",MB_OK);
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
 		return;
 	}
 

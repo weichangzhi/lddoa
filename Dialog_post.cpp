@@ -522,7 +522,14 @@ void CDialog_post::OnOK()
 		}	
 	}
 	else
-		goto _exit;
+	{
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
+		return;
+	}
 	MessageBox("过账成功","提示",MB_OK);
 _exit:
 	if(result!=NULL) mysql_free_result(result);//释放结果资源

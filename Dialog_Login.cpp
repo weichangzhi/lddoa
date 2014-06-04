@@ -13,6 +13,8 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+#pragma comment(lib,"Version.lib")
+
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Login dialog
 
@@ -42,12 +44,37 @@ void CDialog_Login::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDialog_Login, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Login)
 	ON_BN_CLICKED(IDC_BUTTON_MODIFY_PASSWD, OnModifyPasswd)
+	ON_WM_PAINT()
+	ON_WM_CTLCOLOR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Login message handlers
 
+
+CString getVersion()
+{
+	CHAR szAppPath[MAX_PATH] = {0};
+	::GetModuleFileName(NULL, szAppPath, MAX_PATH);
+	VS_FIXEDFILEINFO *VInfo;
+	UINT nVerInfoSize = GetFileVersionInfoSize(szAppPath, 0);
+	char* bufVerInfo = new char[nVerInfoSize];
+	CString strVer = "";
+	if (GetFileVersionInfo(szAppPath, 0, nVerInfoSize, bufVerInfo) != 0)
+	{
+		if (VerQueryValue(bufVerInfo,"\\",(LPVOID*)&VInfo,&nVerInfoSize))
+		{
+			WORD wVer1 = VInfo->dwFileVersionMS >> 16;
+			WORD wVer2 = VInfo->dwFileVersionMS & 0x00ff;
+			WORD wVer3 = VInfo->dwFileVersionLS >> 16;
+			WORD wVer4 = VInfo->dwFileVersionLS & 0x00ff;
+			strVer.Format("%d.%d.%d.%d", wVer1, wVer2, wVer3, wVer4);
+		}
+	}
+	delete []bufVerInfo;
+	return strVer;
+}
 
 BOOL CDialog_Login::OnInitDialog() 
 {
@@ -68,6 +95,9 @@ BOOL CDialog_Login::OnInitDialog()
 	
 	m_ipaddress.SetWindowText(m_strip);
 	GetDlgItem(IDC_STATIC_CONNECT)->ShowWindow(FALSE);
+	CString titile = "欢迎登陆LDD办公系统------version " + getVersion();
+	SetWindowText(titile);
+	
 
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -267,7 +297,11 @@ void CDialog_Login::OnOK()
 	}
 	else
 	{
-		MessageBox("连接数据库失败","提示",MB_OK);
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
 		return;
 	}
 
@@ -296,4 +330,63 @@ void CDialog_Login::OnModifyPasswd()
 	// TODO: Add your control notification handler code here
 	CDialog_ModifyPassWd passwddlg;
 	passwddlg.DoModal();
+}
+
+void CDialog_Login::OnPaint()
+{
+	if (IsIconic())
+    {
+        CPaintDC dc(this); // 用于绘制的设备上下文
+
+        SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+
+        // 使图标在工作区矩形中居中
+        int cxIcon = GetSystemMetrics(SM_CXICON);
+        int cyIcon = GetSystemMetrics(SM_CYICON);
+        CRect rect;
+        GetClientRect(&rect);
+        int x = (rect.Width() - cxIcon + 1) / 2;
+        int y = (rect.Height() - cyIcon + 1) / 2;
+
+        // 绘制图标
+        //dc.DrawIcon(x, y, m_hIcon);
+    }
+    else
+    {
+// 		CRect   rect;
+// 		CPaintDC   dc(this);
+// 		GetClientRect(rect);
+// 		dc.FillSolidRect(rect,RGB(153,217,234));   //设置为绿色背景
+//
+// 		CDialog::OnPaint();
+		//
+        // 给窗体添加背景
+        //
+//         CPaintDC dc(this);
+//         CRect rc;
+//         GetClientRect(&rc);
+//         CDC dcMem;
+//         dcMem.CreateCompatibleDC(&dc);
+//         CBitmap bmpBackground;
+//         bmpBackground.LoadBitmap(IDB_BITMAP2);
+// 
+//         BITMAP bitmap;
+//         bmpBackground.GetBitmap(&bitmap);
+//         CBitmap* pbmpPri = dcMem.SelectObject(&bmpBackground);
+//         dc.StretchBlt(0,0,rc.Width(), rc.Height(), &dcMem,0,0,bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
+    }
+}
+
+HBRUSH CDialog_Login::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	if(nCtlColor == CTLCOLOR_STATIC )
+	{
+		pDC->SetBkMode(TRANSPARENT);//设置背景透明
+		pDC->SetTextColor(RGB(0,0,0));//设置字体为黄色
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+	// TODO: Return a different brush if the default is not desired
+	return hbr;
 }
