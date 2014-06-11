@@ -11,11 +11,15 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.plg
+*.clw
+*.dsp
+*.opt
 local.properties
 .classpath
 .settings/
 .loadpath
-*.plg
+
 
 # External tool builders
 .externalToolBuilders/
@@ -214,3 +218,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
+
+
+
+
