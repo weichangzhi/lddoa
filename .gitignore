@@ -15,6 +15,7 @@ tmp/
 *.clw
 *.dsp
 *.opt
+*.vcxproj
 local.properties
 .classpath
 .settings/
@@ -218,6 +219,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+
 
 
 
