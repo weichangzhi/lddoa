@@ -109,18 +109,36 @@ void CDialog_Detail::OnDetailSelect()
 					m_listdetail.SetItemText(index,6,sql_row[5]);
 					m_listdetail.SetItemText(index,7,sql_row[6]);
 					CString strtime_people;
-					strtime_people.Format("%s | %d | %s",sql_row[7],atoi(sql_row[8]),sql_row[9]);
-					m_listdetail.SetItemText(index,8,strtime_people);
-					strtime_people.Format("%s | %d | %s",sql_row[10],atoi(sql_row[11]),sql_row[12]);
-					m_listdetail.SetItemText(index,9,strtime_people);
-					strtime_people.Format("%s | %d | %s",sql_row[13],atoi(sql_row[14]),sql_row[15]);
-					m_listdetail.SetItemText(index,10,strtime_people);
-					strtime_people.Format("%s | %d | %s",sql_row[16],atoi(sql_row[17]),sql_row[18]);
-					m_listdetail.SetItemText(index,11,strtime_people);
-					strtime_people.Format("%s | %d | %s",sql_row[19],atoi(sql_row[20]),sql_row[21]);
-					m_listdetail.SetItemText(index,12,strtime_people);
-					strtime_people.Format("%s | %d | %s",sql_row[22],atoi(sql_row[23]),sql_row[24]);
-					m_listdetail.SetItemText(index,13,strtime_people);
+					if(sql_row[8]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[7],atoi(sql_row[8]),sql_row[9]);
+						m_listdetail.SetItemText(index,8,strtime_people);
+					}
+					if(sql_row[11]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[10],atoi(sql_row[11]),sql_row[12]);
+						m_listdetail.SetItemText(index,9,strtime_people);
+					}
+					if(sql_row[14]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[13],atoi(sql_row[14]),sql_row[15]);
+						m_listdetail.SetItemText(index,10,strtime_people);
+					}
+					if(sql_row[17]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[16],atoi(sql_row[17]),sql_row[18]);
+						m_listdetail.SetItemText(index,11,strtime_people);
+					}
+					if(sql_row[20]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[19],atoi(sql_row[20]),sql_row[21]);
+						m_listdetail.SetItemText(index,12,strtime_people);
+					}
+					if(sql_row[23]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[22],atoi(sql_row[23]),sql_row[24]);
+						m_listdetail.SetItemText(index,13,strtime_people);
+					}
 					if(index%2==0)
 						m_listdetail.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;

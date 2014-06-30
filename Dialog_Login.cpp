@@ -94,11 +94,21 @@ BOOL CDialog_Login::OnInitDialog()
 	m_strip.Format("%s",ip+1);
 	
 	m_ipaddress.SetWindowText(m_strip);
-	GetDlgItem(IDC_STATIC_CONNECT)->ShowWindow(FALSE);
+	//GetDlgItem(IDC_STATIC_CONNECT)->ShowWindow(FALSE);
 	CString titile = "欢迎登陆LDD办公系统------version " + getVersion();
 	SetWindowText(titile);
 	
-
+	FILE * fp1 = fopen("userinfo.ini","r");
+	if(fp1==NULL)
+	{
+		return TRUE;
+	}
+	char temp1[255] = {0} ;
+	fgets(temp1,255,fp1);
+	fclose(fp1);
+	char *username = strstr(temp1,"=");
+	m_user.Format("%s",username+1);
+	
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -127,7 +137,7 @@ void CDialog_Login::OnOK()
 	m_passwd.TrimRight();
 	if(m_passwd.IsEmpty())
 	{
-		MessageBox("密码不能为空，请输入密码","提示",MB_OK);
+		MessageBox("密码不能为空，请输入密码","提示",MB_OK | MB_SYSTEMMODAL);
 		(CEdit*)GetDlgItem(IDC_EDIT_PASSWD)->SetFocus();
 		return;
 	}
@@ -304,6 +314,15 @@ void CDialog_Login::OnOK()
 		mysql_close(&myCont);//断开连接
 		return;
 	}
+	
+	FILE * fp1 = fopen("userinfo.ini","wb+");
+	if(fp1==NULL)
+	{
+		return;
+	}
+	fwrite("LastUserName=",13,1,fp1);
+	fwrite(m_user,m_user.GetLength(),1,fp1);
+	fclose(fp1);
 
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
