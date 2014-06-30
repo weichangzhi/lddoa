@@ -195,10 +195,6 @@ SOURCE=.\Preview.cpp
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
-# Begin Source File
-
-SOURCE=.\Worn.cpp
-# End Source File
 # End Group
 # Begin Group "Header Files"
 

@@ -44,7 +44,6 @@ void CDialog_Login::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDialog_Login, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Login)
 	ON_BN_CLICKED(IDC_BUTTON_MODIFY_PASSWD, OnModifyPasswd)
-	ON_WM_PAINT()
 	ON_WM_CTLCOLOR()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -349,51 +348,6 @@ void CDialog_Login::OnModifyPasswd()
 	// TODO: Add your control notification handler code here
 	CDialog_ModifyPassWd passwddlg;
 	passwddlg.DoModal();
-}
-
-void CDialog_Login::OnPaint()
-{
-	if (IsIconic())
-    {
-        CPaintDC dc(this); // 用于绘制的设备上下文
-
-        SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
-
-        // 使图标在工作区矩形中居中
-        int cxIcon = GetSystemMetrics(SM_CXICON);
-        int cyIcon = GetSystemMetrics(SM_CYICON);
-        CRect rect;
-        GetClientRect(&rect);
-        int x = (rect.Width() - cxIcon + 1) / 2;
-        int y = (rect.Height() - cyIcon + 1) / 2;
-
-        // 绘制图标
-        //dc.DrawIcon(x, y, m_hIcon);
-    }
-    else
-    {
-// 		CRect   rect;
-// 		CPaintDC   dc(this);
-// 		GetClientRect(rect);
-// 		dc.FillSolidRect(rect,RGB(153,217,234));   //设置为绿色背景
-//
-// 		CDialog::OnPaint();
-		//
-        // 给窗体添加背景
-        //
-//         CPaintDC dc(this);
-//         CRect rc;
-//         GetClientRect(&rc);
-//         CDC dcMem;
-//         dcMem.CreateCompatibleDC(&dc);
-//         CBitmap bmpBackground;
-//         bmpBackground.LoadBitmap(IDB_BITMAP2);
-// 
-//         BITMAP bitmap;
-//         bmpBackground.GetBitmap(&bitmap);
-//         CBitmap* pbmpPri = dcMem.SelectObject(&bmpBackground);
-//         dc.StretchBlt(0,0,rc.Width(), rc.Height(), &dcMem,0,0,bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
-    }
 }
 
 HBRUSH CDialog_Login::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
