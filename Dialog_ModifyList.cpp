@@ -361,6 +361,14 @@ void CDialog_ModifyList::OnModifylist()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("修改订单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("修改订单失败","提示",MB_OK);
+		}
 	}
 	else
 	{
@@ -372,7 +380,7 @@ void CDialog_ModifyList::OnModifylist()
 		return;
 	}
 	mysql_close(&myCont);//断开连接
-	MessageBox("修改订单成功","提示",MB_OK); 
+	//MessageBox("修改订单成功","提示",MB_OK); 
 }
 
 void CDialog_ModifyList::OnStartList() 
@@ -527,7 +535,14 @@ void CDialog_ModifyList::OnStartList()
 			mysql_close(&myCont);//断开连接
 			return ;
 		}
-
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("下单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("下单失败","提示",MB_OK);
+		}
 	}
 	else
     {
@@ -539,7 +554,7 @@ void CDialog_ModifyList::OnStartList()
 		return;
     }
 	mysql_close(&myCont);//断开连接
-	MessageBox("下单成功","提示",MB_OK);
+	//MessageBox("下单成功","提示",MB_OK);
 	
 }
 
@@ -653,6 +668,14 @@ void CDialog_ModifyList::OnEndList()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("结单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("结单失败","提示",MB_OK);
+		}
 
 	}
 	else
@@ -665,7 +688,7 @@ void CDialog_ModifyList::OnEndList()
 		return;
     }
 	mysql_close(&myCont);//断开连接
-	MessageBox("结单成功","提示",MB_OK);
+	//MessageBox("结单成功","提示",MB_OK);
 	
 }
 

@@ -64,10 +64,10 @@ CString getVersion()
 	{
 		if (VerQueryValue(bufVerInfo,"\\",(LPVOID*)&VInfo,&nVerInfoSize))
 		{
-			WORD wVer1 = VInfo->dwFileVersionMS >> 16;
-			WORD wVer2 = VInfo->dwFileVersionMS & 0x00ff;
-			WORD wVer3 = VInfo->dwFileVersionLS >> 16;
-			WORD wVer4 = VInfo->dwFileVersionLS & 0x00ff;
+			DWORD wVer1 = VInfo->dwFileVersionMS >> 16;
+			DWORD wVer2 = VInfo->dwFileVersionMS & 0x00ff;
+			DWORD wVer3 = VInfo->dwFileVersionLS >> 16;
+			DWORD wVer4 = VInfo->dwFileVersionLS & 0x00ff;
 			strVer.Format("%d.%d.%d.%d", wVer1, wVer2, wVer3, wVer4);
 		}
 	}

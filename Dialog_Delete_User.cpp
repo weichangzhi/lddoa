@@ -81,6 +81,14 @@ void CDialog_Delete_User::OnOK()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("删除用户成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("此用户不存在","提示",MB_OK);
+		}
 	}
 	else
     {
@@ -93,7 +101,7 @@ void CDialog_Delete_User::OnOK()
     }
 
 	mysql_close(&myCont);//断开连接
-	MessageBox("删除用户成功","提示",MB_OK);
+	//MessageBox("删除用户成功","提示",MB_OK);
 	CDialog::OnOK();
 }
 

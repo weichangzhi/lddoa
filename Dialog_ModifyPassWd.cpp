@@ -183,6 +183,14 @@ void CDialog_ModifyPassWd::OnOK()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("修改密码成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("修改密码失败","提示",MB_OK);
+		}
 	}
 	else
 	{
@@ -196,7 +204,7 @@ void CDialog_ModifyPassWd::OnOK()
 
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
-	MessageBox("修改密码成功","提示",MB_OK);
+	//MessageBox("修改密码成功","提示",MB_OK);
 	CDialog::OnOK();
 }
 

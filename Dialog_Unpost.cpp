@@ -629,7 +629,15 @@ void CDialog_Unpost::OnOK()
 			break;
 		default:
 			;
-		}	
+		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("退账成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("退账失败","提示",MB_OK);
+		}
 	}
 	else
 	{
@@ -640,7 +648,7 @@ void CDialog_Unpost::OnOK()
 		mysql_close(&myCont);//断开连接
 		return;
 	}
-	MessageBox("退账成功","提示",MB_OK);
+	//MessageBox("退账成功","提示",MB_OK);
 _exit:
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接

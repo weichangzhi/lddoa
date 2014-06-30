@@ -142,6 +142,14 @@ void CDialog_InputBaseinfo::OnSubmitlist()
 				mysql_close(&myCont);//断开连接
 				return;
 			}
+			if(mysql_affected_rows(&myCont)>0)
+			{
+				MessageBox("保存订单成功","提示",MB_OK);
+			}
+			else
+			{
+				MessageBox("保存订单失败","提示",MB_OK);
+			}
 		}
 		else
 		{
@@ -153,7 +161,7 @@ void CDialog_InputBaseinfo::OnSubmitlist()
 			return;
 		}
 		mysql_close(&myCont);//断开连接
-		MessageBox("保存订单成功","提示",MB_OK);
+		//MessageBox("保存订单成功","提示",MB_OK);
 	}
 	else//修改
 	{
@@ -178,6 +186,14 @@ void CDialog_InputBaseinfo::OnSubmitlist()
 				mysql_close(&myCont);//断开连接
 				return;
 			}
+			if(mysql_affected_rows(&myCont)>0)
+			{
+				MessageBox("修改订单成功","提示",MB_OK);
+			}
+			else
+			{
+				MessageBox("修改订单失败","提示",MB_OK);
+			}
 		}
 		else
 		{
@@ -189,7 +205,7 @@ void CDialog_InputBaseinfo::OnSubmitlist()
 			return;
 		}
 		mysql_close(&myCont);//断开连接
-		MessageBox("修改订单成功","提示",MB_OK); 
+		//MessageBox("修改订单成功","提示",MB_OK); 
 	}
 }
 
@@ -238,6 +254,7 @@ void CDialog_InputBaseinfo::OnStartList()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+
 		CTime time = CTime::GetCurrentTime();
 		CString starttime;
 
@@ -271,6 +288,14 @@ void CDialog_InputBaseinfo::OnStartList()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("下单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("下单失败","提示",MB_OK);
+		}
 
 	}
 	else
@@ -283,7 +308,7 @@ void CDialog_InputBaseinfo::OnStartList()
 		return;
     }
 	mysql_close(&myCont);//断开连接
-	MessageBox("下单成功","提示",MB_OK);
+	//MessageBox("下单成功","提示",MB_OK);
 
 }
 
@@ -338,6 +363,14 @@ void CDialog_InputBaseinfo::OnEndList()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("结单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("结单失败","提示",MB_OK);
+		}
 
 	}
 	else
@@ -350,7 +383,7 @@ void CDialog_InputBaseinfo::OnEndList()
 		return;
     }
 	mysql_close(&myCont);//断开连接
-	MessageBox("结单成功","提示",MB_OK);
+	//MessageBox("结单成功","提示",MB_OK);
 	
 }
 

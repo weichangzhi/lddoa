@@ -211,6 +211,14 @@ void CDialog_New_List::OnSubmitlist()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("保存订单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("保存订单失败","提示",MB_OK);
+		}
 	}
 	else
 	{
@@ -222,7 +230,7 @@ void CDialog_New_List::OnSubmitlist()
 		return;
 	}
 	mysql_close(&myCont);//断开连接
-	MessageBox("保存订单成功","提示",MB_OK);
+	//MessageBox("保存订单成功","提示",MB_OK);
 }
 
 void CDialog_New_List::OnStartList() 
@@ -380,6 +388,14 @@ void CDialog_New_List::OnStartList()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		if(mysql_affected_rows(&myCont)>0)
+		{
+			MessageBox("下单成功","提示",MB_OK);
+		}
+		else
+		{
+			MessageBox("下单失败","提示",MB_OK);
+		}
 	}
 	else
     {
@@ -391,7 +407,7 @@ void CDialog_New_List::OnStartList()
 		return;
     }
 	mysql_close(&myCont);//断开连接
-	MessageBox("下单成功","提示",MB_OK);
+	//MessageBox("下单成功","提示",MB_OK);
 	
 }
 
