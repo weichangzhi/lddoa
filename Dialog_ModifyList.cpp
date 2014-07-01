@@ -484,8 +484,8 @@ void CDialog_ModifyList::OnStartList()
 			return;
 		}
 */
-		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,storagenumber,sendnumber,post,end,hasstoragenumber) \
-		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
+		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber) \
+		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			const char *error = mysql_error(&myCont);
