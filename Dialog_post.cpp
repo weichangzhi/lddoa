@@ -292,6 +292,15 @@ void CDialog_post::OnOK()
 		if(result)
 		{
 			sql_row=mysql_fetch_row(result);
+			if(sql_row==NULL)
+			{
+				const char *error = mysql_error(&myCont);
+				CString str;
+				str.Format("数据库错误(%s)",error);
+				MessageBox(str,"提示",MB_OK);
+				mysql_close(&myCont);//断开连接
+				return;
+			}
 			currenttime = sql_row[0];
 		}
 
@@ -572,11 +581,11 @@ void CDialog_post::OnSelchangeDepartment()
 	switch(indexSel)
 	{
 	case 0://技术部
-		GetDlgItem(IDC_STATIC1)->SetWindowText("总体积:");
-		GetDlgItem(IDC_STATIC2)->SetWindowText("总体积:");
-		GetDlgItem(IDC_STATIC3)->SetWindowText("总体积:");
-		GetDlgItem(IDC_STATIC4)->SetWindowText("总体积:");
-		GetDlgItem(IDC_STATIC5)->SetWindowText("总体积:");
+		GetDlgItem(IDC_STATIC1)->SetWindowText("总体积（cm3）:");
+		GetDlgItem(IDC_STATIC2)->SetWindowText("总体积（cm3）:");
+		GetDlgItem(IDC_STATIC3)->SetWindowText("总体积（cm3）:");
+		GetDlgItem(IDC_STATIC4)->SetWindowText("总体积（cm3）:");
+		GetDlgItem(IDC_STATIC5)->SetWindowText("总体积（cm3）:");
 		GetDlgItem(IDC_STATIC1)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC2)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC3)->ShowWindow(TRUE);
@@ -616,11 +625,11 @@ void CDialog_post::OnSelchangeDepartment()
 		m_permission = QC;
 		break;
 	case 3://成品仓
-		GetDlgItem(IDC_STATIC1)->SetWindowText("快递单号:");
-		GetDlgItem(IDC_STATIC2)->SetWindowText("快递单号:");
-		GetDlgItem(IDC_STATIC3)->SetWindowText("快递单号:");
-		GetDlgItem(IDC_STATIC4)->SetWindowText("快递单号:");
-		GetDlgItem(IDC_STATIC5)->SetWindowText("快递单号:");
+		GetDlgItem(IDC_STATIC1)->SetWindowText("快递公司及单号:");
+		GetDlgItem(IDC_STATIC2)->SetWindowText("快递公司及单号:");
+		GetDlgItem(IDC_STATIC3)->SetWindowText("快递公司及单号:");
+		GetDlgItem(IDC_STATIC4)->SetWindowText("快递公司及单号:");
+		GetDlgItem(IDC_STATIC5)->SetWindowText("快递公司及单号:");
 		GetDlgItem(IDC_STATIC1)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC2)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC3)->ShowWindow(TRUE);

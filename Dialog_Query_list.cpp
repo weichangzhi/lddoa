@@ -162,6 +162,13 @@ void CDialog_Query_list::OnOK()
 				unsigned __int64 num = mysql_num_rows(result);//行数
 				int index = 0;
                 sql_row=mysql_fetch_row(result);//获取具体的数据
+				if(sql_row==NULL)
+				{
+					MessageBox("无此订单号，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					mysql_close(&myCont);//断开连接
+					return;
+				}
                 {
 					m_listid = sql_row[0];
 					m_listname = sql_row[1];

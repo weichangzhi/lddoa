@@ -150,7 +150,7 @@ void CDialog_ModifyList::OnQueryList()
 	else
 	{
 		csSql.Format("select * from baseinfo where listid=\"%s\" ",m_query_listid);	
-	}    
+	}
     MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -165,11 +165,12 @@ void CDialog_ModifyList::OnQueryList()
             result=mysql_store_result(&myCont);//保存查询到的数据到result
 		    if(result)
             {
-                int j;
+                int j = 0;
                 j=mysql_num_fields(result);//查看多少列
 				unsigned __int64 num = mysql_num_rows(result);//行数
 				int index = 0;
                 sql_row=mysql_fetch_row(result);//获取具体的数据
+				if(sql_row)
                 {
 					m_listid = sql_row[0];
 					m_listname = sql_row[1];
@@ -208,6 +209,13 @@ void CDialog_ModifyList::OnQueryList()
 					m_enddate = timeTmp1;
                     UpdateData(FALSE);
                 }
+				else
+				{
+					MessageBox("无此订单号，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					mysql_close(&myCont);//断开连接
+					return;
+				}
             }
         }
         else
@@ -245,6 +253,26 @@ void CDialog_ModifyList::OnModifylist()
 		(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
 		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 		return;
+	}
+	if(!(m_money.IsEmpty()))
+	{
+		if(!IsNum(m_money))
+		{
+			MessageBox("金额输入必须为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_MONDY)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
+			return;	
+		}
+	}
+	if(!(m_volume.IsEmpty()))
+	{
+		if(!IsNum(m_volume))
+		{
+			MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_VOLUEME)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_VOLUEME))->SetSel(0, -1);
+			return;	
+		}
 	}
 	m_str_reveive_time.Format("%04d-%02d-%02d",m_receivedate.GetYear(),m_receivedate.GetMonth(),m_receivedate.GetDay());
 	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
@@ -311,6 +339,14 @@ void CDialog_ModifyList::OnModifylist()
 				if(result)
 				{
 					sql_row=mysql_fetch_row(result);
+					if(sql_row==NULL)
+					{
+						MessageBox("无此订单号，请重新输入","提示",MB_OK);
+						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
+						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+						mysql_close(&myCont);//断开连接
+						return;
+					}
 					if(strcmp(sql_row[0],login2.m_user))
 					{
 						MessageBox("只有提交订单本人才能修改此订单","提示",MB_OK);
@@ -628,6 +664,15 @@ void CDialog_ModifyList::OnEndList()
 				return;
 			}
 			sql_row=mysql_fetch_row(result);
+			if(sql_row==NULL)
+			{
+				MessageBox("此订单不存在","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				return;
+			}
 			if(atoi(sql_row[1])<atoi(sql_row[0]))
 			{	
 				CString strerr;

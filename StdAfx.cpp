@@ -34,6 +34,17 @@ int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 )
 	return 0;
 }
 
+BOOL IsNum(CString &str)
+{
+	int n=str.GetLength();
+	for(int i=0;i<n;i++)
+	{
+		if ((str[i]<'0'||str[i]>'9') && (str[i]!='.' ))
+			return FALSE;
+	}
+	return TRUE;
+}
+
 void CreateExcel(CString filename,CListCtrl *listctl)
 {
 	Range m_ExlRge; 

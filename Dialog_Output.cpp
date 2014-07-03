@@ -61,9 +61,9 @@ BOOL CDialog_Output::OnInitDialog()
 	m_list_output.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(3, _T("产品总数"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(4, _T("制作材料"), LVCFMT_LEFT,90);
-	m_list_output.InsertColumn(5, _T("订单金额"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(6, _T("订单体积"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(7, _T("快递单号"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(5, _T("订单金额(元)"), LVCFMT_LEFT,110);
+	m_list_output.InsertColumn(6, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
+	m_list_output.InsertColumn(7, _T("快递单号"), LVCFMT_LEFT,90);
 	m_list_output.InsertColumn(8, _T("业务部"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(9, _T("技术部"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(10, _T("生产部"), LVCFMT_LEFT,80);
@@ -121,12 +121,13 @@ void CDialog_Output::OnOK()
                 j=mysql_num_fields(result);//查看多少列
 				unsigned __int64 num = mysql_num_rows(result);//行数
 				int index = 0;
-				int money=0,number=0,volume=0;
+				float money=0, volume=0;
+				int number = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
 					number += atoi(sql_row[2]);
-					money += atoi(sql_row[4]);
-					volume += atoi(sql_row[5]);
+					money += atof(sql_row[4]);
+					volume += atof(sql_row[5]);
 					CString strindex ;
 					strindex.Format("%d",index+1);
 					m_list_output.InsertItem(index,strindex);
@@ -156,12 +157,12 @@ void CDialog_Output::OnOK()
 					CString strtmp;
 					strtmp.Format("%d",number);
 					m_list_output.SetItemText(index,3,strtmp);
-					strtmp.Format("%d",money);
+					strtmp.Format("%0.1f",money);
 					if(g_permission & QUERY_LIST)
 						m_list_output.SetItemText(index,5,strtmp);
 					else
 						m_list_output.SetItemText(index,5,"****");
-					strtmp.Format("%d",volume);
+					strtmp.Format("%0.1f",volume);
 					m_list_output.SetItemText(index,6,strtmp);
 					m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));
 				}

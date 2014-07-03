@@ -126,6 +126,26 @@ void CDialog_New_List::OnSubmitlist()
 		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 		return;
 	}
+	if(!(m_money.IsEmpty()))
+	{
+		if(!IsNum(m_money))
+		{
+			MessageBox("金额输入必须为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_MONDY)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
+			return;
+		}
+	}
+	if(!(m_volume.IsEmpty()))
+	{
+		if(!IsNum(m_volume))
+		{
+			MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_VOLUEME)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_VOLUEME))->SetSel(0, -1);
+			return;
+		}
+	}
 	CDialog_Login2 login2;
 	login2.m_permission = SAVE_LIST;
 	if (login2.DoModal()!=IDOK)

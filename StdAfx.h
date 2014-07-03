@@ -35,6 +35,7 @@ extern int nLastColToSort;
 //static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort);
 bool IsNumber( LPCTSTR pszText );
 int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 );
+BOOL IsNum(CString &str);
 void CreateExcel(CString filename,CListCtrl *listctl);
 static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort) 
 { 	

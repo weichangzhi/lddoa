@@ -70,7 +70,7 @@ BOOL CDialog_Schdeule::OnInitDialog()
 	m_list_schedule.InsertColumn(2, _T("产品名称"), LVCFMT_LEFT,80);
 	m_list_schedule.InsertColumn(3, _T("产品总数"), LVCFMT_LEFT,80);
 	m_list_schedule.InsertColumn(4, _T("材料"), LVCFMT_LEFT,80);
-	m_list_schedule.InsertColumn(5, _T("产品体积"), LVCFMT_LEFT,80);
+	m_list_schedule.InsertColumn(5, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
 	m_list_schedule.InsertColumn(6, _T("收单日期"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(7, _T("交货日期"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(8, _T("快递单号"), LVCFMT_LEFT,100);

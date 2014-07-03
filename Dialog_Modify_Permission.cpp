@@ -237,6 +237,15 @@ void CDialog_Modify_Permission::OnQueryPermission()
 				return;
 			}
 			sql_row=mysql_fetch_row(result);
+			if(sql_row==NULL)
+			{
+				MessageBox("此用户名不存在，请增加用户","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_USER_NAME)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_USER_NAME))->SetSel(0, -1);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				return;
+			}
 			m_permission = atoi(sql_row[0]);
 			if(m_permission & DEL_LIST)	((CButton*)GetDlgItem(IDC_CHECK_DEL_LIST))->SetCheck(1);
 			if(m_permission & END_LIST)	((CButton*)GetDlgItem(IDC_CHECK_END_LIST))->SetCheck(1);

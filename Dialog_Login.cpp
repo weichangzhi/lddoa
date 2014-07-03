@@ -216,11 +216,23 @@ void CDialog_Login::OnOK()
 				return;
 			}
 			sql_row=mysql_fetch_row(result);
-			if(passwden.Compare(sql_row[1])!=0)
+			if(sql_row)
 			{
-				MessageBox("密码不正确，请重新输入","提示",MB_OK);
-				(CEdit*)GetDlgItem(IDC_EDIT_PASSWD)->SetFocus();
-				((CEdit*)GetDlgItem(IDC_EDIT_PASSWD))->SetSel(0, -1);
+				if(passwden.Compare(sql_row[1])!=0)
+				{
+					MessageBox("密码不正确，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_PASSWD)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_PASSWD))->SetSel(0, -1);
+					if(result!=NULL) mysql_free_result(result);//释放结果资源
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+			}
+			else
+			{
+				MessageBox("此用户名不存在","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_USER)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				return;
@@ -280,15 +292,18 @@ void CDialog_Login::OnOK()
 				return;
 			}
 			sql_row=mysql_fetch_row(result);
-			if(atoi(sql_row[0])==1)
+			if(sql_row)
 			{
-				CString endtime = sql_row[2];
-				if(starttime>endtime)
+				if(atoi(sql_row[0])==1)
 				{
-					MessageBox("此系统试用期已到，请续费后使用","提示",MB_OK);
-					if(result!=NULL) mysql_free_result(result);//释放结果资源
-					mysql_close(&myCont);//断开连接
-					return;
+					CString endtime = sql_row[2];
+					if(starttime>endtime)
+					{
+						MessageBox("此系统试用期已到，请续费后使用","提示",MB_OK);
+						if(result!=NULL) mysql_free_result(result);//释放结果资源
+						mysql_close(&myCont);//断开连接
+						return;
+					}
 				}
 			}
 		}
