@@ -93,6 +93,7 @@ BOOL CDialog_Login::OnInitDialog()
 	m_strip.Format("%s",ip+1);
 	
 	m_ipaddress.SetWindowText(m_strip);
+	strcpy(g_MysqlConnect.host , m_strip);
 	//GetDlgItem(IDC_STATIC_CONNECT)->ShowWindow(FALSE);
 	CString titile = "欢迎登陆LDD办公系统------version " + getVersion();
 	SetWindowText(titile);
@@ -152,6 +153,8 @@ void CDialog_Login::OnOK()
 	fwrite("serverip=",9,1,fp);
 	fwrite(m_strip,m_strip.GetLength(),1,fp);
 	fclose(fp);
+
+	wiritlog("获取服务器iP成功");
 	strcpy(g_MysqlConnect.host , m_strip);
 	CString sql;
 	sql.Format("select Password(\"%s\");",m_passwd);
@@ -159,7 +162,7 @@ void CDialog_Login::OnOK()
 	//sql.Format("select Password("%s");",m_passwd);
 	//sql.Format("select * from userinfo where username=\"%s\" and pssswd=password(\'%s\')",m_user,m_passwd);
 	//sql = "select * from userinfo where username='" + m_user + "' and passwd='" + m_passwd ;
-
+	
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -227,6 +230,7 @@ void CDialog_Login::OnOK()
 					mysql_close(&myCont);//断开连接
 					return;
 				}
+				wiritlog("密码匹配成功");
 			}
 			else
 			{
@@ -340,6 +344,7 @@ void CDialog_Login::OnOK()
 
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
+	wiritlog("登录成功");
 	CDialog::OnOK();
 }
 

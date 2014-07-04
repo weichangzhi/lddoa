@@ -245,6 +245,19 @@ void CreateExcel(CString filename,CListCtrl *listctl)
 MysqlConnect g_MysqlConnect = {"root", "weichangzhi", "localhost", "sys", 3306};
 CString g_user="";
 int g_permission = 0;
+FILE* g_fplog = NULL;
+
+void wiritlog(CString strlog)
+{
+	if(strlog.IsEmpty())
+		return;
+	strlog += "\r\n";
+	int len = strlog.GetLength();
+	if(g_fplog==NULL)
+		return;
+	fwrite(strlog,len,1,g_fplog);
+	fflush(g_fplog);
+}
 
 PermissionLimit g_PermissionLimit[PERMISSION_NUMBER] =
 {

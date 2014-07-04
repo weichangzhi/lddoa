@@ -68,9 +68,11 @@ CGoodsManageSystemDlg::CGoodsManageSystemDlg(CWnd* pParent /*=NULL*/)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
+	wiritlog("CGoodsManageSystemDl构造函数");
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	bFirstin = 1;
 	icurrentpage = 8;
+	wiritlog("CGoodsManageSystemDl构造函数结束");
 }
 
 void CGoodsManageSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -105,8 +107,9 @@ END_MESSAGE_MAP()
 #define MAX_ICO 24
 BOOL CGoodsManageSystemDlg::OnInitDialog()
 {
+	wiritlog("OnInitDialog");
 	CDialog::OnInitDialog();
-
+	wiritlog("CGoodsManageSystemDlg::OnInitDialog 显示主界面");
 	// Add "About..." menu item to system menu.
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -272,6 +275,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_tree.Expand(sub_son0,TVE_EXPAND);
 	m_tree.Expand(sub_son1,TVE_EXPAND);
 	m_tree.Expand(sub_son2,TVE_EXPAND);
+	wiritlog("dlg init ok");
 	return true;
 }
 	

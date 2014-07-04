@@ -63,17 +63,26 @@ BOOL CGoodsManageSystemApp::InitInstance()
 #else
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
+	g_fplog = fopen("log.ini","wb+");
+
+	wiritlog("welecome to lddoa");
 	AfxInitRichEdit();
 	CDialog_Login login;
 	if(login.DoModal()==IDOK)
 	{
+		wiritlog("login is ok");
 		CGoodsManageSystemDlg dlg;
 		m_pMainWnd = &dlg;
+		char log[256] = {0};
+		sprintf(log,"dlg=%x",dlg);
+		wiritlog(log);
+		wiritlog("login is ok2");
 		int nResponse = dlg.DoModal();
 		if (nResponse == IDOK)
 		{
 			// TODO: Place code here to handle when the dialog is
 			//  dismissed with OK
+			
 		}
 		else if (nResponse == IDCANCEL)
 		{
@@ -110,5 +119,7 @@ int CGoodsManageSystemApp::ExitInstance()
 	// TODO: Add your specialized code here and/or call the base class
 	//g_adoConn.Close();
 //	g_adoDataSet.Close();
+	wiritlog("logoff");
+	fclose(g_fplog);
 	return CWinApp::ExitInstance();
 }

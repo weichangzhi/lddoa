@@ -82,6 +82,8 @@ extern MysqlConnect g_MysqlConnect;
 
 extern CString g_user;
 extern int g_permission;
+extern FILE* g_fplog ;
+void wiritlog(CString strlog);
 
 typedef struct _PermissionLimit
 {
