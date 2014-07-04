@@ -109,7 +109,13 @@ BOOL CDialog_New_List::OnInitDialog()
 	
 	CTime time1 = CTime::GetCurrentTime();
 	m_receivedate = time1;
-	m_enddate = time1;	
+	m_enddate = time1;
+	m_people = g_user;
+	m_color = "°×";
+	m_print = "ÎÞ";
+	m_shine = "Ï¸´òÄ¥";
+	m_bottom = "ÎÞ";
+	m_bill = "·ñ";
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE

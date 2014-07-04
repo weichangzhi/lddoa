@@ -353,32 +353,28 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_rect.DeflateRect(200,0,20,20);
 	rectlist.DeflateRect(0,50,220,20);
 
+	int i = 0;
+	for(i=0;i<MAX_TREE_PAGE;i++)
+	{
+		if(m_treePages[i]==NULL)
+			return;
+	}
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
-	//m_treePages[0]->ShowWindow(SW_HIDE);
 	m_treePages[1]->MoveWindow(m_rect);
 	((CDialog_BaseInfo*)(m_treePages[1]))->m_list_baseinfo.MoveWindow(rectlist);
-	//m_treePages[1]->ShowWindow(SW_HIDE);
 	m_treePages[2]->MoveWindow(m_rect);
-	//m_treePages[2]->ShowWindow(SW_HIDE);
 	m_treePages[3]->MoveWindow(m_rect);
 	((CDialog_Schdeule*)(m_treePages[3]))->m_list_schedule.MoveWindow(rectlist);
-	//m_treePages[3]->ShowWindow(SW_HIDE);
 	m_treePages[4]->MoveWindow(m_rect);
 	((CDialog_Detail*)(m_treePages[4]))->m_listdetail.MoveWindow(rectlist);
-	//m_treePages[4]->ShowWindow(SW_HIDE);
 	m_treePages[5]->MoveWindow(m_rect);
 	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlist);
-	//m_treePages[5]->ShowWindow(SW_HIDE);
 	m_treePages[6]->MoveWindow(m_rect);
-	//m_treePages[6]->ShowWindow(SW_HIDE);
 	m_treePages[7]->MoveWindow(m_rect);
-	//m_treePages[7]->ShowWindow(SW_HIDE);
 	m_treePages[8]->MoveWindow(m_rect);
 	((CDialog_Making*)(m_treePages[8]))->m_list_schedule.MoveWindow(rectlist);
-	//m_treePages[8]->ShowWindow(SW_SHOW);
 	m_treePages[9]->MoveWindow(m_rect);
-	//m_treePages[9]->ShowWindow(SW_HIDE);
 }
 
 void CGoodsManageSystemDlg::OnHelp() 

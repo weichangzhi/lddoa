@@ -88,7 +88,9 @@ void CDIALOG_CLIENT::OnButtonClientAdd()
 	if(adduser.DoModal()==IDOK)
 	{
 		m_list_Clinet.DeleteAllItems();
-		m_list_Clinet.InsertItem(0,adduser.m_username);
+		m_list_Clinet.InsertItem(0,"1");
+		m_list_Clinet.SetItemText(0,1,adduser.m_username);
+		//m_list_Clinet.InsertItem(0,adduser.m_username);
 		int permission = adduser.m_permission;
 		CString strPermission = "";
 		int i=0;
@@ -101,7 +103,7 @@ void CDIALOG_CLIENT::OnButtonClientAdd()
 			}
 		}
 
-		m_list_Clinet.SetItemText(0,1,strPermission);
+		m_list_Clinet.SetItemText(0,2,strPermission);
 	}
 	return;
 }

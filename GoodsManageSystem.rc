@@ -549,7 +549,7 @@ BEGIN
     LTEXT           "派单日期：",IDC_STATIC,176,97,41,8
     LTEXT           "订单名称：",IDC_STATIC,176,53,41,8
     LTEXT           "交货期限：",IDC_STATIC,310,97,42,8
-    LTEXT           "部门/门店：",IDC_STATIC,43,97,45,8
+    LTEXT           "部门：",IDC_STATIC,43,97,39,8
     LTEXT           "详细地址：",IDC_STATIC,310,75,46,8
     LTEXT           "联系电话：",IDC_STATIC,176,75,41,8
     LTEXT           "签单金额：",IDC_STATIC,312,227,38,8
@@ -633,7 +633,7 @@ BEGIN
     LTEXT           "派单日期：",IDC_STATIC,176,147,42,8
     LTEXT           "订单名称：",IDC_STATIC,176,103,42,8
     LTEXT           "交货期限：",IDC_STATIC,310,147,44,8
-    LTEXT           "部门/门店：",IDC_STATIC,43,147,45,8
+    LTEXT           "部门：",IDC_STATIC,43,147,40,8
     LTEXT           "详细地址：",IDC_STATIC,310,125,43,8
     LTEXT           "联系电话：",IDC_STATIC,176,125,42,8
     LTEXT           "签单金额：",IDC_STATIC,312,277,41,8
@@ -714,7 +714,7 @@ BEGIN
     LTEXT           "派单日期：",IDC_STATIC,176,147,42,8
     LTEXT           "订单名称：",IDC_STATIC,176,103,42,8
     LTEXT           "交货期限：",IDC_STATIC,310,147,44,8
-    LTEXT           "部门/门店：",IDC_STATIC,43,147,45,8
+    LTEXT           "部门：",IDC_STATIC,43,147,45,8
     LTEXT           "详细地址：",IDC_STATIC,310,125,42,8
     LTEXT           "联系电话：",IDC_STATIC,176,125,42,8
     LTEXT           "签单金额：",IDC_STATIC,312,277,41,8

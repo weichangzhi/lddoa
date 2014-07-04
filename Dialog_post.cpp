@@ -535,7 +535,7 @@ void CDialog_post::OnOK()
 		}
 		else
 		{
-			MessageBox("过账失败","提示",MB_OK);
+			MessageBox("过账成功","提示",MB_OK);
 		}
 	}
 	else
