@@ -56,6 +56,17 @@ BOOL IsPhoneNum(CString &str)
 	return TRUE;
 }
 
+BOOL IsInt(CString &str)
+{
+	int n=str.GetLength();
+	for(int i=0;i<n;i++)
+	{
+		if ((str[i]<'0'||str[i]>'9'))
+			return FALSE;
+	}
+	return TRUE;
+}
+
 void CreateExcel(CString filename,CListCtrl *listctl)
 {
 	Range m_ExlRge; 

@@ -126,6 +126,225 @@ void CDialog_post::OnOK()
 	postid[2] = m_postid3;
 	postid[3] = m_postid4;
 	postid[4] = m_postid5;
+
+	for(i=0;i<5;i++)
+		enable[i] = 1;
+	for(i=0;i<5;i++)
+	{
+		if(postid[i].IsEmpty())
+			enable[i] = 0;
+	}
+
+	int indexSel = m_department.GetCurSel();
+	if((enable[0]==0) && (enable[1]==0) && (enable[2]==0) && (enable[3]==0) && (enable[4]==0))
+	{
+		MessageBox("没有订单号，请重新输入","提示",MB_OK);
+		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
+		return;
+	}
+
+	if((enable[0]==1))
+	{
+		if(!(m_postnumber1.IsEmpty()))
+		{
+			if(!IsInt(m_postnumber1))
+			{
+				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
+				return;
+			}
+		}
+		if(atoi(m_postnumber1)<=0)
+		{
+			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
+			return;
+		}
+		if (indexSel==0)
+		{
+			if(!(m_volume1.IsEmpty()))
+			{
+				if(!IsNum(m_volume1))
+				{
+					MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID))->SetSel(0, -1);
+					return;
+				}
+			}
+			if(atof(m_volume1)<=0)
+			{
+				MessageBox("体积输入不正确，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID))->SetSel(0, -1);
+				return;
+			}
+		}
+	}
+	if((enable[1]==1))
+	{
+		if(!(m_postnumber2.IsEmpty()))
+		{
+			if(!IsInt(m_postnumber2))
+			{
+				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2))->SetSel(0, -1);
+				return;
+			}
+		}
+		if(atoi(m_postnumber2)<=0)
+		{
+			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2))->SetSel(0, -1);
+			return;
+		}
+		if (indexSel==0)
+		{
+			if(!(m_volume2.IsEmpty()))
+			{
+				if(!IsNum(m_volume2))
+				{
+					MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2))->SetSel(0, -1);
+					return;
+				}
+			}
+			if(atof(m_volume2)<=0)
+			{
+				MessageBox("体积输入不正确，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2))->SetSel(0, -1);
+				return;
+			}
+		}
+	}
+	if((enable[2]==1))
+	{
+		if(!(m_postnumber3.IsEmpty()))
+		{
+			if(!IsInt(m_postnumber3))
+			{
+				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3))->SetSel(0, -1);
+				return;
+			}
+		}
+		if(atoi(m_postnumber3)<=0)
+		{
+			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3))->SetSel(0, -1);
+			return;
+		}
+		if (indexSel==0)
+		{
+			if(!(m_volume3.IsEmpty()))
+			{
+				if(!IsNum(m_volume3))
+				{
+					MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID3)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID3))->SetSel(0, -1);
+					return;
+				}
+			}
+			if(atof(m_volume3)<=0)
+			{
+				MessageBox("体积输入不正确，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID3)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID3))->SetSel(0, -1);
+				return;
+			}
+		}
+	}
+	if((enable[3]==1))
+	{
+		if(!(m_postnumber4.IsEmpty()))
+		{
+			if(!IsInt(m_postnumber4))
+			{
+				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4))->SetSel(0, -1);
+				return;
+			}
+		}
+		if(atoi(m_postnumber4)<=0)
+		{
+			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4))->SetSel(0, -1);
+			return;
+		}
+		if (indexSel==0)
+		{
+			if(!(m_volume4.IsEmpty()))
+			{
+				if(!IsNum(m_volume4))
+				{
+					MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4))->SetSel(0, -1);
+					return;
+				}
+			}
+			if(atof(m_volume4)<=0)
+			{
+				MessageBox("体积输入不正确，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4))->SetSel(0, -1);
+				return;
+			}
+		}
+	}
+	if((enable[4]==1))
+	{
+		if(!(m_postnumber5.IsEmpty()))
+		{
+			if(!IsInt(m_postnumber5))
+			{
+				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
+				return;
+			}
+		}
+		if(atoi(m_postnumber5)<=0)
+		{
+			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
+			return;
+		}
+		if (indexSel==0)
+		{
+			if(!(m_volume5.IsEmpty()))
+			{
+				if(!IsNum(m_volume5))
+				{
+					MessageBox("体积输入必须为数字，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID5)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID5))->SetSel(0, -1);
+					return;
+				}
+			}
+			if(atof(m_volume5)<=0)
+			{
+				MessageBox("体积输入不正确，请重新输入","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID5)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID5))->SetSel(0, -1);
+				return;
+			}
+		}
+	}
+
 	volume_sendid[0] = m_volume1;
 	volume_sendid[1] = m_volume2;
 	volume_sendid[2] = m_volume3;
@@ -136,58 +355,6 @@ void CDialog_post::OnOK()
 	postnumber[2] = atoi(m_postnumber3);
 	postnumber[3] = atoi(m_postnumber4);
 	postnumber[4] = atoi(m_postnumber5);
-
-	for(i=0;i<5;i++)
-		enable[i] = 1;
-	for(i=0;i<5;i++)
-	{
-		if(postid[i].IsEmpty())
-			enable[i] = 0;
-	}
-
-	if((enable[0]==0) && (enable[1]==0) && (enable[2]==0) && (enable[3]==0) && (enable[4]==0))
-	{
-		MessageBox("没有订单号，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
-		return;
-	}
-
-	if((enable[0]==1) && (postnumber[0]==0))
-	{
-		MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
-		return;
-	}
-	if((enable[1]==1) && (postnumber[1]==0))
-	{
-		MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2))->SetSel(0, -1);
-		return;
-	}
-	if((enable[2]==1) && (postnumber[2]==0))
-	{
-		MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3))->SetSel(0, -1);
-		return;
-	}
-	if((enable[3]==1) && (postnumber[3]==0))
-	{
-		MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4))->SetSel(0, -1);
-		return;
-	}
-	if((enable[4]==1) && (postnumber[4]==0))
-	{
-		MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
-		return;
-	}
 
 	CDialog_Login2 login2;
 	login2.m_department = strdepartment;

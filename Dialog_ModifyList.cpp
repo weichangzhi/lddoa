@@ -92,10 +92,10 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_RECEIVE_NAME, m_receivename);
 	//DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
 	//DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
-	DDX_Text(pDX, IDC_EDIT_TOTEL_NUMBER, m_totel_number);
+	//DDX_Text(pDX, IDC_EDIT_TOTEL_NUMBER, m_totel_number);
 	DDX_Text(pDX, IDC_EDIT_USAGE, m_usage);
 	DDX_Text(pDX, IDC_EDIT_VOLUEME, m_volume);
-	DDX_Text(pDX, IDC_EDIT1_TRUE_NUMBER, m_true_number);
+	//DDX_Text(pDX, IDC_EDIT1_TRUE_NUMBER, m_true_number);
 	DDX_Text(pDX, IDC_RICHEDIT_OTHER, m_other);
 	DDX_Text(pDX, IDC_EDIT_QUERYLISTID, m_query_listid);
 	//}}AFX_DATA_MAP
@@ -441,6 +441,44 @@ void CDialog_ModifyList::OnModifylist()
 		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 		return;
 	}
+	if(!(m_phone.IsEmpty()))
+	{
+		if(!IsPhoneNum(m_phone))
+		{
+			MessageBox("联系电话输入必须为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_PHONE)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_PHONE))->SetSel(0, -1);
+			return;	
+		}
+		int len = m_phone.GetLength();
+		if(len!=11 && len!=12)
+		{
+			MessageBox("联系电话为11为数字，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_PHONE)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_PHONE))->SetSel(0, -1);
+			return;	
+		}
+	}
+	CString strTotalNum;
+	GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->GetWindowText(strTotalNum);
+	if(!(strTotalNum.IsEmpty()))
+	{
+		if(!IsInt(strTotalNum))
+		{
+			MessageBox("生产数量输入必须为整数，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_TOTEL_NUMBER))->SetSel(0, -1);
+			return;
+		}
+	}
+	int totelnumber = m_totel_number = atoi(strTotalNum);;
+	if(totelnumber<=0)
+	{
+		MessageBox("生产数量非法，请重新输入","提示",MB_OK);
+		(CEdit*)GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_TOTEL_NUMBER))->SetSel(0, -1);
+		return;
+	}
 	if(!(m_money.IsEmpty()))
 	{
 		if(!IsNum(m_money))
@@ -625,7 +663,19 @@ void CDialog_ModifyList::OnStartList()
 		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 		return;
 	}
-	int totelnumber = m_true_number;
+	CString strTotalNum;
+	GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->GetWindowText(strTotalNum);
+	if(!(strTotalNum.IsEmpty()))
+	{
+		if(!IsInt(strTotalNum))
+		{
+			MessageBox("下单数量输入必须为整数，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER))->SetSel(0, -1);
+			return;
+		}
+	}
+	int totelnumber = m_true_number = atoi(strTotalNum);;
 	if(totelnumber<=0)
 	{
 		MessageBox("订单总数非法，请重新输入","提示",MB_OK);
@@ -633,6 +683,7 @@ void CDialog_ModifyList::OnStartList()
 		((CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER))->SetSel(0, -1);
 		return;
 	}
+
 	CDialog_Login2 login2;
 	login2.m_permission = START_LIST;
 	if (login2.DoModal()!=IDOK)
