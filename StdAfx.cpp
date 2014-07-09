@@ -45,6 +45,17 @@ BOOL IsNum(CString &str)
 	return TRUE;
 }
 
+BOOL IsPhoneNum(CString &str)
+{
+	int n=str.GetLength();
+	for(int i=0;i<n;i++)
+	{
+		if ((str[i]<'0'||str[i]>'9') && (str[i]!='-' ))
+			return FALSE;
+	}
+	return TRUE;
+}
+
 void CreateExcel(CString filename,CListCtrl *listctl)
 {
 	Range m_ExlRge; 
@@ -244,6 +255,7 @@ void CreateExcel(CString filename,CListCtrl *listctl)
 
 MysqlConnect g_MysqlConnect = {"root", "weichangzhi", "localhost", "sys", 3306};
 CString g_user="";
+CString g_department="";
 int g_permission = 0;
 FILE* g_fplog = NULL;
 
@@ -274,7 +286,8 @@ PermissionLimit g_PermissionLimit[PERMISSION_NUMBER] =
 	{10,POST_STORAGE,"过账(成品仓)"},
 	{11,POST_SEND,"过账(物流)"},
 	{12,PERMISSION,"权限管理"},
-	{13,QC,"质检"}
+	{13,QC,"质检"},
+	{14,URGENT,"加急"}
 };
 
 

@@ -85,7 +85,24 @@ BOOL CDialog_post::OnInitDialog()
 	m_department.InsertString(2,"质检");
 	m_department.InsertString(3,"成品仓");
 	m_department.InsertString(4,"物流");
-	m_department.SetCurSel(0);
+
+	CString strdepartment = g_department;
+	if((strdepartment.Compare("技术部")==0) || 
+		(strdepartment.Compare("意造销售")==0) ||
+		(strdepartment.Compare("电商")==0) ||
+		(strdepartment.Compare("运营")==0) ||
+		(strdepartment.Compare("加盟")==0) ||
+		(strdepartment.Compare("研发")==0) )
+		m_department.SetCurSel(0);
+	else if(strdepartment.Compare("生产部")==0)
+		m_department.SetCurSel(1);
+	else if(strdepartment.Compare("质检")==0)
+		m_department.SetCurSel(2);
+	else if(strdepartment.Compare("成品仓")==0)
+		m_department.SetCurSel(3);
+	else if(strdepartment.Compare("物流")==0)
+		m_department.SetCurSel(4);
+	//m_department.SetCurSel(0);
 	m_permission = POST_TC;
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -98,14 +115,6 @@ void CDialog_post::OnOK()
 
 	CString strdepartment;
 	m_department.GetWindowText(strdepartment);
-
-	CDialog_Login2 login2;
-	login2.m_department = strdepartment;
-	login2.m_permission = m_permission;
-	if (login2.DoModal()!=IDOK)
-	{
-		return;
-	}
 
 	CString postid[5];
 	int postnumber[5];
@@ -127,6 +136,7 @@ void CDialog_post::OnOK()
 	postnumber[2] = atoi(m_postnumber3);
 	postnumber[3] = atoi(m_postnumber4);
 	postnumber[4] = atoi(m_postnumber5);
+
 	for(i=0;i<5;i++)
 		enable[i] = 1;
 	for(i=0;i<5;i++)
@@ -178,7 +188,14 @@ void CDialog_post::OnOK()
 		((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
 		return;
 	}
-		
+
+	CDialog_Login2 login2;
+	login2.m_department = strdepartment;
+	login2.m_permission = m_permission;
+	if (login2.DoModal()!=IDOK)
+	{
+		return;
+	}
 
 	CString sql[5];
 	for(i=0;i<5;i++)

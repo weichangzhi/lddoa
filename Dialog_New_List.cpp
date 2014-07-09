@@ -59,6 +59,14 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_New_List)
+	DDX_Control(pDX, IDC_COMBO_SIZE, m_ComSize);
+	DDX_Control(pDX, IDC_COMBO_SHINE, m_ComShine);
+	DDX_Control(pDX, IDC_COMBO_PAINT, m_ComPaint1);
+	DDX_Control(pDX, IDC_COMBO_MATERIAL, m_ComMaterial);
+	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_ComDepartment);
+	DDX_Control(pDX, IDC_COMBO_COLOR, m_ComColor);
+	DDX_Control(pDX, IDC_COMBO_BOTTOM, m_ComBottom);
+	DDX_Control(pDX, IDC_COMBO_BILL, m_ComBill);
 	DDX_Check(pDX, IDC_CHECK_DESIGN_SERVER, m_design_server);
 	DDX_Check(pDX, IDC_CHECK_HAS_MODELING, m_has_modeling);
 	DDX_Check(pDX, IDC_CHECK_MODELING, m_modeling);
@@ -68,21 +76,21 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_ENDDATE, m_enddate);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_RECEIVEDATE, m_receivedate);
 	DDX_Text(pDX, IDC_EDIT_ADDRESS, m_address);
-	DDX_Text(pDX, IDC_EDIT_BILL, m_bill);
-	DDX_Text(pDX, IDC_EDIT_BOTTOM, m_bottom);
-	DDX_Text(pDX, IDC_EDIT_COLOR, m_color);
-	DDX_Text(pDX, IDC_EDIT_DEPARTMENT, m_department);
+	//DDX_Text(pDX, IDC_EDIT_BILL, m_bill);
+	//DDX_Text(pDX, IDC_EDIT_BOTTOM, m_bottom);
+	//DDX_Text(pDX, IDC_EDIT_COLOR, m_color);
+	//DDX_Text(pDX, IDC_EDIT_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_ERRORRANGE, m_error_range);
 	DDX_Text(pDX, IDC_EDIT_LISTID, m_listid);
 	DDX_Text(pDX, IDC_EDIT_LISTTNAME, m_listname);
-	DDX_Text(pDX, IDC_EDIT_MATERIAL, m_material);
+	//DDX_Text(pDX, IDC_EDIT_MATERIAL, m_material);
 	DDX_Text(pDX, IDC_EDIT_MONDY, m_money);
-	DDX_Text(pDX, IDC_EDIT_PAINT, m_print);
+	//DDX_Text(pDX, IDC_EDIT_PAINT, m_print);
 	DDX_Text(pDX, IDC_EDIT_PEOPLE, m_people);
 	DDX_Text(pDX, IDC_EDIT_PHONE, m_phone);
 	DDX_Text(pDX, IDC_EDIT_RECEIVE_NAME, m_receivename);
-	DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
-	DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
+	//DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
+	//DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
 	DDX_Text(pDX, IDC_EDIT_TOTEL_NUMBER, m_totel_number);
 	DDX_Text(pDX, IDC_EDIT_USAGE, m_usage);
 	DDX_Text(pDX, IDC_EDIT_VOLUEME, m_volume);
@@ -111,11 +119,70 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_receivedate = time1;
 	m_enddate = time1;
 	m_people = g_user;
-	m_color = "白";
-	m_print = "无";
-	m_shine = "细打磨";
-	m_bottom = "无";
-	m_bill = "否";
+	m_department = g_department;
+	m_ComDepartment.InsertString(0,"意造销售");
+	m_ComDepartment.InsertString(1,"电商");
+	m_ComDepartment.InsertString(2,"运营");
+	m_ComDepartment.InsertString(3,"加盟");
+	m_ComDepartment.InsertString(4,"研发");
+	if(m_department.Compare("意造销售")==0)
+		m_ComDepartment.SetCurSel(0);
+	else if(m_department.Compare("电商")==0)
+		m_ComDepartment.SetCurSel(1);
+	else if(m_department.Compare("运营")==0)
+		m_ComDepartment.SetCurSel(2);
+	else if(m_department.Compare("加盟")==0)
+		m_ComDepartment.SetCurSel(3);
+	else if(m_department.Compare("研发")==0)
+		m_ComDepartment.SetCurSel(4);
+	m_ComSize.InsertString(0,"6cm半身单人");
+	m_ComSize.InsertString(1,"12cm半身单人");
+	m_ComSize.InsertString(2,"10cm全身单人");
+	m_ComSize.InsertString(3,"13.14cm全身单人");
+	m_ComSize.InsertString(4,"15cm全身单人");
+	m_ComSize.InsertString(5,"19.9cm全身单人");
+	m_ComSize.InsertString(6,"19.9cm婚纱全身单人");
+	m_ComSize.InsertString(7,"28cm全身单人");
+	m_ComSize.InsertString(8,"6cm车载半身单人");
+	m_ComSize.InsertString(9,"6cm车载半身双人");
+	m_ComSize.InsertString(10,"10cm车载全身单人");
+	m_ComSize.InsertString(11,"10cm车载全身双人");
+	m_ComSize.InsertString(12,"10cm动漫路飞");
+	m_ComSize.InsertString(13,"10cm动漫美国队长");
+	m_ComSize.InsertString(14,"10cm动漫蝙蝠侠");
+	m_ComSize.InsertString(15,"10cm动漫德玛西亚");
+	m_ComSize.SetCurSel(0);
+	m_ComMaterial.InsertString(0,"全彩660砂岩");
+	m_ComMaterial.InsertString(1,"全彩4500塑料");
+	m_ComMaterial.InsertString(2,"尼龙");
+	m_ComMaterial.InsertString(3,"尼龙66");
+	m_ComMaterial.InsertString(4,"RS6000白色树脂");
+	m_ComMaterial.InsertString(5,"EDEN260白色高精");
+	m_ComMaterial.InsertString(6,"EDEN260半透明高精");
+	m_ComMaterial.InsertString(7,"透明高精");
+	m_ComMaterial.InsertString(8,"橡胶");
+	m_ComMaterial.InsertString(9,"ABS塑料");
+	m_ComMaterial.InsertString(10,"PLA");
+	m_ComMaterial.InsertString(11,"CNC");
+	m_ComMaterial.SetCurSel(0);
+	m_ComColor.InsertString(0,"白");
+	m_ComColor.InsertString(1,"全彩");
+	m_ComColor.InsertString(2,"黑色");
+	m_ComColor.InsertString(3,"无");
+	m_ComColor.SetCurSel(0);
+	m_ComPaint1.InsertString(0,"无");
+	m_ComPaint1.InsertString(1,"有");
+	m_ComPaint1.SetCurSel(0);
+	m_ComShine.InsertString(0,"细打磨");
+	m_ComShine.InsertString(1,"无");
+	m_ComShine.SetCurSel(0);
+	m_ComBottom.InsertString(0,"无");
+	m_ComBottom.InsertString(1,"标配");
+	m_ComBottom.InsertString(2,"水晶");
+	m_ComBottom.SetCurSel(0);
+	m_ComBill.InsertString(0,"否");
+	m_ComBill.InsertString(1,"是");
+	m_ComBill.SetCurSel(0);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -152,6 +219,14 @@ void CDialog_New_List::OnSubmitlist()
 			return;
 		}
 	}
+	m_ComBill.GetWindowText(m_bill);
+	m_ComBottom.GetWindowText(m_bottom);
+	m_ComColor.GetWindowText(m_color);
+	m_ComDepartment.GetWindowText(m_department);
+	m_ComMaterial.GetWindowText(m_material);
+	m_ComPaint1.GetWindowText(m_print);
+	m_ComShine.GetWindowText(m_shine);
+	m_ComSize.GetWindowText(m_size);
 	CDialog_Login2 login2;
 	login2.m_permission = SAVE_LIST;
 	if (login2.DoModal()!=IDOK)
@@ -270,11 +345,11 @@ void CDialog_New_List::OnStartList()
 		return;
 	}
 	int totelnumber = m_true_number;
-	if(totelnumber==0)
+	if(totelnumber<=0)
 	{
 		MessageBox("订单总数非法，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT1_TOTELNUMBER)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT1_TOTELNUMBER))->SetSel(0, -1);
+		(CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER))->SetSel(0, -1);
 		return;
 	}
 	CDialog_Login2 login2;

@@ -49,9 +49,9 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	m_volume = _T("");
 	m_true_number = 0;
 	m_other = _T("");
+	m_query_listid = _T("");
 	m_str_reveive_time = _T("");
 	m_str_end_date = _T("");
-	m_query_listid = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -60,6 +60,14 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_ModifyList)
+	DDX_Control(pDX, IDC_COMBO_SHINE, m_ComShine);
+	DDX_Control(pDX, IDC_COMBO_COLOR, m_ComColor);
+	DDX_Control(pDX, IDC_COMBO_SIZE, m_ComSize);
+	DDX_Control(pDX, IDC_COMBO_PAINT, m_ComPaint);
+	DDX_Control(pDX, IDC_COMBO_MATERIAL, m_ComMaterial);
+	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_ComDepartment);
+	DDX_Control(pDX, IDC_COMBO_BOTTOM, m_ComBottom);
+	DDX_Control(pDX, IDC_COMBO_BILL, m_ComBill);
 	DDX_Check(pDX, IDC_CHECK_DESIGN_SERVER, m_design_server);
 	DDX_Check(pDX, IDC_CHECK_HAS_MODELING, m_has_modeling);
 	DDX_Check(pDX, IDC_CHECK_MODELING, m_modeling);
@@ -69,21 +77,21 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_ENDDATE, m_enddate);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_RECEIVEDATE, m_receivedate);
 	DDX_Text(pDX, IDC_EDIT_ADDRESS, m_address);
-	DDX_Text(pDX, IDC_EDIT_BILL, m_bill);
-	DDX_Text(pDX, IDC_EDIT_BOTTOM, m_bottom);
-	DDX_Text(pDX, IDC_EDIT_COLOR, m_color);
-	DDX_Text(pDX, IDC_EDIT_DEPARTMENT, m_department);
+	//DDX_Text(pDX, IDC_EDIT_BILL, m_bill);
+	//DDX_Text(pDX, IDC_EDIT_BOTTOM, m_bottom);
+	//DDX_Text(pDX, IDC_EDIT_COLOR, m_color);
+	//DDX_Text(pDX, IDC_EDIT_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_ERRORRANGE, m_error_range);
 	DDX_Text(pDX, IDC_EDIT_LISTID, m_listid);
 	DDX_Text(pDX, IDC_EDIT_LISTTNAME, m_listname);
-	DDX_Text(pDX, IDC_EDIT_MATERIAL, m_material);
+	//DDX_Text(pDX, IDC_EDIT_MATERIAL, m_material);
 	DDX_Text(pDX, IDC_EDIT_MONDY, m_money);
-	DDX_Text(pDX, IDC_EDIT_PAINT, m_print);
+	//DDX_Text(pDX, IDC_EDIT_PAINT, m_print);
 	DDX_Text(pDX, IDC_EDIT_PEOPLE, m_people);
 	DDX_Text(pDX, IDC_EDIT_PHONE, m_phone);
 	DDX_Text(pDX, IDC_EDIT_RECEIVE_NAME, m_receivename);
-	DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
-	DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
+	//DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
+	//DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
 	DDX_Text(pDX, IDC_EDIT_TOTEL_NUMBER, m_totel_number);
 	DDX_Text(pDX, IDC_EDIT_USAGE, m_usage);
 	DDX_Text(pDX, IDC_EDIT_VOLUEME, m_volume);
@@ -112,7 +120,72 @@ BOOL CDialog_ModifyList::OnInitDialog()
 	
 	CTime time1 = CTime::GetCurrentTime();
 	m_receivedate = time1;
-	m_enddate = time1;	
+	m_enddate = time1;
+	m_people = g_user;
+	m_department = g_department;
+	m_ComDepartment.InsertString(0,"意造销售");
+	m_ComDepartment.InsertString(1,"电商");
+	m_ComDepartment.InsertString(2,"运营");
+	m_ComDepartment.InsertString(3,"加盟");
+	m_ComDepartment.InsertString(4,"研发");
+	if(m_department.Compare("意造销售")==0)
+		m_ComDepartment.SetCurSel(0);
+	else if(m_department.Compare("电商")==0)
+		m_ComDepartment.SetCurSel(1);
+	else if(m_department.Compare("运营")==0)
+		m_ComDepartment.SetCurSel(2);
+	else if(m_department.Compare("加盟")==0)
+		m_ComDepartment.SetCurSel(3);
+	else if(m_department.Compare("研发")==0)
+		m_ComDepartment.SetCurSel(4);
+	m_ComSize.InsertString(0,"6cm半身单人");
+	m_ComSize.InsertString(1,"12cm半身单人");
+	m_ComSize.InsertString(2,"10cm全身单人");
+	m_ComSize.InsertString(3,"13.14cm全身单人");
+	m_ComSize.InsertString(4,"15cm全身单人");
+	m_ComSize.InsertString(5,"19.9cm全身单人");
+	m_ComSize.InsertString(6,"19.9cm婚纱全身单人");
+	m_ComSize.InsertString(7,"28cm全身单人");
+	m_ComSize.InsertString(8,"6cm车载半身单人");
+	m_ComSize.InsertString(9,"6cm车载半身双人");
+	m_ComSize.InsertString(10,"10cm车载全身单人");
+	m_ComSize.InsertString(11,"10cm车载全身双人");
+	m_ComSize.InsertString(12,"10cm动漫路飞");
+	m_ComSize.InsertString(13,"10cm动漫美国队长");
+	m_ComSize.InsertString(14,"10cm动漫蝙蝠侠");
+	m_ComSize.InsertString(15,"10cm动漫德玛西亚");
+	//m_ComSize.SetCurSel(0);
+	m_ComMaterial.InsertString(0,"全彩660砂岩");
+	m_ComMaterial.InsertString(1,"全彩4500塑料");
+	m_ComMaterial.InsertString(2,"尼龙");
+	m_ComMaterial.InsertString(3,"尼龙66");
+	m_ComMaterial.InsertString(4,"RS6000白色树脂");
+	m_ComMaterial.InsertString(5,"EDEN260白色高精");
+	m_ComMaterial.InsertString(6,"EDEN260半透明高精");
+	m_ComMaterial.InsertString(7,"透明高精");
+	m_ComMaterial.InsertString(8,"橡胶");
+	m_ComMaterial.InsertString(9,"ABS塑料");
+	m_ComMaterial.InsertString(10,"PLA");
+	m_ComMaterial.InsertString(11,"CNC");
+	//m_ComMaterial.SetCurSel(0);
+	m_ComColor.InsertString(0,"白");
+	m_ComColor.InsertString(1,"全彩");
+	m_ComColor.InsertString(2,"黑色");
+	m_ComColor.InsertString(3,"无");
+	//m_ComColor.SetCurSel(0);
+	m_ComPaint.InsertString(0,"无");
+	m_ComPaint.InsertString(1,"有");
+	//m_ComPaint.SetCurSel(0);
+	m_ComShine.InsertString(0,"细打磨");
+	m_ComShine.InsertString(1,"无");
+	//m_ComShine.SetCurSel(0);
+	m_ComBottom.InsertString(0,"无");
+	m_ComBottom.InsertString(1,"标配");
+	m_ComBottom.InsertString(2,"水晶");
+	//m_ComBottom.SetCurSel(0);
+	m_ComBill.InsertString(0,"否");
+	m_ComBill.InsertString(1,"是");
+	//m_ComBill.SetCurSel(0);
 	UpdateData(FALSE);
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -207,6 +280,120 @@ void CDialog_ModifyList::OnQueryList()
 					m_receivedate = timeTmp;
 					CTime timeTmp1(atoi(m_str_end_date.Mid(0,4)),atoi(m_str_end_date.Mid(5,2)),atoi(m_str_end_date.Mid(8,2)),0,0,0,0);
 					m_enddate = timeTmp1;
+					if(m_department.Compare("意造销售")==0)
+						m_ComDepartment.SetCurSel(0);
+					else if(m_department.Compare("电商")==0)
+						m_ComDepartment.SetCurSel(1);
+					else if(m_department.Compare("运营")==0)
+						m_ComDepartment.SetCurSel(2);
+					else if(m_department.Compare("加盟")==0)
+						m_ComDepartment.SetCurSel(3);
+					else if(m_department.Compare("研发")==0)
+						m_ComDepartment.SetCurSel(4);
+
+					if(m_size.Compare("6cm半身单人")==0)
+						m_ComSize.SetCurSel(0);
+					else if(m_size.Compare("12cm半身单人")==0)
+						m_ComSize.SetCurSel(1);
+					else if(m_size.Compare("10cm全身单人")==0)
+						m_ComSize.SetCurSel(2);
+					else if(m_size.Compare("13.14cm全身单人")==0)
+						m_ComSize.SetCurSel(3);
+					else if(m_size.Compare("15cm全身单人")==0)
+						m_ComSize.SetCurSel(4);
+					else if(m_size.Compare("19.9cm全身单人")==0)
+						m_ComSize.SetCurSel(5);
+					else if(m_size.Compare("19.9cm婚纱全身单人")==0)
+						m_ComSize.SetCurSel(6);
+					else if(m_size.Compare("28cm全身单人")==0)
+						m_ComSize.SetCurSel(7);
+					else if(m_size.Compare("6cm车载半身单人")==0)
+						m_ComSize.SetCurSel(8);
+					else if(m_size.Compare("6cm车载半身双人")==0)
+						m_ComSize.SetCurSel(9);
+					else if(m_size.Compare("10cm车载全身单人")==0)
+						m_ComSize.SetCurSel(10);
+					else if(m_size.Compare("10cm车载全身双人")==0)
+						m_ComSize.SetCurSel(11);
+					else if(m_size.Compare("10cm动漫路飞")==0)
+						m_ComSize.SetCurSel(12);
+					else if(m_size.Compare("10cm动漫美国队长")==0)
+						m_ComSize.SetCurSel(13);
+					else if(m_size.Compare("10cm动漫蝙蝠侠")==0)
+						m_ComSize.SetCurSel(14);
+					else if(m_size.Compare("10cm动漫德玛西亚")==0)
+						m_ComSize.SetCurSel(15);
+					else 
+						m_ComSize.SetWindowText(m_size);
+
+					if(m_material.Compare("全彩660砂岩")==0)
+						m_ComMaterial.SetCurSel(0);
+					else if(m_material.Compare("全彩4500塑料")==0)
+						m_ComMaterial.SetCurSel(1);
+					else if(m_material.Compare("尼龙")==0)
+						m_ComMaterial.SetCurSel(2);
+					else if(m_material.Compare("尼龙66")==0)
+						m_ComMaterial.SetCurSel(3);
+					else if(m_material.Compare("RS6000白色树脂")==0)
+						m_ComMaterial.SetCurSel(4);
+					else if(m_material.Compare("EDEN260白色高精")==0)
+						m_ComMaterial.SetCurSel(5);
+					else if(m_material.Compare("EDEN260半透明高精")==0)
+						m_ComMaterial.SetCurSel(6);
+					else if(m_material.Compare("透明高精")==0)
+						m_ComMaterial.SetCurSel(7);
+					else if(m_material.Compare("橡胶")==0)
+						m_ComMaterial.SetCurSel(8);
+					else if(m_material.Compare("ABS塑料")==0)
+						m_ComMaterial.SetCurSel(9);
+					else if(m_material.Compare("PLA")==0)
+						m_ComMaterial.SetCurSel(10);
+					else if(m_material.Compare("CNC")==0)
+						m_ComMaterial.SetCurSel(11);
+					else 
+						m_ComMaterial.SetWindowText(m_material);
+					
+					if(m_color.Compare("白")==0)
+						m_ComColor.SetCurSel(0);
+					else if(m_color.Compare("全彩")==0)
+						m_ComColor.SetCurSel(1);
+					else if(m_color.Compare("黑色")==0)
+						m_ComColor.SetCurSel(2);
+					else if(m_color.Compare("无")==0)
+						m_ComColor.SetCurSel(3);
+					else 
+						m_ComColor.SetWindowText(m_color);
+				
+					if(m_print.Compare("无")==0)
+						m_ComPaint.SetCurSel(0);
+					else if(m_print.Compare("有")==0)
+						m_ComPaint.SetCurSel(1);
+					else 
+						m_ComPaint.SetWindowText(m_print);
+					
+					if(m_shine.Compare("细打磨")==0)
+						m_ComShine.SetCurSel(0);
+					else if(m_shine.Compare("无")==0)
+						m_ComShine.SetCurSel(1);
+					else 
+						m_ComShine.SetWindowText(m_shine);
+
+					if(m_bottom.Compare("无")==0)
+						m_ComBottom.SetCurSel(0);
+					else if(m_bottom.Compare("标配")==0)
+						m_ComBottom.SetCurSel(1);
+					else if(m_bottom.Compare("水晶")==0)
+						m_ComBottom.SetCurSel(2);
+					else 
+						m_ComBottom.SetWindowText(m_bottom);
+
+					if(m_bill.Compare("否")==0)
+						m_ComBill.SetCurSel(0);
+					else if(m_bill.Compare("是")==0)
+						m_ComBill.SetCurSel(1);
+					else 
+						m_ComBill.SetWindowText(m_bill);
+
                     UpdateData(FALSE);
                 }
 				else
@@ -274,6 +461,15 @@ void CDialog_ModifyList::OnModifylist()
 			return;	
 		}
 	}
+	m_ComBill.GetWindowText(m_bill);
+	m_ComBottom.GetWindowText(m_bottom);
+	m_ComColor.GetWindowText(m_color);
+	m_ComDepartment.GetWindowText(m_department);
+	m_ComMaterial.GetWindowText(m_material);
+	m_ComPaint.GetWindowText(m_print);
+	m_ComShine.GetWindowText(m_shine);
+	m_ComSize.GetWindowText(m_size);
+
 	m_str_reveive_time.Format("%04d-%02d-%02d",m_receivedate.GetYear(),m_receivedate.GetMonth(),m_receivedate.GetDay());
 	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
 
@@ -430,11 +626,11 @@ void CDialog_ModifyList::OnStartList()
 		return;
 	}
 	int totelnumber = m_true_number;
-	if(totelnumber==0)
+	if(totelnumber<=0)
 	{
 		MessageBox("订单总数非法，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT1_TOTELNUMBER)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT1_TOTELNUMBER))->SetSel(0, -1);
+		(CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT1_TRUE_NUMBER))->SetSel(0, -1);
 		return;
 	}
 	CDialog_Login2 login2;

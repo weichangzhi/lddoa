@@ -120,7 +120,7 @@ void CDialog_Login::OnOK()
 	UpdateData();
 	if(!m_user.Compare("weichangzhi"))
 	{
-		g_permission = 16383;
+		g_permission = 32767;
 		CDialog::OnOK();
 		return;
 	}
@@ -148,7 +148,7 @@ void CDialog_Login::OnOK()
 	{
 		MessageBox("配置文件丢失，请手动输入服务器IP","提示",MB_OK);
 		(CEdit*)GetDlgItem(IDC_IPADDRESS1)->SetFocus();
-		return;
+		//return;
 	}
 	fwrite("serverip=",9,1,fp);
 	fwrite(m_strip,m_strip.GetLength(),1,fp);
@@ -243,6 +243,7 @@ void CDialog_Login::OnOK()
 			}
 			g_permission = atoi(sql_row[2]);
 			g_user=m_user;
+			g_department = sql_row[3];
 		}
 		else
 		{

@@ -19,10 +19,10 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Making)
 	enum { IDD = IDD_DIALOG_MAKEING };
+	CComboBox	m_ComDepartment;
 	CLineColorListCtrl 	m_list_schedule;
 	CTime	m_timebegin;
 	CTime	m_timeend;
-		// NOTE: the ClassWizard will add data members here
 	//}}AFX_DATA
 
 

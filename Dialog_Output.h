@@ -20,10 +20,14 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Output)
 	enum { IDD = IDD_DIALOG_OUTPUT };
+	CEdit	m_EditName;
+	CComboBox	m_ComWay;
 	CLineColorListCtrl	m_list_output;
 	CComboBox	m_com_output;
 	CTime	m_time_start;
 	CTime	m_time_end;
+	CString	m_strName;
+	CString	m_strDepartment;
 	//}}AFX_DATA
 
 
@@ -44,6 +48,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnExcel();
+	afx_msg void OnSelchangeComboWay();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

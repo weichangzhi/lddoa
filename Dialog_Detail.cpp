@@ -52,19 +52,21 @@ BOOL CDialog_Detail::OnInitDialog()
 	// TODO: Add extra initialization here
 	m_listdetail.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listdetail.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
-	m_listdetail.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,90);
+	m_listdetail.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_listdetail.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,100);
-	m_listdetail.InsertColumn(3, _T("产品总数"), LVCFMT_LEFT,80);
-	m_listdetail.InsertColumn(4, _T("制作材料"), LVCFMT_LEFT,80);
-	m_listdetail.InsertColumn(5, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
-	m_listdetail.InsertColumn(6, _T("收单日期"), LVCFMT_LEFT,100);
-	m_listdetail.InsertColumn(7, _T("交货日期"), LVCFMT_LEFT,100);
-	m_listdetail.InsertColumn(8, _T("业务部  (下单时间 | 下单数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(9, _T("技术部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(10, _T("生产部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(11, _T("质检  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(12, _T("成品仓  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
-	m_listdetail.InsertColumn(13, _T("物流  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(3, _T("经办人"), LVCFMT_LEFT,100);
+	m_listdetail.InsertColumn(4, _T("营销部门"), LVCFMT_LEFT,80);
+	m_listdetail.InsertColumn(5, _T("产品总数"), LVCFMT_LEFT,80);
+	m_listdetail.InsertColumn(6, _T("制作材料"), LVCFMT_LEFT,150);
+	m_listdetail.InsertColumn(7, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
+	m_listdetail.InsertColumn(8, _T("收单日期"), LVCFMT_LEFT,100);
+	m_listdetail.InsertColumn(9, _T("交货日期"), LVCFMT_LEFT,100);
+	m_listdetail.InsertColumn(10, _T("业务部  (下单时间 | 下单数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(11, _T("技术部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(12, _T("生产部  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(13, _T("质检  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(14, _T("成品仓  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
+	m_listdetail.InsertColumn(15, _T("物流  (过账时间 | 过账数量 | 负责人)"), LVCFMT_LEFT,320);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -76,7 +78,7 @@ void CDialog_Detail::OnDetailSelect()
 	m_listdetail.DeleteAllItems();
 	UpdateData();
 	CString csSql;
-	csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,businessendtime,businessnumber,businesspeople,tcendtime,tcnumber,tcpeople,pdendtime,pdnumber,pdpeople,qcendtime,qcnumber,qcpeople,storageendtime,storagenumber,storagepopple,sendendtime,sendnumber,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and  scheduledetail.listid=\"%s\" " ,m_listid);
+	csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,businessendtime,businessnumber,businesspeople,tcendtime,tcnumber,tcpeople,pdendtime,pdnumber,pdpeople,qcendtime,qcnumber,qcpeople,storageendtime,storagenumber,storagepopple,sendendtime,sendnumber,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and  scheduledetail.listid=\"%s\" " ,m_listid);
 
 	MYSQL myCont;
     MYSQL_RES *result;
@@ -108,36 +110,38 @@ void CDialog_Detail::OnDetailSelect()
 					m_listdetail.SetItemText(index,5,sql_row[4]);	
 					m_listdetail.SetItemText(index,6,sql_row[5]);
 					m_listdetail.SetItemText(index,7,sql_row[6]);
+					m_listdetail.SetItemText(index,8,sql_row[7]);
+					m_listdetail.SetItemText(index,9,sql_row[8]);
 					CString strtime_people;
-					if(sql_row[8]!=NULL)
+					if(sql_row[10]!=NULL)
 					{
-						strtime_people.Format("%s | %d | %s",sql_row[7],atoi(sql_row[8]),sql_row[9]);
-						m_listdetail.SetItemText(index,8,strtime_people);
-					}
-					if(sql_row[11]!=NULL)
-					{
-						strtime_people.Format("%s | %d | %s",sql_row[10],atoi(sql_row[11]),sql_row[12]);
-						m_listdetail.SetItemText(index,9,strtime_people);
-					}
-					if(sql_row[14]!=NULL)
-					{
-						strtime_people.Format("%s | %d | %s",sql_row[13],atoi(sql_row[14]),sql_row[15]);
+						strtime_people.Format("%s | %d | %s",sql_row[9],atoi(sql_row[10]),sql_row[11]);
 						m_listdetail.SetItemText(index,10,strtime_people);
 					}
-					if(sql_row[17]!=NULL)
+					if(sql_row[13]!=NULL)
 					{
-						strtime_people.Format("%s | %d | %s",sql_row[16],atoi(sql_row[17]),sql_row[18]);
+						strtime_people.Format("%s | %d | %s",sql_row[12],atoi(sql_row[13]),sql_row[14]);
 						m_listdetail.SetItemText(index,11,strtime_people);
 					}
-					if(sql_row[20]!=NULL)
+					if(sql_row[16]!=NULL)
 					{
-						strtime_people.Format("%s | %d | %s",sql_row[19],atoi(sql_row[20]),sql_row[21]);
+						strtime_people.Format("%s | %d | %s",sql_row[15],atoi(sql_row[16]),sql_row[17]);
 						m_listdetail.SetItemText(index,12,strtime_people);
 					}
-					if(sql_row[23]!=NULL)
+					if(sql_row[19]!=NULL)
 					{
-						strtime_people.Format("%s | %d | %s",sql_row[22],atoi(sql_row[23]),sql_row[24]);
+						strtime_people.Format("%s | %d | %s",sql_row[18],atoi(sql_row[18]),sql_row[20]);
 						m_listdetail.SetItemText(index,13,strtime_people);
+					}
+					if(sql_row[22]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[21],atoi(sql_row[22]),sql_row[23]);
+						m_listdetail.SetItemText(index,14,strtime_people);
+					}
+					if(sql_row[25]!=NULL)
+					{
+						strtime_people.Format("%s | %d | %s",sql_row[24],atoi(sql_row[25]),sql_row[26]);
+						m_listdetail.SetItemText(index,15,strtime_people);
 					}
 					if(index%2==0)
 						m_listdetail.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));

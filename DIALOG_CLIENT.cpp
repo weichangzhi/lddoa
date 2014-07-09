@@ -74,7 +74,8 @@ BOOL CDIALOG_CLIENT::OnInitDialog()
 	m_list_Clinet.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_list_Clinet.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
 	m_list_Clinet.InsertColumn(1, _T("姓名"), LVCFMT_LEFT,100);
-	m_list_Clinet.InsertColumn(2, _T("权限"), LVCFMT_LEFT,700);
+	m_list_Clinet.InsertColumn(2, _T("部门"), LVCFMT_LEFT,100);
+	m_list_Clinet.InsertColumn(3, _T("权限"), LVCFMT_LEFT,1000);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -90,6 +91,7 @@ void CDIALOG_CLIENT::OnButtonClientAdd()
 		m_list_Clinet.DeleteAllItems();
 		m_list_Clinet.InsertItem(0,"1");
 		m_list_Clinet.SetItemText(0,1,adduser.m_username);
+		m_list_Clinet.SetItemText(0,2,adduser.strdepartment);
 		//m_list_Clinet.InsertItem(0,adduser.m_username);
 		int permission = adduser.m_permission;
 		CString strPermission = "";
@@ -103,7 +105,7 @@ void CDIALOG_CLIENT::OnButtonClientAdd()
 			}
 		}
 
-		m_list_Clinet.SetItemText(0,2,strPermission);
+		m_list_Clinet.SetItemText(0,3,strPermission);
 	}
 	return;
 }
@@ -160,7 +162,11 @@ void CDIALOG_CLIENT::OnButtonClientSelect()
 									strPermission += ", ";
 								}
 							}
-							m_list_Clinet.SetItemText(index,2,strPermission);
+							m_list_Clinet.SetItemText(index,3,strPermission);
+						}
+						else if (i==3)
+						{
+							m_list_Clinet.SetItemText(index,2,sql_row[i]);
 						}
                     }
 					if(index%2==0)

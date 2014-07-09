@@ -16,9 +16,11 @@ class CDialog_AddUser : public CDialog
 public:
 	CDialog_AddUser(CWnd* pParent = NULL);   // standard constructor
 	int m_permission;
+	CString strdepartment ;
 // Dialog Data
 	//{{AFX_DATA(CDialog_AddUser)
 	enum { IDD = IDD_DIALOG_ADD_USER };
+	CComboBox	m_comDepartment;
 	CString	m_passwd;
 	CString	m_passwd2;
 	CString	m_username;
@@ -36,6 +38,7 @@ public:
 	BOOL	m_start_list;
 	BOOL	m_Bpermission;
 	BOOL	m_qc;
+	BOOL	m_urgent;
 	//}}AFX_DATA
 
 
@@ -55,6 +58,7 @@ protected:
 	//{{AFX_MSG(CDialog_AddUser)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
+	afx_msg void OnSelchangeComboDepartment();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

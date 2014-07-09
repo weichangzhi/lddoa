@@ -19,6 +19,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Modify_Permission)
 	enum { IDD = IDD_DIALOG_MODIFY_PERMISSION };
+	CComboBox	m_department;
 	CString	m_username;
 	BOOL	m_del_list;
 	BOOL	m_end_list;
@@ -34,6 +35,7 @@ public:
 	BOOL	m_start_list;
 	BOOL	m_Bpermission;
 	BOOL	m_qc;
+	BOOL	m_urgent;
 	//}}AFX_DATA
 
 
@@ -55,6 +57,7 @@ protected:
 	afx_msg void OnQueryPermission();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnModify();
+	afx_msg void OnSelchangeComboDepartment();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

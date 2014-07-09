@@ -36,6 +36,7 @@ extern int nLastColToSort;
 bool IsNumber( LPCTSTR pszText );
 int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 );
 BOOL IsNum(CString &str);
+BOOL IsPhoneNum(CString &str);
 void CreateExcel(CString filename,CListCtrl *listctl);
 static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort) 
 { 	
@@ -81,6 +82,7 @@ typedef struct _MysqlConnect
 extern MysqlConnect g_MysqlConnect;
 
 extern CString g_user;
+extern CString g_department;
 extern int g_permission;
 extern FILE* g_fplog ;
 void wiritlog(CString strlog);
@@ -106,8 +108,9 @@ typedef struct _PermissionLimit
 #define POST_SEND			2048
 #define PERMISSION			4096
 #define QC					8192
+#define URGENT				16384
 
-#define PERMISSION_NUMBER 14
+#define PERMISSION_NUMBER 15
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
 
 

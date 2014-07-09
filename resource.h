@@ -227,7 +227,17 @@
 #define ID_MODIFY                       1167
 #define IDC_STATIC_CONNECT              1168
 #define IDC_EXCEL                       1169
-#define IDC_RICHEDIT1                   1170
+#define IDC_CHECK_URGENT                1172
+#define IDC_COMBO_MATERIAL              1175
+#define IDC_COMBO_BILL                  1176
+#define IDC_COMBO_SIZE                  1177
+#define IDC_COMBO_COLOR                 1178
+#define IDC_COMBO_PAINT                 1179
+#define IDC_COMBO_SHINE                 1180
+#define IDC_COMBO_BOTTOM                1181
+#define IDC_COMBO_WAY                   1190
+#define IDC_STATIC_DEPARTMENT           1191
+#define IDC_EDIT_NAME                   1192
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -243,7 +253,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        221
 #define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1171
+#define _APS_NEXT_CONTROL_VALUE         1194
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

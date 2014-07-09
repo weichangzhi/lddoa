@@ -22,6 +22,7 @@ CDialog_AddUser::CDialog_AddUser(CWnd* pParent /*=NULL*/)
 	m_passwd = _T("");
 	m_passwd2 = _T("");
 	m_username = _T("");
+	strdepartment = _T("");
 	m_del_list = FALSE;
 	m_end_list = FALSE;
 	m_modify_list_after = FALSE;
@@ -35,8 +36,9 @@ CDialog_AddUser::CDialog_AddUser(CWnd* pParent /*=NULL*/)
 	m_save_list = FALSE;
 	m_start_list = FALSE;
 	m_Bpermission = FALSE;
-	m_permission = 0;
 	m_qc = FALSE;
+	m_permission = 0;
+	m_urgent = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -45,6 +47,7 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_AddUser)
+	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_comDepartment);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_passwd);
 	DDX_Text(pDX, IDC_EDIT_PASSWD2, m_passwd2);
 	DDX_Text(pDX, IDC_EDIT_USER_NAME, m_username);
@@ -62,12 +65,14 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_START_LIST, m_start_list);
 	DDX_Check(pDX, IDC_CHECK_PERMISSION, m_Bpermission);
 	DDX_Check(pDX, IDC_CHECK_QC, m_qc);
+	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
 	//}}AFX_DATA_MAP
 }
 
 
 BEGIN_MESSAGE_MAP(CDialog_AddUser, CDialog)
 	//{{AFX_MSG_MAP(CDialog_AddUser)
+	ON_CBN_SELCHANGE(IDC_COMBO_DEPARTMENT, OnSelchangeComboDepartment)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -77,8 +82,21 @@ END_MESSAGE_MAP()
 BOOL CDialog_AddUser::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	
-	// TODO: Add extra initialization here
+	m_comDepartment.InsertString(0,"意造销售");
+	m_comDepartment.InsertString(1,"电商");
+	m_comDepartment.InsertString(2,"运营");
+	m_comDepartment.InsertString(3,"加盟");
+	m_comDepartment.InsertString(4,"研发");
+	m_comDepartment.InsertString(5,"技术部意造");
+	m_comDepartment.InsertString(6,"技术部记梦馆");
+	m_comDepartment.InsertString(7,"生产部");
+	m_comDepartment.InsertString(8,"成品仓");
+	m_comDepartment.SetCurSel(0);
+	m_save_list = TRUE;
+	m_start_list = TRUE;
+	m_end_list = TRUE;
+	m_modify_list_before = TRUE;
+	m_query_list = TRUE;
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -124,7 +142,10 @@ void CDialog_AddUser::OnOK()
 		if(m_start_list) m_permission+=START_LIST;
 		if(m_Bpermission) m_permission+=PERMISSION;
 		if(m_qc) m_permission+=QC;
-		
+		if(m_urgent) m_permission+=URGENT;
+
+
+		m_comDepartment.GetWindowText(strdepartment);
 		CString sql;
 		sql = "select username from userinfo where username='" + m_username +"'";
 
@@ -167,7 +188,7 @@ void CDialog_AddUser::OnOK()
 				return;
 			}
 
-			sql.Format("insert into userinfo values (\"%s\",password(\"%s\"),%d)", m_username,m_passwd,m_permission);
+			sql.Format("insert into userinfo values (\"%s\",password(\"%s\"),%d,\"%s\")", m_username,m_passwd,m_permission,strdepartment);
 			if(mysql_query(&myCont,sql)!= 0)
 			{
 				const char *error = mysql_error(&myCont);
@@ -207,4 +228,169 @@ BOOL CDialog_AddUser::PreTranslateMessage(MSG* pMsg)
 		}  
 	}	
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CDialog_AddUser::OnSelchangeComboDepartment() 
+{
+	UpdateData();
+	int indexSel = m_comDepartment.GetCurSel();
+	switch(indexSel)
+	{
+	case 0://意造销售
+		m_del_list = FALSE;
+		m_end_list = TRUE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = TRUE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = TRUE;
+		m_refund = FALSE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 1://电商
+		m_del_list = FALSE;
+		m_end_list = TRUE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = TRUE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = TRUE;
+		m_refund = FALSE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 2://运营
+		m_del_list = FALSE;
+		m_end_list = TRUE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = TRUE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = TRUE;
+		m_refund = FALSE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 3://加盟
+		m_del_list = FALSE;
+		m_end_list = TRUE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = TRUE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = TRUE;
+		m_refund = FALSE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 4://研发
+		m_del_list = FALSE;
+		m_end_list = TRUE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = TRUE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = TRUE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 5://技术部意造
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = TRUE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 6://技术部记梦馆
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = TRUE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	case 7://生产部
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = TRUE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = TRUE;
+		m_urgent = FALSE;
+		break;
+	case 8://成品仓
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = FALSE;
+		m_post_send = TRUE;
+		m_post_storage = TRUE;
+		m_post_tc = FALSE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		break;
+	default:
+		break;
+	}
+	UpdateData(FALSE);
 }

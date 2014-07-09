@@ -20,6 +20,14 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
+	CComboBox	m_ComShine;
+	CComboBox	m_ComColor;
+	CComboBox	m_ComSize;
+	CComboBox	m_ComPaint;
+	CComboBox	m_ComMaterial;
+	CComboBox	m_ComDepartment;
+	CComboBox	m_ComBottom;
+	CComboBox	m_ComBill;
 	BOOL	m_design_server;
 	BOOL	m_has_modeling;
 	BOOL	m_modeling;
