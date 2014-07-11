@@ -57,6 +57,7 @@ public:
 	CString	m_volume;
 	int		m_true_number;
 	CString	m_other;
+	BOOL	m_urgent;
 	//}}AFX_DATA
 
 

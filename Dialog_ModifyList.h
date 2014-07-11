@@ -17,6 +17,36 @@ public:
 	CDialog_ModifyList(CWnd* pParent = NULL);   // standard constructor
 	CString m_str_reveive_time;
 	CString m_str_end_date;
+
+	BOOL	m_design_server1;
+	BOOL	m_has_modeling1;
+	BOOL	m_modeling1;
+	BOOL	m_modeling_pring1;
+	BOOL	m_no_modeling1;
+	BOOL	m_scan1;
+	BOOL	m_urgent1;
+	CString m_str_reveive_time1;
+	CString m_str_end_date1;
+	CString	m_address1;
+	CString	m_bill1;
+	CString	m_bottom1;
+	CString	m_color1;
+	CString	m_department1;
+	CString	m_error_range1;
+	CString	m_listname1;
+	CString	m_material1;
+	CString	m_money1;
+	CString	m_print1;
+	CString	m_people1;
+	CString	m_phone1;
+	CString	m_receivename1;
+	CString	m_shine1;
+	CString	m_size1;
+	int		m_totel_number1;
+	CString	m_usage1;
+	CString	m_volume1;
+	CString	m_other1;
+	
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
@@ -58,6 +88,7 @@ public:
 	int		m_true_number;
 	CString	m_other;
 	CString	m_query_listid;
+	BOOL	m_urgent;
 	//}}AFX_DATA
 
 

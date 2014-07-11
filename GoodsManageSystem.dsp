@@ -100,6 +100,10 @@ SOURCE=.\Dialog_BaseInfo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_ChangeRecord.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\DIALOG_CLIENT.cpp
 # End Source File
 # Begin Source File
@@ -206,6 +210,10 @@ SOURCE=.\Dialog_AddUser.h
 # Begin Source File
 
 SOURCE=.\Dialog_BaseInfo.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_ChangeRecord.h
 # End Source File
 # Begin Source File
 

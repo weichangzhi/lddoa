@@ -275,6 +275,15 @@ void CDialog_InputBaseinfo::OnStartList()
 			sql_row=mysql_fetch_row(result);
 			starttime = sql_row[0];
 		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
 
 
 		sql.Format("insert into scheduledetail(listid,businessendtime,businessnumber,businesspeople,tcstarttime) \
@@ -351,6 +360,15 @@ void CDialog_InputBaseinfo::OnEndList()
 		{
 			sql_row=mysql_fetch_row(result);
 			starttime = sql_row[0];
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
 		}
 
 		sql.Format("update schedule set end=%d where listid=\"%s\" " ,1,m_ListID);

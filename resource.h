@@ -37,6 +37,7 @@
 #define IDD_DIALOG_LIST_QUERY           160
 #define IDD_DIALOG_MAKEING              161
 #define IDD_DIALOG_UNPOST               162
+#define IDD_DIALOG_CHAGNE_RECORD        163
 #define IDI_ICON8                       185
 #define IDI_USER_ADD                    187
 #define IDI_USER_MODIFY                 188
@@ -238,6 +239,9 @@
 #define IDC_COMBO_WAY                   1190
 #define IDC_STATIC_DEPARTMENT           1191
 #define IDC_EDIT_NAME                   1192
+#define IDC_EDIT_LIDTID                 1194
+#define IDC_LIST_CHANGERECORD           1195
+#define IDC_BUTTON__SELECT              1196
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -253,7 +257,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        221
 #define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1194
+#define _APS_NEXT_CONTROL_VALUE         1197
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

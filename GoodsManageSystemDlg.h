@@ -22,11 +22,12 @@
 #include "Dialog_ModifyList.h"
 #include "Dialog_Making.h"
 #include "Dialog_Unpost.h"
+#include "Dialog_ChangeRecord.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog
 
-#define MAX_TREE_PAGE 10
+#define MAX_TREE_PAGE 11
 class CGoodsManageSystemDlg : public CDialog
 {
 // Construction

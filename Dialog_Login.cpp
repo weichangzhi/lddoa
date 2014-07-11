@@ -154,7 +154,7 @@ void CDialog_Login::OnOK()
 	fwrite(m_strip,m_strip.GetLength(),1,fp);
 	fclose(fp);
 
-	wiritlog("获取服务器iP成功");
+	writelog("获取服务器iP成功");
 	strcpy(g_MysqlConnect.host , m_strip);
 	CString sql;
 	sql.Format("select Password(\"%s\");",m_passwd);
@@ -230,7 +230,7 @@ void CDialog_Login::OnOK()
 					mysql_close(&myCont);//断开连接
 					return;
 				}
-				wiritlog("密码匹配成功");
+				writelog("密码匹配成功");
 			}
 			else
 			{
@@ -271,6 +271,15 @@ void CDialog_Login::OnOK()
 		{
 			sql_row=mysql_fetch_row(result);
 			starttime = sql_row[0];
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
 		}
 
 		sql = "select * from test ";
@@ -345,7 +354,7 @@ void CDialog_Login::OnOK()
 
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
-	wiritlog("登录成功");
+	writelog("登录成功");
 	CDialog::OnOK();
 }
 

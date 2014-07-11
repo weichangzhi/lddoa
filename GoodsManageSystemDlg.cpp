@@ -68,11 +68,11 @@ CGoodsManageSystemDlg::CGoodsManageSystemDlg(CWnd* pParent /*=NULL*/)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
-	wiritlog("CGoodsManageSystemDl构造函数");
+	writelog("CGoodsManageSystemDl构造函数");
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	bFirstin = 1;
 	icurrentpage = 8;
-	wiritlog("CGoodsManageSystemDl构造函数结束");
+	writelog("CGoodsManageSystemDl构造函数结束");
 }
 
 void CGoodsManageSystemDlg::DoDataExchange(CDataExchange* pDX)
@@ -104,12 +104,12 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg message handlers
 
-#define MAX_ICO 24
+#define MAX_ICO 25
 BOOL CGoodsManageSystemDlg::OnInitDialog()
 {
-	wiritlog("OnInitDialog");
+	writelog("OnInitDialog");
 	CDialog::OnInitDialog();
-	wiritlog("CGoodsManageSystemDlg::OnInitDialog 显示主界面");
+	writelog("CGoodsManageSystemDlg::OnInitDialog 显示主界面");
 	// Add "About..." menu item to system menu.
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -172,6 +172,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	icon[21]=AfxGetApp()->LoadIcon (IDI_DETAIL);
 	icon[22]=AfxGetApp()->LoadIcon (IDI_MAIN2);
 	icon[23]=AfxGetApp()->LoadIcon (IDI_PROCESS);
+	icon[24]=AfxGetApp()->LoadIcon (IDI_MAKEING);
 
 
 	//创建图像列表控件
@@ -207,6 +208,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son10=m_tree.InsertItem("新增订单",15,15,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son11=m_tree.InsertItem("修改订单",12,12,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son12=m_tree.InsertItem("查询订单",13,13,sub_son1,TVI_LAST);
+	HTREEITEM sub_m_son13=m_tree.InsertItem("变更记录",24,24,sub_son1,TVI_LAST);
 
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
@@ -221,6 +223,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[7]=new CDialog_ModifyList;
 	m_treePages[8]=new CDialog_Making;
 	m_treePages[9]=new CDialog_Unpost;
+	m_treePages[10]=new Dialog_ChangeRecord;
 
 	//建立节点对应的Dialog
 	m_treePages[0]->Create(IDD_DIALOG_CLIENT,this);
@@ -233,6 +236,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[7]->Create(IDD_DIALOG_MODIFY_LIST1,this);
 	m_treePages[8]->Create(IDD_DIALOG_MAKEING,this);
 	m_treePages[9]->Create(IDD_DIALOG_UNPOST,this);
+	m_treePages[10]->Create(IDD_DIALOG_CHAGNE_RECORD,this);
 
 	//把Dialog移到合适位置
 
@@ -270,12 +274,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[8]->ShowWindow(SW_SHOW);
 	m_treePages[9]->MoveWindow(m_rect);
 	m_treePages[9]->ShowWindow(SW_HIDE);
+	m_treePages[10]->MoveWindow(m_rect);
+	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
+	m_treePages[10]->ShowWindow(SW_HIDE);
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
 	m_tree.Expand(sub_son0,TVE_EXPAND);
 	m_tree.Expand(sub_son1,TVE_EXPAND);
 	m_tree.Expand(sub_son2,TVE_EXPAND);
-	wiritlog("dlg init ok");
+	writelog("dlg init ok");
 	return true;
 }
 	
@@ -375,6 +382,9 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[8]->MoveWindow(m_rect);
 	((CDialog_Making*)(m_treePages[8]))->m_list_schedule.MoveWindow(rectlist);
 	m_treePages[9]->MoveWindow(m_rect);
+	m_treePages[10]->MoveWindow(m_rect);
+	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
+
 }
 
 void CGoodsManageSystemDlg::OnHelp() 
@@ -493,6 +503,10 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(node_name=="查询订单" || node_name=="订单资料"){
 		m_treePages[1]->ShowWindow(SW_SHOW);
 		icurrentpage = 1;
+	}
+	else if(node_name=="变更记录" ){
+		m_treePages[10]->ShowWindow(SW_SHOW);
+		icurrentpage = 10;
 	}
 	else if(node_name=="过账" || node_name=="账目流转"){
 		m_treePages[2]->ShowWindow(SW_SHOW);

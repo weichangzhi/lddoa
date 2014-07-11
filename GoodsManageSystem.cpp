@@ -65,18 +65,18 @@ BOOL CGoodsManageSystemApp::InitInstance()
 #endif
 	g_fplog = fopen("log.ini","wb+");
 
-	wiritlog("welecome to lddoa");
+	writelog("welecome to lddoa");
 	AfxInitRichEdit();
 	CDialog_Login login;
 	if(login.DoModal()==IDOK)
 	{
-		wiritlog("login is ok");
+		writelog("login is ok");
 		CGoodsManageSystemDlg dlg;
 		m_pMainWnd = &dlg;
 		char log[256] = {0};
 		sprintf(log,"dlg=%x",dlg);
-		wiritlog(log);
-		wiritlog("login is ok2");
+		writelog(log);
+		writelog("login is ok2");
 		int nResponse = dlg.DoModal();
 		if (nResponse == IDOK)
 		{
@@ -119,7 +119,7 @@ int CGoodsManageSystemApp::ExitInstance()
 	// TODO: Add your specialized code here and/or call the base class
 	//g_adoConn.Close();
 //	g_adoDataSet.Close();
-	wiritlog("logoff");
+	writelog("logoff");
 	fclose(g_fplog);
 	return CWinApp::ExitInstance();
 }

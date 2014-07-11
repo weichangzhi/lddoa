@@ -50,7 +50,7 @@ BOOL IsPhoneNum(CString &str)
 	int n=str.GetLength();
 	for(int i=0;i<n;i++)
 	{
-		if ((str[i]<'0'||str[i]>'9') && (str[i]!='-' ))
+		if ((str[i]<'0'||str[i]>'9') && (str[i]!='-' ) && (str[i]!=' '))
 			return FALSE;
 	}
 	return TRUE;
@@ -270,15 +270,19 @@ CString g_department="";
 int g_permission = 0;
 FILE* g_fplog = NULL;
 
-void wiritlog(CString strlog)
+void writelog(CString strlog)
 {
 	if(strlog.IsEmpty())
 		return;
 	strlog += "\r\n";
-	int len = strlog.GetLength();
 	if(g_fplog==NULL)
 		return;
-	fwrite(strlog,len,1,g_fplog);
+	CTime time = CTime::GetCurrentTime();
+	CString tmp ;
+	tmp.Format("[%02d-%02d %02d:%02d:%02d]  ",time.GetMonth(),time.GetDay(),time.GetHour(),time.GetMinute(),time.GetSecond());
+	tmp += strlog;
+	int len = tmp.GetLength();
+	fwrite(tmp,len,1,g_fplog);
 	fflush(g_fplog);
 }
 

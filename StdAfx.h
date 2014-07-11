@@ -86,7 +86,7 @@ extern CString g_user;
 extern CString g_department;
 extern int g_permission;
 extern FILE* g_fplog ;
-void wiritlog(CString strlog);
+void writelog(CString strlog);
 
 typedef struct _PermissionLimit
 {

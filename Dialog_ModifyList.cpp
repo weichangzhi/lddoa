@@ -52,6 +52,37 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	m_query_listid = _T("");
 	m_str_reveive_time = _T("");
 	m_str_end_date = _T("");
+	m_urgent = FALSE;
+
+	m_design_server1 = FALSE;
+	m_has_modeling1 = FALSE;
+	m_modeling1 = FALSE;
+	m_modeling_pring1 = FALSE;
+	m_no_modeling1 = FALSE;
+	m_scan1 = FALSE;
+	m_urgent1 = FALSE;
+	m_totel_number1 = 0;
+	CString m_str_reveive_time1 = _T("");
+	CString m_str_end_date1 = _T("");
+	CString	m_address1 = _T("");
+	CString	m_bill1 = _T("");
+	CString	m_bottom1 = _T("");
+	CString	m_color1 = _T("");
+	CString	m_department1 = _T("");
+	CString	m_error_range1 = _T("");
+	CString	m_listname1 = _T("");
+	CString	m_material1 = _T("");
+	CString	m_money1 = _T("");
+	CString	m_print1 = _T("");
+	CString	m_people1 = _T("");
+	CString	m_phone1 = _T("");
+	CString	m_receivename1 = _T("");
+	CString	m_shine1 = _T("");
+	CString	m_size1 = _T("");
+	CString	m_usage1 = _T("");
+	CString	m_volume1 = _T("");
+	CString	m_other1 = _T("");
+
 	//}}AFX_DATA_INIT
 }
 
@@ -77,27 +108,18 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_ENDDATE, m_enddate);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_RECEIVEDATE, m_receivedate);
 	DDX_Text(pDX, IDC_EDIT_ADDRESS, m_address);
-	//DDX_Text(pDX, IDC_EDIT_BILL, m_bill);
-	//DDX_Text(pDX, IDC_EDIT_BOTTOM, m_bottom);
-	//DDX_Text(pDX, IDC_EDIT_COLOR, m_color);
-	//DDX_Text(pDX, IDC_EDIT_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_ERRORRANGE, m_error_range);
 	DDX_Text(pDX, IDC_EDIT_LISTID, m_listid);
 	DDX_Text(pDX, IDC_EDIT_LISTTNAME, m_listname);
-	//DDX_Text(pDX, IDC_EDIT_MATERIAL, m_material);
 	DDX_Text(pDX, IDC_EDIT_MONDY, m_money);
-	//DDX_Text(pDX, IDC_EDIT_PAINT, m_print);
 	DDX_Text(pDX, IDC_EDIT_PEOPLE, m_people);
 	DDX_Text(pDX, IDC_EDIT_PHONE, m_phone);
 	DDX_Text(pDX, IDC_EDIT_RECEIVE_NAME, m_receivename);
-	//DDX_Text(pDX, IDC_EDIT_SHINE, m_shine);
-	//DDX_Text(pDX, IDC_EDIT_SIZE, m_size);
-	//DDX_Text(pDX, IDC_EDIT_TOTEL_NUMBER, m_totel_number);
 	DDX_Text(pDX, IDC_EDIT_USAGE, m_usage);
 	DDX_Text(pDX, IDC_EDIT_VOLUEME, m_volume);
-	//DDX_Text(pDX, IDC_EDIT1_TRUE_NUMBER, m_true_number);
 	DDX_Text(pDX, IDC_RICHEDIT_OTHER, m_other);
 	DDX_Text(pDX, IDC_EDIT_QUERYLISTID, m_query_listid);
+	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
 	//}}AFX_DATA_MAP
 }
 
@@ -246,36 +268,41 @@ void CDialog_ModifyList::OnQueryList()
 				if(sql_row)
                 {
 					m_listid = sql_row[0];
-					m_listname = sql_row[1];
+					m_listname1 = m_listname = sql_row[1];
 					m_true_number = atoi(sql_row[2]);
-					m_material = sql_row[3];
-					m_volume = sql_row[4];
-					m_str_reveive_time = sql_row[5];
-					m_str_end_date = sql_row[6];
-					//"" = sql_row[];
-					m_people = sql_row[8];
-					m_receivename = sql_row[9];
-					m_phone = sql_row[10];
-					m_address = sql_row[11];
-					m_department = sql_row[12];
-					m_modeling = atoi(sql_row[13]);
-					m_design_server = atoi(sql_row[14]);
-					m_scan = atoi(sql_row[15]);
-					m_modeling_pring = atoi(sql_row[16]);
-					m_has_modeling = atoi(sql_row[17]);
-					m_no_modeling = atoi(sql_row[18]);
-					m_size = sql_row[19];
-					m_totel_number = atoi(sql_row[20]);
-					m_color = sql_row[21];
-					m_print = sql_row[22];
-					m_shine = sql_row[23];
-					m_bottom = sql_row[24];
-					m_bill = sql_row[25];
-					m_usage = sql_row[26];
-					m_error_range = sql_row[27];
-					m_money = sql_row[28];
-					m_other = sql_row[29];
-
+					m_material1 = m_material = sql_row[3];
+					m_volume1 = m_volume = sql_row[4];
+					m_str_reveive_time1 = m_str_reveive_time = sql_row[5];
+					m_str_end_date1 = m_str_end_date = sql_row[6];
+					m_people1 = m_people = sql_row[8];
+					m_receivename1 = m_receivename = sql_row[9];
+					m_phone1 = m_phone = sql_row[10];
+					m_address1 = m_address = sql_row[11];
+					m_department1 = m_department = sql_row[12];
+					m_modeling1 = m_modeling = atoi(sql_row[13]);
+					m_design_server1 = m_design_server = atoi(sql_row[14]);
+					m_scan1 = m_scan = atoi(sql_row[15]);
+					m_modeling_pring1 = m_modeling_pring = atoi(sql_row[16]);
+					m_has_modeling1 = m_has_modeling = atoi(sql_row[17]);
+					m_no_modeling1 = m_no_modeling = atoi(sql_row[18]);
+					m_size1 = m_size = sql_row[19];
+					m_totel_number1 = m_totel_number = atoi(sql_row[20]);
+					m_color1 = m_color = sql_row[21];
+					m_print1 = m_print = sql_row[22];
+					m_shine1 = m_shine = sql_row[23];
+					m_bottom1 = m_bottom = sql_row[24];
+					m_bill1 = m_bill = sql_row[25];
+					m_usage1 = m_usage = sql_row[26];
+					m_error_range1 = m_error_range = sql_row[27];
+					m_money1 = m_money = sql_row[28];
+					m_other1 = m_other = sql_row[29];
+					if(sql_row[32]!=NULL)
+						m_urgent = atoi(sql_row[32]);
+					else
+						m_urgent = 0;
+					m_urgent1 = m_urgent;
+					GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->SetWindowText(sql_row[20]);
+					GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->SetWindowText(sql_row[20]);
 					CTime timeTmp(atoi(m_str_reveive_time.Mid(0,4)),atoi(m_str_reveive_time.Mid(5,2)),atoi(m_str_reveive_time.Mid(8,2)),0,0,0,0);
 					m_receivedate = timeTmp;
 					CTime timeTmp1(atoi(m_str_end_date.Mid(0,4)),atoi(m_str_end_date.Mid(5,2)),atoi(m_str_end_date.Mid(8,2)),0,0,0,0);
@@ -451,9 +478,9 @@ void CDialog_ModifyList::OnModifylist()
 			return;	
 		}
 		int len = m_phone.GetLength();
-		if(len!=11 && len!=12)
+		if(len!=11 && len!=12 && len!=15 && len!=16 && len!=17)
 		{
-			MessageBox("联系电话为11为数字，请重新输入","提示",MB_OK);
+			MessageBox("联系电话输入格式不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_PHONE)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_PHONE))->SetSel(0, -1);
 			return;	
@@ -536,6 +563,8 @@ void CDialog_ModifyList::OnModifylist()
 			if(num==1)//已下单，
 			{
 				CDialog_Login2 login2;
+				if(m_urgent)
+					login2.m_urgent = 1;
 				login2.m_permission = MODIFY_LIST_AFTER;
 				if (login2.DoModal()!=IDOK)
 				{
@@ -546,11 +575,198 @@ void CDialog_ModifyList::OnModifylist()
 					mysql_close(&myCont);//断开连接
 					return;
 				}
-				
+
+				//添加变更记录到数据库
+				CString strChangeRecord;
+				CString tmp;
+				if(m_listname.Compare(m_listname1)!=0)
+				{
+					tmp.Format("订单名称：%s -> %s； ",m_listname1,m_listname);
+					strChangeRecord += tmp;
+				}
+				if(m_people.Compare(m_people1)!=0)
+				{
+					tmp.Format("经办人：%s -> %s； ",m_people1,m_people);
+					strChangeRecord += tmp;
+				}
+				if(m_receivename.Compare(m_receivename1)!=0)
+				{
+					tmp.Format("收件人：%s -> %s； ",m_receivename1,m_receivename);
+					strChangeRecord += tmp;
+				}
+				if(m_phone.Compare(m_phone1)!=0)
+				{
+					tmp.Format("联系电话：%s -> %s； ",m_phone1,m_phone);
+					strChangeRecord += tmp;
+				}
+				if(m_address.Compare(m_address1)!=0)
+				{
+					tmp.Format("详细地址：%s -> %s； ",m_address1,m_address);
+					strChangeRecord += tmp;
+				}
+				if(m_department.Compare(m_department1)!=0)
+				{
+					tmp.Format("部门：%s -> %s； ",m_department1,m_department);
+					strChangeRecord += tmp;
+				}
+				if(m_str_reveive_time.Compare(m_str_reveive_time1)!=0)
+				{
+					tmp.Format("派单日期：%s -> %s； ",m_str_reveive_time1,m_str_reveive_time);
+					strChangeRecord += tmp;
+				}
+				if(m_str_end_date.Compare(m_str_end_date1)!=0)
+				{
+					tmp.Format("交货日期：%s -> %s； ",m_str_end_date1,m_str_end_date);
+					strChangeRecord += tmp;
+				}
+				if(m_modeling!=m_modeling1)
+				{
+					tmp.Format("建模：%d -> %d； ",m_modeling1,m_modeling);
+					strChangeRecord += tmp;
+				}
+				if(m_design_server!=m_design_server1)
+				{
+					tmp.Format("设计服务：%d -> %d； ",m_design_server1,m_design_server);
+					strChangeRecord += tmp;
+				}
+				if(m_scan!=m_scan1)
+				{
+					tmp.Format("扫描业务：%d -> %d； ",m_scan1,m_scan);
+					strChangeRecord += tmp;
+				}
+				if(m_modeling_pring!=m_modeling_pring1)
+				{
+					tmp.Format("模型打印：%d -> %d； ",m_modeling_pring1,m_modeling_pring);
+					strChangeRecord += tmp;
+				}
+				if(m_has_modeling!=m_has_modeling1)
+				{
+					tmp.Format("有模型：%d -> %d； ",m_has_modeling1,m_has_modeling);
+					strChangeRecord += tmp;
+				}
+				if(m_no_modeling!=m_no_modeling1)
+				{
+					tmp.Format("无模型：%d -> %d； ",m_no_modeling1,m_no_modeling);
+					strChangeRecord += tmp;
+				}
+				if(m_urgent!=m_urgent1)
+				{
+					tmp.Format("加急：%d -> %d； ",m_urgent1,m_urgent);
+					strChangeRecord += tmp;
+				}
+
+				if(m_size.Compare(m_size1)!=0)
+				{
+					tmp.Format("尺寸：%s -> %s； ",m_size1,m_size);
+					strChangeRecord += tmp;
+				}
+				if(m_totel_number!=m_totel_number1)
+				{
+					tmp.Format("生产数量：%d -> %d； ",m_totel_number1,m_totel_number);
+					strChangeRecord += tmp;
+				}
+
+				if(m_material.Compare(m_material1)!=0)
+				{
+					tmp.Format("制作材料：%s -> %s； ",m_material1,m_material);
+					strChangeRecord += tmp;
+				}
+				if(m_color.Compare(m_color1)!=0)
+				{
+					tmp.Format("颜色：%s -> %s； ",m_color1,m_color);
+					strChangeRecord += tmp;
+				}
+				if(m_print.Compare(m_print1)!=0)
+				{
+					tmp.Format("喷漆：%s -> %s； ",m_print1,m_print);
+					strChangeRecord += tmp;
+				}
+				if(m_shine.Compare(m_shine1)!=0)
+				{
+					tmp.Format("打磨：%s -> %s； ",m_shine1,m_shine);
+					strChangeRecord += tmp;
+				}
+				if(m_bottom.Compare(m_bottom1)!=0)
+				{
+					tmp.Format("底座搭配：%s -> %s； ",m_bottom1,m_bottom);
+					strChangeRecord += tmp;
+				}
+				if(m_bill.Compare(m_bill1)!=0)
+				{
+					tmp.Format("发票随寄：%s -> %s； ",m_bill1,m_bill);
+					strChangeRecord += tmp;
+				}
+				if(m_usage.Compare(m_usage1)!=0)
+				{
+					tmp.Format("用途：%s -> %s； ",m_usage1,m_usage);
+					strChangeRecord += tmp;
+				}
+				if(m_error_range.Compare(m_error_range1)!=0)
+				{
+					tmp.Format("误差范围：%s -> %s； ",m_error_range1,m_error_range);
+					strChangeRecord += tmp;
+				}
+				if(m_money.Compare(m_money1)!=0)
+				{
+					tmp.Format("签单金额：%s -> %s； ",m_money1,m_money);
+					strChangeRecord += tmp;
+				}
+				if(m_volume.Compare(m_volume1)!=0)
+				{
+					tmp.Format("体积：%s -> %s； ",m_volume1,m_volume);
+					strChangeRecord += tmp;
+				}
+				if(m_other.Compare(m_other1)!=0)
+				{
+					tmp.Format("其他要求：%s -> %s； ",m_other1,m_other);
+					strChangeRecord += tmp;
+				}
+
+				CString starttime;
+				CString strsql ;
+				strsql.Format("select now()");
+				if(mysql_query(&myCont,strsql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+				result=mysql_store_result(&myCont);//保存查询到的数据到result
+				if(result)
+				{
+					sql_row=mysql_fetch_row(result);
+					starttime = sql_row[0];
+				}
+				else
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+
+				sql.Format("insert into changerecord values (%d,\"%s\",\"%s\",\"%s\")", 0,m_listid,starttime,strChangeRecord);
+				if(mysql_query(&myCont,sql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+				writelog("插入变更记录成功");
 			}
 			else//未下单
 			{
 				CDialog_Login2 login2;
+				if(m_urgent)
+					login2.m_urgent = 1;
 				login2.m_permission = MODIFY_LIST_BEFORE;
 				if (login2.DoModal()!=IDOK)
 				{
@@ -583,12 +799,15 @@ void CDialog_ModifyList::OnModifylist()
 					}
 					if(strcmp(sql_row[0],login2.m_user))
 					{
-						MessageBox("只有提交订单本人才能修改此订单","提示",MB_OK);
-						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
-						if(result!=NULL) mysql_free_result(result);//释放结果资源
-						mysql_close(&myCont);//断开连接
-						return;
+						if (m_urgent==0)
+						{
+							MessageBox("只有提交订单本人才能修改此订单","提示",MB_OK);
+							(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+							if(result!=NULL) mysql_free_result(result);//释放结果资源
+							mysql_close(&myCont);//断开连接
+							return;
+						}
 					}
 				}
 				else
@@ -600,7 +819,6 @@ void CDialog_ModifyList::OnModifylist()
 					mysql_close(&myCont);//断开连接
 					return;
 				}
-
 			}
 		}
 		else
@@ -613,12 +831,10 @@ void CDialog_ModifyList::OnModifylist()
 			return;
 		}
 
-
-
-		sql.Format("update baseinfo set listname=\"%s\",truelistnumber=%d,material=\"%s\",volume=\"%s\",reveivedate=\"%s\",enddate=\"%s\",people=\"%s\",receivepeople=\"%s\",phone=\"%s\",address=\"%s\",department=\"%s\", modeling=%d, designserver=%d, scan=%d, modlingprint=%d, hasmodeling=%d, nomodeling=%d,  size=\"%s\",totelnumber=%d,color=\"%s\",paint=\"%s\",shine=\"%s\",bottom=\"%s\",bill=\"%s\",usage1=\"%s\",errorrange=\"%s\",money=\"%s\",other=\"%s\" where listid=\"%s\" ", \
+		sql.Format("update baseinfo set listname=\"%s\",truelistnumber=%d,material=\"%s\",volume=\"%s\",reveivedate=\"%s\",enddate=\"%s\",people=\"%s\",receivepeople=\"%s\",phone=\"%s\",address=\"%s\",department=\"%s\", modeling=%d, designserver=%d, scan=%d, modlingprint=%d, hasmodeling=%d, nomodeling=%d,  size=\"%s\",totelnumber=%d,color=\"%s\",paint=\"%s\",shine=\"%s\",bottom=\"%s\",bill=\"%s\",usage1=\"%s\",errorrange=\"%s\",money=\"%s\",other=\"%s\" ,urgent=%d where listid=\"%s\" ", \
 		m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date, m_people,m_receivename ,m_phone, m_address,m_department , \
 		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
-		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,m_listid);
+		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,m_urgent,m_listid);
 
 		int ret = mysql_query(&myCont,sql);
 		const char *error = mysql_error(&myCont);
@@ -798,6 +1014,15 @@ void CDialog_ModifyList::OnStartList()
 			sql_row=mysql_fetch_row(result);
 			starttime = sql_row[0];
 		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
 
 		sql.Format("insert into scheduledetail(listid,businessendtime,businessnumber,businesspeople,tcstarttime) \
 		values (\"%s\",\"%s\",%d,\"%s\",\"%s\")",m_listid,starttime,totelnumber,login2.m_user,starttime);
@@ -884,6 +1109,15 @@ void CDialog_ModifyList::OnEndList()
 		{
 			sql_row=mysql_fetch_row(result);
 			starttime = sql_row[0];
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
 		}
 		
 		

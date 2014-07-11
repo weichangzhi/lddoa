@@ -569,6 +569,15 @@ void CDialog_Unpost::OnOK()
 			sql_row=mysql_fetch_row(result);
 			currenttime = sql_row[0];
 		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
 
 		
 		int indexSel = m_department.GetCurSel();

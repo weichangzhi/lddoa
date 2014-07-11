@@ -23,6 +23,7 @@ CDialog_Login2::CDialog_Login2(CWnd* pParent /*=NULL*/)
 	m_user = _T("");
 	m_department = _T("");
 	m_permission = 0;
+	m_urgent = 0;
 	//}}AFX_DATA_INIT
 }
 
@@ -172,6 +173,18 @@ void CDialog_Login2::OnOK()
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				return;
+			}
+			if (m_urgent==1)
+			{
+				if((permission & URGENT)==0)
+				{
+					MessageBox("此用户无加急权限.","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_USER)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
+					if(result!=NULL) mysql_free_result(result);//释放结果资源
+					mysql_close(&myCont);//断开连接
+					return;
+				}
 			}
 		}
 		else

@@ -15,7 +15,7 @@ class CDialog_Login2 : public CDialog
 // Construction
 public:
 	CDialog_Login2(CWnd* pParent = NULL);   // standard constructor
-
+	int m_urgent;
 // Dialog Data
 	//{{AFX_DATA(CDialog_Login2)
 	enum { IDD = IDD_DIALOG_LOGIN2 };
