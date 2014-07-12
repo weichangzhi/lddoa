@@ -121,6 +121,19 @@ BOOL CDialog_Making::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
+int CalcTimeSpan(CString strtime1,CString strtime2)
+{
+	if(strtime1.IsEmpty() || strtime2.IsEmpty())
+		return -1;
+	CString strspan;
+	CTime time1(atoi(strtime1.Mid(0,4)),atoi(strtime1.Mid(5,2)),atoi(strtime1.Mid(8,2)),0,0,0,0);
+	CTime time2(atoi(strtime2.Mid(0,4)),atoi(strtime2.Mid(5,2)),atoi(strtime2.Mid(8,2)),0,0,0,0);
+	
+	CTimeSpan timeSpan = time2 - time1;
+	int day = timeSpan.GetDays();
+	return day;
+}
+
 void CDialog_Making::OnMakingQuery() 
 {
 	m_list_schedule.DeleteAllItems();
@@ -147,6 +160,37 @@ void CDialog_Making::OnMakingQuery()
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
+
+		CString curtime;
+		CString strsql ;
+		strsql.Format("select now()");
+		if(mysql_query(&myCont,strsql)!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+		result=mysql_store_result(&myCont);//保存查询到的数据到result
+		if(result)
+		{
+			sql_row=mysql_fetch_row(result);
+			CString tmp = sql_row[0];
+			curtime = tmp.Mid(0,10);
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+
+
         res=mysql_query(&myCont,csSql);//查询
         if(!res)
         {
@@ -176,13 +220,28 @@ void CDialog_Making::OnMakingQuery()
 						else
 							m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
+					int tcnumber = atoi(sql_row[9]);
+					int pdnumber = atoi(sql_row[10]);
 					if(index%2==0)
 						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					if (sql_row[14]!=NULL)
 					{
-						if (atoi(sql_row[14])==1)//加急
+						int spanday = CalcTimeSpan(curtime,sql_row[8]);
+						if (atoi(sql_row[14])==1)//加急 紫色
 						{
-							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(128,0,128));
+							m_list_schedule.SetItemColor(index,RGB(230,230,230),RGB(128,0,128));
+						}
+						else if (spanday<0)//sql_row[8]交货日期 超时 红色
+						{
+							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,0,0));
+						}
+						else if(spanday<2 && spanday>=0 &&  pdnumber>0)
+						{
+							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,255,128));
+						}
+						else if(spanday<3 &&  spanday>=0 && tcnumber>0)
+						{
+							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,255,128));
 						}
 					}
 					index++;

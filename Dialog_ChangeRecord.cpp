@@ -60,7 +60,8 @@ BOOL Dialog_ChangeRecord::OnInitDialog()
 	m_listChangeRecord.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
 	m_listChangeRecord.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,120);
 	m_listChangeRecord.InsertColumn(2, _T("变更时间"), LVCFMT_LEFT,180);
-	m_listChangeRecord.InsertColumn(3, _T("变更内容"), LVCFMT_LEFT,800);
+	m_listChangeRecord.InsertColumn(3, _T("修改人"), LVCFMT_LEFT,100);
+	m_listChangeRecord.InsertColumn(4, _T("变更内容"), LVCFMT_LEFT,800);
 
 	UpdateData(FALSE);
 	
@@ -110,7 +111,8 @@ void Dialog_ChangeRecord::OnButtonSelect()
 					m_listChangeRecord.InsertItem(index,strindex);
 					m_listChangeRecord.SetItemText(index,1,sql_row[1]);
 					m_listChangeRecord.SetItemText(index,2,sql_row[2]);
-					m_listChangeRecord.SetItemText(index,3,sql_row[3]);				
+					m_listChangeRecord.SetItemText(index,3,sql_row[3]);
+					m_listChangeRecord.SetItemText(index,4,sql_row[4]);
 					if(index%2==0)
 						m_listChangeRecord.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;

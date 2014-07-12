@@ -170,19 +170,21 @@ IDD_DIALOG_BASEINFO DIALOG DISCARDABLE  0, 0, 400, 312
 STYLE WS_CHILD
 FONT 12, "宋体"
 BEGIN
-    DEFPUSHBUTTON   "查询",IDC_BUTTON_SELL_SELECT,298,7,38,14
-    COMBOBOX        IDC_COMBO_BASEINFO,49,9,63,60,CBS_DROPDOWNLIST | 
+    COMBOBOX        IDC_COMBO_BASEINFO,44,8,54,101,CBS_DROPDOWNLIST | 
                     CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_COMBO_SUBWAY,99,8,76,111,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | WS_TABSTOP,189,5,55,15
+    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER2,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | WS_TABSTOP,257,5,55,15
+    DEFPUSHBUTTON   "查询",IDC_BUTTON_SELL_SELECT,317,6,38,14
+    PUSHBUTTON      "导出",IDC_BUTTON_EXCEL,360,6,38,14
     CONTROL         "List1",IDC_LIST_BASEINFO,"SysListView32",LVS_REPORT | 
                     WS_BORDER | WS_TABSTOP,0,27,400,283
-    LTEXT           "查询方式：",IDC_STATIC,5,12,41,8
-    PUSHBUTTON      "导出",IDC_BUTTON_EXCEL,355,7,38,14
-    CONTROL         "DateTimePicker1",IDC_DATETIMEPICKER1,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | WS_TABSTOP,141,6,63,15
-    CONTROL         "DateTimePicker2",IDC_DATETIMEPICKER2,"SysDateTimePick32",
-                    DTS_RIGHTALIGN | WS_TABSTOP,221,6,63,15
-    LTEXT           "从",IDC_STATIC,127,10,9,8
-    LTEXT           "到",IDC_STATIC,207,9,9,8
+    LTEXT           "查询方式：",IDC_STATIC,3,11,41,8
+    LTEXT           "从",IDC_STATIC,178,9,9,8
+    LTEXT           "到",IDC_STATIC,247,8,9,8
 END
 
 IDD_DIALOG_INPUT_BASEINFO DIALOG DISCARDABLE  0, 0, 443, 274
@@ -900,8 +902,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,1,0,1
+ PRODUCTVERSION 1,1,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -914,17 +916,20 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "080404B0"
+        BLOCK "080404b0"
         BEGIN
+            VALUE "Comments", "\0"
             VALUE "CompanyName", "\0"
             VALUE "FileDescription", "GoodsManageSystem Microsoft 基础类应用程序\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "FileVersion", "1, 1, 0, 1\0"
             VALUE "InternalName", "GoodsManageSystem\0"
             VALUE "LegalCopyright", "版权所有 (C) 2010\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "GoodsManageSystem.EXE\0"
+            VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "GoodsManageSystem 应用程序\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "ProductVersion", "1, 1, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
         END
     END
     BLOCK "VarFileInfo"

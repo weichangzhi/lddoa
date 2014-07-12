@@ -303,6 +303,7 @@ void CDialog_ModifyList::OnQueryList()
 					m_urgent1 = m_urgent;
 					GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->SetWindowText(sql_row[20]);
 					GetDlgItem(IDC_EDIT1_TRUE_NUMBER)->SetWindowText(sql_row[20]);
+					GetDlgItem(IDC_RICHEDIT_OTHER)->SetWindowText(m_other);
 					CTime timeTmp(atoi(m_str_reveive_time.Mid(0,4)),atoi(m_str_reveive_time.Mid(5,2)),atoi(m_str_reveive_time.Mid(8,2)),0,0,0,0);
 					m_receivedate = timeTmp;
 					CTime timeTmp1(atoi(m_str_end_date.Mid(0,4)),atoi(m_str_end_date.Mid(5,2)),atoi(m_str_end_date.Mid(8,2)),0,0,0,0);
@@ -750,7 +751,7 @@ void CDialog_ModifyList::OnModifylist()
 					return;
 				}
 
-				sql.Format("insert into changerecord values (%d,\"%s\",\"%s\",\"%s\")", 0,m_listid,starttime,strChangeRecord);
+				sql.Format("insert into changerecord values (%d,\"%s\",\"%s\",\"%s\",\"%s\")", 0,m_listid,starttime,login2.m_user,strChangeRecord);
 				if(mysql_query(&myCont,sql)!= 0)
 				{
 					const char *error = mysql_error(&myCont);

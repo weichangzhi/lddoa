@@ -20,10 +20,12 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_BaseInfo)
 	enum { IDD = IDD_DIALOG_BASEINFO };
+	CComboBox	m_comSubWay;
 	CLineColorListCtrl	m_list_baseinfo;
 	CComboBox	m_com_baseinfo;
 	CTime	m_time_bgein;
 	CTime	m_time_end;
+	CString	m_strSubWay;
 	//}}AFX_DATA
 
 

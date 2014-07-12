@@ -113,6 +113,7 @@ typedef struct _PermissionLimit
 
 #define PERMISSION_NUMBER 15
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
+#define CONFIGINI "config.ini"
 
 
 

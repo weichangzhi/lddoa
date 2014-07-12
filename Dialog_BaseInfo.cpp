@@ -25,6 +25,7 @@ CDialog_BaseInfo::CDialog_BaseInfo(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CDialog_BaseInfo)
 	m_time_bgein = 0;
 	m_time_end = 0;
+	m_strSubWay = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -33,10 +34,12 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_BaseInfo)
+	DDX_Control(pDX, IDC_COMBO_SUBWAY, m_comSubWay);
 	DDX_Control(pDX, IDC_LIST_BASEINFO, m_list_baseinfo);
 	DDX_Control(pDX, IDC_COMBO_BASEINFO, m_com_baseinfo);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER1, m_time_bgein);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER2, m_time_end);
+	DDX_CBString(pDX, IDC_COMBO_SUBWAY, m_strSubWay);
 	//}}AFX_DATA_MAP
 }
 
@@ -66,7 +69,46 @@ void CDialog_BaseInfo::OnButtonSellSelect()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_time_end.GetYear(),m_time_end.GetMonth(),m_time_end.GetDay()+1);
 
-	csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+	int cursel = m_com_baseinfo.GetCurSel();
+	switch (cursel)
+	{
+	case 0://订单号
+		if(m_strSubWay.IsEmpty())
+			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		else
+			csSql.Format("select * from baseinfo where  listid=\"%s\" and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,starttime,endtime); 
+		break;
+	case 1://尺寸
+		if(m_strSubWay.IsEmpty())
+			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		else
+			csSql = "select * from baseinfo where  size LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+		break;
+	case 2://收件人
+		if(m_strSubWay.IsEmpty())
+			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		else
+			csSql = "select * from baseinfo where  receivepeople LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+		break;
+	case 3://经办人
+		if(m_strSubWay.IsEmpty())
+			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		else
+			csSql = "select * from baseinfo where  people LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+		break;
+	case 4://部门
+		if(m_strSubWay.IsEmpty())
+			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		else
+			csSql = "select * from baseinfo where  department = '" + m_strSubWay + "'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+		break;
+	case 5://所有
+		csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+		break;
+	default:
+		break;
+	}
+	//csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
     MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -159,9 +201,16 @@ BOOL CDialog_BaseInfo::OnInitDialog()
 	m_time_bgein = time1;
 	m_time_end = time1;	
 	
-	m_com_baseinfo.InsertString(0,"时间");
-	m_com_baseinfo.InsertString(1,"单号");
-	m_com_baseinfo.SetCurSel(0);
+	m_com_baseinfo.InsertString(0,"订单号");
+	m_com_baseinfo.InsertString(1,"尺寸");
+	m_com_baseinfo.InsertString(2,"收件人");
+	m_com_baseinfo.InsertString(3,"经办人");
+	m_com_baseinfo.InsertString(4,"部门");
+	m_com_baseinfo.InsertString(5,"所有");
+	m_com_baseinfo.SetCurSel(5);
+
+	m_comSubWay.InsertString(0,"所有");
+	m_comSubWay.SetCurSel(0);
 	
 	m_list_baseinfo.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES | WS_HSCROLL | WS_VSCROLL);
 	m_list_baseinfo.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
@@ -224,15 +273,77 @@ BOOL CDialog_BaseInfo::PreTranslateMessage(MSG* pMsg)
 
 void CDialog_BaseInfo::OnSelchangeComboBaseinfo() 
 {
-	int indexSel = m_com_baseinfo.GetCurSel();	
-	if(indexSel==1)
+	CString strdepartment;
+	CDialog_Query_list *dlg_baseinfo;
+	strdepartment = g_department;
+	int indexSel = m_com_baseinfo.GetCurSel();
+	switch (indexSel)
 	{
-
-		CDialog_Query_list *dlg_baseinfo=new CDialog_Query_list(); 
+	case 0://订单号
+		m_comSubWay.ResetContent();
+		dlg_baseinfo=new CDialog_Query_list(); 
 		dlg_baseinfo->Create(IDD_DIALOG_LIST_QUERY);
 		dlg_baseinfo->ShowWindow(SW_SHOW);
-	}
+		break;
+	case 1://尺寸
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"6cm半身单人");
+		m_comSubWay.InsertString(1,"12cm半身单人");
+		m_comSubWay.InsertString(2,"10cm全身单人");
+		m_comSubWay.InsertString(3,"13.14cm全身单人");
+		m_comSubWay.InsertString(4,"15cm全身单人");
+		m_comSubWay.InsertString(5,"19.9cm全身单人");
+		m_comSubWay.InsertString(6,"19.9cm婚纱全身单人");
+		m_comSubWay.InsertString(7,"28cm全身单人");
+		m_comSubWay.InsertString(8,"6cm车载半身单人");
+		m_comSubWay.InsertString(9,"6cm车载半身双人");
+		m_comSubWay.InsertString(10,"10cm车载全身单人");
+		m_comSubWay.InsertString(11,"10cm车载全身双人");
+		m_comSubWay.InsertString(12,"10cm动漫路飞");
+		m_comSubWay.InsertString(13,"10cm动漫美国队长");
+		m_comSubWay.InsertString(14,"10cm动漫蝙蝠侠");
+		m_comSubWay.InsertString(15,"10cm动漫德玛西亚");
+		m_comSubWay.SetCurSel(0);
+		break;
+	case 2://收件人
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,g_user);
+		m_comSubWay.SetCurSel(0);
+		break;
+	case 3://经办人
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,g_user);
+		m_comSubWay.SetCurSel(0);
+		break;
+	case 4://部门
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"意造销售");
+		m_comSubWay.InsertString(1,"电商");
+		m_comSubWay.InsertString(2,"运营");
+		m_comSubWay.InsertString(3,"加盟");
+		m_comSubWay.InsertString(4,"研发");
 
+		if(strdepartment.Compare("意造销售")==0)
+			m_comSubWay.SetCurSel(0);
+		else if(strdepartment.Compare("电商")==0)
+			m_comSubWay.SetCurSel(1);
+		else if(strdepartment.Compare("运营")==0)
+			m_comSubWay.SetCurSel(2);
+		else if(strdepartment.Compare("加盟")==0)
+			m_comSubWay.SetCurSel(3);
+		else if(strdepartment.Compare("研发")==0)
+			m_comSubWay.SetCurSel(4);
+		else
+			m_comSubWay.SetCurSel(0);
+		break;
+	case 5://所有
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"所有");
+		m_comSubWay.SetCurSel(0);
+		break;
+	default:
+		break;
+	}
 }
 
 void CDialog_BaseInfo::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
