@@ -85,38 +85,12 @@ BOOL CDialog_Login::OnInitDialog()
 	char buf[_MAX_PATH] = {0};
 	GetPrivateProfileString("ServiceIP", "LastIP", "192.168.11.50", buf, _MAX_PATH, strpathini);
 	m_strip = buf;
-	/*FILE * fp = fopen("config.ini","r");
-	if(fp==NULL)
-	{
-		MessageBox("配置文件丢失，请手动输入服务器IP","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_IPADDRESS1)->SetFocus();
-	}
-	else
-	{
-		char temp[255] = {0} ;
-		fgets(temp,255,fp);
-		fclose(fp);
-		char *ip = strstr(temp,"=");
-		m_strip.Format("%s",ip+1);
-	}
-	*/
 
 	m_ipaddress.SetWindowText(m_strip);
 	strcpy(g_MysqlConnect.host , m_strip);
 	CString titile = "欢迎登陆LDD办公系统------version " + getVersion();
 	SetWindowText(titile);
-	
-/*	FILE * fp1 = fopen("userinfo.ini","r");
-	if(fp1==NULL)
-	{
-		return TRUE;
-	}
-	char temp1[255] = {0} ;
-	fgets(temp1,255,fp1);
-	fclose(fp1);
-	char *username = strstr(temp1,"=");
-	m_user.Format("%s",username+1);
-	*/
+
 	GetPrivateProfileString("UserName", "LastName", "admin", buf, _MAX_PATH, strpathini); 
 	m_user = buf;
 	UpdateData(FALSE);
@@ -135,7 +109,7 @@ void CDialog_Login::OnOK()
 
 	if(!m_user.Compare("weichangzhi"))
 	{
-		g_permission = 32767;
+		g_permission = 65535;
 		CDialog::OnOK();
 		return;
 	}
@@ -156,19 +130,7 @@ void CDialog_Login::OnOK()
 		(CEdit*)GetDlgItem(IDC_EDIT_PASSWD)->SetFocus();
 		return;
 	}
-/*
-	m_ipaddress.GetWindowText(m_strip); 
-	FILE * fp = fopen("config.ini","wb+");
-	if(fp==NULL)
-	{
-		MessageBox("配置文件丢失，请手动输入服务器IP","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_IPADDRESS1)->SetFocus();
-		//return;
-	}
-	fwrite("serverip=",9,1,fp);
-	fwrite(m_strip,m_strip.GetLength(),1,fp);
-	fclose(fp);
-*/
+
 	m_ipaddress.GetWindowText(m_strip); 
 	::WritePrivateProfileString("ServiceIP","LastIP",m_strip,strpathini);
 	writelog("获取服务器iP成功");
@@ -356,16 +318,7 @@ void CDialog_Login::OnOK()
 		mysql_close(&myCont);//断开连接
 		return;
 	}
-	
-/*	FILE * fp1 = fopen("userinfo.ini","wb+");
-	if(fp1==NULL)
-	{
-		return;
-	}
-	fwrite("LastUserName=",13,1,fp1);
-	fwrite(m_user,m_user.GetLength(),1,fp1);
-	fclose(fp1);
-	*/
+
 	::WritePrivateProfileString("UserName","LastName",m_user,strpathini);
 
 	if(result!=NULL) mysql_free_result(result);//释放结果资源

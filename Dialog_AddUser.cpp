@@ -22,7 +22,6 @@ CDialog_AddUser::CDialog_AddUser(CWnd* pParent /*=NULL*/)
 	m_passwd = _T("");
 	m_passwd2 = _T("");
 	m_username = _T("");
-	strdepartment = _T("");
 	m_del_list = FALSE;
 	m_end_list = FALSE;
 	m_modify_list_after = FALSE;
@@ -37,8 +36,10 @@ CDialog_AddUser::CDialog_AddUser(CWnd* pParent /*=NULL*/)
 	m_start_list = FALSE;
 	m_Bpermission = FALSE;
 	m_qc = FALSE;
-	m_permission = 0;
 	m_urgent = FALSE;
+	strdepartment = _T("");
+	m_permission = 0;
+	m_fi = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -66,6 +67,7 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_PERMISSION, m_Bpermission);
 	DDX_Check(pDX, IDC_CHECK_QC, m_qc);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
+	DDX_Check(pDX, IDC_CHECK_FI, m_fi);
 	//}}AFX_DATA_MAP
 }
 
@@ -91,6 +93,7 @@ BOOL CDialog_AddUser::OnInitDialog()
 	m_comDepartment.InsertString(6,"技术部记梦馆");
 	m_comDepartment.InsertString(7,"生产部");
 	m_comDepartment.InsertString(8,"成品仓");
+	m_comDepartment.InsertString(9,"财务");
 	m_comDepartment.SetCurSel(0);
 	m_save_list = TRUE;
 	m_start_list = TRUE;
@@ -143,6 +146,7 @@ void CDialog_AddUser::OnOK()
 		if(m_Bpermission) m_permission+=PERMISSION;
 		if(m_qc) m_permission+=QC;
 		if(m_urgent) m_permission+=URGENT;
+		if(m_fi) m_permission+=FI;
 
 
 		m_comDepartment.GetWindowText(strdepartment);
@@ -252,6 +256,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 1://电商
 		m_del_list = FALSE;
@@ -269,6 +274,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 2://运营
 		m_del_list = FALSE;
@@ -286,6 +292,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 3://加盟
 		m_del_list = FALSE;
@@ -303,6 +310,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 4://研发
 		m_del_list = FALSE;
@@ -320,6 +328,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 5://技术部意造
 		m_del_list = FALSE;
@@ -337,6 +346,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 6://技术部记梦馆
 		m_del_list = FALSE;
@@ -354,6 +364,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 7://生产部
 		m_del_list = FALSE;
@@ -371,6 +382,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = TRUE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 8://成品仓
 		m_del_list = FALSE;
@@ -388,6 +400,25 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
+		break;
+	case 9://财务
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		m_fi = TRUE;
 		break;
 	default:
 		break;

@@ -5,6 +5,8 @@
 #include "GoodsManageSystem.h"
 #include "GoodsManageSystemDlg.h"
 #include "Winuser.h"
+#include "Dialog_TipsSetting.h"
+#include "Dialog_Tips.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -72,6 +74,9 @@ CGoodsManageSystemDlg::CGoodsManageSystemDlg(CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	bFirstin = 1;
 	icurrentpage = 8;
+	timertime = DEFAULT_TIME;
+	m_hour = 14;
+	m_min = 0;
 	writelog("CGoodsManageSystemDl构造函数结束");
 }
 
@@ -98,6 +103,8 @@ BEGIN_MESSAGE_MAP(CGoodsManageSystemDlg, CDialog)
 	ON_COMMAND(IDM_BUY_ADD, OnBuyAdd)
 	ON_COMMAND(IDM_BUY_QUERY, OnBuyQuery)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE1, OnSelchangedTree)
+	ON_COMMAND(ID_MENUITEM_TIPS, OnMenuitemTips)
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -105,6 +112,8 @@ END_MESSAGE_MAP()
 // CGoodsManageSystemDlg message handlers
 
 #define MAX_ICO 25
+#define TIMERID_TIP      1100
+#define TIMER_WAIT_TIP   1000*60 //1 min
 BOOL CGoodsManageSystemDlg::OnInitDialog()
 {
 	writelog("OnInitDialog");
@@ -198,6 +207,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_son3=m_tree.InsertItem("订单进度",23,23,root0,TVI_LAST);
 	HTREEITEM sub_son4=m_tree.InsertItem("进度明细",21,21,root0,TVI_LAST);
 	HTREEITEM sub_son5=m_tree.InsertItem("产能统计",20,20,root0,TVI_LAST);
+	HTREEITEM sub_son7=m_tree.InsertItem("财务统计",24,24,root0,TVI_LAST);
 	//二层孙子节点
 	HTREEITEM sub_m_son00=m_tree.InsertItem("增加用户",5,5,sub_son0,TVI_LAST);
 	HTREEITEM sub_m_son01=m_tree.InsertItem("修改权限",4,4,sub_son0,TVI_LAST);
@@ -224,6 +234,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[8]=new CDialog_Making;
 	m_treePages[9]=new CDialog_Unpost;
 	m_treePages[10]=new Dialog_ChangeRecord;
+	m_treePages[11]=new Dialog_FI;
 
 	//建立节点对应的Dialog
 	m_treePages[0]->Create(IDD_DIALOG_CLIENT,this);
@@ -231,12 +242,13 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[2]->Create(IDD_DIALOG_POST,this);
 	m_treePages[3]->Create(IDD_DIALOG_SCHEDULE,this);
 	m_treePages[4]->Create(IDD_DIALOG_DETAIL,this);
-	m_treePages[5]->Create(IDD_DIALOG_OUTPUT,this);
+	m_treePages[5]->Create(IDD_DIALOG_OUTPUT1,this);
 	m_treePages[6]->Create(IDD_DIALOG_NEW_LIST,this);
 	m_treePages[7]->Create(IDD_DIALOG_MODIFY_LIST1,this);
 	m_treePages[8]->Create(IDD_DIALOG_MAKEING,this);
 	m_treePages[9]->Create(IDD_DIALOG_UNPOST,this);
 	m_treePages[10]->Create(IDD_DIALOG_CHAGNE_RECORD,this);
+	m_treePages[11]->Create(IDD_DIALOG_FI,this);
 
 	//把Dialog移到合适位置
 
@@ -245,8 +257,10 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	CRect m_rect;
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
+	CRect rectlistfi(m_rect);
 	m_rect.DeflateRect(200,0,20,20);
 	rectlist.DeflateRect(0,50,220,20);
+	rectlistfi.DeflateRect(0,165,220,20);
 
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
@@ -277,11 +291,48 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[10]->MoveWindow(m_rect);
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
 	m_treePages[10]->ShowWindow(SW_HIDE);
+	m_treePages[11]->MoveWindow(m_rect);
+	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
+	m_treePages[11]->ShowWindow(SW_HIDE);
+
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
 	m_tree.Expand(sub_son0,TVE_EXPAND);
 	m_tree.Expand(sub_son1,TVE_EXPAND);
 	m_tree.Expand(sub_son2,TVE_EXPAND);
+
+	//logintips
+	CString strpathini="";
+	::GetCurrentDirectory(_MAX_PATH,strpathini.GetBuffer(_MAX_PATH));
+	strpathini.ReleaseBuffer();
+	strpathini = strpathini + "\\" + CONFIGINI;
+	char buf[_MAX_PATH] = {0};
+	int logintips = GetPrivateProfileInt("Tips", "LoginTips", 1, strpathini);
+	int timertips = GetPrivateProfileInt("Tips", "TimerTips", 1, strpathini);
+	if (timertips)
+	{
+		GetPrivateProfileString("Tips", "Timer", DEFAULT_TIME, buf, _MAX_PATH, strpathini);
+		timertime = buf;
+		m_hour = atoi(timertime.Mid(0,2));
+		m_min = atoi(timertime.Mid(3,2));
+	}
+	
+	if (logintips)
+	{
+		if ((g_department.Compare("技术部意造")==0) || (g_department.Compare("技术部记梦馆")==0) ||  (g_department.Compare("生产部")==0))
+		{
+			Dialog_Tips *dlg;
+			dlg=new Dialog_Tips(); 
+			dlg->m_blogintips = 1;
+			dlg->Create(IDD_DIALOG_TIPS);
+			dlg->CenterWindow();
+			dlg->ShowWindow(SW_SHOW);
+		}
+	}
+	if (timertips)
+	{
+		SetTimer(TIMERID_TIP, TIMER_WAIT_TIP, NULL);
+	}
 	writelog("dlg init ok");
 	return true;
 }
@@ -357,8 +408,10 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	CRect m_rect;
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
+	CRect rectlistfi(m_rect);
 	m_rect.DeflateRect(200,0,20,20);
 	rectlist.DeflateRect(0,50,220,20);
+	rectlistfi.DeflateRect(0,165,220,20);
 
 	int i = 0;
 	for(i=0;i<MAX_TREE_PAGE;i++)
@@ -384,6 +437,8 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[9]->MoveWindow(m_rect);
 	m_treePages[10]->MoveWindow(m_rect);
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
+	m_treePages[11]->MoveWindow(m_rect);
+	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
 
 }
 
@@ -532,6 +587,10 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		m_treePages[5]->ShowWindow(SW_SHOW);
 		icurrentpage = 5;
 	}
+	else if(node_name=="财务统计"){
+		m_treePages[11]->ShowWindow(SW_SHOW);
+		icurrentpage = 11;
+	}
 	UpdateData(false);
 
 	*pResult = 0;
@@ -551,4 +610,41 @@ BOOL CGoodsManageSystemDlg::PreTranslateMessage(MSG* pMsg)
 	}	
 	
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CGoodsManageSystemDlg::OnMenuitemTips() 
+{
+	Dialog_TipsSetting dlg;
+	dlg.DoModal();
+}
+
+void CGoodsManageSystemDlg::OnTimer(UINT nIDEvent) 
+{
+	CTime CurrentTime;
+	int hour = 0,min = 0;
+	switch(nIDEvent)
+	{	
+	case TIMERID_TIP:
+		KillTimer(TIMERID_TIP);
+		CurrentTime = CTime::GetCurrentTime();
+		hour = CurrentTime.GetHour();
+		min = CurrentTime.GetMinute();
+		if ((hour == m_hour) && (min == m_min))
+		{
+			if ((g_department.Compare("技术部意造")==0) || (g_department.Compare("技术部记梦馆")==0) ||  (g_department.Compare("生产部")==0))
+			{
+				Dialog_Tips *dlg;
+				dlg=new Dialog_Tips(); 
+				dlg->m_blogintips = 0;
+				dlg->Create(IDD_DIALOG_TIPS);
+				dlg->CenterWindow();
+				dlg->ShowWindow(SW_SHOW);
+			}
+		}
+		SetTimer(TIMERID_TIP,TIMER_WAIT_TIP,NULL);
+		break;
+	default:
+		break;
+	}
+	CDialog::OnTimer(nIDEvent);
 }

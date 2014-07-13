@@ -19,7 +19,7 @@ public:
 
 // Dialog Data
 	//{{AFX_DATA(CDialog_Output)
-	enum { IDD = IDD_DIALOG_OUTPUT };
+	enum { IDD = IDD_DIALOG_OUTPUT1 };
 	CEdit	m_EditName;
 	CComboBox	m_ComWay;
 	CLineColorListCtrl	m_list_output;

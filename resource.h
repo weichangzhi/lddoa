@@ -15,7 +15,9 @@
 #define IDD_DIALOG_INPUT_BUY            135
 #define IDR_MENU1                       137
 #define IDR_MENUMAIN                    138
+#define IDR_MENU_TIPS                   139
 #define IDI_ICON1                       140
+#define IDR_MENU_POST                   140
 #define IDI_ICON2                       141
 #define IDI_ICON3                       142
 #define IDD_DIGPREVIEW                  143
@@ -30,6 +32,7 @@
 #define IDD_DIALOG_LOGIN2               153
 #define IDD_DIALOG_DETAIL               154
 #define IDD_DIALOG_OUTPUT               155
+#define IDD_DIALOG_FI                   155
 #define IDD_DIALOG_MODIFY_PASSWD_ADMIN  156
 #define IDD_DIALOG_MODIFY_PERMISSION    157
 #define IDD_DIALOG_NEW_LIST             158
@@ -38,6 +41,7 @@
 #define IDD_DIALOG_MAKEING              161
 #define IDD_DIALOG_UNPOST               162
 #define IDD_DIALOG_CHAGNE_RECORD        163
+#define IDD_TIPS_SETTING                164
 #define IDI_ICON8                       185
 #define IDI_USER_ADD                    187
 #define IDI_USER_MODIFY                 188
@@ -65,6 +69,9 @@
 #define IDI_PROCESS                     212
 #define IDI_ICON4                       214
 #define IDB_BITMAP1                     217
+#define IDD_DIALOG_TIPS                 221
+#define IDD_DIALOG_MENU_POST            222
+#define IDD_DIALOG_OUTPUT1              223
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -243,6 +250,21 @@
 #define IDC_LIST_CHANGERECORD           1195
 #define IDC_BUTTON__SELECT              1196
 #define IDC_COMBO_SUBWAY                1197
+#define IDC_CHECK_LOGINTIPS             1198
+#define IDC_CHECK_TIMERTIPS             1199
+#define IDC_EDIT1                       1200
+#define IDC_EDIT2                       1201
+#define IDC_STATIC_TIPS                 1202
+#define IDC_LIST_TIPS                   1204
+#define IDC_CHECK_TIPS                  1205
+#define IDC_EDIT_POST_NUM               1207
+#define IDC_EDIT_LISTID_QUERY           1208
+#define IDC_CHECK_GATHERING             1209
+#define IDC_CHECK_BILLING               1210
+#define IDC_LIST_FI                     1211
+#define IDC_EDIT_LISTID_ADD             1212
+#define IDC_BUTTON_FIADD                1213
+#define IDC_CHECK_FI                    1214
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -251,14 +273,19 @@
 #define IDM_BUY_ADD                     32780
 #define IDM_BUY_QUERY                   32781
 #define IDM_HELP                        32782
+#define ID_MENUITEM_TIPS                32783
+#define ID_MENUITEM_POST_TC             32784
+#define ID_MENUITEM_POST_PD             32785
+#define ID_MENUITEM_POST_QC             32786
+#define ID_MENUITEM_POST_STORAGE        32787
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        221
-#define _APS_NEXT_COMMAND_VALUE         32783
-#define _APS_NEXT_CONTROL_VALUE         1198
+#define _APS_NEXT_RESOURCE_VALUE        223
+#define _APS_NEXT_COMMAND_VALUE         32789
+#define _APS_NEXT_CONTROL_VALUE         1216
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -67,6 +67,19 @@ BOOL IsInt(CString &str)
 	return TRUE;
 }
 
+int CalcDaySpan(CString strtime1,CString strtime2)
+{
+	if(strtime1.IsEmpty() || strtime2.IsEmpty())
+		return -1;
+	CString strspan;
+	CTime time1(atoi(strtime1.Mid(0,4)),atoi(strtime1.Mid(5,2)),atoi(strtime1.Mid(8,2)),0,0,0,0);
+	CTime time2(atoi(strtime2.Mid(0,4)),atoi(strtime2.Mid(5,2)),atoi(strtime2.Mid(8,2)),0,0,0,0);
+	
+	CTimeSpan timeSpan = time2 - time1;
+	int day = timeSpan.GetDays();
+	return day;
+}
+
 void CreateExcel(CString filename,CListCtrl *listctl)
 {
 	Range m_ExlRge; 
@@ -302,7 +315,8 @@ PermissionLimit g_PermissionLimit[PERMISSION_NUMBER] =
 	{11,POST_SEND,"过账(物流)"},
 	{12,PERMISSION,"权限管理"},
 	{13,QC,"质检"},
-	{14,URGENT,"加急"}
+	{14,URGENT,"加急"},
+	{15,FI,"财务"}
 };
 
 

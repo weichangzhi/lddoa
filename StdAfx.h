@@ -38,6 +38,7 @@ int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 );
 BOOL IsNum(CString &str);
 BOOL IsPhoneNum(CString &str);
 BOOL IsInt(CString &str);
+int CalcDaySpan(CString strtime1,CString strtime2);
 void CreateExcel(CString filename,CListCtrl *listctl);
 static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort) 
 { 	
@@ -110,10 +111,12 @@ typedef struct _PermissionLimit
 #define PERMISSION			4096
 #define QC					8192
 #define URGENT				16384
+#define FI					32768
 
-#define PERMISSION_NUMBER 15
+#define PERMISSION_NUMBER 16
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
 #define CONFIGINI "config.ini"
+#define DEFAULT_TIME "14:00"
 
 
 

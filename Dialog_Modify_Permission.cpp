@@ -34,8 +34,9 @@ CDialog_Modify_Permission::CDialog_Modify_Permission(CWnd* pParent /*=NULL*/)
 	m_start_list = FALSE;
 	m_Bpermission = FALSE;
 	m_qc = FALSE;
-	m_permission = 0;
 	m_urgent = FALSE;
+	m_permission = 0;
+	m_fi = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -61,6 +62,7 @@ void CDialog_Modify_Permission::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_PERMISSION, m_Bpermission);
 	DDX_Check(pDX, IDC_CHECK_QC, m_qc);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
+	DDX_Check(pDX, IDC_CHECK_FI, m_fi);
 	//}}AFX_DATA_MAP
 }
 
@@ -104,6 +106,7 @@ void CDialog_Modify_Permission::OnOK()
 		if(m_Bpermission) m_permission+=PERMISSION;
 		if(m_qc) m_permission+=QC;
 		if(m_urgent) m_permission+=URGENT;
+		if(m_fi) m_permission+=FI;
 		CString strdepartment ;
 		m_department.GetWindowText(strdepartment);
 		CString sql;
@@ -200,6 +203,7 @@ void CDialog_Modify_Permission::OnQueryPermission()
 	((CButton*)GetDlgItem(IDC_CHECK_PERMISSION))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_QC))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_URGENT))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_FI))->SetCheck(0);
 	UpdateData();
 
 	m_username.TrimLeft();
@@ -274,6 +278,8 @@ void CDialog_Modify_Permission::OnQueryPermission()
 				m_department.SetCurSel(7);
 			else if(strdepartment.Compare("成品仓")==0)
 				m_department.SetCurSel(8);
+			else if(strdepartment.Compare("财务")==0)
+				m_department.SetCurSel(9);
 			
 			if(m_permission & DEL_LIST)	((CButton*)GetDlgItem(IDC_CHECK_DEL_LIST))->SetCheck(1);
 			if(m_permission & END_LIST)	((CButton*)GetDlgItem(IDC_CHECK_END_LIST))->SetCheck(1);
@@ -290,6 +296,7 @@ void CDialog_Modify_Permission::OnQueryPermission()
 			if(m_permission & PERMISSION)	((CButton*)GetDlgItem(IDC_CHECK_PERMISSION))->SetCheck(1);
 			if(m_permission & QC)	((CButton*)GetDlgItem(IDC_CHECK_QC))->SetCheck(1);
 			if(m_permission & URGENT)	((CButton*)GetDlgItem(IDC_CHECK_URGENT))->SetCheck(1);
+			if(m_permission & FI)	((CButton*)GetDlgItem(IDC_CHECK_FI))->SetCheck(1);
 			UpdateData();
 		}
 		else
@@ -328,6 +335,7 @@ BOOL CDialog_Modify_Permission::OnInitDialog()
 	m_department.InsertString(6,"技术部记梦馆");
 	m_department.InsertString(7,"生产部");
 	m_department.InsertString(8,"成品仓");
+	m_department.InsertString(9,"财务");
 	m_department.SetCurSel(0);
 
 	UpdateData(FALSE);	
@@ -373,6 +381,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 1://电商
 		m_del_list = FALSE;
@@ -390,6 +399,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 2://运营
 		m_del_list = FALSE;
@@ -407,6 +417,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 3://加盟
 		m_del_list = FALSE;
@@ -424,6 +435,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 4://研发
 		m_del_list = FALSE;
@@ -441,6 +453,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 5://技术部意造
 		m_del_list = FALSE;
@@ -458,6 +471,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 6://技术部记梦馆
 		m_del_list = FALSE;
@@ -475,6 +489,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 7://生产部
 		m_del_list = FALSE;
@@ -492,6 +507,7 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = TRUE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
 		break;
 	case 8://成品仓
 		m_del_list = FALSE;
@@ -509,6 +525,25 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 		m_Bpermission = FALSE;
 		m_qc = FALSE;
 		m_urgent = FALSE;
+		m_fi = FALSE;
+		break;
+	case 9://财务
+		m_del_list = FALSE;
+		m_end_list = FALSE;
+		m_modify_list_after = FALSE;
+		m_modify_list_before = FALSE;
+		m_post_pd = FALSE;
+		m_post_send = FALSE;
+		m_post_storage = FALSE;
+		m_post_tc = FALSE;
+		m_query_list = FALSE;
+		m_refund = FALSE;
+		m_save_list = FALSE;
+		m_start_list = FALSE;
+		m_Bpermission = FALSE;
+		m_qc = FALSE;
+		m_urgent = FALSE;
+		m_fi = TRUE;
 		break;
 	default:
 		break;

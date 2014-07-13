@@ -23,11 +23,12 @@
 #include "Dialog_Making.h"
 #include "Dialog_Unpost.h"
 #include "Dialog_ChangeRecord.h"
+#include "Dialog_FI.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog
 
-#define MAX_TREE_PAGE 11
+#define MAX_TREE_PAGE 12
 class CGoodsManageSystemDlg : public CDialog
 {
 // Construction
@@ -39,6 +40,9 @@ public:
 	BOOL InitMytree();
 	BOOL bFirstin;
 	int icurrentpage;
+	CString timertime;
+	int m_hour;
+	int m_min;
 // Dialog Data
 	//{{AFX_DATA(CGoodsManageSystemDlg)
 	enum { IDD = IDD_GOODSMANAGESYSTEM_DIALOG };
@@ -74,6 +78,8 @@ protected:
 	afx_msg void OnBuyAdd();
 	afx_msg void OnBuyQuery();
 	afx_msg void OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnMenuitemTips();
+	afx_msg void OnTimer(UINT nIDEvent);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

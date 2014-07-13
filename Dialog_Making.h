@@ -15,7 +15,7 @@ class CDialog_Making : public CDialog
 // Construction
 public:
 	CDialog_Making(CWnd* pParent = NULL);   // standard constructor
-
+	void updatelist(int cursel);
 // Dialog Data
 	//{{AFX_DATA(CDialog_Making)
 	enum { IDD = IDD_DIALOG_MAKEING };
@@ -44,6 +44,11 @@ protected:
 	afx_msg void OnCustomDraw(NMHDR *pnotify, LRESULT *result);
 	virtual BOOL OnInitDialog();
 	afx_msg void OnExcel();
+	afx_msg void OnRclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnMenuitemPostTC();
+	afx_msg void OnMenuitemPostPd();
+	afx_msg void OnMenuitemPostQc();
+	afx_msg void OnMenuitemPostStorage();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

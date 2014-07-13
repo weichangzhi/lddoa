@@ -116,6 +116,10 @@ SOURCE=.\Dialog_Detail.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_FI.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_InputBaseinfo.cpp
 # End Source File
 # Begin Source File
@@ -129,6 +133,10 @@ SOURCE=.\Dialog_Login2.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Making.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Menu_Post.cpp
 # End Source File
 # Begin Source File
 
@@ -165,6 +173,14 @@ SOURCE=.\Dialog_Query_list.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Schdeule.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Tips.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_TipsSetting.cpp
 # End Source File
 # Begin Source File
 
@@ -229,6 +245,10 @@ SOURCE=.\Dialog_Detail.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_FI.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\DIALOG_INPUT_CLIENT.h
 # End Source File
 # Begin Source File
@@ -246,6 +266,10 @@ SOURCE=.\Dialog_Login2.h
 # Begin Source File
 
 SOURCE=.\Dialog_Making.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Menu_Post.h
 # End Source File
 # Begin Source File
 
@@ -282,6 +306,14 @@ SOURCE=.\Dialog_Query_list.h
 # Begin Source File
 
 SOURCE=.\Dialog_Schdeule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Tips.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_TipsSetting.h
 # End Source File
 # Begin Source File
 

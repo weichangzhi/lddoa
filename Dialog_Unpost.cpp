@@ -241,7 +241,7 @@ void CDialog_Unpost::OnOK()
 		{
 			if(!IsInt(m_postnumber1))
 			{
-				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				MessageBox("退账数量输入必须为整数，请重新输入","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
 				return;
@@ -249,7 +249,7 @@ void CDialog_Unpost::OnOK()
 		}
 		if(atoi(m_postnumber1)<=0)
 		{
-			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			MessageBox("退账数量不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM1))->SetSel(0, -1);
 			return;
@@ -281,7 +281,7 @@ void CDialog_Unpost::OnOK()
 		{
 			if(!IsInt(m_postnumber2))
 			{
-				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				MessageBox("退账数量输入必须为整数，请重新输入","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2))->SetSel(0, -1);
 				return;
@@ -289,7 +289,7 @@ void CDialog_Unpost::OnOK()
 		}
 		if(atoi(m_postnumber2)<=0)
 		{
-			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			MessageBox("退账数量不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM2))->SetSel(0, -1);
 			return;
@@ -321,7 +321,7 @@ void CDialog_Unpost::OnOK()
 		{
 			if(!IsInt(m_postnumber3))
 			{
-				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				MessageBox("退账数量输入必须为整数，请重新输入","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3))->SetSel(0, -1);
 				return;
@@ -329,7 +329,7 @@ void CDialog_Unpost::OnOK()
 		}
 		if(atoi(m_postnumber3)<=0)
 		{
-			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			MessageBox("退账数量不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM3))->SetSel(0, -1);
 			return;
@@ -361,7 +361,7 @@ void CDialog_Unpost::OnOK()
 		{
 			if(!IsInt(m_postnumber4))
 			{
-				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				MessageBox("退账数量输入必须为整数，请重新输入","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4))->SetSel(0, -1);
 				return;
@@ -369,7 +369,7 @@ void CDialog_Unpost::OnOK()
 		}
 		if(atoi(m_postnumber4)<=0)
 		{
-			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			MessageBox("退账数量不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM4))->SetSel(0, -1);
 			return;
@@ -401,7 +401,7 @@ void CDialog_Unpost::OnOK()
 		{
 			if(!IsInt(m_postnumber5))
 			{
-				MessageBox("过账数量输入必须为整数，请重新输入","提示",MB_OK);
+				MessageBox("退账数量输入必须为整数，请重新输入","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
 				return;
@@ -409,7 +409,7 @@ void CDialog_Unpost::OnOK()
 		}
 		if(atoi(m_postnumber5)<=0)
 		{
-			MessageBox("过账数量不正确，请重新输入","提示",MB_OK);
+			MessageBox("退账数量不正确，请重新输入","提示",MB_OK);
 			(CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5)->SetFocus();
 			((CEdit*)GetDlgItem(IDC_EDIT_POST_NUM5))->SetSel(0, -1);
 			return;
@@ -607,7 +607,7 @@ void CDialog_Unpost::OnOK()
 					}
 					*/
 
-	/*				sql[i].Format("update scheduledetail set tcendtime=\"%s\",tcnumber=%d,tcpeople=\"%s\",pdstarttme=\"%s\" where listid=\"%s\" ",currenttime,postnumber[i],login2.m_user,currenttime,postid[i]);
+					sql[i].Format("update scheduledetail set tcendtime=\"%s\",tcnumber=%d,tcpeople=\"%s\",pdstarttme=\"%s\" where listid=\"%s\" ","",0,"","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -617,8 +617,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-
-					sql[i].Format("update baseinfo set volume=\"%s\"  where listid=\"%s\" ",volume_sendid[i],postid[i]);
+/*
+					sql[i].Format("update baseinfo set volume=\"%s\"  where listid=\"%s\" ","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -655,7 +655,7 @@ void CDialog_Unpost::OnOK()
 						return;
 					}
 
-/*					sql[i].Format("update scheduledetail set pdendtime=\"%s\",pdnumber=%d,pdpeople=\"%s\",qcstarttime=\"%s\" where listid=\"%s\" ",currenttime,postnumber[i],login2.m_user,currenttime,postid[i]);
+					sql[i].Format("update scheduledetail set tcendtime=\"%s\",pdnumber=%d,pdpeople=\"%s\",qcstarttime=\"%s\" where listid=\"%s\" ","",0,"","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -665,7 +665,16 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-*/
+					sql[i].Format("update baseinfo set volume=\"%s\"  where listid=\"%s\" ","",postid[i]);
+					if(mysql_query(&myCont,sql[i])!= 0)
+					{
+						const char *error = mysql_error(&myCont);
+						CString str;
+						str.Format("数据库错误(%s)",error);
+						MessageBox(str,"提示",MB_OK);
+						mysql_close(&myCont);//断开连接
+						return;
+					}
 				}
 			}
 			break;
@@ -691,8 +700,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-/*
-					sql[i].Format("update scheduledetail set qcendtime=\"%s\",qcnumber=%d,qcpeople=\"%s\",storagestarttime=\"%s\" where listid=\"%s\" ",currenttime,postnumber[i],login2.m_user,currenttime,postid[i]);
+
+					sql[i].Format("update scheduledetail set pdendtime=\"%s\",qcnumber=%d,qcpeople=\"%s\",storagestarttime=\"%s\" where listid=\"%s\" ","",0,"","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -703,7 +712,7 @@ void CDialog_Unpost::OnOK()
 						return;
 					}
 
-					sql[i].Format("update baseinfo set sendid=\"%s\"  where listid=\"%s\" ",volume_sendid[i],postid[i]);
+		/*			sql[i].Format("update baseinfo set sendid=\"%s\"  where listid=\"%s\" ","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -713,7 +722,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-*/
+					*/
+
 				}
 			}
 			break;
@@ -739,8 +749,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-/*
-					sql[i].Format("update scheduledetail set storageendtime=\"%s\",storagenumber=%d,storagepopple=\"%s\",sendstarttime=\"%s\" where listid=\"%s\" ",currenttime,postnumber[i],login2.m_user,currenttime,postid[i]);
+
+					sql[i].Format("update scheduledetail set qcendtime=\"%s\",storagenumber=%d,storagepopple=\"%s\",sendstarttime=\"%s\" where listid=\"%s\" ","",0,"","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -751,7 +761,7 @@ void CDialog_Unpost::OnOK()
 						return;
 					}
 
-					sql[i].Format("update baseinfo set sendid=\"%s\"  where listid=\"%s\" ",volume_sendid[i],postid[i]);
+					sql[i].Format("update baseinfo set sendid=\"%s\"  where listid=\"%s\" ","",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -761,7 +771,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-*/
+					
+
 				}
 			}
 			break;
@@ -787,8 +798,8 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-/*
-					sql[i].Format("update scheduledetail set sendendtime=\"%s\",sendnumber=%d,sendpeople=\"%s\"  where listid=\"%s\" ",currenttime,postnumber[i],login2.m_user,postid[i]);
+
+					sql[i].Format("update scheduledetail set sendendtime=\"%s\",storageendtime=\"%s\",sendnumber=%d,sendpeople=\"%s\"  where listid=\"%s\" ","","",0,"",postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -798,20 +809,20 @@ void CDialog_Unpost::OnOK()
 						mysql_close(&myCont);//断开连接
 						return;
 					}
-*/
+
 				}
 			}
 			break;
 		default:
 			;
 		}
-		if(mysql_affected_rows(&myCont)>0)
+		//if(mysql_affected_rows(&myCont)>0)
 		{
 			MessageBox("退账成功","提示",MB_OK);
 		}
-		else
+		//else
 		{
-			MessageBox("退账失败","提示",MB_OK);
+			//MessageBox("退账失败","提示",MB_OK);
 		}
 	}
 	else

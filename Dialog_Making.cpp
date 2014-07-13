@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_Making.h"
+#include "Dialog_Menu_Post.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,6 +43,11 @@ BEGIN_MESSAGE_MAP(CDialog_Making, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_SCHDEULE_SELECT, OnMakingQuery)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_LIST_SCHDEULE, OnCustomDraw)         
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST_SCHDEULE, OnRclickListSchdeule)
+	ON_COMMAND(ID_MENUITEM_POST_TC, OnMenuitemPostTC)
+	ON_COMMAND(ID_MENUITEM_POST_PD, OnMenuitemPostPd)
+	ON_COMMAND(ID_MENUITEM_POST_QC, OnMenuitemPostQc)
+	ON_COMMAND(ID_MENUITEM_POST_STORAGE, OnMenuitemPostStorage)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -119,19 +125,6 @@ BOOL CDialog_Making::PreTranslateMessage(MSG* pMsg)
 		}  
 	}	
 	return CDialog::PreTranslateMessage(pMsg);
-}
-
-int CalcTimeSpan(CString strtime1,CString strtime2)
-{
-	if(strtime1.IsEmpty() || strtime2.IsEmpty())
-		return -1;
-	CString strspan;
-	CTime time1(atoi(strtime1.Mid(0,4)),atoi(strtime1.Mid(5,2)),atoi(strtime1.Mid(8,2)),0,0,0,0);
-	CTime time2(atoi(strtime2.Mid(0,4)),atoi(strtime2.Mid(5,2)),atoi(strtime2.Mid(8,2)),0,0,0,0);
-	
-	CTimeSpan timeSpan = time2 - time1;
-	int day = timeSpan.GetDays();
-	return day;
 }
 
 void CDialog_Making::OnMakingQuery() 
@@ -226,7 +219,7 @@ void CDialog_Making::OnMakingQuery()
 						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					if (sql_row[14]!=NULL)
 					{
-						int spanday = CalcTimeSpan(curtime,sql_row[8]);
+						int spanday = CalcDaySpan(curtime,sql_row[8]);
 						if (atoi(sql_row[14])==1)//加急 紫色
 						{
 							m_list_schedule.SetItemColor(index,RGB(230,230,230),RGB(128,0,128));
@@ -271,7 +264,6 @@ void CDialog_Making::OnMakingQuery()
     mysql_close(&myCont);//断开连接
 
 	return;
-	
 }
 
 void CDialog_Making::OnCustomDraw(NMHDR *pnotify, LRESULT *result)
@@ -294,4 +286,200 @@ void CDialog_Making::OnCustomDraw(NMHDR *pnotify, LRESULT *result)
 void CDialog_Making::OnExcel() 
 {
 	CreateExcel("在制品清单.xls",&m_list_schedule);		
+}
+
+void CDialog_Making::OnRclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	// TODO: Add your control notification handler code here
+	CMenu       menu ,* pSubMenu;//定义下面要用到的cmenu对象	
+	menu.LoadMenu(IDR_MENU_POST);//装载自定义的右键菜单
+	pSubMenu = menu.GetSubMenu(0);//获取第一个弹出菜单，所以第一个菜单必须有子菜单	
+    CPoint oPoint;//定义一个用于确定光标位置的位置	
+    GetCursorPos( &oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标
+	int istat=m_list_schedule.GetSelectionMark();//用istat存放当前选定的是第几项	
+	if(istat == -1) return;
+	pSubMenu->TrackPopupMenu (TPM_LEFTALIGN, oPoint.x, oPoint.y, this); //在指定位置显示弹出菜单
+	*pResult = 0;
+}
+
+void CDialog_Making::updatelist(int cursel)
+{
+	CString csSql;
+	CString listid = m_list_schedule.GetItemText(cursel,1);
+	csSql.Format("select tcnumber,pdnumber,qcnumber,storagenumber from schedule where listid=\"%s\" ",listid);
+
+	MYSQL myCont;
+    MYSQL_RES *result;
+    MYSQL_ROW sql_row;
+    int res;
+    mysql_init(&myCont);
+    if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
+    {
+        mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
+        res=mysql_query(&myCont,csSql);//查询
+        if(!res)
+        {
+            result=mysql_store_result(&myCont);//保存查询到的数据到result
+		    if(result)
+            {
+                int j;
+                j=mysql_num_fields(result);//查看多少列
+				unsigned __int64 num = mysql_num_rows(result);//行数
+                sql_row=mysql_fetch_row(result);//获取具体的数据
+				if(sql_row)
+                {
+					int i=0;
+					for(i=10;i<=13;i++)
+					{
+						if(atoi(sql_row[i-10])==0)
+							m_list_schedule.SetItemText(cursel,i,"");
+						else
+							m_list_schedule.SetItemText(cursel,i,sql_row[i-10]);
+					}
+					UpdateData(FALSE);
+                }
+				else
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+            }
+        }
+        else
+        {
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+        }
+    }
+    else
+    {
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
+		return;
+    }
+    if(result!=NULL) mysql_free_result(result);//释放结果资源
+    mysql_close(&myCont);//断开连接
+	return;
+}
+
+void CDialog_Making::OnMenuitemPostTC() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,10);
+	CString nextnumber = m_list_schedule.GetItemText(istat,11);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 0;
+	dlg.m_permission = POST_TC;
+	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		updatelist(istat);
+		return;
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,10,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,11,strleftnumber);
+	}
+}
+
+void CDialog_Making::OnMenuitemPostPd() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,11);
+	CString nextnumber = m_list_schedule.GetItemText(istat,12);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 1;
+	dlg.m_permission = POST_PD;
+	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,11,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,12,strleftnumber);
+	}
+}
+
+void CDialog_Making::OnMenuitemPostQc() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,12);
+	CString nextnumber = m_list_schedule.GetItemText(istat,13);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 2;
+	dlg.m_permission = QC;
+	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,12,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,13,strleftnumber);
+	}
+	
+}
+
+void CDialog_Making::OnMenuitemPostStorage() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,13);
+	CString nextnumber = m_list_schedule.GetItemText(istat,14);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 3;
+	dlg.m_permission = POST_STORAGE;
+	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,13,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,14,strleftnumber);
+	}
 }

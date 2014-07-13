@@ -64,7 +64,7 @@ void CDialog_Login2::OnOK()
 	UpdateData();
 	if(!m_user.Compare("weichangzhi"))
 	{
-		g_permission = 16383;
+		g_permission = 65535;
 		CDialog::OnOK();
 		return;
 	}

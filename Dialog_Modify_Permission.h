@@ -36,6 +36,7 @@ public:
 	BOOL	m_Bpermission;
 	BOOL	m_qc;
 	BOOL	m_urgent;
+	BOOL	m_fi;
 	//}}AFX_DATA
 
 
