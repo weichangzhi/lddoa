@@ -48,6 +48,7 @@ BEGIN_MESSAGE_MAP(CDialog_Making, CDialog)
 	ON_COMMAND(ID_MENUITEM_POST_PD, OnMenuitemPostPd)
 	ON_COMMAND(ID_MENUITEM_POST_QC, OnMenuitemPostQc)
 	ON_COMMAND(ID_MENUITEM_POST_STORAGE, OnMenuitemPostStorage)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_SCHDEULE, OnColumnclickListSchdeule)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -482,4 +483,11 @@ void CDialog_Making::OnMenuitemPostStorage()
 		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
 		m_list_schedule.SetItemText(istat,14,strleftnumber);
 	}
+}
+
+void CDialog_Making::OnColumnclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	//listsort(&m_list_schedule,pNMListView);	
+	*pResult = 0;
 }

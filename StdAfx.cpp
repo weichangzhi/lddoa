@@ -34,6 +34,24 @@ int NumberCompare( LPCTSTR pszNumber1, LPCTSTR pszNumber2 )
 	return 0;
 }
 
+void listsort(CListCtrl *list,NM_LISTVIEW*pNMListView)
+{
+	int i,nItemCounter; 
+	CListCtrl * pListCtrl = list; 
+	nColToSort=pNMListView->iSubItem; 
+	if(nLastColToSort!=nColToSort) 
+	{ 
+		bDesc=0; 
+		nLastColToSort=nColToSort; 
+	} 
+	else 
+		bDesc=bDesc?0:1; 
+	nItemCounter=pListCtrl->GetItemCount(); 
+	for(i=0;i<nItemCounter;i++) 
+		pListCtrl->SetItemData(i,i); 
+	pListCtrl->SortItems(SortLVProc,(LPARAM)pListCtrl); 
+}
+
 BOOL IsNum(CString &str)
 {
 	int n=str.GetLength();

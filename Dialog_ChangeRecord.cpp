@@ -42,6 +42,7 @@ BEGIN_MESSAGE_MAP(Dialog_ChangeRecord, CDialog)
 	//{{AFX_MSG_MAP(Dialog_ChangeRecord)
 	ON_BN_CLICKED(IDC_BUTTON__SELECT, OnButtonSelect)
 	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnButtonExcel)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_CHANGERECORD, OnColumnclickListChangerecord)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -149,4 +150,12 @@ void Dialog_ChangeRecord::OnButtonExcel()
 {
 	CreateExcel("订单资料变更记录.xls",&m_listChangeRecord);
 	
+}
+
+void Dialog_ChangeRecord::OnColumnclickListChangerecord(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	// TODO: Add your control notification handler code here
+	listsort(&m_listChangeRecord,pNMListView);
+	*pResult = 0;
 }

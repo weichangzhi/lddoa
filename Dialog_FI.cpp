@@ -48,6 +48,7 @@ BEGIN_MESSAGE_MAP(Dialog_FI, CDialog)
 	//{{AFX_MSG_MAP(Dialog_FI)
 	ON_BN_CLICKED(IDC_BUTTON_FIADD, OnFiadd)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_FI, OnColumnclickListFi)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -325,4 +326,11 @@ BOOL Dialog_FI::PreTranslateMessage(MSG* pMsg)
 		}  
 	}
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+void Dialog_FI::OnColumnclickListFi(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	listsort(&m_listFI,pNMListView);
+	*pResult = 0;
 }

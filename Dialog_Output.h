@@ -49,6 +49,7 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnExcel();
 	afx_msg void OnSelchangeComboWay();
+	afx_msg void OnColumnclickListOutput(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

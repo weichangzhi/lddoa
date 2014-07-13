@@ -46,6 +46,7 @@ protected:
 	afx_msg void OnSchdeuleSelect();
 	afx_msg void OnSelchangeComboSchedule();
 	afx_msg void OnExcel();
+	afx_msg void OnColumnclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

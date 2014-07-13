@@ -49,6 +49,7 @@ protected:
 	afx_msg void OnMenuitemPostPd();
 	afx_msg void OnMenuitemPostQc();
 	afx_msg void OnMenuitemPostStorage();
+	afx_msg void OnColumnclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

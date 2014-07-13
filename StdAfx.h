@@ -40,6 +40,7 @@ BOOL IsPhoneNum(CString &str);
 BOOL IsInt(CString &str);
 int CalcDaySpan(CString strtime1,CString strtime2);
 void CreateExcel(CString filename,CListCtrl *listctl);
+void listsort(CListCtrl *list,NM_LISTVIEW*pNMListView);
 static int CALLBACK SortLVProc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort) 
 { 	
 	// lParamSort contains a pointer to the list view control. 

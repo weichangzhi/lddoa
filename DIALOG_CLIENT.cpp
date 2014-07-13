@@ -293,25 +293,8 @@ void CDIALOG_CLIENT::OnDelete()
 
 void CDIALOG_CLIENT::OnColumnclickListClient(NMHDR* pNMHDR, LRESULT* pResult) 
 {
-	//NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// TODO: Add your control notification handler code here
-	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-	
-	int i,nItemCounter; 
-	NM_LISTVIEW * pNMListView = (NM_LISTVIEW*)pNMHDR; 
-	CListCtrl * pListCtrl = &m_list_Clinet; 
-	nColToSort=pNMListView->iSubItem; 
-	if(nLastColToSort!=nColToSort) 
-	{ 
-		bDesc=0; 
-		nLastColToSort=nColToSort; 
-	} 
-	else 
-		bDesc=bDesc?0:1; 
-	nItemCounter=pListCtrl->GetItemCount(); 
-	for(i=0;i<nItemCounter;i++) 
-		pListCtrl->SetItemData(i,i); 
-	pListCtrl->SortItems(SortLVProc,(LPARAM)pListCtrl); 
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	listsort(&m_list_Clinet,pNMListView);
 	*pResult = 0; 
 }
 

@@ -47,6 +47,7 @@ protected:
 	afx_msg void OnFiadd();
 	afx_msg void OnExcel();
 	virtual void OnOK();
+	afx_msg void OnColumnclickListFi(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

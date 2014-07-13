@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CDialog_Detail, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_DETAIL_SELECT, OnDetailSelect)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	ON_WM_SIZE()
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_DETAIL, OnColumnclickListDetail)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -204,4 +205,11 @@ void CDialog_Detail::OnSize(UINT nType, int cx, int cy)
 	*/
 	CDialog::OnSize(nType, cx, cy);
 
+}
+
+void CDialog_Detail::OnColumnclickListDetail(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	listsort(&m_listdetail,pNMListView);
+	*pResult = 0;
 }

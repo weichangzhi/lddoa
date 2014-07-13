@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CDialog_Unpost
+LastClass=CDialog_Output
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "GoodsManageSystem.h"
@@ -13,71 +13,71 @@ Class2=CGoodsManageSystemDlg
 Class3=CAboutDlg
 
 ResourceCount=33
-Resource1=IDD_ABOUTBOX
+Resource1=IDD_DIALOG_ADD_USER
 Resource2=IDR_MAINFRAME
-Resource3=IDR_MENUMAIN
-Resource4=IDD_DIALOG_POST
-Resource5=IDD_DIALOG_LOGIN2
+Resource3=IDD_DIALOG_NEW_LIST
+Resource4=IDD_DIALOG_CLIENT
+Resource5=IDD_ABOUTBOX
 Class4=CDialog_SELL
 Class5=CDIALOG_CLIENT
 Class6=CDIALOG_BUY
 Class7=CSelTab
-Resource6=IDD_DIGPREVIEW
+Resource6=IDD_TIPS_SETTING
 Class8=CDIALOG_INPUT_CLIENT
-Resource7=IDD_DIALOG_LOGIN
+Resource7=IDD_DIALOG_OUTPUT1
 Class9=CDialog_InputSell
-Resource8=IDD_DIALOG_MODIFY_LIST1
+Resource8=IDD_DIALOG_LOGIN
 Class10=CDialog_InputBuy
-Resource9=IDD_DIALOG_CLIENT
-Resource10=IDD_DIALOG_DETAIL
-Resource11=IDD_DIALOG_MAKEING
+Resource9=IDD_DIALOG_CHAGNE_RECORD
+Resource10=IDD_DIGPREVIEW
+Resource11=IDD_DIALOG_MODIFY_PASSWD
 Class11=CPreview
-Resource12=IDD_DIALOG_LIST_QUERY
+Resource12=IDD_DIALOG_DELETE_USER
 Class12=CDialog_BaseInfo
 Class13=CDialog_BaseInfo1
-Resource13=IDD_DIALOG_MODIFY_PASSWD_ADMIN
+Resource13=IDD_DIALOG_BASEINFO
 Class14=CDialog_InputBaseinfo
-Resource14=IDD_DIALOG_CHAGNE_RECORD
+Resource14=IDD_DIALOG_SCHEDULE
 Class15=CDialog_AddUser
-Resource15=IDD_DIALOG_TIPS
+Resource15=IDD_DIALOG_DETAIL
 Class16=CDialog_Login
-Resource16=IDD_TIPS_SETTING
+Resource16=IDD_DIALOG_LOGIN2
 Class17=CDialog_ModifyPassWd
-Resource17=IDD_DIALOG_SCHEDULE
+Resource17=IDD_GOODSMANAGESYSTEM_DIALOG
 Class18=CDialog_Delete_User
 Class19=CDialog_post
 Class20=CDialog_Schdeule
 Class21=CDialog_Login2
 Class22=CDialog_Detail
-Resource18=IDD_GOODSMANAGESYSTEM_DIALOG
+Resource18=IDD_DIALOG_UNPOST
 Class23=CDialog_Output
-Resource19=IDD_DIALOG_FI
+Resource19=IDD_DIALOG_SELL
 Class24=CDialog_ModifyPW_Admin
-Resource20=IDD_DIALOG_UNPOST
+Resource20=IDD_DIALOG_POST
 Class25=CDialog_Modify_Permission
-Resource21=IDD_DIALOG_BASEINFO
+Resource21=IDD_DIALOG_TIPS
 Class26=CDialog_New_List
-Resource22=IDR_MENU1
+Resource22=IDD_DIALOG_MODIFY_PERMISSION
 Class27=CDialog_ModifyList
-Resource23=IDD_DIALOG_ADD_USER
+Resource23=IDR_MENU1
 Class28=CDialog_Query_list
-Resource24=IDD_DIALOG_INPUT_BASEINFO
+Resource24=IDD_DIALOG_MENU_POST
 Class29=CDialog_Making
-Resource25=IDD_DIALOG_MODIFY_PERMISSION
+Resource25=IDD_DIALOG_INPUT_BASEINFO
 Class30=CDialog_Unpost
-Resource26=IDD_DIALOG_MODIFY_PASSWD
+Resource26=IDR_MENUMAIN
 Class31=Dialog_ChangeRecord
-Resource27=IDD_DIALOG_SELL
-Resource28=IDR_MENU_TIPS
+Resource27=IDD_DIALOG_LIST_QUERY
+Resource28=IDD_DIALOG_MODIFY_LIST1
 Class32=Dialog_TipsSetting
-Resource29=IDD_DIALOG_MENU_POST
+Resource29=IDD_DIALOG_MODIFY_PASSWD_ADMIN
 Class33=Dialog_Tips
-Resource30=IDD_DIALOG_DELETE_USER
-Resource31=IDR_MENU_POST
+Resource30=IDR_MENU_TIPS
+Resource31=IDD_DIALOG_MAKEING
 Class34=Dialog_Menu_Post
-Resource32=IDD_DIALOG_OUTPUT1
+Resource32=IDD_DIALOG_FI
 Class35=Dialog_FI
-Resource33=IDD_DIALOG_NEW_LIST
+Resource33=IDR_MENU_POST
 
 [CLS:CGoodsManageSystemApp]
 Type=0
@@ -162,7 +162,7 @@ ImplementationFile=DIALOG_CLIENT.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=CDIALOG_CLIENT
+LastObject=IDC_LIST_CLIENT
 
 [CLS:CDIALOG_BUY]
 Type=0
@@ -262,7 +262,7 @@ HeaderFile=Dialog_BaseInfo.h
 ImplementationFile=Dialog_BaseInfo.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=ID_MENUITEM_INPUTSELL
+LastObject=IDC_LIST_BASEINFO
 VirtualFilter=dWC
 
 [CLS:CDialog_BaseInfo1]
@@ -489,7 +489,7 @@ ImplementationFile=Dialog_Schdeule.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=CDialog_Schdeule
+LastObject=IDC_LIST_SCHDEULE
 
 [DLG:IDD_DIALOG_LOGIN2]
 Type=1
@@ -543,7 +543,7 @@ ImplementationFile=Dialog_Detail.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=CDialog_Detail
+LastObject=IDC_LIST_DETAIL
 
 [CLS:CDialog_Output]
 Type=0
@@ -552,7 +552,7 @@ ImplementationFile=Dialog_Output.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=CDialog_Output
+LastObject=IDC_LIST_OUTPUT
 
 [DLG:IDD_DIALOG_MODIFY_PASSWD_ADMIN]
 Type=1
@@ -887,7 +887,7 @@ HeaderFile=Dialog_Making.h
 ImplementationFile=Dialog_Making.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=CDialog_Making
+LastObject=IDC_LIST_SCHDEULE
 VirtualFilter=dWC
 
 [DLG:IDD_DIALOG_UNPOST]
@@ -960,7 +960,7 @@ ImplementationFile=Dialog_ChangeRecord.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=Dialog_ChangeRecord
+LastObject=IDC_LIST_CHANGERECORD
 
 [MNU:IDR_MENU_TIPS]
 Type=1
@@ -1085,6 +1085,6 @@ HeaderFile=Dialog_FI.h
 ImplementationFile=Dialog_FI.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=Dialog_FI
+LastObject=IDC_LIST_FI
 VirtualFilter=dWC
 

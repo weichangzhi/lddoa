@@ -43,6 +43,7 @@ protected:
 	afx_msg void OnDetailSelect();
 	afx_msg void OnExcel();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnColumnclickListDetail(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

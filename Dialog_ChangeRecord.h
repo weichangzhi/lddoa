@@ -41,6 +41,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnButtonSelect();
 	afx_msg void OnButtonExcel();
+	afx_msg void OnColumnclickListChangerecord(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

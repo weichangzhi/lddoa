@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CDialog_Output, CDialog)
 	//{{AFX_MSG_MAP(CDialog_Output)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	ON_CBN_SELCHANGE(IDC_COMBO_WAY, OnSelchangeComboWay)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_OUTPUT, OnColumnclickListOutput)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -398,4 +399,12 @@ void CDialog_Output::OnSelchangeComboWay()
 	}
 	UpdateData(FALSE);
 	
+}
+
+void CDialog_Output::OnColumnclickListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	// TODO: Add your control notification handler code here
+	listsort(&m_list_output,pNMListView);
+	*pResult = 0;
 }

@@ -52,6 +52,7 @@ BEGIN_MESSAGE_MAP(CDialog_BaseInfo, CDialog)
 	ON_WM_HSCROLL()
 	ON_WM_SIZE()
 	ON_WM_VSCROLL()
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_BASEINFO, OnColumnclickListBaseinfo)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -371,4 +372,12 @@ void CDialog_BaseInfo::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar
 	// TODO: Add your message handler code here and/or call default
 	
 	CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CDialog_BaseInfo::OnColumnclickListBaseinfo(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	// TODO: Add your control notification handler code here
+	listsort(&m_list_baseinfo,pNMListView);
+	*pResult = 0;
 }
