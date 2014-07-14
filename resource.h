@@ -72,6 +72,7 @@
 #define IDD_DIALOG_TIPS                 221
 #define IDD_DIALOG_MENU_POST            222
 #define IDD_DIALOG_OUTPUT1              223
+#define IDI_CHANGE_RECORD               223
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -283,7 +284,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        223
+#define _APS_NEXT_RESOURCE_VALUE        224
 #define _APS_NEXT_COMMAND_VALUE         32789
 #define _APS_NEXT_CONTROL_VALUE         1216
 #define _APS_NEXT_SYMED_VALUE           101

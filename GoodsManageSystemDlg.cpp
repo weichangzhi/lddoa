@@ -111,7 +111,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg message handlers
 
-#define MAX_ICO 25
+#define MAX_ICO 26
 #define TIMERID_TIP      1100
 #define TIMER_WAIT_TIP   1000*60 //1 min
 BOOL CGoodsManageSystemDlg::OnInitDialog()
@@ -182,12 +182,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	icon[22]=AfxGetApp()->LoadIcon (IDI_MAIN2);
 	icon[23]=AfxGetApp()->LoadIcon (IDI_PROCESS);
 	icon[24]=AfxGetApp()->LoadIcon (IDI_MAKEING);
+	icon[25]=AfxGetApp()->LoadIcon (IDI_CHANGE_RECORD);
 
 
 	//创建图像列表控件
 	CImageList *imagelist=new CImageList; 
-	imagelist->Create(24,24,0,MAX_ICO,MAX_ICO); 
-	imagelist->SetBkColor (RGB(255,255,255));
+	//imagelist->Create(24,24,0,MAX_ICO,MAX_ICO);
+	//imagelist->SetBkColor (RGB(255,255,255));
+	imagelist->Create(32,32,TRUE | ILC_COLOR8,MAX_ICO,MAX_ICO); 
+	
 	for(int n=0;n<MAX_ICO;n++)
 	{
 		imagelist->Add(icon[n]);  //把图标载入图像列表控件
@@ -218,7 +221,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son10=m_tree.InsertItem("新增订单",15,15,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son11=m_tree.InsertItem("修改订单",12,12,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son12=m_tree.InsertItem("查询订单",13,13,sub_son1,TVI_LAST);
-	HTREEITEM sub_m_son13=m_tree.InsertItem("变更记录",24,24,sub_son1,TVI_LAST);
+	HTREEITEM sub_m_son13=m_tree.InsertItem("变更记录",25,25,sub_son1,TVI_LAST);
 
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
@@ -252,15 +255,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 
 	//把Dialog移到合适位置
 
-	m_tree.MoveWindow(0,0,200,height-20);
+	m_tree.MoveWindow(0,0,230,height-20);
 
 	CRect m_rect;
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
 	CRect rectlistfi(m_rect);
-	m_rect.DeflateRect(200,0,20,20);
-	rectlist.DeflateRect(0,50,220,20);
-	rectlistfi.DeflateRect(0,165,220,20);
+	m_rect.DeflateRect(230,0,20,20);
+	rectlist.DeflateRect(0,50,250,20);
+	rectlistfi.DeflateRect(0,165,250,20);
 
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
@@ -409,9 +412,9 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
 	CRect rectlistfi(m_rect);
-	m_rect.DeflateRect(200,0,20,20);
-	rectlist.DeflateRect(0,50,220,20);
-	rectlistfi.DeflateRect(0,165,220,20);
+	m_rect.DeflateRect(230,0,20,20);
+	rectlist.DeflateRect(0,50,250,20);
+	rectlistfi.DeflateRect(0,165,250,20);
 
 	int i = 0;
 	for(i=0;i<MAX_TREE_PAGE;i++)

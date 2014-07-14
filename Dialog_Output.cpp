@@ -259,7 +259,7 @@ void CDialog_Output::OnOK()
                 j=mysql_num_fields(result);//查看多少列
 				unsigned __int64 num = mysql_num_rows(result);//行数
 				int index = 0;
-				float money=0, volume=0;
+				double money=0, volume=0;
 				int number = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {

@@ -70,7 +70,6 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\idr_main.ico"
 IDI_ICON1               ICON    DISCARDABLE     "res\\client.ico"
 IDI_ICON2               ICON    DISCARDABLE     "res\\sell.ico"
 IDI_ICON3               ICON    DISCARDABLE     "res\\buy.ico"
-IDI_ICON8               ICON    DISCARDABLE     "res\\main.ico"
 IDI_USER_ADD            ICON    DISCARDABLE     "res\\useradd.ico"
 IDI_USER_MODIFY         ICON    DISCARDABLE     "res\\usermodify.ico"
 IDI_LIST_ADD            ICON    DISCARDABLE     "res\\listadd.ico"
@@ -95,7 +94,8 @@ IDI_OUTPUT              ICON    DISCARDABLE     "res\\output.ico"
 IDI_MAIN2               ICON    DISCARDABLE     "res\\main2.ico"
 IDI_DETAIL              ICON    DISCARDABLE     "res\\detail.ico"
 IDI_PROCESS             ICON    DISCARDABLE     "res\\process.ico"
-IDI_ICON4               ICON    DISCARDABLE     "res\\20140516100538697_easyicon_net_128.ico"
+IDI_ICON8               ICON    DISCARDABLE     "res\\main.ico"
+IDI_CHANGE_RECORD       ICON    DISCARDABLE     "res\\changerecord.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -121,7 +121,7 @@ STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "LDD办公系统"
 MENU IDR_MENU_TIPS
-FONT 14, "宋体"
+FONT 14, "宋体", 0, 0, 0x1
 BEGIN
     CONTROL         "Tab1",IDC_TAB1,"SysTabControl32",TCS_FORCEICONLEFT | 
                     TCS_FORCELABELLEFT | TCS_BUTTONS | TCS_FIXEDWIDTH | 
@@ -523,7 +523,7 @@ END
 
 IDD_DIALOG_NEW_LIST DIALOGEX 0, 0, 562, 375
 STYLE WS_CHILD
-FONT 12, "宋体"
+FONT 12, "宋体", 0, 0, 0x1
 BEGIN
     EDITTEXT        IDC_EDIT_LISTID,88,47,74,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_LISTTNAME,218,47,74,14,ES_AUTOHSCROLL
@@ -1196,13 +1196,6 @@ BEGIN
     END
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_BITMAP1             BITMAP  DISCARDABLE     "res\\20140516100538697_easyicon_net_128 - 副本.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
