@@ -167,7 +167,7 @@ void Dialog_Tips::querysql()
 						}
 						else if (spanday<0)//sql_row[8]交货日期 超时 红色
 						{
-							m_litTips.SetItemColor(index,RGB(0,0,0),RGB(255,0,0));
+							m_litTips.SetItemColor(index,RGB(0,0,0),RGB(255,0,128));
 						}
 						else if(spanday<2 && spanday>=0 &&  (strDepartment.Compare("生产部")==0))
 						{

@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_FI.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -111,6 +112,15 @@ void Dialog_FI::OnFiadd()
 	strgathering.Format("%d",m_gathering);
 	strbilling.Format("%d",m_billing);
 	CString curtime;
+
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	CString sql;
 	MYSQL myCont;
 	MYSQL_RES *result;
@@ -118,6 +128,7 @@ void Dialog_FI::OnFiadd()
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
+		dlgpro->setpos(500);
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 		CString strsql ;
 		strsql.Format("select now()");
@@ -128,8 +139,10 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -143,9 +156,11 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 
+		dlgpro->setpos(700);
 		sql = "select * from fi where listid='" + m_strlistid_add +"'";
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -154,8 +169,10 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(800);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -163,6 +180,7 @@ void Dialog_FI::OnFiadd()
 			if(num>=1)
 			{
 				//修改记录				
+				dlgpro->setpos(900);
 				sql.Format("update fi set gathering=\"%s\",billing=\"%s\",optime=\"%s\" where listid=\"%s\" ",strgathering,strbilling,curtime,m_strlistid_add);
 				int ret = mysql_query(&myCont,sql);
 				const char *error = mysql_error(&myCont);
@@ -173,10 +191,12 @@ void Dialog_FI::OnFiadd()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				MessageBox("修改记录成功","提示",MB_OK);
 				return;
 			}
@@ -188,9 +208,10 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(900);
 		sql.Format("select * from schedule where listid=\"%s\" ",m_strlistid_add);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -199,11 +220,13 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
+			dlgpro->setpos(950);
 			unsigned __int64 num = mysql_num_rows(result);//行数
 			if(num!=1)//
 			{
@@ -212,6 +235,7 @@ void Dialog_FI::OnFiadd()
 				((CEdit*)GetDlgItem(IDC_EDIT_LISTID_ADD))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;	
 			}
 		}
@@ -222,8 +246,10 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(980);
 
 		sql.Format("insert into fi values (\"%s\",\"%s\",\"%s\",\"%s\")", m_strlistid_add,strgathering,strbilling,curtime);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -233,6 +259,7 @@ void Dialog_FI::OnFiadd()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 	}
@@ -243,10 +270,12 @@ void Dialog_FI::OnFiadd()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
 	}
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
+	dlgpro->endpos();
 	MessageBox("增加记录成功","提示",MB_OK);
 }
 
@@ -268,6 +297,15 @@ void Dialog_FI::OnOK()
 		csSql.Format("select * from fi where optime>=\"%s\" and optime<=\"%s\" ",starttime,endtime);
 	else
 		csSql.Format("select * from fi where listid=\"%s\"  ",m_strlistid_query);
+
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -275,10 +313,12 @@ void Dialog_FI::OnOK()
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
+		dlgpro->setpos(500);
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
         res=mysql_query(&myCont,csSql);//查询
         if(!res)
         {
+			dlgpro->setpos(600);
             result=mysql_store_result(&myCont);//保存查询到的数据到result
 		    if(result)
             {
@@ -288,6 +328,7 @@ void Dialog_FI::OnOK()
 				int index = 0;
 				float money=0, volume=0;
 				int number = 0;
+				dlgpro->setpos(700);
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
 					CString strindex ;
@@ -301,7 +342,8 @@ void Dialog_FI::OnOK()
 					if(index%2==0)
 						m_listFI.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
-                }//while				
+                }//while	
+				dlgpro->setpos(900);
             }
         }
         else
@@ -311,6 +353,7 @@ void Dialog_FI::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -321,11 +364,13 @@ void Dialog_FI::OnOK()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
-
+	dlgpro->endpos();
+	
 	return;
 	//CDialog::OnOK();
 }

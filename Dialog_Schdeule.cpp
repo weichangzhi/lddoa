@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_Schdeule.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -183,6 +184,13 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 		break;
 	}
 
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
 
 	MYSQL myCont;
     MYSQL_RES *result;
@@ -191,17 +199,21 @@ void CDialog_Schdeule::OnSchdeuleSelect()
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
+		dlgpro->setpos(500);
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
         res=mysql_query(&myCont,csSql);//查询
         if(!res)
         {
+			dlgpro->setpos(600);
             result=mysql_store_result(&myCont);//保存查询到的数据到result
 		    if(result)
             {
                 int j;
+				dlgpro->setpos(700);
                 j=mysql_num_fields(result);//查看多少列
 				unsigned __int64 num = mysql_num_rows(result);//行数
 				int index = 0;
+				dlgpro->setpos(800);
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
 					CString strindex ;
@@ -264,6 +276,7 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
                 }//while
+				dlgpro->setpos(900);
             }
         }
         else
@@ -273,6 +286,7 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -283,10 +297,12 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
+	dlgpro->endpos();
 
 	return;
 }

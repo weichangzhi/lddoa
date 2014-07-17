@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_Query_list.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -144,6 +145,14 @@ void CDialog_Query_list::OnOK()
 	{
 		csSql.Format("select * from baseinfo where listid=\"%s\" ",m_query_listid);	
 	}    
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
     MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -151,11 +160,14 @@ void CDialog_Query_list::OnOK()
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
+		dlgpro->setpos(500);
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
         res=mysql_query(&myCont,csSql);//查询
+		dlgpro->setpos(600);
         if(!res)
         {
             result=mysql_store_result(&myCont);//保存查询到的数据到result
+			dlgpro->setpos(700);
 		    if(result)
             {
                 int j;
@@ -168,6 +180,7 @@ void CDialog_Query_list::OnOK()
 					MessageBox("无此订单号，请重新输入","提示",MB_OK);
 					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
                 {
@@ -206,6 +219,9 @@ void CDialog_Query_list::OnOK()
 					m_receivedate = timeTmp;
 					CTime timeTmp1(atoi(m_str_end_date.Mid(0,4)),atoi(m_str_end_date.Mid(5,2)),atoi(m_str_end_date.Mid(8,2)),0,0,0,0);
 					m_enddate = timeTmp1;
+					dlgpro->setpos(900);
+					dlgpro->endpos();
+						
                     UpdateData(FALSE);
                 }
             }
@@ -217,6 +233,7 @@ void CDialog_Query_list::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -227,6 +244,7 @@ void CDialog_Query_list::OnOK()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源

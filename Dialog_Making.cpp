@@ -146,6 +146,9 @@ BOOL CDialog_Making::PreTranslateMessage(MSG* pMsg)
 
 void CDialog_Making::OnMakingQuery() 
 {
+	int count = m_list_schedule.GetItemCount();
+	for(int i=0;i<count;i++)
+		m_list_schedule.SetItemColor(i,RGB(0,0,0),RGB(255,255,255));
 	m_list_schedule.DeleteAllItems();
 	UpdateData();
 	CString csSql;
@@ -247,7 +250,7 @@ void CDialog_Making::OnMakingQuery()
 					int tcnumber = atoi(sql_row[9]);
 					int pdnumber = atoi(sql_row[10]);
 					if(index%2==0)
-						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
+						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));//灰色
 					if (sql_row[14]!=NULL)
 					{
 						int spanday = CalcDaySpan(curtime,sql_row[8]);
@@ -257,9 +260,9 @@ void CDialog_Making::OnMakingQuery()
 						}
 						else if (spanday<0)//sql_row[8]交货日期 超时 红色
 						{
-							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,0,0));
+							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,0,128));
 						}
-						else if(spanday<2 && spanday>=0 &&  pdnumber>0)
+						else if(spanday<2 && spanday>=0 &&  pdnumber>0)//即将到期 黄色
 						{
 							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,255,128));
 						}

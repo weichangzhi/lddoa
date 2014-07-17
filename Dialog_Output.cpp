@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_Output.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -122,6 +123,14 @@ void CDialog_Output::OnOK()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_time_end.GetYear(),m_time_end.GetMonth(),m_time_end.GetDay()+1);
 
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -136,10 +145,12 @@ void CDialog_Output::OnOK()
 		mysql_init(&myCont);
 		if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 		{
+			dlgpro->setpos(500);
 			mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 			res=mysql_query(&myCont,csSql);//查询
 			if(!res)
 			{
+				dlgpro->setpos(600);
 				result=mysql_store_result(&myCont);//保存查询到的数据到result
 				if(result)
 				{
@@ -151,6 +162,7 @@ void CDialog_Output::OnOK()
 						((CEdit*)GetDlgItem(IDC_EDIT_NAME))->SetSel(0, -1);
 						if(result!=NULL) mysql_free_result(result);//释放结果资源
 						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
 						return;
 					}
 					sql_row=mysql_fetch_row(result);
@@ -165,6 +177,7 @@ void CDialog_Output::OnOK()
 						((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
 						if(result!=NULL) mysql_free_result(result);//释放结果资源
 						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
 						return;
 					}
 				}
@@ -175,6 +188,7 @@ void CDialog_Output::OnOK()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 			}
@@ -185,6 +199,7 @@ void CDialog_Output::OnOK()
 				str.Format("数据库错误(%s)",error);
 				MessageBox(str,"提示",MB_OK);
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;
 			}
 		}
@@ -195,6 +210,7 @@ void CDialog_Output::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		if(result!=NULL) mysql_free_result(result);//释放结果资源
@@ -246,6 +262,7 @@ void CDialog_Output::OnOK()
 	default:
 		break;
 	}
+	dlgpro->setpos(700);
 
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
@@ -254,6 +271,7 @@ void CDialog_Output::OnOK()
         res=mysql_query(&myCont,csSql);//查询
         if(!res)
         {
+			dlgpro->setpos(800);
             result=mysql_store_result(&myCont);//保存查询到的数据到result
 		    if(result)
             {
@@ -288,6 +306,7 @@ void CDialog_Output::OnOK()
 						m_list_output.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
                 }//while
+				dlgpro->setpos(900);
 				if(index!=0)
 				{
 					m_list_output.InsertItem(index++," ");
@@ -315,6 +334,7 @@ void CDialog_Output::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -325,10 +345,12 @@ void CDialog_Output::OnOK()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
+	dlgpro->endpos();
 
 	return;
 	//CDialog::OnOK();

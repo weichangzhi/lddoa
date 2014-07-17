@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GoodsManageSystem.h"
 #include "Dialog_ChangeRecord.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -89,6 +90,14 @@ void Dialog_ChangeRecord::OnButtonSelect()
 	else
 		csSql.Format("select * from changerecord where  listid=\"%s\" and changetime>=\"%s\" and changetime<=\"%s\" ",m_strListID,starttime,endtime); 
 	
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
     MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -96,11 +105,14 @@ void Dialog_ChangeRecord::OnButtonSelect()
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
+		dlgpro->setpos(500);
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
         res=mysql_query(&myCont,csSql);//查询
+		dlgpro->setpos(600);
         if(!res)
         {
             result=mysql_store_result(&myCont);//保存查询到的数据到result
+			dlgpro->setpos(800);
 		    if(result)
             {
                 int j;
@@ -120,6 +132,7 @@ void Dialog_ChangeRecord::OnButtonSelect()
 						m_listChangeRecord.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
                 }
+				dlgpro->setpos(900);
             }
         }
         else
@@ -129,6 +142,7 @@ void Dialog_ChangeRecord::OnButtonSelect()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -139,10 +153,12 @@ void Dialog_ChangeRecord::OnButtonSelect()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
+	dlgpro->endpos();
 
 	return;
 	

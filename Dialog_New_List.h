@@ -85,6 +85,7 @@ protected:
 	afx_msg void OnSubmitlist();
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
+	afx_msg void OnSelchangeComboDepartment();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

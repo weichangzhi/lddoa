@@ -5,6 +5,7 @@
 #include "GoodsManageSystem.h"
 #include "Dialog_New_List.h"
 #include "Dialog_Login2.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -102,6 +103,7 @@ BEGIN_MESSAGE_MAP(CDialog_New_List, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_END_LIST, OnEndList)
 	ON_BN_CLICKED(IDC_BUTTON_START_LIST, OnStartList)
 	ON_BN_CLICKED(IDC_BUTTON_SUBMITLIST, OnSubmitlist)
+	ON_CBN_SELCHANGE(IDC_COMBO_DEPARTMENT, OnSelchangeComboDepartment)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -122,16 +124,7 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_ComDepartment.InsertString(2,"运营");
 	m_ComDepartment.InsertString(3,"加盟");
 	m_ComDepartment.InsertString(4,"研发");
-	if(m_department.Compare("意造销售")==0)
-		m_ComDepartment.SetCurSel(0);
-	else if(m_department.Compare("电商")==0)
-		m_ComDepartment.SetCurSel(1);
-	else if(m_department.Compare("运营")==0)
-		m_ComDepartment.SetCurSel(2);
-	else if(m_department.Compare("加盟")==0)
-		m_ComDepartment.SetCurSel(3);
-	else if(m_department.Compare("研发")==0)
-		m_ComDepartment.SetCurSel(4);
+	
 	m_ComSize.InsertString(0,"6cm半身单人");
 	m_ComSize.InsertString(1,"12cm半身单人");
 	m_ComSize.InsertString(2,"10cm全身单人");
@@ -148,7 +141,7 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_ComSize.InsertString(13,"10cm动漫美国队长");
 	m_ComSize.InsertString(14,"10cm动漫蝙蝠侠");
 	m_ComSize.InsertString(15,"10cm动漫德玛西亚");
-	m_ComSize.SetCurSel(0);
+	m_ComSize.SetCurSel(-1);
 	m_ComMaterial.InsertString(0,"全彩660砂岩");
 	m_ComMaterial.InsertString(1,"全彩4500塑料");
 	m_ComMaterial.InsertString(2,"尼龙");
@@ -180,6 +173,38 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_ComBill.InsertString(0,"否");
 	m_ComBill.InsertString(1,"是");
 	m_ComBill.SetCurSel(0);
+
+	if(m_department.Compare("意造销售")==0)
+	{
+		m_ComDepartment.SetCurSel(0);
+		m_ComMaterial.SetCurSel(4);
+		m_ComShine.SetCurSel(0);
+	}
+	else if(m_department.Compare("电商")==0)
+	{
+		m_ComDepartment.SetCurSel(1);
+		m_ComMaterial.SetCurSel(10);
+		m_ComShine.SetCurSel(1);
+	}
+	else if(m_department.Compare("运营")==0)
+	{
+		m_ComDepartment.SetCurSel(2);
+		m_ComMaterial.SetCurSel(0);
+		m_ComShine.SetCurSel(0);
+	}
+	else if(m_department.Compare("加盟")==0)
+	{
+		m_ComDepartment.SetCurSel(3);
+		m_ComMaterial.SetCurSel(0);
+		m_ComShine.SetCurSel(0);
+	}
+	else if(m_department.Compare("研发")==0)
+	{
+		m_ComDepartment.SetCurSel(4);
+		m_ComMaterial.SetCurSel(-1);
+		m_ComSize.SetCurSel(-1);
+	}
+
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -283,16 +308,26 @@ void CDialog_New_List::OnSubmitlist()
 	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
 	CString sql;
 	
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+	
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
+		dlgpro->setpos(500);
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 		sql.Format("select * from baseinfo where listid=\"%s\" ",m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
+			dlgpro->endpos();
 			const char *error = mysql_error(&myCont);
 			CString str;
 			str.Format("数据库错误(%s)",error);
@@ -300,12 +335,14 @@ void CDialog_New_List::OnSubmitlist()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
 			unsigned __int64 num = mysql_num_rows(result);//行数
 			if(num==1)
 			{
+				dlgpro->endpos();
 				MessageBox("此订单已被提交，请重新创建订单号","提示",MB_OK);
 				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
@@ -316,6 +353,7 @@ void CDialog_New_List::OnSubmitlist()
 		}
 		else
 		{
+			dlgpro->endpos();
 			const char *error = mysql_error(&myCont);
 			CString str;
 			str.Format("数据库错误(%s)",error);
@@ -324,10 +362,12 @@ void CDialog_New_List::OnSubmitlist()
 			return;
 		}
 
+		dlgpro->setpos(700);
 		CString starttime;
 		sql.Format("select now()");
 		if(mysql_query(&myCont,sql)!= 0)
 		{
+			dlgpro->endpos();
 			const char *error = mysql_error(&myCont);
 			CString str;
 			str.Format("数据库错误(%s)",error);
@@ -357,9 +397,10 @@ void CDialog_New_List::OnSubmitlist()
 		m_listid,m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date,"", m_people,m_receivename ,m_phone, m_address,m_department , \
 		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
 		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,starttime,login2.m_user,m_urgent);
-
+		dlgpro->setpos(900);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
+			dlgpro->endpos();
 			const char *error = mysql_error(&myCont);
 			CString str;
 			str.Format("数据库错误(%s)",error);
@@ -367,6 +408,7 @@ void CDialog_New_List::OnSubmitlist()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)
 		{
 			MessageBox("保存订单成功","提示",MB_OK);			
@@ -379,6 +421,7 @@ void CDialog_New_List::OnSubmitlist()
 	}
 	else
 	{
+		dlgpro->endpos();
 		const char *error = mysql_error(&myCont);
 		CString str;
 		str.Format("数据库错误(%s)",error);
@@ -426,13 +469,21 @@ void CDialog_New_List::OnStartList()
 	{
 		return;
 	}
-	
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
+		dlgpro->setpos(500);
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 		CString sql;
 		sql.Format("select * from schedule where listid=\"%s\" ",m_listid);
@@ -443,8 +494,10 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -456,6 +509,7 @@ void CDialog_New_List::OnStartList()
 				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;
 			}
 		}
@@ -466,6 +520,7 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 
@@ -503,6 +558,7 @@ void CDialog_New_List::OnStartList()
 			return;
 		}
 */
+		dlgpro->setpos(700);
 		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber) \
 		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -512,11 +568,12 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		CTime time = CTime::GetCurrentTime();
 		CString starttime;
-
+		dlgpro->setpos(800);
 		CString strsql ;
 		strsql.Format("select now()");
 		if(mysql_query(&myCont,strsql)!= 0)
@@ -526,6 +583,7 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
@@ -541,9 +599,10 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(900);
 		sql.Format("insert into scheduledetail(listid,businessendtime,businessnumber,businesspeople,tcstarttime) \
 		values (\"%s\",\"%s\",%d,\"%s\",\"%s\")",m_listid,starttime,totelnumber,login2.m_user,starttime);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -553,9 +612,10 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(950);
 		sql.Format("update baseinfo set truelistnumber=%d  where listid=\"%s\" " ,m_true_number,m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -564,15 +624,18 @@ void CDialog_New_List::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		if(mysql_affected_rows(&myCont)>0)
 		{
 			MessageBox("下单成功","提示",MB_OK);
+			dlgpro->endpos();
 		}
 		else
 		{
-			MessageBox("下单失败","提示",MB_OK);
+			MessageBox("下单成功","提示",MB_OK);
+			dlgpro->endpos();
 		}
 	}
 	else
@@ -582,6 +645,7 @@ void CDialog_New_List::OnStartList()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
 	mysql_close(&myCont);//断开连接
@@ -624,4 +688,38 @@ void CDialog_New_List::OnOK()
 	// TODO: Add extra validation here
 	
 	//CDialog::OnOK();
+}
+
+void CDialog_New_List::OnSelchangeComboDepartment() 
+{
+	// TODO: Add your control notification handler code here
+	int index = m_ComDepartment.GetCurSel();
+	switch (index)
+	{
+	case 0://意造销售
+		m_ComMaterial.SetCurSel(4);
+		m_ComShine.SetCurSel(0);
+		break;
+	case 1://电商
+		m_ComMaterial.SetCurSel(10);
+		m_ComShine.SetCurSel(1);
+		break;
+	case 2://运营
+		m_ComMaterial.SetCurSel(0);
+		m_ComShine.SetCurSel(0);
+		break;
+	case 3://加盟
+		m_ComMaterial.SetCurSel(0);
+		m_ComShine.SetCurSel(0);
+		break;
+	case 4://研发
+		m_ComMaterial.SetCurSel(-1);
+		m_ComSize.SetCurSel(-1);
+		break;
+	default:
+		m_ComMaterial.SetCurSel(-1);
+		m_ComSize.SetCurSel(-1);
+		break;
+	}
+	
 }

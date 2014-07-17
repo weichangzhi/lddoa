@@ -5,6 +5,7 @@
 #include "GoodsManageSystem.h"
 #include "Dialog_ModifyList.h"
 #include "Dialog_Login2.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -251,6 +252,13 @@ void CDialog_ModifyList::OnQueryList()
 	{
 		csSql.Format("select * from baseinfo where listid=\"%s\" ",m_query_listid);	
 	}
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
     MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -258,11 +266,14 @@ void CDialog_ModifyList::OnQueryList()
     mysql_init(&myCont);
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
+		dlgpro->setpos(500);
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
         res=mysql_query(&myCont,csSql);//查询
         if(!res)
         {
+			dlgpro->setpos(600);
             result=mysql_store_result(&myCont);//保存查询到的数据到result
+			dlgpro->setpos(700);
 		    if(result)
             {
                 int j = 0;
@@ -426,7 +437,8 @@ void CDialog_ModifyList::OnQueryList()
 						m_ComBill.SetCurSel(1);
 					else 
 						m_ComBill.SetWindowText(m_bill);
-
+					dlgpro->setpos(900);
+					dlgpro->endpos();
                     UpdateData(FALSE);
                 }
 				else
@@ -434,6 +446,7 @@ void CDialog_ModifyList::OnQueryList()
 					MessageBox("无此订单号，请重新输入","提示",MB_OK);
 					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
             }
@@ -445,6 +458,7 @@ void CDialog_ModifyList::OnQueryList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -455,6 +469,7 @@ void CDialog_ModifyList::OnQueryList()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
@@ -551,6 +566,14 @@ void CDialog_ModifyList::OnModifylist()
 	m_str_reveive_time.Format("%04d-%02d-%02d",m_receivedate.GetYear(),m_receivedate.GetMonth(),m_receivedate.GetDay());
 	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
 
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	int isend = 0;
 	MYSQL myCont;
 	MYSQL_RES *result;
@@ -558,6 +581,7 @@ void CDialog_ModifyList::OnModifylist()
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
+		dlgpro->setpos(500);
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 		CString sql;
 		sql.Format("select * from schedule where listid=\"%s\" ",m_listid);
@@ -568,8 +592,10 @@ void CDialog_ModifyList::OnModifylist()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -587,6 +613,7 @@ void CDialog_ModifyList::OnModifylist()
 						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 						if(result!=NULL) mysql_free_result(result);//释放结果资源
 						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
 						return;
 					}
 				}
@@ -597,8 +624,10 @@ void CDialog_ModifyList::OnModifylist()
 					((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
+				dlgpro->setpos(700);
 				CDialog_Login2 login2;
 				if(m_urgent)
 					login2.m_urgent = 1;
@@ -610,6 +639,7 @@ void CDialog_ModifyList::OnModifylist()
 					((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 
@@ -769,6 +799,7 @@ void CDialog_ModifyList::OnModifylist()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 				result=mysql_store_result(&myCont);//保存查询到的数据到result
@@ -784,9 +815,10 @@ void CDialog_ModifyList::OnModifylist()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
-
+				dlgpro->setpos(800);
 				sql.Format("insert into changerecord values (%d,\"%s\",\"%s\",\"%s\",\"%s\")", 0,m_listid,starttime,login2.m_user,strChangeRecord);
 				if(mysql_query(&myCont,sql)!= 0)
 				{
@@ -795,6 +827,7 @@ void CDialog_ModifyList::OnModifylist()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 				writelog("插入变更记录成功");
@@ -809,9 +842,10 @@ void CDialog_ModifyList::OnModifylist()
 				{
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
-
+				dlgpro->setpos(700);
 				sql.Format("select savelistpeople from baseinfo where listid=\"%s\" ",m_listid);
 				if(mysql_query(&myCont,sql)!= 0)
 				{
@@ -820,8 +854,10 @@ void CDialog_ModifyList::OnModifylist()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
+				dlgpro->setpos(800);
 				result=mysql_store_result(&myCont);//保存查询到的数据到result
 				if(result)
 				{
@@ -832,6 +868,7 @@ void CDialog_ModifyList::OnModifylist()
 						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
 						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
 						return;
 					}
 					if(strcmp(sql_row[0],login2.m_user))
@@ -843,6 +880,7 @@ void CDialog_ModifyList::OnModifylist()
 							((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 							if(result!=NULL) mysql_free_result(result);//释放结果资源
 							mysql_close(&myCont);//断开连接
+							dlgpro->endpos();
 							return;
 						}
 					}
@@ -854,6 +892,7 @@ void CDialog_ModifyList::OnModifylist()
 					str.Format("数据库错误(%s)",error);
 					MessageBox(str,"提示",MB_OK);
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 			}
@@ -865,6 +904,7 @@ void CDialog_ModifyList::OnModifylist()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 
@@ -872,7 +912,7 @@ void CDialog_ModifyList::OnModifylist()
 		m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date, m_people,m_receivename ,m_phone, m_address,m_department , \
 		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
 		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,m_urgent,m_listid);
-
+		dlgpro->setpos(900);
 		int ret = mysql_query(&myCont,sql);
 		const char *error = mysql_error(&myCont);
 		if(ret!= 0)
@@ -882,8 +922,11 @@ void CDialog_ModifyList::OnModifylist()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(950);
+		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)
 		{
 			MessageBox("修改订单成功","提示",MB_OK);
@@ -900,6 +943,7 @@ void CDialog_ModifyList::OnModifylist()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
 	}
 	mysql_close(&myCont);//断开连接
@@ -943,7 +987,15 @@ void CDialog_ModifyList::OnStartList()
 	{
 		return;
 	}
-	
+
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -951,6 +1003,7 @@ void CDialog_ModifyList::OnStartList()
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
+		dlgpro->setpos(500);
 		CString sql;
 		sql.Format("select * from schedule where listid=\"%s\" ",m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -960,8 +1013,10 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -973,6 +1028,7 @@ void CDialog_ModifyList::OnStartList()
 				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;
 			}
 		}
@@ -983,6 +1039,7 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 
@@ -1020,6 +1077,7 @@ void CDialog_ModifyList::OnStartList()
 			return;
 		}
 */
+		dlgpro->setpos(700);
 		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber) \
 		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -1029,6 +1087,7 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		CTime time = CTime::GetCurrentTime();
@@ -1043,6 +1102,7 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
@@ -1058,9 +1118,10 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(800);
 		sql.Format("insert into scheduledetail(listid,businessendtime,businessnumber,businesspeople,tcstarttime) \
 		values (\"%s\",\"%s\",%d,\"%s\",\"%s\")",m_listid,starttime,totelnumber,login2.m_user,starttime);
 		if(mysql_query(&myCont,sql)!= 0)
@@ -1070,23 +1131,26 @@ void CDialog_ModifyList::OnStartList()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(900);
 		sql.Format("update baseinfo set truelistnumber=%d  where listid=\"%s\" " ,m_true_number,m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			MessageBox("提交数据库失败","提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return ;
 		}
+		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)
 		{
 			MessageBox("下单成功","提示",MB_OK);
 		}
 		else
 		{
-			MessageBox("下单失败","提示",MB_OK);
+			MessageBox("下单成功","提示",MB_OK);
 		}
 	}
 	else
