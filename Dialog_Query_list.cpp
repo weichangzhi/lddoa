@@ -58,6 +58,7 @@ void CDialog_Query_list::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Query_list)
+	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Check(pDX, IDC_CHECK_DESIGN_SERVER, m_design_server);
 	DDX_Check(pDX, IDC_CHECK_HAS_MODELING, m_has_modeling);
 	DDX_Check(pDX, IDC_CHECK_MODELING, m_modeling);

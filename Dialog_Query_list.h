@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Query_list.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Query_list dialog
 
@@ -20,6 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Query_list)
 	enum { IDD = IDD_DIALOG_LIST_QUERY };
+	CXPButton	m_btnok;
 	BOOL	m_design_server;
 	BOOL	m_has_modeling;
 	BOOL	m_modeling;
@@ -49,7 +50,6 @@ public:
 	CString	m_volume;
 	CString	m_other;
 	CString	m_query_listid;
-		// NOTE: the ClassWizard will add data members here
 	//}}AFX_DATA
 
 

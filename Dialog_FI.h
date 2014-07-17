@@ -7,6 +7,7 @@
 // Dialog_FI.h : header file
 //
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_FI dialog
 
@@ -19,6 +20,10 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_FI)
 	enum { IDD = IDD_DIALOG_FI };
+	CXPButton	m_btnok;
+	CXPButton	m_btnexcel;
+	CXPButton	m_btnadd;
+	CEdit	m_edit;
 	CLineColorListCtrl	m_listFI;
 	CString	m_strlistid_add;
 	CString	m_strlistid_query;
@@ -48,6 +53,9 @@ protected:
 	afx_msg void OnExcel();
 	virtual void OnOK();
 	afx_msg void OnColumnclickListFi(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnEndlabeleditListFi(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDblclkListFi(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnKillfocusEditList();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

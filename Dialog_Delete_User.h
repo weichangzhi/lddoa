@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Delete_User.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Delete_User dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Delete_User)
 	enum { IDD = IDD_DIALOG_DELETE_USER };
+	CXPButton	m_btnok;
+	CXPButton	m_btncancel;
 	CString	m_user;
 	//}}AFX_DATA
 

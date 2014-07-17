@@ -45,6 +45,9 @@ void CDialog_Modify_Permission::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Modify_Permission)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
+	DDX_Control(pDX, ID_MODIFY, m_btnmodify);
 	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_USER_NAME, m_username);
 	DDX_Check(pDX, IDC_CHECK_DEL_LIST, m_del_list);

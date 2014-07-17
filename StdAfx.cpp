@@ -299,6 +299,7 @@ MysqlConnect g_MysqlConnect = {"root", "weichangzhi", "localhost", "sys", 3306};
 CString g_user="";
 CString g_department="";
 int g_permission = 0;
+int g_openprocess = 0;
 FILE* g_fplog = NULL;
 
 void writelog(CString strlog)

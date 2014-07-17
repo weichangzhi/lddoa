@@ -9,6 +9,7 @@
 
 #include "SortListCtrl.h"
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDIALOG_CLIENT dialog
 
@@ -21,6 +22,12 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDIALOG_CLIENT)
 	enum { IDD = IDD_DIALOG_CLIENT };
+	CXPButton	m_btn1;
+	CXPButton	m_btnexcel;
+	CXPButton	m_btnmodifypasswd;
+	CXPButton	m_btndel;
+	CXPButton	m_btnquery;
+	CXPButton	m_btnadd;
 	CLineColorListCtrl	m_list_Clinet;
 	CComboBox	m_com_Client;
 	CString	m_strInput;

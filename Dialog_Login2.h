@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Login2.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Login2 dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Login2)
 	enum { IDD = IDD_DIALOG_LOGIN2 };
+	CXPButton	m_btnCANCEL;
+	CXPButton	m_btnOK;
 	CString	m_passwd;
 	CString	m_user;
 	CString	m_department;

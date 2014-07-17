@@ -34,6 +34,12 @@ void CDIALOG_CLIENT::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDIALOG_CLIENT)
+	DDX_Control(pDX, IDC_BUTTON1, m_btn1);
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
+	DDX_Control(pDX, IDC_BUTTON_MODIFY_PASSWD, m_btnmodifypasswd);
+	DDX_Control(pDX, IDC_BUTTON_DELETE_USER, m_btndel);
+	DDX_Control(pDX, IDC_BUTTON_CLIENT_SELECT, m_btnquery);
+	DDX_Control(pDX, IDC_BUTTON_CLIENT_ADD, m_btnadd);
 	DDX_Control(pDX, IDC_LIST_CLIENT, m_list_Clinet);
 	DDX_Text(pDX, IDC_EDIT_CLIENT, m_strinput);
 	//}}AFX_DATA_MAP

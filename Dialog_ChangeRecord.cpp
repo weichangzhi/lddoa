@@ -30,6 +30,8 @@ void Dialog_ChangeRecord::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Dialog_ChangeRecord)
+	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btnexcel);
+	DDX_Control(pDX, IDC_BUTTON__SELECT, m_btnquery);
 	DDX_Control(pDX, IDC_LIST_CHANGERECORD, m_listChangeRecord);
 	DDX_Text(pDX, IDC_EDIT_LIDTID, m_strListID);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER1, m_timeStart);

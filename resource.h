@@ -73,6 +73,7 @@
 #define IDD_DIALOG_MENU_POST            222
 #define IDD_DIALOG_OUTPUT1              223
 #define IDI_CHANGE_RECORD               223
+#define IDD_DIALOG_PROGRESS             224
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -266,6 +267,8 @@
 #define IDC_EDIT_LISTID_ADD             1212
 #define IDC_BUTTON_FIADD                1213
 #define IDC_CHECK_FI                    1214
+#define IDC_EDIT_LIST                   1216
+#define IDC_PROGRESS                    1217
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -284,9 +287,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        224
+#define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1216
+#define _APS_NEXT_CONTROL_VALUE         1218
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_InputBaseinfo.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_InputBaseinfo dialog
 
@@ -19,6 +19,11 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_InputBaseinfo)
 	enum { IDD = IDD_DIALOG_INPUT_BASEINFO };
+	CXPButton	m_btnOK;
+	CXPButton	m_btncancel;
+	CXPButton	m_btnsubmitlist;
+	CXPButton	m_btnstartlist;
+	CXPButton	m_btnendlist;
 	CString	m_ListID;
 	CString	m_ClientName;
 	CString	m_Phone;

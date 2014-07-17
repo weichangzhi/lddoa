@@ -34,6 +34,8 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_BaseInfo)
+	DDX_Control(pDX, IDC_BUTTON_SELL_SELECT, m_btnquery);
+	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btnexcel);
 	DDX_Control(pDX, IDC_COMBO_SUBWAY, m_comSubWay);
 	DDX_Control(pDX, IDC_LIST_BASEINFO, m_list_baseinfo);
 	DDX_Control(pDX, IDC_COMBO_BASEINFO, m_com_baseinfo);

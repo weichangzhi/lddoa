@@ -28,6 +28,8 @@ void CDialog_Detail::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Detail)
+	DDX_Control(pDX, IDC_BUTTON_DETAIL_SELECT, m_btnquery);
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
 	DDX_Control(pDX, IDC_LIST_DETAIL, m_listdetail);
 	DDX_Text(pDX, IDC_EDIT_DETAIL, m_listid);
 	//}}AFX_DATA_MAP

@@ -60,6 +60,11 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_New_List)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
+	DDX_Control(pDX, IDC_BUTTON_SUBMITLIST, m_btnsubmitlist);
+	DDX_Control(pDX, IDC_BUTTON_START_LIST, m_btnstartlist);
+	DDX_Control(pDX, IDC_BUTTON_END_LIST, m_btnendlist);
 	DDX_Control(pDX, IDC_COMBO_SIZE, m_ComSize);
 	DDX_Control(pDX, IDC_COMBO_SHINE, m_ComShine);
 	DDX_Control(pDX, IDC_COMBO_PAINT, m_ComPaint1);
@@ -239,6 +244,13 @@ void CDialog_New_List::OnSubmitlist()
 			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
 			return;
 		}
+		if(atof(m_money)>10000000)
+		{
+			MessageBox("金额超过上限一千万，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_MONDY)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
+			return;
+		}
 	}
 	if(!(m_volume.IsEmpty()))
 	{
@@ -357,12 +369,13 @@ void CDialog_New_List::OnSubmitlist()
 		}
 		if(mysql_affected_rows(&myCont)>0)
 		{
-			MessageBox("保存订单成功","提示",MB_OK);
+			MessageBox("保存订单成功","提示",MB_OK);			
 		}
 		else
 		{
 			MessageBox("保存订单失败","提示",MB_OK);
 		}
+		GetDlgItem(IDC_BUTTON_START_LIST)->EnableWindow(TRUE);
 	}
 	else
 	{

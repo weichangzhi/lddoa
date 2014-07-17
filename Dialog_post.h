@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_post.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_post dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_post)
 	enum { IDD = IDD_DIALOG_POST };
+	CXPButton	m_btn2;
+	CXPButton	m_btnpost;
 	CComboBox	m_department;
 	CString	m_postid1;
 	CString	m_postid2;

@@ -8,6 +8,7 @@
 //
 
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_BaseInfo dialog
 
@@ -20,6 +21,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_BaseInfo)
 	enum { IDD = IDD_DIALOG_BASEINFO };
+	CXPButton	m_btnquery;
+	CXPButton	m_btnexcel;
 	CComboBox	m_comSubWay;
 	CLineColorListCtrl	m_list_baseinfo;
 	CComboBox	m_com_baseinfo;

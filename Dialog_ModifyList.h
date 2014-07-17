@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_ModifyList.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_ModifyList dialog
 
@@ -50,6 +50,12 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
+	CXPButton	m_btnok;
+	CXPButton	m_btncancel;
+	CXPButton	m_btn1;
+	CXPButton	m_btnstartlist;
+	CXPButton	m_btnmodifylist;
+	CXPButton	m_btnendlist;
 	CComboBox	m_ComShine;
 	CComboBox	m_ComColor;
 	CComboBox	m_ComSize;

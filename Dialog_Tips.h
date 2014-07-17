@@ -7,6 +7,7 @@
 // Dialog_Tips.h : header file
 //
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_Tips dialog
 

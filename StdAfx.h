@@ -28,7 +28,7 @@
 #pragma comment(lib,"libmysql.lib")
 
 #include "excel.h"
-
+#include "SkinMagicLib.h"
 extern BOOL bDesc;
 extern int nColToSort;
 extern int nLastColToSort;
@@ -88,6 +88,7 @@ extern CString g_user;
 extern CString g_department;
 extern int g_permission;
 extern FILE* g_fplog ;
+extern int g_openprocess;
 void writelog(CString strlog);
 
 typedef struct _PermissionLimit
@@ -118,7 +119,7 @@ typedef struct _PermissionLimit
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
 #define CONFIGINI "config.ini"
 #define DEFAULT_TIME "14:00"
-
+#define OPEN_PROCESS 0
 
 
 

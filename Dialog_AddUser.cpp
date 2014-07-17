@@ -48,6 +48,8 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_AddUser)
+	DDX_Control(pDX, IDCANCEL, m_btncan);
+	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_comDepartment);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_passwd);
 	DDX_Text(pDX, IDC_EDIT_PASSWD2, m_passwd2);

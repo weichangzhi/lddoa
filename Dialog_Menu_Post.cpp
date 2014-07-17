@@ -32,6 +32,8 @@ void Dialog_Menu_Post::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Dialog_Menu_Post)
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
+	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_LISTID, m_listid);
 	DDX_Text(pDX, IDC_EDIT_POST_NUM, m_postnumber);

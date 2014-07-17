@@ -31,6 +31,8 @@ void Dialog_TipsSetting::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Dialog_TipsSetting)
+	DDX_Control(pDX, IDC_BUTTON1, m_btn1);
+	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Check(pDX, IDC_CHECK_LOGINTIPS, m_logintips);
 	DDX_Check(pDX, IDC_CHECK_TIMERTIPS, m_timertips);
 	DDX_Text(pDX, IDC_EDIT1, m_strhour);

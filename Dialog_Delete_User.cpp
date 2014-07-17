@@ -28,6 +28,8 @@ void CDialog_Delete_User::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Delete_User)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
 	DDX_Text(pDX, IDC_EDIT_USER, m_user);
 	//}}AFX_DATA_MAP
 }

@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_ModifyPW_Admin.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_ModifyPW_Admin dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyPW_Admin)
 	enum { IDD = IDD_DIALOG_MODIFY_PASSWD_ADMIN };
+	CXPButton	m_btnCANCEL;
+	CXPButton	m_btnOK;
 	CString	m_user;
 	CString	m_new_passwd;
 	CString	m_new_passwd2;

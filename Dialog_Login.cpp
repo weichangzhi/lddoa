@@ -6,6 +6,7 @@
 #include "Dialog_Login.h"
 #include "Dialog_ModifyPassWd.h"
 #include <time.h> 
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,6 +35,8 @@ void CDialog_Login::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Login)
+	DDX_Control(pDX, IDC_BUTTON_MODIFY_PASSWD, m_btnModifyPasswd);
+	DDX_Control(pDX, IDOK, m_btnOK);
 	DDX_Control(pDX, IDC_IPADDRESS1, m_ipaddress);
 	DDX_Text(pDX, IDC_EDIT_USER, m_user);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_passwd);
@@ -130,6 +133,10 @@ void CDialog_Login::OnOK()
 		(CEdit*)GetDlgItem(IDC_EDIT_PASSWD)->SetFocus();
 		return;
 	}
+	int port = GetPrivateProfileInt("ServiceIP", "Port", 3306, strpathini);
+	g_MysqlConnect.port = port;
+	int openprocess = GetPrivateProfileInt("Open_process", "open", 0, strpathini);
+	g_openprocess = openprocess;
 
 	m_ipaddress.GetWindowText(m_strip); 
 	::WritePrivateProfileString("ServiceIP","LastIP",m_strip,strpathini);
@@ -139,12 +146,23 @@ void CDialog_Login::OnOK()
 	sql.Format("select Password(\"%s\");",m_passwd);
 	CString passwden;
 
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
+	//dlgpro.DoModal();
+	dlgpro->setpos(550) ;
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{
+		dlgpro->setpos(580) ;
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -153,9 +171,12 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600) ;
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
+		dlgpro->setpos(700) ;
 		if(result)
 		{
 			sql_row=mysql_fetch_row(result);
@@ -168,9 +189,9 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
 		sql = "select * from userinfo where username='" + m_user +"'";
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -179,8 +200,10 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(800) ;
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -192,6 +215,7 @@ void CDialog_Login::OnOK()
 				((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;
 			}
 			sql_row=mysql_fetch_row(result);
@@ -204,6 +228,7 @@ void CDialog_Login::OnOK()
 					((CEdit*)GetDlgItem(IDC_EDIT_PASSWD))->SetSel(0, -1);
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
 					return;
 				}
 				writelog("密码匹配成功");
@@ -215,6 +240,7 @@ void CDialog_Login::OnOK()
 				((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
 				return;
 			}
 			g_permission = atoi(sql_row[2]);
@@ -228,9 +254,10 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(850) ;
 		CString starttime;
 		sql.Format("select now()");
 		if(mysql_query(&myCont,sql)!= 0)
@@ -240,6 +267,7 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
@@ -255,9 +283,10 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
-
+		dlgpro->setpos(900) ;
 		sql = "select * from test ";
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -266,6 +295,7 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			CDialog::OnOK();
 			return;
 		}
@@ -278,6 +308,7 @@ void CDialog_Login::OnOK()
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				g_user=m_user;
+				dlgpro->endpos();
 				CDialog::OnOK();
 				return;
 			}
@@ -292,6 +323,7 @@ void CDialog_Login::OnOK()
 						MessageBox("此系统试用期已到，请续费后使用","提示",MB_OK);
 						if(result!=NULL) mysql_free_result(result);//释放结果资源
 						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
 						return;
 					}
 				}
@@ -304,6 +336,7 @@ void CDialog_Login::OnOK()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			CDialog::OnOK();
 			return;
 		}
@@ -316,6 +349,7 @@ void CDialog_Login::OnOK()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
 	}
 
@@ -324,6 +358,8 @@ void CDialog_Login::OnOK()
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
 	writelog("登录成功");
+	dlgpro->setpos(950) ;
+	dlgpro->endpos();
 	CDialog::OnOK();
 }
 

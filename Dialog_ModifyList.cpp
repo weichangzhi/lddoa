@@ -62,6 +62,7 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	m_scan1 = FALSE;
 	m_urgent1 = FALSE;
 	m_totel_number1 = 0;
+	//}}AFX_DATA_INIT
 	CString m_str_reveive_time1 = _T("");
 	CString m_str_end_date1 = _T("");
 	CString	m_address1 = _T("");
@@ -82,8 +83,6 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	CString	m_usage1 = _T("");
 	CString	m_volume1 = _T("");
 	CString	m_other1 = _T("");
-
-	//}}AFX_DATA_INIT
 }
 
 
@@ -91,6 +90,12 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_ModifyList)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
+	DDX_Control(pDX, IDC_BUTTON1, m_btn1);
+	DDX_Control(pDX, IDC_BUTTON_START_LIST, m_btnstartlist);
+	DDX_Control(pDX, IDC_BUTTON_MODIFYLIST, m_btnmodifylist);
+	DDX_Control(pDX, IDC_BUTTON_END_LIST, m_btnendlist);
 	DDX_Control(pDX, IDC_COMBO_SHINE, m_ComShine);
 	DDX_Control(pDX, IDC_COMBO_COLOR, m_ComColor);
 	DDX_Control(pDX, IDC_COMBO_SIZE, m_ComSize);
@@ -516,6 +521,13 @@ void CDialog_ModifyList::OnModifylist()
 			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
 			return;	
 		}
+		if(atof(m_money)>10000000)
+		{
+			MessageBox("金额超过上限一千万，请重新输入","提示",MB_OK);
+			(CEdit*)GetDlgItem(IDC_EDIT_MONDY)->SetFocus();
+			((CEdit*)GetDlgItem(IDC_EDIT_MONDY))->SetSel(0, -1);
+			return;
+		}
 	}
 	if(!(m_volume.IsEmpty()))
 	{
@@ -539,6 +551,7 @@ void CDialog_ModifyList::OnModifylist()
 	m_str_reveive_time.Format("%04d-%02d-%02d",m_receivedate.GetYear(),m_receivedate.GetMonth(),m_receivedate.GetDay());
 	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
 
+	int isend = 0;
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -563,6 +576,29 @@ void CDialog_ModifyList::OnModifylist()
 			unsigned __int64 num = mysql_num_rows(result);//行数
 			if(num==1)//已下单，
 			{
+				sql_row=mysql_fetch_row(result);
+				if(sql_row)
+				{
+					isend = atoi(sql_row[10]);
+					if(isend==1)
+					{
+						MessageBox("此订单号已被结单，不可在修改","提示",MB_OK);
+						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
+						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+						if(result!=NULL) mysql_free_result(result);//释放结果资源
+						mysql_close(&myCont);//断开连接
+						return;
+					}
+				}
+				else
+				{
+					MessageBox("此订单号已被下单","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+					if(result!=NULL) mysql_free_result(result);//释放结果资源
+					mysql_close(&myCont);//断开连接
+					return;
+				}
 				CDialog_Login2 login2;
 				if(m_urgent)
 					login2.m_urgent = 1;
@@ -854,7 +890,7 @@ void CDialog_ModifyList::OnModifylist()
 		}
 		else
 		{
-			MessageBox("修改订单失败","提示",MB_OK);
+			MessageBox("修改订单失败，可能数据没有变化","提示",MB_OK);
 		}
 	}
 	else

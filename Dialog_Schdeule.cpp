@@ -29,6 +29,8 @@ void CDialog_Schdeule::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Schdeule)
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
+	DDX_Control(pDX, IDC_BUTTON_SCHDEULE_SELECT, m_btnquery);
 	DDX_Control(pDX, IDC_COMBO2, m_com_schdeule2);
 	DDX_Control(pDX, IDC_LIST_SCHDEULE, m_list_schedule);
 	DDX_Control(pDX, IDC_COMBO_SCHEDULE, m_com_schdeule);

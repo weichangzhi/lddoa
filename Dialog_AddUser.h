@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_AddUser.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_AddUser dialog
 
@@ -20,6 +20,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_AddUser)
 	enum { IDD = IDD_DIALOG_ADD_USER };
+	CXPButton	m_btncan;
+	CXPButton	m_btnok;
 	CComboBox	m_comDepartment;
 	CString	m_passwd;
 	CString	m_passwd2;

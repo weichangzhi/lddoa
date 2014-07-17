@@ -31,6 +31,8 @@ void CDialog_Output::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Output)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
 	DDX_Control(pDX, IDC_EDIT_NAME, m_EditName);
 	DDX_Control(pDX, IDC_COMBO_WAY, m_ComWay);
 	DDX_Control(pDX, IDC_LIST_OUTPUT, m_list_output);

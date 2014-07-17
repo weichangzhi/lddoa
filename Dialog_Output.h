@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Output.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Output dialog
 
@@ -20,6 +20,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Output)
 	enum { IDD = IDD_DIALOG_OUTPUT1 };
+	CXPButton	m_btnok;
+	CXPButton	m_btnexcel;
 	CEdit	m_EditName;
 	CComboBox	m_ComWay;
 	CLineColorListCtrl	m_list_output;

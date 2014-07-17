@@ -31,6 +31,8 @@ void CDialog_ModifyPassWd::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_ModifyPassWd)
+	DDX_Control(pDX, IDOK, m_btnOK);
+	DDX_Control(pDX, IDCANCEL, m_btnCANCEL);
 	DDX_Text(pDX, IDC_EDIT_NEW_PASSWD, m_new_passwd);
 	DDX_Text(pDX, IDC_EDIT_NEW_PASSWD2, m_new_passwd2);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_passwd);

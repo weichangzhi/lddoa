@@ -7,6 +7,7 @@
 // Dialog_ChangeRecord.h : header file
 //
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_ChangeRecord dialog
 
@@ -19,6 +20,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_ChangeRecord)
 	enum { IDD = IDD_DIALOG_CHAGNE_RECORD };
+	CXPButton	m_btnexcel;
+	CXPButton	m_btnquery;
 	CLineColorListCtrl	m_listChangeRecord;
 	CString	m_strListID;
 	CTime	m_timeStart;

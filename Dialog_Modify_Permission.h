@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Modify_Permission.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Modify_Permission dialog
 
@@ -19,6 +19,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Modify_Permission)
 	enum { IDD = IDD_DIALOG_MODIFY_PERMISSION };
+	CXPButton	m_btnok;
+	CXPButton	m_btncancel;
+	CXPButton	m_btnmodify;
 	CComboBox	m_department;
 	CString	m_username;
 	BOOL	m_del_list;

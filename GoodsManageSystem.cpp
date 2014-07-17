@@ -63,16 +63,21 @@ BOOL CGoodsManageSystemApp::InitInstance()
 #else
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
+//	VERIFY(1 == InitSkinMagicLib(AfxGetInstanceHandle(), NULL, NULL, NULL));
 	g_fplog = fopen("log.ini","wb+");
 
 	writelog("welecome to lddoa");
 	AfxInitRichEdit();
+	SetDialogBkColor(RGB(232,237,253),RGB(0,0,0));
 	CDialog_Login login;
 	if(login.DoModal()==IDOK)
 	{
 		writelog("login is ok");
 		CGoodsManageSystemDlg dlg;
 		m_pMainWnd = &dlg;
+		//VERIFY(1 == LoadSkinFile("skin//xpgrean.smf"));
+		//VERIFY(1 == SetWindowSkin(m_pMainWnd->m_hWnd, "MainFrame"));
+		//VERIFY(1 == SetDialogSkin("Dialog"));
 		char log[256] = {0};
 		sprintf(log,"dlg=%x",dlg);
 		writelog(log);
@@ -121,5 +126,6 @@ int CGoodsManageSystemApp::ExitInstance()
 //	g_adoDataSet.Close();
 	writelog("logoff");
 	fclose(g_fplog);
+	//ExitSkinMagicLib();
 	return CWinApp::ExitInstance();
 }

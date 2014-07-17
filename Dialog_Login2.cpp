@@ -32,6 +32,8 @@ void CDialog_Login2::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Login2)
+	DDX_Control(pDX, IDCANCEL, m_btnCANCEL);
+	DDX_Control(pDX, IDOK, m_btnOK);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_passwd);
 	DDX_Text(pDX, IDC_EDIT_USER, m_user);
 	//}}AFX_DATA_MAP

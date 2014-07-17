@@ -46,6 +46,11 @@ void CDialog_InputBaseinfo::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_InputBaseinfo)
+	DDX_Control(pDX, IDOK, m_btnOK);
+	DDX_Control(pDX, IDCANCEL, m_btncancel);
+	DDX_Control(pDX, IDC_BUTTON_SUBMITLIST, m_btnsubmitlist);
+	DDX_Control(pDX, IDC_BUTTON_START_LIST, m_btnstartlist);
+	DDX_Control(pDX, IDC_BUTTON_END_LIST, m_btnendlist);
 	DDX_Text(pDX, IDC_EDIT_LISTID, m_ListID);
 	DDX_Text(pDX, IDC_EDIT_CLIENTNAME, m_ClientName);
 	DDX_Text(pDX, IDC_EDIT_PHONE, m_Phone);

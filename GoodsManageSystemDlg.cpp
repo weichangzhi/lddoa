@@ -26,6 +26,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CAboutDlg)
 	enum { IDD = IDD_ABOUTBOX };
+	CXPButton	m_btnok;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
@@ -51,6 +52,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CAboutDlg)
+	DDX_Control(pDX, IDOK, m_btnok);
 	//}}AFX_DATA_MAP
 }
 
@@ -136,7 +138,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
 	}
-
+	//EnableMenuItem(GetSubMenu(GetSkinMenu(*AfxGetApp()->m_pMainWnd), 0), 0, MF_BYPOSITION  | MF_GRAYED);
 	this->ShowWindow(SW_SHOWMAXIMIZED);
 	bFirstin = 1;
 	// Set the icon for this dialog.  The framework does this automatically
@@ -198,7 +200,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_tree.SetImageList(imagelist,TVSIL_NORMAL);  //为m_mytree设置一个图像列表，使CtreeCtrl的节点显示不同的图标 
 	m_tree.SetBkColor(RGB(211,223,252));//设置m_mytree的背景色
 
-	m_tree.ModifyStyle(NULL,TVS_HASBUTTONS|TVS_HASLINES|TVS_LINESATROOT);
+	m_tree.ModifyStyle(NULL,TVS_HASBUTTONS|TVS_HASLINES|TVS_LINESATROOT|TVS_SHOWSELALWAYS);
 	//创建节点
 	//父节点
 	HTREEITEM root0=m_tree.InsertItem("LDD办公系统",22,22,TVI_ROOT,TVI_LAST);

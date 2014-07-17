@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Menu_Post.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_Menu_Post dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_Menu_Post)
 	enum { IDD = IDD_DIALOG_MENU_POST };
+	CXPButton	m_btncancel;
+	CXPButton	m_btnok;
 	CComboBox	m_department;
 	CString	m_listid;
 	CString	m_postnumber;

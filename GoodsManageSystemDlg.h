@@ -24,6 +24,7 @@
 #include "Dialog_Unpost.h"
 #include "Dialog_ChangeRecord.h"
 #include "Dialog_FI.h"
+#include "XPButton.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog

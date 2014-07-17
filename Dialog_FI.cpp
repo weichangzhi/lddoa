@@ -33,6 +33,10 @@ void Dialog_FI::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Dialog_FI)
+	DDX_Control(pDX, IDOK, m_btnok);
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
+	DDX_Control(pDX, IDC_BUTTON_FIADD, m_btnadd);
+	DDX_Control(pDX, IDC_EDIT_LIST, m_edit);
 	DDX_Control(pDX, IDC_LIST_FI, m_listFI);
 	DDX_Text(pDX, IDC_EDIT_LISTID_ADD, m_strlistid_add);
 	DDX_Text(pDX, IDC_EDIT_LISTID_QUERY, m_strlistid_query);
@@ -49,6 +53,9 @@ BEGIN_MESSAGE_MAP(Dialog_FI, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_FIADD, OnFiadd)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_FI, OnColumnclickListFi)
+	ON_NOTIFY(LVN_ENDLABELEDIT, IDC_LIST_FI, OnEndlabeleditListFi)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_FI, OnDblclkListFi)
+	ON_EN_KILLFOCUS(IDC_EDIT_LIST, OnKillfocusEditList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -64,8 +71,18 @@ BOOL Dialog_FI::OnInitDialog()
 		GetDlgItem(IDOK)->EnableWindow(FALSE);
 		GetDlgItem(IDC_EXCEL)->EnableWindow(FALSE);
 	}
+	LONG lStyle;
+	lStyle = GetWindowLong(m_listFI.m_hWnd, GWL_STYLE);//获取当前窗口style
+	lStyle |= LVS_REPORT; //设置style
+	SetWindowLong(m_listFI.m_hWnd, GWL_STYLE, lStyle);//设置style
+	DWORD dwStyle = m_listFI.GetExtendedStyle();
+	dwStyle |= LVS_EX_FULLROWSELECT;//选中某行使整行高亮（只适用与report风格的listctrl）
+	dwStyle |= LVS_EX_GRIDLINES;//网格线（只适用与report风格的listctrl）
+	m_listFI.SetExtendedStyle(dwStyle); //设置扩展风格
+	m_edit.ShowWindow(SW_HIDE);
 
-	m_listFI.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
+
+	//m_listFI.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EDITLABELS);
 	m_listFI.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
 	m_listFI.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_listFI.InsertColumn(2, _T("是否收款"), LVCFMT_LEFT,100);
@@ -333,4 +350,45 @@ void Dialog_FI::OnColumnclickListFi(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	listsort(&m_listFI,pNMListView);
 	*pResult = 0;
+}
+
+void Dialog_FI::OnEndlabeleditListFi(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	// TODO: Add your control notification handler code here
+	
+	*pResult = TRUE;
+}
+
+void Dialog_FI::OnDblclkListFi(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView=(NM_LISTVIEW*)pNMHDR;
+	CRect rc;
+	if(pNMListView->iItem!=-1)
+	{
+	   int m_row=pNMListView->iItem;//m_row为被选中行的行序号（int类型成员变量）
+	   int m_column=pNMListView->iSubItem;//m_column为被选中行的列序号（int类型成员变量）
+	   m_listFI.GetSubItemRect(pNMListView->iItem, pNMListView->iSubItem,LVIR_LABEL,rc);//取得子项的矩形
+	   rc.left+=3;
+	   rc.top+=167;
+	   rc.right+=3;
+	   rc.bottom+=170;
+	   char * ch=new char [128];
+	   m_listFI.GetItemText(pNMListView->iItem, pNMListView->iSubItem,ch,128);//取得子项的内容
+	   m_edit.SetWindowText(ch);//将子项的内容显示到编辑框中
+	   m_edit.ShowWindow(SW_SHOW);//显示编辑框
+	   m_edit.MoveWindow(&rc);//将编辑框移动到子项上面，覆盖在子项上
+	   m_edit.SetFocus();//使编辑框取得焦点
+	   m_edit.CreateSolidCaret(1,rc.Height()-5);//创建一个光标
+	   m_edit.ShowCaret();//显示光标
+	   m_edit.SetSel(0,-1);//使光标移到最后面
+	}
+	*pResult = 0;
+}
+
+void Dialog_FI::OnKillfocusEditList() 
+{
+	CString str;
+	m_edit.GetWindowText(str);//取得编辑框的内容
+	m_edit.ShowWindow(SW_HIDE);//隐藏编辑框	
 }

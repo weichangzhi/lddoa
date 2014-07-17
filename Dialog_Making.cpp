@@ -5,6 +5,7 @@
 #include "GoodsManageSystem.h"
 #include "Dialog_Making.h"
 #include "Dialog_Menu_Post.h"
+#include "Dialog_progress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,6 +31,9 @@ void CDialog_Making::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Making)
+	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
+	DDX_Control(pDX, IDC_BUTTON_SCHDEULE_SELECT, m_btnquery);
+	DDX_Control(pDX, IDC_EDIT_LIST, m_edit);
 	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_ComDepartment);
 	DDX_Control(pDX, IDC_LIST_SCHDEULE, m_list_schedule);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER1, m_timebegin);
@@ -49,6 +53,8 @@ BEGIN_MESSAGE_MAP(CDialog_Making, CDialog)
 	ON_COMMAND(ID_MENUITEM_POST_QC, OnMenuitemPostQc)
 	ON_COMMAND(ID_MENUITEM_POST_STORAGE, OnMenuitemPostStorage)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_SCHDEULE, OnColumnclickListSchdeule)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST_SCHDEULE, OnDblclkListSchdeule)
+	ON_EN_KILLFOCUS(IDC_EDIT_LIST, OnKillfocusEditList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -58,6 +64,16 @@ END_MESSAGE_MAP()
 BOOL CDialog_Making::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
+
+	LONG lStyle;
+	lStyle = GetWindowLong(m_list_schedule.m_hWnd, GWL_STYLE);//获取当前窗口style
+	lStyle |= LVS_REPORT; //设置style
+	SetWindowLong(m_list_schedule.m_hWnd, GWL_STYLE, lStyle);//设置style
+	DWORD dwStyle = m_list_schedule.GetExtendedStyle();
+	dwStyle |= LVS_EX_FULLROWSELECT;//选中某行使整行高亮（只适用与report风格的listctrl）
+	dwStyle |= LVS_EX_GRIDLINES;//网格线（只适用与report风格的listctrl）
+	m_list_schedule.SetExtendedStyle(dwStyle); //设置扩展风格
+	m_edit.ShowWindow(SW_HIDE);
 
 	m_list_schedule.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_list_schedule.InsertColumn(0, _T("序号"), LVCFMT_LEFT,50);
@@ -146,6 +162,14 @@ void CDialog_Making::OnMakingQuery()
 	else
 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
 
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+	
 	MYSQL myCont;
     MYSQL_RES *result;
     MYSQL_ROW sql_row;
@@ -154,7 +178,7 @@ void CDialog_Making::OnMakingQuery()
     if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
     {
         mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
-
+		dlgpro->setpos(500);
 		CString curtime;
 		CString strsql ;
 		strsql.Format("select now()");
@@ -165,8 +189,10 @@ void CDialog_Making::OnMakingQuery()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
+		dlgpro->setpos(600);
 		result=mysql_store_result(&myCont);//保存查询到的数据到result
 		if(result)
 		{
@@ -181,14 +207,18 @@ void CDialog_Making::OnMakingQuery()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
 		}
 
 
         res=mysql_query(&myCont,csSql);//查询
+		dlgpro->setpos(700);
         if(!res)
         {
             result=mysql_store_result(&myCont);//保存查询到的数据到result
+			dlgpro->setpos(950);
+			dlgpro->endpos();
 		    if(result)
             {
                 int j;
@@ -249,6 +279,7 @@ void CDialog_Making::OnMakingQuery()
 			str.Format("数据库错误(%s)",error);
 			MessageBox(str,"提示",MB_OK);
 			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
 			return;
         }
     }
@@ -259,11 +290,11 @@ void CDialog_Making::OnMakingQuery()
 		str.Format("数据库错误(%s)",error);
 		MessageBox(str,"提示",MB_OK);
 		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
 		return;
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
-
 	return;
 }
 
@@ -490,4 +521,37 @@ void CDialog_Making::OnColumnclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	//listsort(&m_list_schedule,pNMListView);	
 	*pResult = 0;
+}
+
+void CDialog_Making::OnDblclkListSchdeule(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView=(NM_LISTVIEW*)pNMHDR;
+	CRect rc;
+	if(pNMListView->iItem!=-1)
+	{
+	   int m_row=pNMListView->iItem;//m_row为被选中行的行序号（int类型成员变量）
+	   int m_column=pNMListView->iSubItem;//m_column为被选中行的列序号（int类型成员变量）
+	   m_list_schedule.GetSubItemRect(pNMListView->iItem, pNMListView->iSubItem,LVIR_LABEL,rc);//取得子项的矩形
+	   rc.left+=3;
+	   rc.top+=52;
+	   rc.right+=3;
+	   rc.bottom+=55;
+	   char * ch=new char [128];
+	   m_list_schedule.GetItemText(pNMListView->iItem, pNMListView->iSubItem,ch,128);//取得子项的内容
+	   m_edit.SetWindowText(ch);//将子项的内容显示到编辑框中
+	   m_edit.ShowWindow(SW_SHOW);//显示编辑框
+	   m_edit.MoveWindow(&rc);//将编辑框移动到子项上面，覆盖在子项上
+	   m_edit.SetFocus();//使编辑框取得焦点
+	   m_edit.CreateSolidCaret(1,rc.Height()-5);//创建一个光标
+	   m_edit.ShowCaret();//显示光标
+	   m_edit.SetSel(0,-1);//使光标移到最后面
+	}
+	*pResult = 0;
+}
+
+void CDialog_Making::OnKillfocusEditList() 
+{
+	CString str;
+	m_edit.GetWindowText(str);//取得编辑框的内容
+	m_edit.ShowWindow(SW_HIDE);//隐藏编辑框	
 }

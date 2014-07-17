@@ -44,6 +44,8 @@ void CDialog_post::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_post)
+	DDX_Control(pDX, IDC_BUTTON2, m_btn2);
+	DDX_Control(pDX, IDC_BUTTON_POST, m_btnpost);
 	DDX_Control(pDX, IDC_COMBO_DEPARTMENT, m_department);
 	DDX_Text(pDX, IDC_EDIT_POST_ID1, m_postid1);
 	DDX_Text(pDX, IDC_EDIT_POST_ID2, m_postid2);

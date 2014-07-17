@@ -7,6 +7,7 @@
 // Dialog_Making.h : header file
 //
 #include "LineColorListCtrl.h"
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Making dialog
 
@@ -19,6 +20,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Making)
 	enum { IDD = IDD_DIALOG_MAKEING };
+	CXPButton	m_btnexcel;
+	CXPButton	m_btnquery;
+	CEdit	m_edit;
 	CComboBox	m_ComDepartment;
 	CLineColorListCtrl 	m_list_schedule;
 	CTime	m_timebegin;
@@ -50,6 +54,8 @@ protected:
 	afx_msg void OnMenuitemPostQc();
 	afx_msg void OnMenuitemPostStorage();
 	afx_msg void OnColumnclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDblclkListSchdeule(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnKillfocusEditList();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

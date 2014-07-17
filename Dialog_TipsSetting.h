@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_TipsSetting.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_TipsSetting dialog
 
@@ -19,6 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_TipsSetting)
 	enum { IDD = IDD_TIPS_SETTING };
+	CXPButton	m_btn1;
+	CXPButton	m_btnok;
 	BOOL	m_logintips;
 	BOOL	m_timertips;
 	CString	m_strhour;

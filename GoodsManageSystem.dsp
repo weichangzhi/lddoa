@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libmysql.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/LDD办公系统.exe" /pdbtype:sept
+# ADD LINK32 libmysql.lib SkinMagicLibMT6.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/LDD办公系统.exe" /pdbtype:sept
 
 !ENDIF 
 
@@ -168,6 +168,10 @@ SOURCE=.\Dialog_post.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_progress.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Query_list.cpp
 # End Source File
 # Begin Source File
@@ -204,6 +208,10 @@ SOURCE=.\GoodsManageSystemDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\GradientProgressCtrl.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\LineColorListCtrl.cpp
 # End Source File
 # Begin Source File
@@ -214,6 +222,10 @@ SOURCE=.\Preview.cpp
 
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
+# End Source File
+# Begin Source File
+
+SOURCE=.\XPButton.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -301,6 +313,10 @@ SOURCE=.\Dialog_post.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_progress.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Query_list.h
 # End Source File
 # Begin Source File
@@ -333,7 +349,15 @@ SOURCE=.\GoodsManageSystemDlg.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\GradientProgressCtrl.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\LineColorListCtrl.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\MemDC.h
 # End Source File
 # Begin Source File
 
@@ -346,6 +370,10 @@ SOURCE=.\Resource.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XPButton.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -398,6 +426,10 @@ SOURCE=.\res\adduser.ico
 # Begin Source File
 
 SOURCE=.\res\buy.ico
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\changerecord.ico
 # End Source File
 # Begin Source File
 

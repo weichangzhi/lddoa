@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 // Dialog_Schdeule.h : header file
 //
-
+#include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_Schdeule dialog
 
@@ -20,6 +20,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Schdeule)
 	enum { IDD = IDD_DIALOG_SCHEDULE };
+	CXPButton	m_btnexcel;
+	CXPButton	m_btnquery;
 	CComboBox	m_com_schdeule2;
 	CLineColorListCtrl	m_list_schedule;
 	CComboBox	m_com_schdeule;
