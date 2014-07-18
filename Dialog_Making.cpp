@@ -260,7 +260,7 @@ void CDialog_Making::OnMakingQuery()
 						}
 						else if (spanday<0)//sql_row[8]交货日期 超时 红色
 						{
-							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,0,128));
+							m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(255,128,128));
 						}
 						else if(spanday<2 && spanday>=0 &&  pdnumber>0)//即将到期 黄色
 						{

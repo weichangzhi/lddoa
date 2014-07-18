@@ -20,6 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Schdeule)
 	enum { IDD = IDD_DIALOG_SCHEDULE };
+	CComboBox	m_department;
 	CXPButton	m_btnexcel;
 	CXPButton	m_btnquery;
 	CComboBox	m_com_schdeule2;

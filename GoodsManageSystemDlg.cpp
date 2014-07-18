@@ -79,6 +79,11 @@ CGoodsManageSystemDlg::CGoodsManageSystemDlg(CWnd* pParent /*=NULL*/)
 	timertime = DEFAULT_TIME;
 	m_hour = 14;
 	m_min = 0;
+	int i = 0;
+	for(i=0;i<MAX_TREE_PAGE;i++)
+	{
+		m_treePages[i]=NULL;
+	}
 	writelog("CGoodsManageSystemDl构造函数结束");
 }
 
@@ -344,6 +349,9 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	
 void CGoodsManageSystemDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
+	char log[256] = {0};
+	sprintf(log,"OnSysCommand \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
 		CAboutDlg dlgAbout;
@@ -361,6 +369,9 @@ void CGoodsManageSystemDlg::OnSysCommand(UINT nID, LPARAM lParam)
 
 void CGoodsManageSystemDlg::OnPaint() 
 {
+	char log[256] = {0};
+	sprintf(log,"OnPaint \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // device context for painting
@@ -402,14 +413,21 @@ void CGoodsManageSystemDlg::OnClose()
 {
 	// TODO: Add your message handler code here and/or call default
 	//AnimateWindow(this->GetSafeHwnd(),800,AW_HOR_NEGATIVE|AW_HIDE|AW_VER_POSITIVE);
+	char log[256] = {0};
+	sprintf(log,"OnClose \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	CDialog::OnClose();
 	CDialog::OnCancel();
 }
 
 void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy) 
 {
+	char log[256] = {0};
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	CDialog::OnSize(nType, cx, cy);
-	
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	CRect m_rect;
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
@@ -417,15 +435,20 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_rect.DeflateRect(230,0,20,20);
 	rectlist.DeflateRect(0,50,250,20);
 	rectlistfi.DeflateRect(0,165,250,20);
-
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	int i = 0;
 	for(i=0;i<MAX_TREE_PAGE;i++)
 	{
 		if(m_treePages[i]==NULL)
 			return;
 	}
+	sprintf(log,"OnSize %x \t%s,%d",&m_treePages[0],__FILE__,__LINE__);
+	writelog(log);
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	m_treePages[1]->MoveWindow(m_rect);
 	((CDialog_BaseInfo*)(m_treePages[1]))->m_list_baseinfo.MoveWindow(rectlist);
 	m_treePages[2]->MoveWindow(m_rect);
@@ -440,10 +463,14 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[8]->MoveWindow(m_rect);
 	((CDialog_Making*)(m_treePages[8]))->m_list_schedule.MoveWindow(rectlist);
 	m_treePages[9]->MoveWindow(m_rect);
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	m_treePages[10]->MoveWindow(m_rect);
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
 	m_treePages[11]->MoveWindow(m_rect);
 	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
+	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 
 }
 
@@ -485,6 +512,9 @@ void CGoodsManageSystemDlg::OnBuyAdd()
 
 void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult) 
 {
+	char log[256] = {0};
+	sprintf(log,"OnSelchangedTree \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	// TODO: Add your control notification handler code here
 
@@ -619,12 +649,19 @@ BOOL CGoodsManageSystemDlg::PreTranslateMessage(MSG* pMsg)
 
 void CGoodsManageSystemDlg::OnMenuitemTips() 
 {
+	char log[256] = {0};
+	sprintf(log,"OnMenuitemTips \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
 	Dialog_TipsSetting dlg;
 	dlg.DoModal();
 }
 
 void CGoodsManageSystemDlg::OnTimer(UINT nIDEvent) 
 {
+	char log[256] = {0};
+	sprintf(log,"OnTimer \t%s,%d",__FILE__,__LINE__);
+	writelog(log);
+
 	CTime CurrentTime;
 	int hour = 0,min = 0;
 	switch(nIDEvent)

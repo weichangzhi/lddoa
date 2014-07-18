@@ -79,9 +79,8 @@ BOOL CGoodsManageSystemApp::InitInstance()
 		//VERIFY(1 == SetWindowSkin(m_pMainWnd->m_hWnd, "MainFrame"));
 		//VERIFY(1 == SetDialogSkin("Dialog"));
 		char log[256] = {0};
-		sprintf(log,"dlg=%x",dlg);
+		sprintf(log,"login is ok2\t%s,%d",__FILE__,__LINE__);
 		writelog(log);
-		writelog("login is ok2");
 		int nResponse = dlg.DoModal();
 		if (nResponse == IDOK)
 		{
