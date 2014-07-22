@@ -37,9 +37,13 @@ CDialog_AddUser::CDialog_AddUser(CWnd* pParent /*=NULL*/)
 	m_Bpermission = FALSE;
 	m_qc = FALSE;
 	m_urgent = FALSE;
+	m_fi = FALSE;
+	m_money_run = FALSE;
+	m_money_join = FALSE;
+	m_money_ec = FALSE;
 	strdepartment = _T("");
 	m_permission = 0;
-	m_fi = FALSE;
+	m_money_sell = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -62,7 +66,6 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_POST_SEND, m_post_send);
 	DDX_Check(pDX, IDC_CHECK_POST_STORAGE, m_post_storage);
 	DDX_Check(pDX, IDC_CHECK_POST_TC, m_post_tc);
-	DDX_Check(pDX, IDC_CHECK_QUERY_LIST, m_query_list);
 	DDX_Check(pDX, IDC_CHECK_REFUND, m_refund);
 	DDX_Check(pDX, IDC_CHECK_SAVE_LIST, m_save_list);
 	DDX_Check(pDX, IDC_CHECK_START_LIST, m_start_list);
@@ -70,6 +73,10 @@ void CDialog_AddUser::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_QC, m_qc);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
 	DDX_Check(pDX, IDC_CHECK_FI, m_fi);
+	DDX_Check(pDX, IDC_CHECK_MONEY_RUN, m_money_run);
+	DDX_Check(pDX, IDC_CHECK_MONEY_JOIN, m_money_join);
+	DDX_Check(pDX, IDC_CHECK_MONEY_EC, m_money_ec);
+	DDX_Check(pDX, IDC_CHECK_MONEY_SELL, m_money_sell);
 	//}}AFX_DATA_MAP
 }
 
@@ -101,7 +108,7 @@ BOOL CDialog_AddUser::OnInitDialog()
 	m_start_list = TRUE;
 	m_end_list = TRUE;
 	m_modify_list_before = TRUE;
-	m_query_list = TRUE;
+	m_money_sell = TRUE;
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -141,7 +148,6 @@ void CDialog_AddUser::OnOK()
 		if(m_post_send) m_permission+=POST_SEND;
 		if(m_post_storage) m_permission+=POST_STORAGE;
 		if(m_post_tc) m_permission+=POST_TC;
-		if(m_query_list) m_permission+=QUERY_LIST;
 		if(m_refund) m_permission+=REFUND;
 		if(m_save_list) m_permission+=SAVE_LIST;
 		if(m_start_list) m_permission+=START_LIST;
@@ -149,7 +155,10 @@ void CDialog_AddUser::OnOK()
 		if(m_qc) m_permission+=QC;
 		if(m_urgent) m_permission+=URGENT;
 		if(m_fi) m_permission+=FI;
-
+		if(m_money_sell) m_permission+=MONEY_SELL;
+		if(m_money_ec) m_permission+=MONEY_EC;
+		if(m_money_run) m_permission+=MONEY_RUN;
+		if(m_money_join) m_permission+=MONEY_JOIN;
 
 		m_comDepartment.GetWindowText(strdepartment);
 		CString sql;
@@ -240,6 +249,87 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 {
 	UpdateData();
 	int indexSel = m_comDepartment.GetCurSel();
+	m_del_list = FALSE;
+	m_end_list = FALSE;
+	m_modify_list_after = FALSE;
+	m_modify_list_before = FALSE;
+	m_post_pd = FALSE;
+	m_post_send = FALSE;
+	m_post_storage = FALSE;
+	m_post_tc = FALSE;
+	m_refund = FALSE;
+	m_save_list = FALSE;
+	m_start_list = FALSE;
+	m_Bpermission = FALSE;
+	m_qc = FALSE;
+	m_urgent = FALSE;
+	m_fi = FALSE;
+	m_money_sell = FALSE;
+	m_money_ec = FALSE;
+	m_money_run = FALSE;
+	m_money_join = FALSE;
+	switch(indexSel)
+	{
+	case 0://意造销售
+		m_end_list = TRUE;
+		m_modify_list_before = TRUE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_money_sell = TRUE;
+		break;
+	case 1://电商
+		m_end_list = TRUE;
+		m_modify_list_before = TRUE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_money_ec = TRUE;
+		break;
+	case 2://运营
+		m_end_list = TRUE;
+		m_modify_list_before = TRUE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_money_run = TRUE;
+		break;
+	case 3://加盟
+		m_end_list = TRUE;
+		m_modify_list_before = TRUE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		m_money_join = TRUE;
+		break;
+	case 4://研发
+		m_end_list = TRUE;
+		m_modify_list_before = TRUE;
+		m_post_tc = TRUE;
+		m_save_list = TRUE;
+		m_start_list = TRUE;
+		break;
+	case 5://技术部意造
+		m_post_tc = TRUE;
+		break;
+	case 6://技术部记梦馆
+		m_post_tc = TRUE;
+		break;
+	case 7://生产部
+		m_post_pd = TRUE;
+		m_qc = TRUE;
+		break;
+	case 8://成品仓
+		m_post_send = TRUE;
+		m_post_storage = TRUE;
+		break;
+	case 9://财务
+		m_fi = TRUE;
+		m_money_sell = TRUE;
+		m_money_ec = TRUE;
+		m_money_run = TRUE;
+		m_money_join = TRUE;
+		break;
+	default:
+		break;
+	}
+	/*
 	switch(indexSel)
 	{
 	case 0://意造销售
@@ -259,6 +349,7 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 		m_qc = FALSE;
 		m_urgent = FALSE;
 		m_fi = FALSE;
+
 		break;
 	case 1://电商
 		m_del_list = FALSE;
@@ -425,5 +516,6 @@ void CDialog_AddUser::OnSelchangeComboDepartment()
 	default:
 		break;
 	}
+	*/
 	UpdateData(FALSE);
 }

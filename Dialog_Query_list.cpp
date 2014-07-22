@@ -219,6 +219,13 @@ void CDialog_Query_list::OnOK()
 					m_receivedate = timeTmp;
 					CTime timeTmp1(atoi(m_str_end_date.Mid(0,4)),atoi(m_str_end_date.Mid(5,2)),atoi(m_str_end_date.Mid(8,2)),0,0,0,0);
 					m_enddate = timeTmp1;
+					m_money = "******";
+					if(((m_department.Compare("意造销售")==0) && (g_permission&MONEY_SELL))
+						||((m_department.Compare("电商")==0) && (g_permission&MONEY_EC))
+						||((m_department.Compare("运营")==0) && (g_permission&MONEY_RUN))
+						||((m_department.Compare("加盟")==0) && (g_permission&MONEY_JOIN)))
+						m_money = sql_row[28];
+
 					dlgpro->setpos(900);
 					dlgpro->endpos();
 						

@@ -335,6 +335,14 @@ void CDialog_ModifyList::OnQueryList()
 					else if(m_department.Compare("研发")==0)
 						m_ComDepartment.SetCurSel(4);
 
+					m_money = "******";
+					if(((m_department.Compare("意造销售")==0) && (g_permission&MONEY_SELL))
+						||((m_department.Compare("电商")==0) && (g_permission&MONEY_EC))
+						||((m_department.Compare("运营")==0) && (g_permission&MONEY_RUN))
+						||((m_department.Compare("加盟")==0) && (g_permission&MONEY_JOIN)))
+						m_money = sql_row[28];
+					
+
 					if(m_size.Compare("6cm半身单人")==0)
 						m_ComSize.SetCurSel(0);
 					else if(m_size.Compare("12cm半身单人")==0)

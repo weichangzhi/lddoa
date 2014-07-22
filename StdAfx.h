@@ -28,7 +28,6 @@
 #pragma comment(lib,"libmysql.lib")
 
 #include "excel.h"
-#include "SkinMagicLib.h"
 extern BOOL bDesc;
 extern int nColToSort;
 extern int nLastColToSort;
@@ -105,7 +104,7 @@ typedef struct _PermissionLimit
 #define REFUND				16
 #define MODIFY_LIST_BEFORE	32
 #define MODIFY_LIST_AFTER	64
-#define QUERY_LIST			128
+#define MONEY_SELL			128
 #define POST_TC				256
 #define POST_PD				512
 #define POST_STORAGE		1024
@@ -114,11 +113,14 @@ typedef struct _PermissionLimit
 #define QC					8192
 #define URGENT				16384
 #define FI					32768
+#define MONEY_EC			65536
+#define MONEY_RUN			131072
+#define MONEY_JOIN			262144
 
-#define PERMISSION_NUMBER 16
+#define PERMISSION_NUMBER 19
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
 #define CONFIGINI "config.ini"
-#define DEFAULT_TIME "14:00"
+#define DEFAULT_TIME "15:00"
 #define OPEN_PROCESS 0
 
 

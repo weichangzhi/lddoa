@@ -327,7 +327,7 @@ PermissionLimit g_PermissionLimit[PERMISSION_NUMBER] =
 	{4,REFUND,"退账"},
 	{5,MODIFY_LIST_BEFORE,"修改订单资料(下单前)"},
 	{6,MODIFY_LIST_AFTER,"修改订单资料(下单后)"},
-	{7,QUERY_LIST,"查询订单金额"},
+	{7,MONEY_SELL,"查询金额(意造销售)"},
 	{8,POST_TC,"过账(技术部)"},
 	{9,POST_PD,"过账(生产部)"},
 	{10,POST_STORAGE,"过账(成品仓)"},
@@ -335,7 +335,10 @@ PermissionLimit g_PermissionLimit[PERMISSION_NUMBER] =
 	{12,PERMISSION,"权限管理"},
 	{13,QC,"质检"},
 	{14,URGENT,"加急"},
-	{15,FI,"财务"}
+	{15,FI,"财务"},
+	{16,MONEY_EC,"查询金额(电商)"},
+	{17,MONEY_RUN,"查询金额(运营)"},
+	{18,MONEY_JOIN,"查询金额(加盟)"}
 };
 
 

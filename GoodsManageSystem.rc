@@ -243,7 +243,7 @@ BEGIN
     PUSHBUTTON      "保存订单",IDC_BUTTON_SUBMITLIST,130,157,50,14
 END
 
-IDD_DIALOG_ADD_USER DIALOG DISCARDABLE  0, 0, 383, 223
+IDD_DIALOG_ADD_USER DIALOG DISCARDABLE  0, 0, 383, 236
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "增加用户"
 FONT 12, "宋体"
@@ -265,34 +265,40 @@ BEGIN
     CONTROL         "退账",IDC_CHECK_REFUND,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,227,102,31,10
     CONTROL         "权限管理",IDC_CHECK_PERMISSION,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,291,102,46,10
+                    WS_TABSTOP,279,102,46,10
     CONTROL         "修改订单资料(下单前)",IDC_CHECK_MODIFY_LIST_BEFORE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,124,91,10
     CONTROL         "修改订单资料(下单后)",IDC_CHECK_MODIFY_LIST_AFTER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,135,124,91,10
-    CONTROL         "查询订单金额",IDC_CHECK_QUERY_LIST,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,226,124,61,10
     CONTROL         "质检",IDC_CHECK_QC,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,291,124,31,10
+                    WS_TABSTOP,171,148,29,10
     CONTROL         "过账(技术部)",IDC_CHECK_POST_TC,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,37,148,61,10
     CONTROL         "过账(生产部)",IDC_CHECK_POST_PD,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,109,148,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,107,148,61,10
     CONTROL         "过账(成品仓)",IDC_CHECK_POST_STORAGE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,183,148,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,204,148,61,10
     CONTROL         "过账(物流)",IDC_CHECK_POST_SEND,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,253,148,54,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,279,148,54,10
     CONTROL         "加急",IDC_CHECK_URGENT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,309,148,32,10
-    DEFPUSHBUTTON   "增加用户",IDOK,74,192,50,14
-    PUSHBUTTON      "取消",IDCANCEL,192,192,50,14
+                    WS_TABSTOP,227,125,32,10
+    DEFPUSHBUTTON   "增加用户",IDOK,74,208,50,14
+    PUSHBUTTON      "取消",IDCANCEL,192,208,50,14
     LTEXT           "用户名：",IDC_STATIC,21,30,35,8
     LTEXT           "密码：",IDC_STATIC,21,56,33,8
     LTEXT           "确认密码：",IDC_STATIC,195,56,47,8
-    GROUPBOX        "用户权限设置",IDC_STATIC,15,83,348,94
+    GROUPBOX        "用户权限设置",IDC_STATIC,15,83,348,113
     LTEXT           "部门：",IDC_STATIC,195,30,25,8
     CONTROL         "财务",IDC_CHECK_FI,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,325,124,32,10
+                    WS_TABSTOP,279,124,32,10
+    CONTROL         "查询金额(意造销售)",IDC_CHECK_MONEY_SELL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,37,170,82,10
+    CONTROL         "查询金额(电商)",IDC_CHECK_MONEY_EC,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,125,170,70,10
+    CONTROL         "查询金额(运营)",IDC_CHECK_MONEY_RUN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,203,170,71,10
+    CONTROL         "查询金额(加盟)",IDC_CHECK_MONEY_JOIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,279,170,71,10
 END
 
 IDD_DIALOG_LOGIN DIALOG DISCARDABLE  0, 0, 211, 135
@@ -478,7 +484,7 @@ BEGIN
     LTEXT           "确认新密码：",-1,27,79,50,8
 END
 
-IDD_DIALOG_MODIFY_PERMISSION DIALOG DISCARDABLE  0, 0, 378, 211
+IDD_DIALOG_MODIFY_PERMISSION DIALOG DISCARDABLE  0, 0, 378, 218
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "修改权限"
 FONT 12, "宋体"
@@ -498,32 +504,38 @@ BEGIN
     CONTROL         "退账",IDC_CHECK_REFUND,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,227,90,31,10
     CONTROL         "权限管理",IDC_CHECK_PERMISSION,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,288,90,46,10
+                    WS_TABSTOP,283,90,46,10
     CONTROL         "修改订单资料(下单前)",IDC_CHECK_MODIFY_LIST_BEFORE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,112,91,10
     CONTROL         "修改订单资料(下单后)",IDC_CHECK_MODIFY_LIST_AFTER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,135,112,91,10
-    CONTROL         "查询订单金额",IDC_CHECK_QUERY_LIST,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,226,112,61,10
     CONTROL         "质检",IDC_CHECK_QC,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,288,113,31,10
+                    WS_TABSTOP,168,136,31,10
     CONTROL         "过账(技术部)",IDC_CHECK_POST_TC,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,37,136,61,10
     CONTROL         "过账(生产部)",IDC_CHECK_POST_PD,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,104,136,61,10
     CONTROL         "过账(成品仓)",IDC_CHECK_POST_STORAGE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,168,136,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,205,136,61,10
     CONTROL         "过账(物流)",IDC_CHECK_POST_SEND,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,230,136,54,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,283,136,54,10
     CONTROL         "加急",IDC_CHECK_URGENT,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,288,136,32,10
-    DEFPUSHBUTTON   "修改权限",ID_MODIFY,74,180,50,14
-    PUSHBUTTON      "取消",IDCANCEL,192,180,50,14
+                    WS_TABSTOP,227,112,32,10
+    DEFPUSHBUTTON   "修改权限",ID_MODIFY,74,192,50,14
+    PUSHBUTTON      "取消",IDCANCEL,192,192,50,14
     LTEXT           "用户名：",IDC_STATIC,21,25,46,8
-    GROUPBOX        "用户权限设置",IDC_STATIC,15,71,348,94
+    GROUPBOX        "用户权限设置",IDC_STATIC,15,71,348,112
     LTEXT           "部门：",IDC_STATIC,21,51,25,8
     CONTROL         "财务",IDC_CHECK_FI,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,320,113,32,10
+                    WS_TABSTOP,283,112,32,10
+    CONTROL         "查询金额(意造销售)",IDC_CHECK_MONEY_SELL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,37,158,82,10
+    CONTROL         "查询金额(电商)",IDC_CHECK_MONEY_EC,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,125,158,70,10
+    CONTROL         "查询金额(运营)",IDC_CHECK_MONEY_RUN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,205,158,71,10
+    CONTROL         "查询金额(加盟)",IDC_CHECK_MONEY_JOIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,282,158,71,10
 END
 
 IDD_DIALOG_NEW_LIST DIALOGEX 0, 0, 562, 375
@@ -578,8 +590,8 @@ BEGIN
     CONTROL         "",IDC_RICHEDIT_OTHER,"RICHEDIT",ES_MULTILINE | 
                     ES_AUTOVSCROLL | WS_BORDER | WS_TABSTOP,86,245,424,25
     PUSHBUTTON      "保存订单",IDC_BUTTON_SUBMITLIST,130,284,50,14
-    PUSHBUTTON      "取消",IDCANCEL,235,284,50,14,NOT WS_VISIBLE
-    DEFPUSHBUTTON   "确定",IDOK,331,285,50,14,NOT WS_VISIBLE
+    PUSHBUTTON      "取消",IDCANCEL,333,284,50,14,NOT WS_VISIBLE
+    DEFPUSHBUTTON   "确定",IDOK,396,283,50,14,NOT WS_VISIBLE
     EDITTEXT        IDC_EDIT1_TRUE_NUMBER,122,333,50,14,ES_AUTOHSCROLL
     PUSHBUTTON      "下单",IDC_BUTTON_START_LIST,236,333,50,14,WS_DISABLED
     EDITTEXT        IDC_EDIT_DEPARTMENT,88,91,6,12,ES_AUTOHSCROLL | NOT 
@@ -632,6 +644,9 @@ BEGIN
     LTEXT           "元",IDC_STATIC,405,227,12,8
     CONTROL         "加急",IDC_CHECK_URGENT,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,452,153,32,10
+    PUSHBUTTON      "打印预览",IDC_BUTTON_PREVIEW,200,284,50,14,NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "打印",IDC_BUTTON_PRINT,259,284,50,14,NOT WS_VISIBLE
 END
 
 IDD_DIALOG_MODIFY_LIST1 DIALOG DISCARDABLE  0, 0, 563, 376
@@ -788,8 +803,7 @@ BEGIN
     EDITTEXT        IDC_EDIT_BILL,450,247,63,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_USAGE,86,271,131,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_ERRORRANGE,264,271,48,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT_MONDY,355,271,48,14,ES_PASSWORD | 
-                    ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_MONDY,355,271,48,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_VOLUEME,450,271,49,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_RICHEDIT_OTHER,"RICHEDIT",ES_MULTILINE | 
                     ES_AUTOVSCROLL | WS_BORDER | WS_TABSTOP,86,294,424,28
@@ -929,14 +943,14 @@ BEGIN
                     21,86,153,8
 END
 
-IDD_DIALOG_TIPS DIALOG DISCARDABLE  0, 0, 280, 152
+IDD_DIALOG_TIPS DIALOG DISCARDABLE  0, 0, 295, 152
 STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "提醒"
 FONT 12, "宋体"
 BEGIN
     LTEXT           "下面是停留在技术部的订单：",IDC_STATIC_TIPS,14,13,105,8
     CONTROL         "List2",IDC_LIST_TIPS,"SysListView32",LVS_REPORT | 
-                    WS_BORDER | WS_TABSTOP,15,28,249,95
+                    WS_BORDER | WS_TABSTOP,16,28,263,95
     CONTROL         "下次不在提醒",IDC_CHECK_TIPS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,15,130,64,10
 END
@@ -999,8 +1013,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,3,0
- PRODUCTVERSION 1,1,3,0
+ FILEVERSION 1,1,4,1
+ PRODUCTVERSION 1,1,4,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1018,14 +1032,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "\0"
             VALUE "FileDescription", "GoodsManageSystem Microsoft 基础类应用程序\0"
-            VALUE "FileVersion", "1, 1, 3, 0\0"
+            VALUE "FileVersion", "1, 1, 4, 1\0"
             VALUE "InternalName", "GoodsManageSystem\0"
             VALUE "LegalCopyright", "版权所有 (C) 2010\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "GoodsManageSystem.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "GoodsManageSystem 应用程序\0"
-            VALUE "ProductVersion", "1, 1, 3, 0\0"
+            VALUE "ProductVersion", "1, 1, 4, 1\0"
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -1064,7 +1078,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 376
         TOPMARGIN, 7
-        BOTTOMMARGIN, 216
+        BOTTOMMARGIN, 229
     END
 
     IDD_DIALOG_LOGIN, DIALOG
@@ -1112,7 +1126,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 371
         TOPMARGIN, 7
-        BOTTOMMARGIN, 204
+        BOTTOMMARGIN, 211
     END
 
     IDD_DIALOG_NEW_LIST, DIALOG
@@ -1139,7 +1153,7 @@ BEGIN
     IDD_DIALOG_TIPS, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 273
+        RIGHTMARGIN, 288
         TOPMARGIN, 7
         BOTTOMMARGIN, 145
     END

@@ -104,6 +104,8 @@ BEGIN_MESSAGE_MAP(CDialog_New_List, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_START_LIST, OnStartList)
 	ON_BN_CLICKED(IDC_BUTTON_SUBMITLIST, OnSubmitlist)
 	ON_CBN_SELCHANGE(IDC_COMBO_DEPARTMENT, OnSelchangeComboDepartment)
+	ON_BN_CLICKED(IDC_BUTTON_PREVIEW, OnButtonPreview)
+	ON_BN_CLICKED(IDC_BUTTON_PRINT, OnButtonPrint)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -721,5 +723,17 @@ void CDialog_New_List::OnSelchangeComboDepartment()
 		m_ComSize.SetCurSel(-1);
 		break;
 	}
+	
+}
+
+void CDialog_New_List::OnButtonPreview() 
+{
+	// TODO: Add your control notification handler code here
+	
+}
+
+void CDialog_New_List::OnButtonPrint() 
+{
+	// TODO: Add your control notification handler code here
 	
 }

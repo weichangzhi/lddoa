@@ -54,7 +54,7 @@ BOOL Dialog_Tips::OnInitDialog()
 	m_litTips.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_litTips.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,100);
 	m_litTips.InsertColumn(3, _T("制作材料"), LVCFMT_LEFT,150);
-	m_litTips.InsertColumn(4, _T("交付日期"), LVCFMT_LEFT,100);
+	m_litTips.InsertColumn(4, _T("交付日期"), LVCFMT_LEFT,110);
 	CString strDepartment = g_department;
 	if ((strDepartment.Compare("技术部意造")==0) || (strDepartment.Compare("技术部记梦馆")==0))
 	{
@@ -87,11 +87,11 @@ void Dialog_Tips::querysql()
 	CString strDepartment = g_department;
 	if ((strDepartment.Compare("技术部意造")==0) || (strDepartment.Compare("技术部记梦馆")==0))
 	{
-		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.reveivedate,baseinfo.urgent,schedule.tcnumber from baseinfo,schedule  where schedule.tcnumber>0 and baseinfo.listid=schedule.listid");
+		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.tcnumber from baseinfo,schedule  where schedule.tcnumber>0 and baseinfo.listid=schedule.listid");
 	}
 	else if(strDepartment.Compare("生产部")==0)
 	{
-		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.reveivedate,baseinfo.urgent,schedule.pdnumber from baseinfo,schedule  where schedule.pdnumber>0 and baseinfo.listid=schedule.listid");
+		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.pdnumber from baseinfo,schedule  where schedule.pdnumber>0 and baseinfo.listid=schedule.listid");
 	}
 
 	MYSQL myCont;

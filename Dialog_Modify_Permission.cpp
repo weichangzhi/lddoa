@@ -28,15 +28,18 @@ CDialog_Modify_Permission::CDialog_Modify_Permission(CWnd* pParent /*=NULL*/)
 	m_post_send = FALSE;
 	m_post_storage = FALSE;
 	m_post_tc = FALSE;
-	m_query_list = FALSE;
 	m_refund = FALSE;
 	m_save_list = FALSE;
 	m_start_list = FALSE;
 	m_Bpermission = FALSE;
 	m_qc = FALSE;
 	m_urgent = FALSE;
-	m_permission = 0;
 	m_fi = FALSE;
+	m_permission = 0;
+	m_money_ec = FALSE;
+	m_money_join = FALSE;
+	m_money_run = FALSE;
+	m_money_sell = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -58,7 +61,6 @@ void CDialog_Modify_Permission::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_POST_SEND, m_post_send);
 	DDX_Check(pDX, IDC_CHECK_POST_STORAGE, m_post_storage);
 	DDX_Check(pDX, IDC_CHECK_POST_TC, m_post_tc);
-	DDX_Check(pDX, IDC_CHECK_QUERY_LIST, m_query_list);
 	DDX_Check(pDX, IDC_CHECK_REFUND, m_refund);
 	DDX_Check(pDX, IDC_CHECK_SAVE_LIST, m_save_list);
 	DDX_Check(pDX, IDC_CHECK_START_LIST, m_start_list);
@@ -66,6 +68,10 @@ void CDialog_Modify_Permission::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_QC, m_qc);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
 	DDX_Check(pDX, IDC_CHECK_FI, m_fi);
+	DDX_Check(pDX, IDC_CHECK_MONEY_EC, m_money_ec);
+	DDX_Check(pDX, IDC_CHECK_MONEY_JOIN, m_money_join);
+	DDX_Check(pDX, IDC_CHECK_MONEY_RUN, m_money_run);
+	DDX_Check(pDX, IDC_CHECK_MONEY_SELL, m_money_sell);
 	//}}AFX_DATA_MAP
 }
 
@@ -102,7 +108,6 @@ void CDialog_Modify_Permission::OnOK()
 		if(m_post_send) m_permission+=POST_SEND;
 		if(m_post_storage) m_permission+=POST_STORAGE;
 		if(m_post_tc) m_permission+=POST_TC;
-		if(m_query_list) m_permission+=QUERY_LIST;
 		if(m_refund) m_permission+=REFUND;
 		if(m_save_list) m_permission+=SAVE_LIST;
 		if(m_start_list) m_permission+=START_LIST;
@@ -110,6 +115,10 @@ void CDialog_Modify_Permission::OnOK()
 		if(m_qc) m_permission+=QC;
 		if(m_urgent) m_permission+=URGENT;
 		if(m_fi) m_permission+=FI;
+		if(m_money_sell) m_permission+=MONEY_SELL;
+		if(m_money_ec) m_permission+=MONEY_EC;
+		if(m_money_run) m_permission+=MONEY_RUN;
+		if(m_money_join) m_permission+=MONEY_JOIN;
 		CString strdepartment ;
 		m_department.GetWindowText(strdepartment);
 		CString sql;
@@ -199,7 +208,6 @@ void CDialog_Modify_Permission::OnQueryPermission()
 	((CButton*)GetDlgItem(IDC_CHECK_POST_SEND))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_POST_STORAGE))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_POST_TC))->SetCheck(0);
-	((CButton*)GetDlgItem(IDC_CHECK_QUERY_LIST))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_REFUND))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_SAVE_LIST))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_START_LIST))->SetCheck(0);
@@ -207,6 +215,10 @@ void CDialog_Modify_Permission::OnQueryPermission()
 	((CButton*)GetDlgItem(IDC_CHECK_QC))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_URGENT))->SetCheck(0);
 	((CButton*)GetDlgItem(IDC_CHECK_FI))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_MONEY_SELL))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_MONEY_EC))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_MONEY_RUN))->SetCheck(0);
+	((CButton*)GetDlgItem(IDC_CHECK_MONEY_JOIN))->SetCheck(0);
 	UpdateData();
 
 	m_username.TrimLeft();
@@ -292,7 +304,6 @@ void CDialog_Modify_Permission::OnQueryPermission()
 			if(m_permission & POST_SEND)	((CButton*)GetDlgItem(IDC_CHECK_POST_SEND))->SetCheck(1);
 			if(m_permission & POST_STORAGE)	((CButton*)GetDlgItem(IDC_CHECK_POST_STORAGE))->SetCheck(1);
 			if(m_permission & POST_TC)	((CButton*)GetDlgItem(IDC_CHECK_POST_TC))->SetCheck(1);
-			if(m_permission & QUERY_LIST)	((CButton*)GetDlgItem(IDC_CHECK_QUERY_LIST))->SetCheck(1);
 			if(m_permission & REFUND)	((CButton*)GetDlgItem(IDC_CHECK_REFUND))->SetCheck(1);
 			if(m_permission & SAVE_LIST)	((CButton*)GetDlgItem(IDC_CHECK_SAVE_LIST))->SetCheck(1);
 			if(m_permission & START_LIST)	((CButton*)GetDlgItem(IDC_CHECK_START_LIST))->SetCheck(1);
@@ -300,6 +311,10 @@ void CDialog_Modify_Permission::OnQueryPermission()
 			if(m_permission & QC)	((CButton*)GetDlgItem(IDC_CHECK_QC))->SetCheck(1);
 			if(m_permission & URGENT)	((CButton*)GetDlgItem(IDC_CHECK_URGENT))->SetCheck(1);
 			if(m_permission & FI)	((CButton*)GetDlgItem(IDC_CHECK_FI))->SetCheck(1);
+			if(m_permission & MONEY_SELL)	((CButton*)GetDlgItem(IDC_CHECK_MONEY_SELL))->SetCheck(1);
+			if(m_permission & MONEY_EC)	((CButton*)GetDlgItem(IDC_CHECK_MONEY_EC))->SetCheck(1);
+			if(m_permission & MONEY_RUN)	((CButton*)GetDlgItem(IDC_CHECK_MONEY_RUN))->SetCheck(1);
+			if(m_permission & MONEY_JOIN)	((CButton*)GetDlgItem(IDC_CHECK_MONEY_JOIN))->SetCheck(1);
 			UpdateData();
 		}
 		else
@@ -366,187 +381,82 @@ void CDialog_Modify_Permission::OnSelchangeComboDepartment()
 {
 	UpdateData();
 	int indexSel = m_department.GetCurSel();
+	m_del_list = FALSE;
+	m_end_list = FALSE;
+	m_modify_list_after = FALSE;
+	m_modify_list_before = FALSE;
+	m_post_pd = FALSE;
+	m_post_send = FALSE;
+	m_post_storage = FALSE;
+	m_post_tc = FALSE;
+	m_refund = FALSE;
+	m_save_list = FALSE;
+	m_start_list = FALSE;
+	m_Bpermission = FALSE;
+	m_qc = FALSE;
+	m_urgent = FALSE;
+	m_fi = FALSE;
+	m_money_sell = FALSE;
+	m_money_ec = FALSE;
+	m_money_run = FALSE;
+	m_money_join = FALSE;
 	switch(indexSel)
 	{
 	case 0://意造销售
-		m_del_list = FALSE;
 		m_end_list = TRUE;
-		m_modify_list_after = FALSE;
 		m_modify_list_before = TRUE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = TRUE;
-		m_refund = FALSE;
 		m_save_list = TRUE;
 		m_start_list = TRUE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
+		m_money_sell = TRUE;
 		break;
 	case 1://电商
-		m_del_list = FALSE;
 		m_end_list = TRUE;
-		m_modify_list_after = FALSE;
 		m_modify_list_before = TRUE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = TRUE;
-		m_refund = FALSE;
 		m_save_list = TRUE;
 		m_start_list = TRUE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
+		m_money_ec = TRUE;
 		break;
 	case 2://运营
-		m_del_list = FALSE;
 		m_end_list = TRUE;
-		m_modify_list_after = FALSE;
 		m_modify_list_before = TRUE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = TRUE;
-		m_refund = FALSE;
 		m_save_list = TRUE;
 		m_start_list = TRUE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
+		m_money_run = TRUE;
 		break;
 	case 3://加盟
-		m_del_list = FALSE;
 		m_end_list = TRUE;
-		m_modify_list_after = FALSE;
 		m_modify_list_before = TRUE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = TRUE;
-		m_refund = FALSE;
 		m_save_list = TRUE;
 		m_start_list = TRUE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
+		m_money_join = TRUE;
 		break;
 	case 4://研发
-		m_del_list = FALSE;
 		m_end_list = TRUE;
-		m_modify_list_after = FALSE;
 		m_modify_list_before = TRUE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
 		m_post_tc = TRUE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
 		m_save_list = TRUE;
 		m_start_list = TRUE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
 		break;
 	case 5://技术部意造
-		m_del_list = FALSE;
-		m_end_list = FALSE;
-		m_modify_list_after = FALSE;
-		m_modify_list_before = FALSE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
 		m_post_tc = TRUE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
-		m_save_list = FALSE;
-		m_start_list = FALSE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
 		break;
 	case 6://技术部记梦馆
-		m_del_list = FALSE;
-		m_end_list = FALSE;
-		m_modify_list_after = FALSE;
-		m_modify_list_before = FALSE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
 		m_post_tc = TRUE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
-		m_save_list = FALSE;
-		m_start_list = FALSE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
 		break;
 	case 7://生产部
-		m_del_list = FALSE;
-		m_end_list = FALSE;
-		m_modify_list_after = FALSE;
-		m_modify_list_before = FALSE;
 		m_post_pd = TRUE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
-		m_save_list = FALSE;
-		m_start_list = FALSE;
-		m_Bpermission = FALSE;
 		m_qc = TRUE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
 		break;
 	case 8://成品仓
-		m_del_list = FALSE;
-		m_end_list = FALSE;
-		m_modify_list_after = FALSE;
-		m_modify_list_before = FALSE;
-		m_post_pd = FALSE;
 		m_post_send = TRUE;
 		m_post_storage = TRUE;
-		m_post_tc = FALSE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
-		m_save_list = FALSE;
-		m_start_list = FALSE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
-		m_fi = FALSE;
 		break;
 	case 9://财务
-		m_del_list = FALSE;
-		m_end_list = FALSE;
-		m_modify_list_after = FALSE;
-		m_modify_list_before = FALSE;
-		m_post_pd = FALSE;
-		m_post_send = FALSE;
-		m_post_storage = FALSE;
-		m_post_tc = FALSE;
-		m_query_list = FALSE;
-		m_refund = FALSE;
-		m_save_list = FALSE;
-		m_start_list = FALSE;
-		m_Bpermission = FALSE;
-		m_qc = FALSE;
-		m_urgent = FALSE;
 		m_fi = TRUE;
+		m_money_sell = TRUE;
+		m_money_ec = TRUE;
+		m_money_run = TRUE;
+		m_money_join = TRUE;
 		break;
 	default:
 		break;

@@ -42,6 +42,10 @@ public:
 	BOOL	m_qc;
 	BOOL	m_urgent;
 	BOOL	m_fi;
+	BOOL	m_money_run;
+	BOOL	m_money_join;
+	BOOL	m_money_ec;
+	BOOL	m_money_sell;
 	//}}AFX_DATA
 
 

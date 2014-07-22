@@ -115,6 +115,9 @@ BOOL CDialog_Output::OnInitDialog()
 
 void CDialog_Output::OnOK() 
 {
+	int count = m_list_output.GetItemCount();
+	for(int i=0;i<count;i++)
+		m_list_output.SetItemColor(i,RGB(0,0,0),RGB(255,255,255));
 	m_list_output.DeleteAllItems();
 	UpdateData();
 	CString csSql;
@@ -281,23 +284,33 @@ void CDialog_Output::OnOK()
 				int index = 0;
 				double money=0, volume=0;
 				int number = 0;
+				int hasmoney = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
 					number += atoi(sql_row[4]);
-					money += atof(sql_row[6]);
+					//money += atof(sql_row[6]);
 					volume += atof(sql_row[7]);
 					CString strindex ;
 					strindex.Format("%d",index+1);
 					m_list_output.InsertItem(index,strindex);
+					CString strdepartment = sql_row[3];
+					CString strmoney;
 					int i=0;
 					for(i=1;i<=15;i++)
 					{
 						if(i==7)
 						{
-							if(g_permission & QUERY_LIST)
-								m_list_output.SetItemText(index,i,sql_row[i-1]);
-							else
-								m_list_output.SetItemText(index,i,"****");
+							strmoney = "******";
+							if(((strdepartment.Compare("意造销售")==0) && (g_permission&MONEY_SELL))
+								||((strdepartment.Compare("电商")==0) && (g_permission&MONEY_EC))
+								||((strdepartment.Compare("运营")==0) && (g_permission&MONEY_RUN))
+								||((strdepartment.Compare("加盟")==0) && (g_permission&MONEY_JOIN)))
+							{
+								strmoney = sql_row[i-1];
+								money += atof(strmoney);
+								hasmoney = 1;
+							}
+							m_list_output.SetItemText(index,i,strmoney);
 							continue;
 						}
 						m_list_output.SetItemText(index,i,sql_row[i-1]);
@@ -316,11 +329,13 @@ void CDialog_Output::OnOK()
 					CString strtmp;
 					strtmp.Format("%d",number);
 					m_list_output.SetItemText(index,5,strtmp);
+
+				
 					strtmp.Format("%0.1f",money);
-					if(g_permission & QUERY_LIST)
+					if(hasmoney==1)
 						m_list_output.SetItemText(index,7,strtmp);
 					else
-						m_list_output.SetItemText(index,7,"****");
+						m_list_output.SetItemText(index,7,"******");
 					strtmp.Format("%0.1f",volume);
 					m_list_output.SetItemText(index,8,strtmp);
 					m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));

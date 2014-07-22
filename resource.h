@@ -206,8 +206,11 @@
 #define IDC_CHECK_POST_PD               1132
 #define IDC_CHECK_POST_STORAGE          1133
 #define IDC_CHECK_POST_SEND             1134
+#define IDC_CHECK_MONEY_EC              1135
 #define IDC_CHECK_PERMISSION            1136
+#define IDC_CHECK_MONEY_RUN             1137
 #define IDC_EDIT_PEOPLE                 1138
+#define IDC_CHECK_MONEY_JOIN            1138
 #define IDC_CHECK_MODELING              1139
 #define IDC_CHECK_DESIGN_SERVER         1140
 #define IDC_CHECK_SCAN                  1141
@@ -269,6 +272,9 @@
 #define IDC_CHECK_FI                    1214
 #define IDC_EDIT_LIST                   1216
 #define IDC_PROGRESS                    1217
+#define IDC_BUTTON_PREVIEW              1219
+#define IDC_BUTTON_PRINT                1220
+#define IDC_CHECK_MONEY_SELL            1221
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -289,7 +295,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1219
+#define _APS_NEXT_CONTROL_VALUE         1222
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

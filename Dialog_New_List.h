@@ -86,6 +86,8 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnSelchangeComboDepartment();
+	afx_msg void OnButtonPreview();
+	afx_msg void OnButtonPrint();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
