@@ -36,6 +36,16 @@ CDialog_post::CDialog_post(CWnd* pParent /*=NULL*/)
 	m_volume4 = _T("");
 	m_volume5 = _T("");
 	m_permission = 0;
+	m_designer1 = _T("");
+	m_designer2 = _T("");
+	m_designer3 = _T("");
+	m_designer4 = _T("");
+	m_designer5 = _T("");
+	m_score1 = _T("");
+	m_score2 = _T("");
+	m_score3 = _T("");
+	m_score4 = _T("");
+	m_score5 = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -62,6 +72,16 @@ void CDialog_post::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_VOLUME_SENDID3, m_volume3);
 	DDX_Text(pDX, IDC_EDIT_VOLUME_SENDID4, m_volume4);
 	DDX_Text(pDX, IDC_EDIT_VOLUME_SENDID5, m_volume5);
+	DDX_Text(pDX, IDC_EDIT_DESIGNER1, m_designer1);
+	DDX_Text(pDX, IDC_EDIT_DESIGNER2, m_designer2);
+	DDX_Text(pDX, IDC_EDIT_DESIGNER3, m_designer3);
+	DDX_Text(pDX, IDC_EDIT_DESIGNER4, m_designer4);
+	DDX_Text(pDX, IDC_EDIT_DESIGNER5, m_designer5);
+	DDX_Text(pDX, IDC_EDIT_SCORE1, m_score1);
+	DDX_Text(pDX, IDC_EDIT_SCORE2, m_score2);
+	DDX_Text(pDX, IDC_EDIT_SCORE3, m_score3);
+	DDX_Text(pDX, IDC_EDIT_SCORE4, m_score4);
+	DDX_Text(pDX, IDC_EDIT_SCORE5, m_score5);
 	//}}AFX_DATA_MAP
 }
 
@@ -104,8 +124,9 @@ BOOL CDialog_post::OnInitDialog()
 		m_department.SetCurSel(3);
 	else if(strdepartment.Compare("物流")==0)
 		m_department.SetCurSel(4);
-	//m_department.SetCurSel(0);
 	m_permission = POST_TC;
+	OnSelchangeDepartment();
+	
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
@@ -121,6 +142,8 @@ void CDialog_post::OnOK()
 	CString postid[5];
 	int postnumber[5];
 	CString volume_sendid[5];
+	CString designer[5];
+	int score[5];
 	int enable[5] ; 
 	int i=0;
 	postid[0] = m_postid1;
@@ -184,6 +207,16 @@ void CDialog_post::OnOK()
 				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID))->SetSel(0, -1);
 				return;
 			}
+			if(!(m_score1.IsEmpty()))
+			{
+				if(!IsInt(m_score1))
+				{
+					MessageBox("积分输入必须为整数，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_SCORE1)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_SCORE1))->SetSel(0, -1);
+					return;
+				}
+			}
 		}
 	}
 	if((enable[1]==1))
@@ -223,6 +256,16 @@ void CDialog_post::OnOK()
 				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID2))->SetSel(0, -1);
 				return;
+			}
+			if(!(m_score2.IsEmpty()))
+			{
+				if(!IsInt(m_score2))
+				{
+					MessageBox("积分输入必须为整数，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_SCORE2)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_SCORE2))->SetSel(0, -1);
+					return;
+				}
 			}
 		}
 	}
@@ -264,6 +307,16 @@ void CDialog_post::OnOK()
 				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID3))->SetSel(0, -1);
 				return;
 			}
+			if(!(m_score3.IsEmpty()))
+			{
+				if(!IsInt(m_score3))
+				{
+					MessageBox("积分输入必须为整数，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_SCORE3)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_SCORE3))->SetSel(0, -1);
+					return;
+				}
+			}
 		}
 	}
 	if((enable[3]==1))
@@ -303,6 +356,16 @@ void CDialog_post::OnOK()
 				(CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4)->SetFocus();
 				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID4))->SetSel(0, -1);
 				return;
+			}
+			if(!(m_score4.IsEmpty()))
+			{
+				if(!IsInt(m_score4))
+				{
+					MessageBox("积分输入必须为整数，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_SCORE4)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_SCORE4))->SetSel(0, -1);
+					return;
+				}
 			}
 		}
 	}
@@ -344,6 +407,16 @@ void CDialog_post::OnOK()
 				((CEdit*)GetDlgItem(IDC_EDIT_VOLUME_SENDID5))->SetSel(0, -1);
 				return;
 			}
+			if(!(m_score5.IsEmpty()))
+			{
+				if(!IsInt(m_score5))
+				{
+					MessageBox("积分输入必须为整数，请重新输入","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_SCORE5)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_SCORE5))->SetSel(0, -1);
+					return;
+				}
+			}
 		}
 	}
 
@@ -357,6 +430,16 @@ void CDialog_post::OnOK()
 	postnumber[2] = atoi(m_postnumber3);
 	postnumber[3] = atoi(m_postnumber4);
 	postnumber[4] = atoi(m_postnumber5);
+	designer[0] = m_designer1;
+	designer[1] = m_designer2;
+	designer[2] = m_designer3;
+	designer[3] = m_designer4;
+	designer[4] = m_designer5;
+	score[0] = atoi(m_score1);
+	score[1] = atoi(m_score2);
+	score[2] = atoi(m_score3);
+	score[3] = atoi(m_score4);
+	score[4] = atoi(m_score5);
 
 	CDialog_Login2 login2;
 	login2.m_department = strdepartment;
@@ -537,7 +620,7 @@ void CDialog_post::OnOK()
 						return;
 					}
 
-					sql[i].Format("update baseinfo set volume=\"%s\"  where listid=\"%s\" ",volume_sendid[i],postid[i]);
+					sql[i].Format("update baseinfo set volume=\"%s\",desinger=\"%s\",score=%d  where listid=\"%s\" ",volume_sendid[i],designer[i],score[i],postid[i]);
 					if(mysql_query(&myCont,sql[i])!= 0)
 					{
 						const char *error = mysql_error(&myCont);
@@ -772,6 +855,36 @@ void CDialog_post::OnPost()
 
 void CDialog_post::OnSelchangeDepartment() 
 {
+	GetDlgItem(IDC_STATIC1)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC2)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC3)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC4)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC5)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC6)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC7)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC8)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC9)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC10)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC11)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC12)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC13)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC14)->ShowWindow(FALSE);
+	GetDlgItem(IDC_STATIC15)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_VOLUME_SENDID)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_VOLUME_SENDID2)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_VOLUME_SENDID3)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_VOLUME_SENDID4)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_VOLUME_SENDID5)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_DESIGNER1)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_DESIGNER2)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_DESIGNER3)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_DESIGNER4)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_DESIGNER5)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_SCORE1)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_SCORE2)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_SCORE3)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_SCORE4)->ShowWindow(FALSE);
+	GetDlgItem(IDC_EDIT_SCORE5)->ShowWindow(FALSE);
 	int indexSel = m_department.GetCurSel();
 	switch(indexSel)
 	{
@@ -786,11 +899,32 @@ void CDialog_post::OnSelchangeDepartment()
 		GetDlgItem(IDC_STATIC3)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC4)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC6)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC7)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC8)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC9)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC10)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC11)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC12)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC13)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC14)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC15)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_VOLUME_SENDID)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_VOLUME_SENDID2)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_VOLUME_SENDID3)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_VOLUME_SENDID4)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_VOLUME_SENDID5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_DESIGNER1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_DESIGNER2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_DESIGNER3)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_DESIGNER4)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_DESIGNER5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SCORE1)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SCORE2)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SCORE3)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SCORE4)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_SCORE5)->ShowWindow(TRUE);
+
 		m_permission = POST_TC;
 		break;
 	case 1://生产部

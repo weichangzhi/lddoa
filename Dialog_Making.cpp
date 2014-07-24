@@ -6,6 +6,7 @@
 #include "Dialog_Making.h"
 #include "Dialog_Menu_Post.h"
 #include "Dialog_progress.h"
+#include "Dialog_Menu_Post_TC.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -80,17 +81,18 @@ BOOL CDialog_Making::OnInitDialog()
 	m_list_schedule.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(2, _T("产品名称"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(3, _T("经办人"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(4, _T("营销部门"), LVCFMT_LEFT,80);
-	m_list_schedule.InsertColumn(5, _T("产品总数"), LVCFMT_LEFT,80);
-	m_list_schedule.InsertColumn(6, _T("制作材料"), LVCFMT_LEFT,150);
-	m_list_schedule.InsertColumn(7, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
-	m_list_schedule.InsertColumn(8, _T("收单日期"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(9, _T("交货日期"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(4, _T("设计师"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(5, _T("营销部门"), LVCFMT_LEFT,80);
+	m_list_schedule.InsertColumn(6, _T("产品总数"), LVCFMT_LEFT,80);
+	m_list_schedule.InsertColumn(7, _T("制作材料"), LVCFMT_LEFT,150);
+	m_list_schedule.InsertColumn(8, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
+	m_list_schedule.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
 	//m_list_schedule.InsertColumn(8, _T("快递单号"), LVCFMT_LEFT,120);
-	m_list_schedule.InsertColumn(10, _T("技术部"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(11, _T("生产部"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(12, _T("质检"), LVCFMT_LEFT,60);
-	m_list_schedule.InsertColumn(13, _T("成品仓"), LVCFMT_LEFT,60);     
+	m_list_schedule.InsertColumn(11, _T("技术部"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(12, _T("生产部"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(13, _T("质检"), LVCFMT_LEFT,60);
+	m_list_schedule.InsertColumn(14, _T("成品仓"), LVCFMT_LEFT,60);     
 	CTime time1 = CTime::GetCurrentTime();
 	m_timebegin = time1;
 	m_timeend = time1;
@@ -161,9 +163,9 @@ void CDialog_Making::OnMakingQuery()
 	m_ComDepartment.GetWindowText(strDepartment);
 	int indexsel = m_ComDepartment.GetCurSel();
 	if (indexsel==5)
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,starttime,endtime);
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,starttime,endtime);
 	else
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
 
 	Dialog_progress *dlgpro;
 	dlgpro=new Dialog_progress(); 
@@ -230,31 +232,31 @@ void CDialog_Making::OnMakingQuery()
 				int index = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
-					if((atoi(sql_row[13]) >= atoi(sql_row[4])) && (atoi(sql_row[4])!=0))//成品仓已过账的数目达到总数，就不显示
+					if((atoi(sql_row[14]) >= atoi(sql_row[5])) && (atoi(sql_row[5])!=0))//成品仓已过账的数目达到总数，就不显示
 						continue;
 					CString strindex ;
 					strindex.Format("%d",index+1);
 					m_list_schedule.InsertItem(index,strindex);
 					int i=0;
-					for(i=1;i<=9;i++)
+					for(i=1;i<=10;i++)
 					{
 						m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
-					for(i=10;i<=13;i++)
+					for(i=11;i<=14;i++)
 					{
 						if(atoi(sql_row[i-1])==0)
 							m_list_schedule.SetItemText(index,i,"");
 						else
 							m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
-					int tcnumber = atoi(sql_row[9]);
-					int pdnumber = atoi(sql_row[10]);
+					int tcnumber = atoi(sql_row[10]);
+					int pdnumber = atoi(sql_row[11]);
 					if(index%2==0)
 						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));//灰色
-					if (sql_row[14]!=NULL)
+					if (sql_row[15]!=NULL)
 					{
-						int spanday = CalcDaySpan(curtime,sql_row[8]);
-						if (atoi(sql_row[14])==1)//加急 紫色
+						int spanday = CalcDaySpan(curtime,sql_row[9]);
+						if (atoi(sql_row[15])==1)//加急 紫色
 						{
 							m_list_schedule.SetItemColor(index,RGB(230,230,230),RGB(128,0,128));
 						}
@@ -364,12 +366,12 @@ void CDialog_Making::updatelist(int cursel)
 				if(sql_row)
                 {
 					int i=0;
-					for(i=10;i<=13;i++)
+					for(i=11;i<=14;i++)
 					{
-						if(atoi(sql_row[i-10])==0)
+						if(atoi(sql_row[i-11])==0)
 							m_list_schedule.SetItemText(cursel,i,"");
 						else
-							m_list_schedule.SetItemText(cursel,i,sql_row[i-10]);
+							m_list_schedule.SetItemText(cursel,i,sql_row[i-11]);
 					}
 					UpdateData(FALSE);
                 }
@@ -412,11 +414,40 @@ void CDialog_Making::OnMenuitemPostTC()
 {
 	int istat=m_list_schedule.GetSelectionMark();
 	if(istat == -1) return;
-	CString curnumber = m_list_schedule.GetItemText(istat,10);
-	CString nextnumber = m_list_schedule.GetItemText(istat,11);
-	Dialog_Menu_Post dlg;
+	CString curnumber = m_list_schedule.GetItemText(istat,11);
+	CString nextnumber = m_list_schedule.GetItemText(istat,12);
+	Dialog_Menu_Post_TC dlg;
 	dlg.m_indexdepartment = 0;
 	dlg.m_permission = POST_TC;
+	dlg.m_list = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		updatelist(istat);
+		return;
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,11,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,12,strleftnumber);
+	}
+}
+
+void CDialog_Making::OnMenuitemPostPd() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,12);
+	CString nextnumber = m_list_schedule.GetItemText(istat,13);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 1;
+	dlg.m_permission = POST_PD;
 	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
 	dlg.m_postnumber = curnumber;
 	int ret = dlg.DoModal();
@@ -431,36 +462,9 @@ void CDialog_Making::OnMenuitemPostTC()
 			strleftnumber.Format("");
 		else
 			strleftnumber.Format("%d",leftnumber);
-		m_list_schedule.SetItemText(istat,10,strleftnumber);
-		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
-		m_list_schedule.SetItemText(istat,11,strleftnumber);
-	}
-}
-
-void CDialog_Making::OnMenuitemPostPd() 
-{
-	int istat=m_list_schedule.GetSelectionMark();
-	if(istat == -1) return;
-	CString curnumber = m_list_schedule.GetItemText(istat,11);
-	CString nextnumber = m_list_schedule.GetItemText(istat,12);
-	Dialog_Menu_Post dlg;
-	dlg.m_indexdepartment = 1;
-	dlg.m_permission = POST_PD;
-	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
-	dlg.m_postnumber = curnumber;
-	int ret = dlg.DoModal();
-	if (ret==IDOK)
-	{
-		CString strleftnumber ;
-		int haspostnumber = atoi(dlg.m_postnumber);
-		int leftnumber = atoi(curnumber) - haspostnumber;
-		if (leftnumber==0)
-			strleftnumber.Format("");
-		else
-			strleftnumber.Format("%d",leftnumber);
-		m_list_schedule.SetItemText(istat,11,strleftnumber);
-		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
 		m_list_schedule.SetItemText(istat,12,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,13,strleftnumber);
 	}
 }
 
@@ -468,8 +472,8 @@ void CDialog_Making::OnMenuitemPostQc()
 {
 	int istat=m_list_schedule.GetSelectionMark();
 	if(istat == -1) return;
-	CString curnumber = m_list_schedule.GetItemText(istat,12);
-	CString nextnumber = m_list_schedule.GetItemText(istat,13);
+	CString curnumber = m_list_schedule.GetItemText(istat,13);
+	CString nextnumber = m_list_schedule.GetItemText(istat,14);
 	Dialog_Menu_Post dlg;
 	dlg.m_indexdepartment = 2;
 	dlg.m_permission = QC;
@@ -478,34 +482,8 @@ void CDialog_Making::OnMenuitemPostQc()
 	int ret = dlg.DoModal();
 	if (ret==IDOK)
 	{
-		CString strleftnumber ;
-		int haspostnumber = atoi(dlg.m_postnumber);
-		int leftnumber = atoi(curnumber) - haspostnumber;
-		if (leftnumber==0)
-			strleftnumber.Format("");
-		else
-			strleftnumber.Format("%d",leftnumber);
-		m_list_schedule.SetItemText(istat,12,strleftnumber);
-		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
-		m_list_schedule.SetItemText(istat,13,strleftnumber);
-	}
-	
-}
-
-void CDialog_Making::OnMenuitemPostStorage() 
-{
-	int istat=m_list_schedule.GetSelectionMark();
-	if(istat == -1) return;
-	CString curnumber = m_list_schedule.GetItemText(istat,13);
-	CString nextnumber = m_list_schedule.GetItemText(istat,14);
-	Dialog_Menu_Post dlg;
-	dlg.m_indexdepartment = 3;
-	dlg.m_permission = POST_STORAGE;
-	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
-	dlg.m_postnumber = curnumber;
-	int ret = dlg.DoModal();
-	if (ret==IDOK)
-	{
+		updatelist(istat);
+		return;
 		CString strleftnumber ;
 		int haspostnumber = atoi(dlg.m_postnumber);
 		int leftnumber = atoi(curnumber) - haspostnumber;
@@ -516,6 +494,36 @@ void CDialog_Making::OnMenuitemPostStorage()
 		m_list_schedule.SetItemText(istat,13,strleftnumber);
 		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
 		m_list_schedule.SetItemText(istat,14,strleftnumber);
+	}
+	
+}
+
+void CDialog_Making::OnMenuitemPostStorage() 
+{
+	int istat=m_list_schedule.GetSelectionMark();
+	if(istat == -1) return;
+	CString curnumber = m_list_schedule.GetItemText(istat,14);
+	CString nextnumber = m_list_schedule.GetItemText(istat,15);
+	Dialog_Menu_Post dlg;
+	dlg.m_indexdepartment = 3;
+	dlg.m_permission = POST_STORAGE;
+	dlg.m_listid = m_list_schedule.GetItemText(istat,1);	
+	dlg.m_postnumber = curnumber;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		updatelist(istat);
+		return;
+		CString strleftnumber ;
+		int haspostnumber = atoi(dlg.m_postnumber);
+		int leftnumber = atoi(curnumber) - haspostnumber;
+		if (leftnumber==0)
+			strleftnumber.Format("");
+		else
+			strleftnumber.Format("%d",leftnumber);
+		m_list_schedule.SetItemText(istat,14,strleftnumber);
+		strleftnumber.Format("%d",atoi(nextnumber) + haspostnumber);
+		m_list_schedule.SetItemText(istat,15,strleftnumber);
 	}
 }
 

@@ -74,6 +74,7 @@
 #define IDD_DIALOG_OUTPUT1              223
 #define IDI_CHANGE_RECORD               223
 #define IDD_DIALOG_PROGRESS             224
+#define IDD_DIALOG_MENU_POST_TC         225
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -260,11 +261,19 @@
 #define IDC_EDIT1                       1200
 #define IDC_EDIT2                       1201
 #define IDC_STATIC_TIPS                 1202
+#define IDC_EDIT_DESIGNER2              1202
+#define IDC_EDIT_SCORE2                 1203
 #define IDC_LIST_TIPS                   1204
+#define IDC_EDIT_DESIGNER3              1204
 #define IDC_CHECK_TIPS                  1205
+#define IDC_EDIT_SCORE3                 1205
+#define IDC_EDIT_DESIGNER4              1206
 #define IDC_EDIT_POST_NUM               1207
+#define IDC_EDIT_SCORE4                 1207
 #define IDC_EDIT_LISTID_QUERY           1208
+#define IDC_EDIT_DESIGNER5              1208
 #define IDC_CHECK_GATHERING             1209
+#define IDC_EDIT_SCORE5                 1209
 #define IDC_CHECK_BILLING               1210
 #define IDC_LIST_FI                     1211
 #define IDC_EDIT_LISTID_ADD             1212
@@ -275,6 +284,20 @@
 #define IDC_BUTTON_PREVIEW              1219
 #define IDC_BUTTON_PRINT                1220
 #define IDC_CHECK_MONEY_SELL            1221
+#define IDC_EDIT_DESINGER               1222
+#define IDC_EDIT_SCORE                  1223
+#define IDC_EDIT_DESIGNER1              1224
+#define IDC_EDIT_SCORE1                 1225
+#define IDC_STATIC6                     1226
+#define IDC_STATIC7                     1227
+#define IDC_STATIC8                     1228
+#define IDC_STATIC9                     1229
+#define IDC_STATIC10                    1230
+#define IDC_STATIC11                    1231
+#define IDC_STATIC12                    1232
+#define IDC_STATIC13                    1233
+#define IDC_STATIC14                    1234
+#define IDC_STATIC15                    1235
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -295,7 +318,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        225
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1222
+#define _APS_NEXT_CONTROL_VALUE         1236
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

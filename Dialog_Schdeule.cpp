@@ -74,19 +74,20 @@ BOOL CDialog_Schdeule::OnInitDialog()
 	m_list_schedule.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(2, _T("产品名称"), LVCFMT_LEFT,80);
 	m_list_schedule.InsertColumn(3, _T("经办人"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(4, _T("营销部门"), LVCFMT_LEFT,80);
-	m_list_schedule.InsertColumn(5, _T("产品总数"), LVCFMT_LEFT,80);
-	m_list_schedule.InsertColumn(6, _T("材料"), LVCFMT_LEFT,150);
-	m_list_schedule.InsertColumn(7, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
-	m_list_schedule.InsertColumn(8, _T("收单日期"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(9, _T("交货日期"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(10, _T("快递单号"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(11, _T("业务"), LVCFMT_LEFT,170);
-	m_list_schedule.InsertColumn(12, _T("技术部"), LVCFMT_LEFT,170);
-	m_list_schedule.InsertColumn(13, _T("生产部"), LVCFMT_LEFT,170);
-	m_list_schedule.InsertColumn(14, _T("质检"), LVCFMT_LEFT,170);
-	m_list_schedule.InsertColumn(15, _T("成品仓"), LVCFMT_LEFT,170);
-	m_list_schedule.InsertColumn(16, _T("物流"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(4, _T("设计师"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(5, _T("营销部门"), LVCFMT_LEFT,80);
+	m_list_schedule.InsertColumn(6, _T("产品总数"), LVCFMT_LEFT,80);
+	m_list_schedule.InsertColumn(7, _T("材料"), LVCFMT_LEFT,150);
+	m_list_schedule.InsertColumn(8, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
+	m_list_schedule.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(12, _T("业务"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(13, _T("技术部"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(14, _T("生产部"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(15, _T("质检"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(16, _T("成品仓"), LVCFMT_LEFT,170);
+	m_list_schedule.InsertColumn(17, _T("物流"), LVCFMT_LEFT,170);
 
 	CString strdepartment = g_department;
 	m_department.InsertString(0,"意造销售");
@@ -196,16 +197,16 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 		switch(indexSel)
 		{
 		case 0://全部
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,scheduledetail where  businessendtime>=\"%s\"and businessendtime<=\"%s\" and baseinfo.listid=scheduledetail.listid" ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,scheduledetail where  businessendtime>=\"%s\"and businessendtime<=\"%s\" and baseinfo.listid=scheduledetail.listid" ,starttime,endtime);
 			break;
 		case 1://物流及以前
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where  baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and  schedule.totelnumber>schedule.post  and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where  baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and  schedule.totelnumber>schedule.post  and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
 			break;
 		case 2://物流后待结单
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and schedule.totelnumber=schedule.post and  businessendtime>=\"%s\"and businessendtime<=\"%s\"  " ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and schedule.totelnumber=schedule.post and  businessendtime>=\"%s\"and businessendtime<=\"%s\"  " ,starttime,endtime);
 			break;
 		case 3://已结单
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=1 and  businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=1 and  businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
 			break;
 		default:
 			break;
@@ -216,16 +217,16 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 		switch(indexSel)
 		{
 		case 0://全部
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,scheduledetail where  baseinfo.department=\"%s\" and businessendtime>=\"%s\"and businessendtime<=\"%s\" and baseinfo.listid=scheduledetail.listid" ,strDepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,scheduledetail where  baseinfo.department=\"%s\" and businessendtime>=\"%s\"and businessendtime<=\"%s\" and baseinfo.listid=scheduledetail.listid" ,strDepartment,starttime,endtime);
 			break;
 		case 1://物流及以前
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where  baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and  schedule.totelnumber>schedule.post  and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strDepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where  baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and  schedule.totelnumber>schedule.post  and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strDepartment,starttime,endtime);
 			break;
 		case 2://物流后待结单
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and schedule.totelnumber=schedule.post and  businessendtime>=\"%s\"and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=0 and schedule.totelnumber=schedule.post and  businessendtime>=\"%s\"and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
 			break;
 		case 3://已结单
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=1 and  businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strDepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.volume,baseinfo.reveivedate,baseinfo.enddate,baseinfo.sendid,businessendtime,tcendtime,pdendtime,qcendtime,storageendtime,sendendtime from baseinfo,schedule,scheduledetail where baseinfo.department=\"%s\" and baseinfo.listid=schedule.listid  and  schedule.listid=scheduledetail.listid and end=1 and  businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strDepartment,starttime,endtime);
 			break;
 		default:
 			break;
@@ -268,21 +269,21 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 					strindex.Format("%d",index+1);
 					m_list_schedule.InsertItem(index,strindex);
 					int i=0;
-					for(i=1;i<=10;i++)
+					for(i=1;i<=11;i++)
 					{
 						m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
 					switch(indexSel2)
 					{
 					case 0://过账时间
-						for(i=11;i<=16;i++)
+						for(i=12;i<=17;i++)
 						{
 							m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 						}
 						break;
 					case 1://停留时间
 						m_list_schedule.SetItemText(index,11,"0");						
-						for(i=12;i<=16;i++)
+						for(i=13;i<=17;i++)
 						{
 							m_list_schedule.SetItemText(index,i,CalcTimeSpan(sql_row[i-2],sql_row[i-1]));
 						}

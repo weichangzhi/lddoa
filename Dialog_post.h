@@ -37,6 +37,16 @@ public:
 	CString	m_volume3;
 	CString	m_volume4;
 	CString	m_volume5;
+	CString	m_designer1;
+	CString	m_designer2;
+	CString	m_designer3;
+	CString	m_designer4;
+	CString	m_designer5;
+	CString	m_score1;
+	CString	m_score2;
+	CString	m_score3;
+	CString	m_score4;
+	CString	m_score5;
 	//}}AFX_DATA
 
 

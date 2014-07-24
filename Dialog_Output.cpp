@@ -71,18 +71,20 @@ BOOL CDialog_Output::OnInitDialog()
 	m_list_output.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
 	m_list_output.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(3, _T("经办人"), LVCFMT_LEFT,100);
-	m_list_output.InsertColumn(4, _T("营销部门"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(5, _T("产品总数"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(6, _T("制作材料"), LVCFMT_LEFT,150);
-	m_list_output.InsertColumn(7, _T("订单金额(元)"), LVCFMT_LEFT,110);
-	m_list_output.InsertColumn(8, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
-	m_list_output.InsertColumn(9, _T("快递单号"), LVCFMT_LEFT,90);
-	m_list_output.InsertColumn(10, _T("业务部"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(11, _T("技术部"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(12, _T("生产部"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(13, _T("质检"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(14, _T("成品仓"), LVCFMT_LEFT,80);
-	m_list_output.InsertColumn(15, _T("物流"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(4, _T("设计师"), LVCFMT_LEFT,100);
+	m_list_output.InsertColumn(5, _T("积分"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(6, _T("营销部门"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(7, _T("产品总数"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(8, _T("制作材料"), LVCFMT_LEFT,150);
+	m_list_output.InsertColumn(9, _T("订单金额(元)"), LVCFMT_LEFT,110);
+	m_list_output.InsertColumn(10, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
+	m_list_output.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,90);
+	m_list_output.InsertColumn(12, _T("业务部"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(13, _T("技术部"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(14, _T("生产部"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(15, _T("质检"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(16, _T("成品仓"), LVCFMT_LEFT,80);
+	m_list_output.InsertColumn(17, _T("物流"), LVCFMT_LEFT,80);
 	CTime time1 = CTime::GetCurrentTime();
 	m_time_start = time1;
 	m_time_end = time1;
@@ -146,39 +148,54 @@ void CDialog_Output::OnOK()
 	case 0://个人
 		csSql.Format("select department from userinfo where username=\"%s\" ",m_strName);
 		mysql_init(&myCont);
-		if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
+		do
 		{
-			dlgpro->setpos(500);
-			mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
-			res=mysql_query(&myCont,csSql);//查询
-			if(!res)
+			if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 			{
-				dlgpro->setpos(600);
-				result=mysql_store_result(&myCont);//保存查询到的数据到result
-				if(result)
+				dlgpro->setpos(500);
+				mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
+				res=mysql_query(&myCont,csSql);//查询
+				if(!res)
 				{
-					unsigned __int64 num = mysql_num_rows(result);//行数
-					if(num<1)
+					dlgpro->setpos(600);
+					result=mysql_store_result(&myCont);//保存查询到的数据到result
+					if(result)
 					{
-						MessageBox("此用户名不存在","提示",MB_OK);
-						(CEdit*)GetDlgItem(IDC_EDIT_NAME)->SetFocus();
-						((CEdit*)GetDlgItem(IDC_EDIT_NAME))->SetSel(0, -1);
-						if(result!=NULL) mysql_free_result(result);//释放结果资源
-						mysql_close(&myCont);//断开连接
-						dlgpro->endpos();
-						return;
-					}
-					sql_row=mysql_fetch_row(result);
-					if(sql_row)
-					{
-						strdepartment = sql_row[0];
+						unsigned __int64 num = mysql_num_rows(result);//行数
+						if(num<1)
+						{
+							break;
+							MessageBox("此用户名不存在","提示",MB_OK);
+							(CEdit*)GetDlgItem(IDC_EDIT_NAME)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_NAME))->SetSel(0, -1);
+							if(result!=NULL) mysql_free_result(result);//释放结果资源
+							mysql_close(&myCont);//断开连接
+							dlgpro->endpos();
+							return;
+						}
+						sql_row=mysql_fetch_row(result);
+						if(sql_row)
+						{
+							strdepartment = sql_row[0];
+						}
+						else
+						{
+							break;
+							MessageBox("此用户名不存在","提示",MB_OK);
+							(CEdit*)GetDlgItem(IDC_EDIT_USER)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
+							if(result!=NULL) mysql_free_result(result);//释放结果资源
+							mysql_close(&myCont);//断开连接
+							dlgpro->endpos();
+							return;
+						}
 					}
 					else
 					{
-						MessageBox("此用户名不存在","提示",MB_OK);
-						(CEdit*)GetDlgItem(IDC_EDIT_USER)->SetFocus();
-						((CEdit*)GetDlgItem(IDC_EDIT_USER))->SetSel(0, -1);
-						if(result!=NULL) mysql_free_result(result);//释放结果资源
+						const char *error = mysql_error(&myCont);
+						CString str;
+						str.Format("数据库错误(%s)",error);
+						MessageBox(str,"提示",MB_OK);
 						mysql_close(&myCont);//断开连接
 						dlgpro->endpos();
 						return;
@@ -205,19 +222,9 @@ void CDialog_Output::OnOK()
 				dlgpro->endpos();
 				return;
 			}
-		}
-		else
-		{
-			const char *error = mysql_error(&myCont);
-			CString str;
-			str.Format("数据库错误(%s)",error);
-			MessageBox(str,"提示",MB_OK);
+			if(result!=NULL) mysql_free_result(result);//释放结果资源
 			mysql_close(&myCont);//断开连接
-			dlgpro->endpos();
-			return;
-		}
-		if(result!=NULL) mysql_free_result(result);//释放结果资源
-		mysql_close(&myCont);//断开连接
+		}while(0);
 
 
 		if ((strdepartment.Compare("意造销售")==0) ||
@@ -225,13 +232,15 @@ void CDialog_Output::OnOK()
 			(strdepartment.Compare("运营")==0) ||
 			(strdepartment.Compare("加盟")==0) ||
 			(strdepartment.Compare("研发")==0) )
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and baseinfo.people=\"%s\" and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,m_strName,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and baseinfo.people=\"%s\" and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,m_strName,starttime,endtime);
 		else if ((strdepartment.Compare("技术部意造")==0) || (strdepartment.Compare("技术部记梦馆")==0))
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and scheduledetail.tcpeople=\"%s\" and tcendtime>=\"%s\"and tcendtime<=\"%s\" " ,m_strName,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and baseinfo.desinger=\"%s\" and tcendtime>=\"%s\"and tcendtime<=\"%s\" " ,m_strName,starttime,endtime);
 		else if ((strdepartment.Compare("生产部")==0))
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and scheduledetail.pdpeople=\"%s\" and pdendtime>=\"%s\"and pdendtime<=\"%s\" " ,m_strName,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and scheduledetail.pdpeople=\"%s\" and pdendtime>=\"%s\"and pdendtime<=\"%s\" " ,m_strName,starttime,endtime);
 		else if ((strdepartment.Compare("成品仓")==0))
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and scheduledetail.storagepopple=\"%s\" and storageendtime>=\"%s\"and storageendtime<=\"%s\" " ,m_strName,starttime,endtime);		
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and scheduledetail.storagepopple=\"%s\" and storageendtime>=\"%s\"and storageendtime<=\"%s\" " ,m_strName,starttime,endtime);		
+		else
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and baseinfo.desinger=\"%s\" and tcendtime>=\"%s\"and tcendtime<=\"%s\" " ,m_strName,starttime,endtime);
 		break;
 	case 1://部门
 		m_com_output.GetWindowText(strdepartment);
@@ -243,24 +252,24 @@ void CDialog_Output::OnOK()
 		case 2://运营
 		case 3://加盟
 		case 4://研发
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople     from baseinfo,scheduledetail where  baseinfo.department=\"%s\" and baseinfo.listid=scheduledetail.listid and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strdepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople     from baseinfo,scheduledetail where  baseinfo.department=\"%s\" and baseinfo.listid=scheduledetail.listid and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,strdepartment,starttime,endtime);
 			break;
 		case 5://技术部意造
 		case 6://技术部记梦馆
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from userinfo,baseinfo,scheduledetail where userinfo.username=scheduledetail.tcpeople and  userinfo.department=\"%s\" and  baseinfo.listid=scheduledetail.listid and tcendtime>=\"%s\"and tcendtime<=\"%s\" " ,strdepartment,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from userinfo,baseinfo,scheduledetail where userinfo.username=scheduledetail.tcpeople and  userinfo.department=\"%s\" and  baseinfo.listid=scheduledetail.listid and tcendtime>=\"%s\"and tcendtime<=\"%s\" " ,strdepartment,starttime,endtime);
 			break;
 		case 7://生产部
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and pdendtime>=\"%s\"and pdendtime<=\"%s\" " ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and pdendtime>=\"%s\"and pdendtime<=\"%s\" " ,starttime,endtime);
 			break;
 		case 8://成品仓
-			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and storageendtime>=\"%s\"and storageendtime<=\"%s\" " ,starttime,endtime);
+			csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople from baseinfo,scheduledetail where baseinfo.listid=scheduledetail.listid and storageendtime>=\"%s\"and storageendtime<=\"%s\" " ,starttime,endtime);
 			break;
 		default:
 			break;
 		}
 		break;
 	case 2://全部
-		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople     from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
+		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.people,baseinfo.desinger,baseinfo.score,baseinfo.department,baseinfo.truelistnumber,baseinfo.material,baseinfo.money,baseinfo.volume,baseinfo.sendid, businesspeople,tcpeople,pdpeople,qcpeople,storagepopple,sendpeople     from baseinfo,scheduledetail where  baseinfo.listid=scheduledetail.listid and businessendtime>=\"%s\"and businessendtime<=\"%s\" " ,starttime,endtime);
 		break;
 	default:
 		break;
@@ -287,18 +296,18 @@ void CDialog_Output::OnOK()
 				int hasmoney = 0;
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
-					number += atoi(sql_row[4]);
+					number += atoi(sql_row[6]);
 					//money += atof(sql_row[6]);
-					volume += atof(sql_row[7]);
+					volume += atof(sql_row[9]);
 					CString strindex ;
 					strindex.Format("%d",index+1);
 					m_list_output.InsertItem(index,strindex);
-					CString strdepartment = sql_row[3];
+					CString strdepartment = sql_row[5];
 					CString strmoney;
 					int i=0;
-					for(i=1;i<=15;i++)
+					for(i=1;i<=17;i++)
 					{
-						if(i==7)
+						if(i==9)
 						{
 							strmoney = "******";
 							if(((strdepartment.Compare("意造销售")==0) && (g_permission&MONEY_SELL))
@@ -328,16 +337,16 @@ void CDialog_Output::OnOK()
 					m_list_output.InsertItem(index,"总计：");
 					CString strtmp;
 					strtmp.Format("%d",number);
-					m_list_output.SetItemText(index,5,strtmp);
+					m_list_output.SetItemText(index,7,strtmp);
 
 				
 					strtmp.Format("%0.1f",money);
 					if(hasmoney==1)
-						m_list_output.SetItemText(index,7,strtmp);
+						m_list_output.SetItemText(index,9,strtmp);
 					else
-						m_list_output.SetItemText(index,7,"******");
+						m_list_output.SetItemText(index,9,"******");
 					strtmp.Format("%0.1f",volume);
-					m_list_output.SetItemText(index,8,strtmp);
+					m_list_output.SetItemText(index,10,strtmp);
 					m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));
 				}
             }
