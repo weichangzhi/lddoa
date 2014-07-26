@@ -273,9 +273,13 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
 	CRect rectlistfi(m_rect);
+	CRect rectlistoutput(m_rect);
+	CRect rectlisttotal(m_rect);
 	m_rect.DeflateRect(230,0,20,20);
 	rectlist.DeflateRect(0,50,250,20);
 	rectlistfi.DeflateRect(0,165,250,20);
+	rectlistoutput.DeflateRect(0,50,250,45);
+	rectlisttotal.DeflateRect(0,m_rect.bottom-22,250,0);
 
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
@@ -292,7 +296,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	((CDialog_Detail*)(m_treePages[4]))->m_listdetail.MoveWindow(rectlist);
 	m_treePages[4]->ShowWindow(SW_HIDE);
 	m_treePages[5]->MoveWindow(m_rect);
-	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlist);
+	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlistoutput);
+	((CDialog_Output*)(m_treePages[5]))->m_list_total.MoveWindow(rectlisttotal);
 	m_treePages[5]->ShowWindow(SW_HIDE);
 	m_treePages[6]->MoveWindow(m_rect);
 	m_treePages[6]->ShowWindow(SW_HIDE);
@@ -440,9 +445,14 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	GetClientRect(m_rect);
 	CRect rectlist(m_rect);
 	CRect rectlistfi(m_rect);
+	CRect rectlistoutput(m_rect);
+	CRect rectlisttotal(m_rect);
 	m_rect.DeflateRect(230,0,20,20);
 	rectlist.DeflateRect(0,50,250,20);
 	rectlistfi.DeflateRect(0,165,250,20);
+	rectlistoutput.DeflateRect(0,50,250,45);
+	rectlisttotal.DeflateRect(0,m_rect.bottom-22,250,0);
+
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
 	writelog(log);
 	int i = 0;
@@ -465,7 +475,8 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[4]->MoveWindow(m_rect);
 	((CDialog_Detail*)(m_treePages[4]))->m_listdetail.MoveWindow(rectlist);
 	m_treePages[5]->MoveWindow(m_rect);
-	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlist);
+	((CDialog_Output*)(m_treePages[5]))->m_list_output.MoveWindow(rectlistoutput);
+	((CDialog_Output*)(m_treePages[5]))->m_list_total.MoveWindow(rectlisttotal);
 	m_treePages[6]->MoveWindow(m_rect);
 	m_treePages[7]->MoveWindow(m_rect);
 	m_treePages[8]->MoveWindow(m_rect);

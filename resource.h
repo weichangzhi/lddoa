@@ -199,7 +199,7 @@
 #define IDC_COMBO_OUTPUT                1121
 #define IDC_LIST_OUTPUT                 1122
 #define IDC_CHECK_SAVE_LIST             1123
-#define IDC_LIST_OUTPUT2                1123
+#define IDC_LIST_TOTAL                  1123
 #define IDC_CHECK_MODIFY_LIST_BEFORE    1124
 #define IDC_CHECK_MODIFY_LIST_AFTER     1125
 #define IDC_CHECK_QUERY_LIST            1126

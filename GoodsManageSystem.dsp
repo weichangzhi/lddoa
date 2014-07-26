@@ -196,6 +196,10 @@ SOURCE=.\Dialog_TipsSetting.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_UndoRecord.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Unpost.cpp
 # End Source File
 # Begin Source File
@@ -346,6 +350,10 @@ SOURCE=.\Dialog_Tips.h
 # Begin Source File
 
 SOURCE=.\Dialog_TipsSetting.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_UndoRecord.h
 # End Source File
 # Begin Source File
 
@@ -550,6 +558,10 @@ SOURCE=.\res\process.ico
 # Begin Source File
 
 SOURCE=.\res\sell.ico
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\undo.ICO
 # End Source File
 # Begin Source File
 

@@ -32,6 +32,7 @@ void CDialog_Output::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_Output)
+	DDX_Control(pDX, IDC_LIST_TOTAL, m_list_total);
 	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Control(pDX, IDC_EXCEL, m_btnexcel);
 	DDX_Control(pDX, IDC_EDIT_NAME, m_EditName);
@@ -51,6 +52,16 @@ BEGIN_MESSAGE_MAP(CDialog_Output, CDialog)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	ON_CBN_SELCHANGE(IDC_COMBO_WAY, OnSelchangeComboWay)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST_OUTPUT, OnColumnclickListOutput)
+	ON_NOTIFY(LVN_BEGINRDRAG, IDC_LIST_OUTPUT, OnBeginrdragListOutput)
+	ON_NOTIFY(HDN_BEGINDRAG, IDC_LIST_OUTPUT, OnBegindragListOutput)
+	ON_NOTIFY(HDN_ITEMCHANGED, IDC_LIST_OUTPUT, OnItemchangedListOutput)
+	ON_NOTIFY(HDN_ITEMCHANGING, IDC_LIST_OUTPUT, OnItemchangingListOutput)
+	ON_NOTIFY(HDN_ENDTRACK, IDC_LIST_OUTPUT, OnEndtrackListOutput)
+	ON_NOTIFY(HDN_ENDDRAG, IDC_LIST_OUTPUT, OnEnddragListOutput)
+	ON_NOTIFY(HDN_TRACK, IDC_LIST_OUTPUT, OnTrackListOutput)
+	ON_NOTIFY(LVN_ITEMCHANGING, IDC_LIST_OUTPUT, OnItemchangingListOutput)
+	ON_NOTIFY(HDN_BEGINTRACK, IDC_LIST_OUTPUT, OnBegintrackListOutput)
+	ON_NOTIFY(LVN_BEGINDRAG, IDC_LIST_OUTPUT, OnBegindragListOutput)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -85,6 +96,28 @@ BOOL CDialog_Output::OnInitDialog()
 	m_list_output.InsertColumn(15, _T("质检"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(16, _T("成品仓"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(17, _T("物流"), LVCFMT_LEFT,80);
+
+	m_list_total.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
+	m_list_total.InsertColumn(0, _T("总计："), LVCFMT_LEFT,60);
+	m_list_total.InsertColumn(1, _T(""), LVCFMT_LEFT,100);
+	m_list_total.InsertColumn(2, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(3, _T(""), LVCFMT_LEFT,100);
+	m_list_total.InsertColumn(4, _T(""), LVCFMT_LEFT,100);
+	m_list_total.InsertColumn(5, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(6, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(7, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(8, _T(""), LVCFMT_LEFT,150);
+	m_list_total.InsertColumn(9, _T(""), LVCFMT_LEFT,110);
+	m_list_total.InsertColumn(10, _T(""), LVCFMT_LEFT,120);
+	m_list_total.InsertColumn(11, _T(""), LVCFMT_LEFT,90);
+	m_list_total.InsertColumn(12, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(13, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(14, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(15, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(16, _T(""), LVCFMT_LEFT,80);
+	m_list_total.InsertColumn(17, _T(""), LVCFMT_LEFT,80);
+
+
 	CTime time1 = CTime::GetCurrentTime();
 	m_time_start = time1;
 	m_time_end = time1;
@@ -331,23 +364,35 @@ void CDialog_Output::OnOK()
 				dlgpro->setpos(900);
 				if(index!=0)
 				{
-					m_list_output.InsertItem(index++," ");
-					m_list_output.InsertItem(index++," ");
-					m_list_output.InsertItem(index++," ");
-					m_list_output.InsertItem(index,"总计：");
+					//m_list_output.InsertItem(index++," ");
+					//m_list_output.InsertItem(index++," ");
+					//m_list_output.InsertItem(index++," ");
+					//m_list_output.InsertItem(index,"总计：");
 					CString strtmp;
 					strtmp.Format("%d",number);
-					m_list_output.SetItemText(index,7,strtmp);
+					//m_list_output.SetItemText(index,7,strtmp);
+					m_list_total.DeleteColumn(7);
+					m_list_total.InsertColumn(7,strtmp,LVCFMT_LEFT,80);
 
 				
 					strtmp.Format("%0.1f",money);
 					if(hasmoney==1)
-						m_list_output.SetItemText(index,9,strtmp);
+					{
+						//m_list_output.SetItemText(index,9,strtmp);
+						m_list_total.DeleteColumn(9);
+						m_list_total.InsertColumn(9,strtmp,LVCFMT_LEFT,110);
+					}
 					else
-						m_list_output.SetItemText(index,9,"******");
+					{
+						//m_list_output.SetItemText(index,9,"******");
+						m_list_total.DeleteColumn(9);
+						m_list_total.InsertColumn(9,strtmp,LVCFMT_LEFT,110);
+					}
 					strtmp.Format("%0.1f",volume);
-					m_list_output.SetItemText(index,10,strtmp);
-					m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));
+					//m_list_output.SetItemText(index,10,strtmp);
+					m_list_total.DeleteColumn(10);
+					m_list_total.InsertColumn(10,strtmp,LVCFMT_LEFT,120);
+					//m_list_output.SetItemColor(index,RGB(255,0,0),RGB(255,255,255));
 				}
             }
         }
@@ -454,5 +499,69 @@ void CDialog_Output::OnColumnclickListOutput(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	// TODO: Add your control notification handler code here
 	listsort(&m_list_output,pNMListView);
+	*pResult = 0;
+}
+
+void CDialog_Output::OnBeginrdragListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	int nsel=pNMListView->iSubItem; 
+	int width = m_list_output.GetColumnWidth(nsel)	;
+	*pResult = 0;
+}
+
+void CDialog_Output::OnBegindragListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY * phdn = (HD_NOTIFY *) pNMHDR;
+	int nsel=phdn->iItem; 
+	int width = m_list_output.GetColumnWidth(nsel)	;
+	*pResult = 0;
+}
+
+void CDialog_Output::OnItemchangedListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY *phdn = (HD_NOTIFY *) pNMHDR;
+	int nsel=phdn->iItem; 
+	int width = m_list_output.GetColumnWidth(nsel)	;
+	*pResult = 0;
+}
+
+void CDialog_Output::OnItemchangingListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY *phdn = (HD_NOTIFY *) pNMHDR;
+	// TODO: Add your control notification handler code here
+	
+	*pResult = 0;
+}
+
+void CDialog_Output::OnEndtrackListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY *phdn = (HD_NOTIFY *) pNMHDR;
+	// TODO: Add your control notification handler code here
+	
+	*pResult = 0;
+}
+
+void CDialog_Output::OnEnddragListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY * phdn = (HD_NOTIFY *) pNMHDR;
+	// TODO: Add your control notification handler code here
+	
+	*pResult = 0;
+}
+
+void CDialog_Output::OnTrackListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY *phdn = (HD_NOTIFY *) pNMHDR;
+	// TODO: Add your control notification handler code here
+	
+	*pResult = 0;
+}
+
+void CDialog_Output::OnBegintrackListOutput(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	HD_NOTIFY *phdn = (HD_NOTIFY *) pNMHDR;
+	// TODO: Add your control notification handler code here
+	
 	*pResult = 0;
 }

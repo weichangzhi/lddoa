@@ -20,6 +20,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_Output)
 	enum { IDD = IDD_DIALOG_OUTPUT1 };
+	CListCtrl	m_list_total;
 	CXPButton	m_btnok;
 	CXPButton	m_btnexcel;
 	CEdit	m_EditName;
@@ -52,6 +53,14 @@ protected:
 	afx_msg void OnExcel();
 	afx_msg void OnSelchangeComboWay();
 	afx_msg void OnColumnclickListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBeginrdragListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBegindragListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnItemchangedListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnItemchangingListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnEndtrackListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnEnddragListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnTrackListOutput(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBegintrackListOutput(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
