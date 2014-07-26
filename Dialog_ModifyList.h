@@ -50,6 +50,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
+	CXPButton	m_bt_undo;
+	CXPButton	m_btcontinue;
 	CXPButton	m_btnok;
 	CXPButton	m_btncancel;
 	CXPButton	m_btn1;
@@ -118,6 +120,8 @@ protected:
 	afx_msg void OnStartList();
 	afx_msg void OnEndList();
 	virtual void OnOK();
+	afx_msg void OnButtonUndoList();
+	afx_msg void OnButtonContinueList();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

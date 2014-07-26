@@ -163,9 +163,9 @@ void CDialog_Making::OnMakingQuery()
 	m_ComDepartment.GetWindowText(strDepartment);
 	int indexsel = m_ComDepartment.GetCurSel();
 	if (indexsel==5)
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,starttime,endtime);
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,starttime,endtime);
 	else
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
 
 	Dialog_progress *dlgpro;
 	dlgpro=new Dialog_progress(); 

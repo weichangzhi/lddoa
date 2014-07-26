@@ -118,7 +118,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg message handlers
 
-#define MAX_ICO 26
+#define MAX_ICO 27
 #define TIMERID_TIP      1100
 #define TIMER_WAIT_TIP   1000*60 //1 min
 BOOL CGoodsManageSystemDlg::OnInitDialog()
@@ -190,6 +190,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	icon[23]=AfxGetApp()->LoadIcon (IDI_PROCESS);
 	icon[24]=AfxGetApp()->LoadIcon (IDI_MAKEING);
 	icon[25]=AfxGetApp()->LoadIcon (IDI_CHANGE_RECORD);
+	icon[26]=AfxGetApp()->LoadIcon (IDI_UNDO);
 
 
 	//创建图像列表控件
@@ -229,6 +230,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son11=m_tree.InsertItem("修改订单",12,12,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son12=m_tree.InsertItem("查询订单",13,13,sub_son1,TVI_LAST);
 	HTREEITEM sub_m_son13=m_tree.InsertItem("变更记录",25,25,sub_son1,TVI_LAST);
+	HTREEITEM sub_m_son14=m_tree.InsertItem("销单记录",26,26,sub_son1,TVI_LAST);
 
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
@@ -245,6 +247,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[9]=new CDialog_Unpost;
 	m_treePages[10]=new Dialog_ChangeRecord;
 	m_treePages[11]=new Dialog_FI;
+	m_treePages[12]=new Dialog_UndoRecord;
+
 
 	//建立节点对应的Dialog
 	m_treePages[0]->Create(IDD_DIALOG_CLIENT,this);
@@ -259,6 +263,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[9]->Create(IDD_DIALOG_UNPOST,this);
 	m_treePages[10]->Create(IDD_DIALOG_CHAGNE_RECORD,this);
 	m_treePages[11]->Create(IDD_DIALOG_FI,this);
+	m_treePages[12]->Create(IDD_DIALOG_UNDO_RECORD,this);
 
 	//把Dialog移到合适位置
 
@@ -304,6 +309,9 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[11]->MoveWindow(m_rect);
 	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
 	m_treePages[11]->ShowWindow(SW_HIDE);
+	m_treePages[12]->MoveWindow(m_rect);
+	((Dialog_UndoRecord*)(m_treePages[12]))->m_listUndoRecord.MoveWindow(rectlist);
+	m_treePages[12]->ShowWindow(SW_HIDE);
 
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
@@ -469,6 +477,10 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
 	m_treePages[11]->MoveWindow(m_rect);
 	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
+	m_treePages[12]->MoveWindow(m_rect);
+	((Dialog_UndoRecord*)(m_treePages[12]))->m_listUndoRecord.MoveWindow(rectlist);
+
+
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
 	writelog(log);
 
@@ -597,6 +609,10 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(node_name=="变更记录" ){
 		m_treePages[10]->ShowWindow(SW_SHOW);
 		icurrentpage = 10;
+	}
+	else if(node_name=="销单记录" ){
+		m_treePages[12]->ShowWindow(SW_SHOW);
+		icurrentpage = 12;
 	}
 	else if(node_name=="过账" || node_name=="账目流转"){
 		m_treePages[2]->ShowWindow(SW_SHOW);

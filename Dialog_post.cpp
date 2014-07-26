@@ -144,7 +144,7 @@ void CDialog_post::OnOK()
 	CString volume_sendid[5];
 	CString designer[5];
 	int score[5];
-	int enable[5] ; 
+	int enable[5] ;
 	int i=0;
 	postid[0] = m_postid1;
 	postid[1] = m_postid2;
@@ -454,7 +454,7 @@ void CDialog_post::OnOK()
 		sql[i].Format("select * from schedule where listid=\"%s\" ",postid[i]);
 
 	
-	int totelnumber[5],businessnumber[5],tcnumber[5],pdnumber[5],qcnumber[5],storagenumber[5],sendnumber[5],post[5],end[5],hasstoragenumber[5];
+	int totelnumber[5],businessnumber[5],tcnumber[5],pdnumber[5],qcnumber[5],storagenumber[5],sendnumber[5],post[5],end[5],hasstoragenumber[5],undolist[5];
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -529,6 +529,43 @@ void CDialog_post::OnOK()
 					post[i]				= atoi(sql_row[9]);
 					end[i]				= atoi(sql_row[10]);
 					hasstoragenumber[i]	= atoi(sql_row[11]);
+					undolist[i]			= atoi(sql_row[12]);
+					if(undolist[i]==1)
+					{
+						CString str;
+						str.Format("订单 %s 已被销单，请续单后过账",postid[i]);
+						MessageBox(str,"提示",MB_OK);
+						switch (i)
+						{
+						case 0:
+							(CEdit*)GetDlgItem(IDC_EDIT_POST_ID1)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_POST_ID1))->SetSel(0, -1);
+							goto _exit;
+							break;
+						case 1:
+							(CEdit*)GetDlgItem(IDC_EDIT_POST_ID2)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_POST_ID2))->SetSel(0, -1);
+							goto _exit;
+							break;
+						case 2:
+							(CEdit*)GetDlgItem(IDC_EDIT_POST_ID3)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_POST_ID3))->SetSel(0, -1);
+							goto _exit;
+							break;
+						case 3:
+							(CEdit*)GetDlgItem(IDC_EDIT_POST_ID4)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_POST_ID4))->SetSel(0, -1);
+							goto _exit;
+							break;
+						case 4:
+							(CEdit*)GetDlgItem(IDC_EDIT_POST_ID5)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_POST_ID5))->SetSel(0, -1);
+							goto _exit;
+							break;
+						default:
+							break;							
+						}
+					}
 				}
 				else
 				{

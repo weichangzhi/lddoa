@@ -157,7 +157,7 @@ void Dialog_Menu_Post_TC::OnOK()
 	sql.Format("select * from schedule where listid=\"%s\" ",m_list);
 
 	
-	int totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber;
+	int totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber,undolist;
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -186,7 +186,8 @@ void Dialog_Menu_Post_TC::OnOK()
 			{
 				MessageBox("无此订单号（可能还没下单）","提示",MB_OK);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
-					mysql_close(&myCont);//断开连接
+				mysql_close(&myCont);//断开连接
+				return;
 			}
 			totelnumber		= atoi(sql_row[2]);
 			businessnumber	= atoi(sql_row[3]);
@@ -198,6 +199,14 @@ void Dialog_Menu_Post_TC::OnOK()
 			post			= atoi(sql_row[9]);
 			end				= atoi(sql_row[10]);
 			hasstoragenumber= atoi(sql_row[11]);
+			undolist		= atoi(sql_row[12]);
+			if(undolist==1)
+			{
+				MessageBox("此订单已被销单，请续单后过账","提示",MB_OK);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				return;
+			}
 		}
 		else
 		{

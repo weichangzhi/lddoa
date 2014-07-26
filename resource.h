@@ -75,6 +75,9 @@
 #define IDI_CHANGE_RECORD               223
 #define IDD_DIALOG_PROGRESS             224
 #define IDD_DIALOG_MENU_POST_TC         225
+#define IDI_UNDO                        225
+#define IDD_DIALOG_LIST_UNDO            226
+#define IDD_DIALOG_UNDO_RECORD          227
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -196,6 +199,7 @@
 #define IDC_COMBO_OUTPUT                1121
 #define IDC_LIST_OUTPUT                 1122
 #define IDC_CHECK_SAVE_LIST             1123
+#define IDC_LIST_OUTPUT2                1123
 #define IDC_CHECK_MODIFY_LIST_BEFORE    1124
 #define IDC_CHECK_MODIFY_LIST_AFTER     1125
 #define IDC_CHECK_QUERY_LIST            1126
@@ -298,6 +302,12 @@
 #define IDC_STATIC13                    1233
 #define IDC_STATIC14                    1234
 #define IDC_STATIC15                    1235
+#define IDC_BUTTON_UNDO_LIST            1236
+#define IDC_BUTTON_CONTINUE_LIST        1237
+#define IDC_EDIT_COST                   1239
+#define IDC_EDIT_PAYMENT                1240
+#define IDC_EDIT_REASON                 1241
+#define IDC_EDIT_TIME                   1243
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -316,9 +326,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        225
+#define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1236
+#define _APS_NEXT_CONTROL_VALUE         1244
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

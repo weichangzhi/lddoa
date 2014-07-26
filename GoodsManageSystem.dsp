@@ -124,6 +124,10 @@ SOURCE=.\Dialog_InputBaseinfo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Undo.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Login.cpp
 # End Source File
 # Begin Source File
@@ -137,6 +141,10 @@ SOURCE=.\Dialog_Making.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Menu_Post.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Menu_Post_TC.cpp
 # End Source File
 # Begin Source File
 
@@ -269,6 +277,10 @@ SOURCE=.\Dialog_InputBaseinfo.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Undo.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Login.h
 # End Source File
 # Begin Source File
@@ -282,6 +294,10 @@ SOURCE=.\Dialog_Making.h
 # Begin Source File
 
 SOURCE=.\Dialog_Menu_Post.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Menu_Post_TC.h
 # End Source File
 # Begin Source File
 

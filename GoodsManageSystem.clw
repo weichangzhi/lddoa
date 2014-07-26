@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CDialog_post
+LastClass=Dialog_UndoRecord
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "goodsmanagesystem.h"
 LastPage=0
 
-ClassCount=35
+ClassCount=37
 Class1=CDialog_AddUser
 Class2=CDialog_BaseInfo
 Class3=CDialog_BaseInfo1
@@ -43,43 +43,47 @@ Class31=CSortHeaderCtrl
 Class32=CSortListCtrl
 Class33=CXPButton
 
-ResourceCount=34
-Resource1=IDD_DIALOG_MODIFY_PASSWD
-Resource2=IDD_DIALOG_UNPOST
-Resource3=IDD_DIALOG_ADD_USER
-Resource4=IDD_DIALOG_MODIFY_PERMISSION
-Resource5=IDD_DIALOG_MENU_POST
-Resource6=IDR_MENU_TIPS
-Resource7=IDD_TIPS_SETTING
-Resource8=IDD_DIALOG_MODIFY_LIST1
-Resource9=IDD_DIALOG_OUTPUT1
-Resource10=IDD_DIALOG_MAKEING
-Resource11=IDD_ABOUTBOX
-Resource12=IDR_MENUMAIN
-Resource13=IDD_DIALOG_INPUT_BASEINFO
-Resource14=IDD_DIALOG_SELL
-Resource15=IDD_DIALOG_MENU_POST_TC
-Resource16=IDD_DIALOG_CLIENT
-Resource17=IDD_DIALOG_POST
-Resource18=IDD_DIALOG_PROGRESS
-Resource19=IDD_DIALOG_MODIFY_PASSWD_ADMIN
-Resource20=IDD_DIALOG_SCHEDULE
-Resource21=IDD_GOODSMANAGESYSTEM_DIALOG
-Resource22=IDD_DIALOG_FI
-Resource23=IDD_DIALOG_LOGIN
-Resource24=IDD_DIALOG_NEW_LIST
-Resource25=IDD_DIALOG_TIPS
-Resource26=IDD_DIALOG_LIST_QUERY
-Resource27=IDR_MENU1
-Resource28=IDD_DIALOG_CHAGNE_RECORD
-Resource29=IDD_DIALOG_LOGIN2
-Resource30=IDD_DIGPREVIEW
-Resource31=IDD_DIALOG_BASEINFO
-Resource32=IDD_DIALOG_DETAIL
+ResourceCount=36
+Resource1=IDD_DIALOG_INPUT_BASEINFO
+Resource2=IDD_DIALOG_MAKEING
+Resource3=IDD_DIALOG_CHAGNE_RECORD
+Resource4=IDD_TIPS_SETTING
+Resource5=IDD_DIALOG_NEW_LIST
+Resource6=IDD_DIALOG_SELL
+Resource7=IDD_DIALOG_POST
+Resource8=IDD_DIALOG_MODIFY_PERMISSION
+Resource9=IDD_DIALOG_LIST_QUERY
+Resource10=IDD_DIALOG_FI
+Resource11=IDD_DIALOG_UNPOST
+Resource12=IDD_DIALOG_MENU_POST_TC
+Resource13=IDR_MENU_TIPS
+Resource14=IDD_DIALOG_DELETE_USER
+Resource15=IDD_DIALOG_MODIFY_LIST1
+Resource16=IDD_DIALOG_TIPS
+Resource17=IDD_ABOUTBOX
+Resource18=IDD_DIALOG_ADD_USER
+Resource19=IDD_DIALOG_LOGIN2
+Resource20=IDR_MENU_POST
+Resource21=IDD_DIALOG_LOGIN
+Resource22=IDD_DIALOG_MODIFY_PASSWD
+Resource23=IDD_DIGPREVIEW
+Resource24=IDD_DIALOG_UNDO_RECORD
+Resource25=IDD_DIALOG_LIST_UNDO
+Resource26=IDR_MENUMAIN
+Resource27=IDD_DIALOG_BASEINFO
+Resource28=IDD_DIALOG_SCHEDULE
+Resource29=IDR_MENU1
+Resource30=IDD_GOODSMANAGESYSTEM_DIALOG
+Resource31=IDD_DIALOG_CLIENT
+Resource32=IDD_DIALOG_PROGRESS
 Class34=Dialog_progress
-Resource33=IDD_DIALOG_DELETE_USER
+Resource33=IDD_DIALOG_MODIFY_PASSWD_ADMIN
 Class35=Dialog_Menu_Post_TC
-Resource34=IDR_MENU_POST
+Resource34=IDD_DIALOG_DETAIL
+Class36=Dialog_List_Undo
+Resource35=IDD_DIALOG_MENU_POST
+Class37=Dialog_UndoRecord
+Resource36=IDD_DIALOG_OUTPUT1
 
 [CLS:CDialog_AddUser]
 Type=0
@@ -111,6 +115,7 @@ HeaderFile=Dialog_ChangeRecord.h
 ImplementationFile=Dialog_ChangeRecord.cpp
 Filter=D
 VirtualFilter=dWC
+LastObject=Dialog_ChangeRecord
 
 [CLS:CDIALOG_CLIENT]
 Type=0
@@ -197,6 +202,7 @@ HeaderFile=Dialog_ModifyList.h
 ImplementationFile=Dialog_ModifyList.cpp
 Filter=D
 VirtualFilter=dWC
+LastObject=IDC_BUTTON_CONTINUE_LIST
 
 [CLS:CDialog_ModifyPassWd]
 Type=0
@@ -589,7 +595,7 @@ Control27=IDC_CHECK_MONEY_JOIN,button,1342242819
 [DLG:IDD_DIALOG_MODIFY_LIST1]
 Type=1
 Class=CDialog_ModifyList
-ControlCount=77
+ControlCount=79
 Control1=IDC_EDIT_QUERYLISTID,edit,1350631552
 Control2=IDC_BUTTON1,button,1342242816
 Control3=IDC_EDIT_LISTTNAME,edit,1350631552
@@ -667,6 +673,8 @@ Control74=IDC_STATIC,static,1342308352
 Control75=IDC_STATIC,static,1342308352
 Control76=IDC_STATIC,static,1342308352
 Control77=IDC_CHECK_URGENT,button,1342242819
+Control78=IDC_BUTTON_UNDO_LIST,button,1342242816
+Control79=IDC_BUTTON_CONTINUE_LIST,button,1342242816
 
 [DLG:IDD_DIALOG_MODIFY_PASSWD]
 Type=1
@@ -780,7 +788,7 @@ Control76=IDC_BUTTON_PRINT,button,1073807360
 [DLG:IDD_DIALOG_OUTPUT1]
 Type=1
 Class=CDialog_Output
-ControlCount=12
+ControlCount=13
 Control1=IDOK,button,1342242817
 Control2=IDC_COMBO_OUTPUT,combobox,1344340227
 Control3=IDC_LIST_OUTPUT,SysListView32,1350631425
@@ -793,6 +801,7 @@ Control9=IDC_EXCEL,button,1342242816
 Control10=IDC_STATIC,static,1342308352
 Control11=IDC_COMBO_WAY,combobox,1344340227
 Control12=IDC_EDIT_NAME,edit,1350631552
+Control13=IDC_LIST_OUTPUT2,SysListView32,1350631425
 
 [DLG:IDD_DIALOG_POST]
 Type=1
@@ -1106,4 +1115,57 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=Dialog_Menu_Post_TC
+
+[DLG:IDD_DIALOG_LIST_UNDO]
+Type=1
+Class=Dialog_List_Undo
+ControlCount=16
+Control1=IDC_EDIT_COST,edit,1350631552
+Control2=IDC_EDIT_PAYMENT,edit,1350631552
+Control3=IDC_EDIT_REASON,edit,1350631552
+Control4=IDOK,button,1342242817
+Control5=IDCANCEL,button,1342242816
+Control6=IDC_EDIT_LISTID,edit,1484849280
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_STATIC,static,1342308352
+Control9=IDC_STATIC1,static,1342308352
+Control10=IDC_STATIC,static,1342308352
+Control11=IDC_STATIC,static,1342308352
+Control12=IDC_STATIC,static,1342308352
+Control13=IDC_EDIT_DEPARTMENT,edit,1484849280
+Control14=IDC_EDIT_TIME,edit,1484849280
+Control15=IDC_STATIC,static,1342308352
+Control16=IDC_STATIC,static,1342308352
+
+[CLS:Dialog_List_Undo]
+Type=0
+HeaderFile=Dialog_List_Undo.h
+ImplementationFile=Dialog_List_Undo.cpp
+BaseClass=CDialog
+Filter=D
+VirtualFilter=dWC
+LastObject=Dialog_List_Undo
+
+[DLG:IDD_DIALOG_UNDO_RECORD]
+Type=1
+Class=Dialog_UndoRecord
+ControlCount=9
+Control1=IDC_EDIT_LIDTID,edit,1350631552
+Control2=IDC_DATETIMEPICKER1,SysDateTimePick32,1342242848
+Control3=IDC_DATETIMEPICKER2,SysDateTimePick32,1342242848
+Control4=IDC_BUTTON__SELECT,button,1342242817
+Control5=IDC_BUTTON_EXCEL,button,1342242816
+Control6=IDC_LIST_CHANGERECORD,SysListView32,1350631425
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_STATIC,static,1342308352
+Control9=IDC_STATIC,static,1342308352
+
+[CLS:Dialog_UndoRecord]
+Type=0
+HeaderFile=Dialog_UndoRecord.h
+ImplementationFile=Dialog_UndoRecord.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=IDC_LIST_CHANGERECORD
+VirtualFilter=dWC
 

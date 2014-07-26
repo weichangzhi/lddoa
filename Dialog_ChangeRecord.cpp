@@ -177,3 +177,18 @@ void Dialog_ChangeRecord::OnColumnclickListChangerecord(NMHDR* pNMHDR, LRESULT* 
 	listsort(&m_listChangeRecord,pNMListView);
 	*pResult = 0;
 }
+
+BOOL Dialog_ChangeRecord::PreTranslateMessage(MSG* pMsg) 
+{
+	if(pMsg->message == WM_KEYDOWN) 
+	{  
+		switch(pMsg->wParam) 
+		{  
+		//case VK_RETURN: //»Ø³µ  
+		//	return TRUE;  
+		case VK_ESCAPE: //ESC  
+			return TRUE;  
+		}  
+	}	
+	return CDialog::PreTranslateMessage(pMsg);
+}

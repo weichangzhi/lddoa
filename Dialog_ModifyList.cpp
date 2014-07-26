@@ -6,6 +6,7 @@
 #include "Dialog_ModifyList.h"
 #include "Dialog_Login2.h"
 #include "Dialog_progress.h"
+#include "Dialog_List_Undo.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -91,6 +92,8 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_ModifyList)
+	DDX_Control(pDX, IDC_BUTTON_UNDO_LIST, m_bt_undo);
+	DDX_Control(pDX, IDC_BUTTON_CONTINUE_LIST, m_btcontinue);
 	DDX_Control(pDX, IDOK, m_btnok);
 	DDX_Control(pDX, IDCANCEL, m_btncancel);
 	DDX_Control(pDX, IDC_BUTTON1, m_btn1);
@@ -136,6 +139,8 @@ BEGIN_MESSAGE_MAP(CDialog_ModifyList, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_MODIFYLIST, OnModifylist)
 	ON_BN_CLICKED(IDC_BUTTON_START_LIST, OnStartList)
 	ON_BN_CLICKED(IDC_BUTTON_END_LIST, OnEndList)
+	ON_BN_CLICKED(IDC_BUTTON_UNDO_LIST, OnButtonUndoList)
+	ON_BN_CLICKED(IDC_BUTTON_CONTINUE_LIST, OnButtonContinueList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -493,8 +498,8 @@ void CDialog_ModifyList::OnModifylist()
 	if(m_listid.IsEmpty())
 	{
 		MessageBox("无订单号，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+		(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 		return;
 	}
 	if(!(m_phone.IsEmpty()))
@@ -617,8 +622,8 @@ void CDialog_ModifyList::OnModifylist()
 					if(isend==1)
 					{
 						MessageBox("此订单号已被结单，不可在修改","提示",MB_OK);
-						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+						(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+						((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 						if(result!=NULL) mysql_free_result(result);//释放结果资源
 						mysql_close(&myCont);//断开连接
 						dlgpro->endpos();
@@ -628,8 +633,8 @@ void CDialog_ModifyList::OnModifylist()
 				else
 				{
 					MessageBox("此订单号已被下单","提示",MB_OK);
-					(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-					((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
 					dlgpro->endpos();
@@ -643,8 +648,8 @@ void CDialog_ModifyList::OnModifylist()
 				if (login2.DoModal()!=IDOK)
 				{
 					MessageBox("此订单号已被下单，只有主管才有权限修改","提示",MB_OK);
-					(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-					((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 					if(result!=NULL) mysql_free_result(result);//释放结果资源
 					mysql_close(&myCont);//断开连接
 					dlgpro->endpos();
@@ -873,8 +878,8 @@ void CDialog_ModifyList::OnModifylist()
 					if(sql_row==NULL)
 					{
 						MessageBox("无此订单号，请重新输入","提示",MB_OK);
-						(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-						((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+						(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+						((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 						mysql_close(&myCont);//断开连接
 						dlgpro->endpos();
 						return;
@@ -884,8 +889,8 @@ void CDialog_ModifyList::OnModifylist()
 						if (m_urgent==0)
 						{
 							MessageBox("只有提交订单本人才能修改此订单","提示",MB_OK);
-							(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-							((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+							(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+							((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 							if(result!=NULL) mysql_free_result(result);//释放结果资源
 							mysql_close(&myCont);//断开连接
 							dlgpro->endpos();
@@ -964,8 +969,8 @@ void CDialog_ModifyList::OnStartList()
 	if(m_listid.IsEmpty())
 	{
 		MessageBox("无订单号，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+		(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 		return;
 	}
 	CString strTotalNum;
@@ -1032,8 +1037,8 @@ void CDialog_ModifyList::OnStartList()
 			if(num==1)
 			{
 				MessageBox("此订单号已存在","提示",MB_OK);
-				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+				(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				dlgpro->endpos();
@@ -1086,8 +1091,8 @@ void CDialog_ModifyList::OnStartList()
 		}
 */
 		dlgpro->setpos(700);
-		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber) \
-		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
+		sql.Format("insert into schedule(listid,listname,totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber,undolist) \
+		values (\"%s\",\"%s\",%d,0,%d,0,0,0,0,0,0,0,0)",m_listid,m_listname,totelnumber,totelnumber);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			const char *error = mysql_error(&myCont);
@@ -1181,8 +1186,8 @@ void CDialog_ModifyList::OnEndList()
 	if(m_listid.IsEmpty())
 	{
 		MessageBox("无订单号，请重新输入","提示",MB_OK);
-		(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-		((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+		(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 		return;
 	}
 	CDialog_Login2 login2;
@@ -1247,8 +1252,8 @@ void CDialog_ModifyList::OnEndList()
 			if(num<1)
 			{
 				MessageBox("此订单不存在","提示",MB_OK);
-				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+				(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				return;
@@ -1257,8 +1262,8 @@ void CDialog_ModifyList::OnEndList()
 			if(sql_row==NULL)
 			{
 				MessageBox("此订单不存在","提示",MB_OK);
-				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+				(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				return;
@@ -1275,8 +1280,8 @@ void CDialog_ModifyList::OnEndList()
 			if(atoi(sql_row[2])==1)
 			{
 				MessageBox("此订单已结单","提示",MB_OK);
-				(CEdit*)GetDlgItem(IDC_EDIT_LISTID)->SetFocus();
-				((CEdit*)GetDlgItem(IDC_EDIT_LISTID))->SetSel(0, -1);
+				(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
 				if(result!=NULL) mysql_free_result(result);//释放结果资源
 				mysql_close(&myCont);//断开连接
 				return;
@@ -1332,4 +1337,165 @@ void CDialog_ModifyList::OnOK()
 	// TODO: Add extra validation here
 	OnQueryList();
 	//CDialog::OnOK();
+}
+
+void CDialog_ModifyList::OnButtonUndoList() 
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+	m_query_listid.TrimLeft();
+	m_query_listid.TrimRight();
+	if (m_query_listid.IsEmpty())
+	{	
+		MessageBox("订单号为空，请输入","提示",MB_OK);
+		(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+		return;
+	}
+	Dialog_List_Undo dlg;
+	dlg.m_listid = m_query_listid;
+	if(dlg.DoModal()==IDOK)
+	{
+		
+	}
+}
+
+void CDialog_ModifyList::OnButtonContinueList() 
+{
+	// TODO: Add your control notification handler code here
+	UpdateData();
+	if(m_listid.IsEmpty())
+	{
+		MessageBox("无订单号，请重新输入","提示",MB_OK);
+		(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+		((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
+		return;
+	}
+	
+	Dialog_progress *dlgpro;
+	dlgpro=new Dialog_progress(); 
+	dlgpro->Create(IDD_DIALOG_PROGRESS);
+	if(g_openprocess)
+		dlgpro->ShowWindow(SW_SHOW);
+	else
+		dlgpro->ShowWindow(SW_HIDE);
+
+	int undolist = 0;
+	MYSQL myCont;
+	MYSQL_RES *result;
+	MYSQL_ROW sql_row;
+	mysql_init(&myCont);
+	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
+	{
+		dlgpro->setpos(500);
+		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
+		CString sql;
+		sql.Format("select undolist from schedule where listid=\"%s\" ",m_listid);
+		if(mysql_query(&myCont,sql)!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
+			return;
+		}
+		dlgpro->setpos(600);
+		result=mysql_store_result(&myCont);//保存查询到的数据到result
+		if(result)
+		{
+			unsigned __int64 num = mysql_num_rows(result);//行数
+			if(num==1)//有记录，
+			{
+				sql_row=mysql_fetch_row(result);
+				if(sql_row)
+				{
+					undolist = atoi(sql_row[0]);
+					if(undolist==0)
+					{
+						MessageBox("此订单没有被销单，可正常过账","提示",MB_OK);
+						(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+						((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
+						if(result!=NULL) mysql_free_result(result);//释放结果资源
+						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
+						return;
+					}
+				}
+				else
+				{
+					MessageBox("此订单未下单","提示",MB_OK);
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
+					if(result!=NULL) mysql_free_result(result);//释放结果资源
+					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
+					return;
+				}
+				dlgpro->setpos(700);
+				CDialog_Login2 login2;
+				if(m_urgent)
+					login2.m_urgent = 1;
+				login2.m_permission = DEL_LIST;
+				if (login2.DoModal()!=IDOK)
+				{
+					(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+					((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
+					if(result!=NULL) mysql_free_result(result);//释放结果资源
+					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
+					return;
+				}
+
+				dlgpro->setpos(800);
+				sql.Format("update schedule set undolist=0 where listid=\"%s\" ", m_listid);
+				if(mysql_query(&myCont,sql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
+					return;
+				}
+				writelog("续单成功");
+				dlgpro->setpos(950);
+				dlgpro->endpos();
+				MessageBox("续单成功","提示",MB_OK);
+			}
+			else//未下单
+			{
+				MessageBox("此订单未下单","提示",MB_OK);
+				(CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID)->SetFocus();
+				((CEdit*)GetDlgItem(IDC_EDIT_QUERYLISTID))->SetSel(0, -1);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				dlgpro->endpos();
+				return;
+			}
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
+			return;
+		}
+	}
+	else
+	{
+		const char *error = mysql_error(&myCont);
+		CString str;
+		str.Format("数据库错误(%s)",error);
+		MessageBox(str,"提示",MB_OK);
+		mysql_close(&myCont);//断开连接
+		dlgpro->endpos();
+		return;
+	}
+	if(result!=NULL) mysql_free_result(result);//释放结果资源
+	mysql_close(&myCont);//断开连接
 }
