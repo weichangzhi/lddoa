@@ -7,6 +7,7 @@
 // Dialog_New_List.h : header file
 //
 #include "XPButton.h"
+#include "Preview.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_New_List dialog
 
@@ -15,11 +16,16 @@ class CDialog_New_List : public CDialog
 // Construction
 public:
 	CDialog_New_List(CWnd* pParent = NULL);   // standard constructor
+	void SetPreviewDlg(CPreview *PreviewDlg);
+	void updatedlg();
 	CString m_str_reveive_time;
 	CString m_str_end_date;
 // Dialog Data
 	//{{AFX_DATA(CDialog_New_List)
 	enum { IDD = IDD_DIALOG_NEW_LIST };
+	CXPButton	m_btexcel;
+	CXPButton	m_btprint;
+	CXPButton	m_btpreview;
 	CXPButton	m_btnok;
 	CXPButton	m_btncancel;
 	CXPButton	m_btnsubmitlist;
@@ -88,6 +94,7 @@ protected:
 	afx_msg void OnSelchangeComboDepartment();
 	afx_msg void OnButtonPreview();
 	afx_msg void OnButtonPrint();
+	afx_msg void OnButtonExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

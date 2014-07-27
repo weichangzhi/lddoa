@@ -19,23 +19,38 @@ CPreview::CPreview(CWnd* pParent /*=NULL*/)
 	: CDialog(CPreview::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CPreview)
-	m_strTime = _T("");
-	m_strIndex = _T("");
-	m_strSellName = _T("");
-	m_strSellPhone = _T("");
+	m_design_server = _T("");
+	m_has_modeling = _T("");
+	m_modeling = _T("");
+	m_modeling_pring = _T("");
+	m_no_modeling = _T("");
+	m_scan = _T("");
+	m_urgent = _T("");
+
+	m_address = _T("");
+	m_bill = _T("");
+	m_bottom = _T("");
+	m_color = _T("");
+	m_department = _T("");
+	m_error_range = _T("");
+	m_listid = _T("");
+	m_listname = _T("");
+	m_material = _T("");
+	m_money = _T("");
+	m_print = _T("");
+	m_people = _T("");
+	m_phone = _T("");
+	m_receivename = _T("");
+	m_shine = _T("");
+	m_size = _T("");
+	m_usage = _T("");
+	m_volume = _T("");
+	m_other = _T("");
+	m_str_reveive_time = _T("");
+	m_str_end_date = _T("");
 	
-	m_strCompanyName = _T("");
-	m_strUserAddress = _T("");
-	m_strUserName  = _T("");
-	m_strUserPhone = _T("");
-	
-	m_dProCount = 0;
-	m_pProInfo = NULL;
-	
-	m_strTotalPrice = _T("");
-	m_strSellPrice = _T("");
-	m_strTotalCount = _T("");
-	m_strUpperMoney = _T("");
+	m_totel_number = _T("");
+	m_true_number = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -101,197 +116,347 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	printy = pDC->GetDeviceCaps(LOGPIXELSY);
 	double ratex = (double)(printx)/screenx;
 	double ratey = (double)(printy)/screeny;
+	char log[256] = {0};
+	sprintf(log,"DrawReport \t%s,%d:rect [%dx%d, %dx%d],print [%dx%d], screan[%dx%d],rate[%fx%f]",__FILE__,__LINE__,
+			rect.left,rect.top,rect.right,rect.bottom,printx,printy,screenx,screeny,ratex,ratey);
+	writelog(log);
 	if(isprinted)
 	{
-		
-		pDC->StartDoc("printinformation");	
+		DOCINFO   doc;     
+	    ZeroMemory(&doc,sizeof(doc));     
+	    doc.cbSize = sizeof(doc);     
+	    doc.lpszDocName = (LPCTSTR)"Print Test File";  
+		pDC->StartDoc(&doc);	
+		pDC->StartPage();
 	}
 	else
 	{
 		ratex=1,ratey=1;
 	}
-	CFont font130,font150,font90,font80;
+	CRect recttmp(rect);
+	CFont font120,font150,font90,font80;
 	CPen pen1,pen2,*pOldPen;
-	font130.CreatePointFont(130,_T("宋体"),pDC);
-	pDC->SelectObject(&font130);
-	rect.DeflateRect(0,(int)(ratey*30),0,0);
-	pDC->DrawText("武汉东邦自动化设备有限公司",rect,DT_CENTER);
-	font90.CreatePointFont(90,_T("宋体"),pDC);
-	pDC->SelectObject(&font90);
-	rect.DeflateRect(0,(int)(ratey*25),0,0);
-	pDC->DrawText("公司地址：武汉市江汉区前进四路72号",rect,DT_CENTER);	
-	rect.DeflateRect(0,(int)(ratey*20),0,0);
-	pDC->DrawText("TEL：027-82772709  FAX:027-82772709  Email:HKP.618@163.com",rect,DT_CENTER);
+
+	CString strtmp;
+	strtmp.Format("%s 生产派单表",m_department);
 	font150.CreatePointFont(150,_T("宋体"),pDC);
 	pDC->SelectObject(&font150);
-	rect.DeflateRect(0,(int)(ratey*30),0,0);
-	pDC->DrawText("销售出货单",rect,DT_CENTER);
+	recttmp.top += (int)(ratey*20);
+	pDC->DrawText(strtmp,recttmp,DT_CENTER);
 
-	pDC->SelectObject(&font90);
-	rect.DeflateRect((int)(25*ratex),(int)(ratey*20),0,0);
-	pDC->DrawText("公司名称:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strCompanyName,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("客户地址:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strUserAddress,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("客户电话:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strUserPhone,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("联系人:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strUserName,rect,DT_LEFT);
-
-	rect.DeflateRect((int)(ratex*350),(int)(-ratey*45),0,0);
-	pDC->DrawText("出货单号:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strIndex,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("出货日期:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strTime,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("销售人员:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strSellName,rect,DT_LEFT);
-	rect.DeflateRect((int)(-ratex*70),(int)(ratey*15),0,0);
-	pDC->DrawText("联系电话:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*70),0,0,0);
-	pDC->DrawText(m_strSellPhone,rect,DT_LEFT);
-	//170,486,515,638
+	//table
 	pen1.CreatePen (PS_SOLID,2,RGB(0,0,0));
 	pOldPen=pDC->SelectObject (&pen1);
 	//画表格外边框
-	pDC->Rectangle ((int)(ratex*25),(int)(ratey*185),610,465);
+	recttmp = rect;
+	pDC->Rectangle (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*70),recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*195));
 	//创建画笔
 	pen2.CreatePen (PS_SOLID,1,RGB(0,0,0));
 	pOldPen=pDC->SelectObject (&pen2);
 	//画横线
-	for(int i=1;i<=13;i++)
-	{
-		pDC->MoveTo ((int)(ratex*25),(int)(ratey*185+i*20));
-		pDC->LineTo ((int)(ratex*609),(int)(ratey*185+i*20));
-	}
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*100));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*100));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*130));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*130));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*160));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*160));
 	//画竖线
-	pDC->MoveTo ((int)(ratex*60),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*60),(int)(ratey*425));
-	pDC->MoveTo ((int)(ratex*260),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*260),(int)(ratey*445));
-	pDC->MoveTo ((int)(ratex*320),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*320),(int)(ratey*445));
-	pDC->MoveTo ((int)(ratex*380),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*380),(int)(ratey*445));
-	pDC->MoveTo ((int)(ratex*440),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*440),(int)(ratey*445));
-	pDC->MoveTo ((int)(ratex*500),(int)(ratey*185));
-	pDC->LineTo ((int)(ratex*500),(int)(ratey*425));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*55),recttmp.top+(int)(ratey*70));
+	pDC->LineTo (recttmp.left+(int)(ratex*55),recttmp.top+(int)(ratey*195));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*135),recttmp.top+(int)(ratey*70));
+	pDC->LineTo (recttmp.left+(int)(ratex*135),recttmp.top+(int)(ratey*160));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*195),recttmp.top+(int)(ratey*70));
+	pDC->LineTo (recttmp.left+(int)(ratex*195),recttmp.top+(int)(ratey*160));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*70));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*160));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*325),recttmp.top+(int)(ratey*70));
+	pDC->LineTo (recttmp.left+(int)(ratex*325),recttmp.top+(int)(ratey*160));
+	
+	font120.CreatePointFont(120,_T("宋体"),pDC);
+	pDC->SelectObject(&font120);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*50);
+	pDC->DrawText("基本资料：",recttmp,DT_LEFT);
 
-	pDC->MoveTo ((int)(ratex*85),(int)(ratey*425));
-	pDC->LineTo ((int)(ratex*85),(int)(ratey*465));
-	pDC->MoveTo ((int)(ratex*200),(int)(ratey*425));
-	pDC->LineTo ((int)(ratex*200),(int)(ratey*445));
+	
+	//line 1
+	font90.CreatePointFont(90,_T("宋体"),pDC);
+	pDC->SelectObject(&font90);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText("订单号",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(60*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText(m_listid,recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText("订单名称",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(200*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText(m_listname,recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText("经办人",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(330*ratex);
+	recttmp.top += (int)(ratey*80);
+	pDC->DrawText(m_people,recttmp,DT_LEFT);
+//line 2
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText("收件人",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(60*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText(m_receivename,recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText("联系电话",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(200*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText(m_phone,recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText("部门",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(330*ratex);
+	recttmp.top += (int)(ratey*110);
+	pDC->DrawText(m_department,recttmp,DT_LEFT);
+//line 3
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*140);
+	pDC->DrawText("派单日期",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(60*ratex);
+	recttmp.top += (int)(ratey*140);
+	pDC->DrawText(m_str_reveive_time,recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*140);
+	pDC->DrawText("交货日期",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(200*ratex);
+	recttmp.top += (int)(ratey*140);
+	pDC->DrawText(m_str_end_date,recttmp,DT_LEFT);
+//line 4
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*170);
+	pDC->DrawText("详细地址",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(60*ratex);
+	recttmp.top += (int)(ratey*170);
+	pDC->DrawText(m_address,recttmp,DT_LEFT);
 
 
- 	pDC->MoveTo ((int)(ratex*25),(int)(ratey*485));
- 	pDC->LineTo ((int)(ratex*610),(int)(ratey*485));
- 	pDC->MoveTo ((int)(ratex*25),(int)(ratey*487));
- 	pDC->LineTo ((int)(ratex*610),(int)(ratey*487));
+	pDC->SelectObject(&font120);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*210);
+	pDC->DrawText("制作要求：",recttmp,DT_LEFT);
 
-	//写产品标头
-	rect.DeflateRect((int)(-485*ratex),(int)(ratey*20),0,0);
-	pDC->DrawText("序号",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratey*100),0,0,0);
-	pDC->DrawText("商品型号",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*150),0,0,0);
-	pDC->DrawText("单位",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*55),0,0,0);
-	pDC->DrawText("单价",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*65),0,0,0);
-	pDC->DrawText("数量",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*55),0,0,0);
-	pDC->DrawText("金额",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*85),0,0,0);
-	pDC->DrawText("备注",rect,DT_LEFT);
-	//t 190,b 526,l 540,r 638
-	//写入产品信息
-	if (m_dProCount>0)
-	{
-		int index = 0;
-		for (index=0;(index<m_dProCount) && (index<11);index++)//每页只能写入11项产品
-		{
-			if(index==0)
-			{
-				rect.DeflateRect((int)(-502*ratex),(int)(ratey*20),0,0);
-			}
-			else
-			{
-				rect.DeflateRect((int)(-467*ratex),(int)(ratey*20),0,0);
-			}
-			CString strIndex;
-			strIndex.Format("%d",index+1);
-			pDC->DrawText(strIndex,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*32),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strProType,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*210),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strUint,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*50),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strPrice,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*65),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strCount,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*50),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strMoney,rect,DT_LEFT);
-			rect.DeflateRect((int)(ratex*60),0,0,0);
-			pDC->DrawText(m_pProInfo[index].strTips,rect,DT_LEFT);		
-		}
-	}
-	if (m_dProCount==0)
-	{
-		rect.DeflateRect((int)(-ratex*35),0,0,0);
-	}
-	rect.DeflateRect((int)(-ratex*475),(int)(ratex*(240-(20*m_dProCount))),0,0);
-	pDC->DrawText("金额合计",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);//大写总金额
-	pDC->DrawText("零",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*115),0,0,0);
-	pDC->DrawText("开票类型",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);
-	pDC->DrawText("已开",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);
-	pDC->DrawText("合计",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);//数量
-	pDC->DrawText(m_strTotalCount,rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);//总金额
-	pDC->DrawText(m_strTotalPrice,rect,DT_LEFT);
-	//430,526,445,638
-	rect.DeflateRect((int)(-ratex*415),(int)(ratex*20),0,0);
-	pDC->DrawText("发货方式",rect,DT_LEFT);
-	rect.DeflateRect(0,(int)(ratex*20),0,0);
-	pDC->DrawText("审核人:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*200),0,0,0);
-	pDC->DrawText("制单人:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*60),0,0,0);
-	pDC->DrawText("吴明清:",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*200),0,0,0);
-	pDC->DrawText("客户签收:",rect,DT_LEFT);
+	//table 2
+	pOldPen=pDC->SelectObject (&pen1);
+	//画表格外边框
+	recttmp = rect;
+	pDC->Rectangle (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*230),recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*410));
+	pOldPen=pDC->SelectObject (&pen2);
+	//画横线
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*260));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*260));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*290));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*290));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*320));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*320));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*350));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*350));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*380));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*380));
 
-	font80.CreatePointFont(85,_T("宋体"),pDC);
-	pDC->SelectObject(&font80);
-	rect.DeflateRect((int)(-ratex*460),20,0,0);
-	pDC->DrawText("第1页/共1页",rect,DT_LEFT);
-	rect.DeflateRect((int)(ratex*380),0,0,0);
-	pDC->DrawText("打印时间:",rect,DT_LEFT);
-	CTime currentTime = CTime::GetCurrentTime();
-	CString strTimePrint;
-	strTimePrint.Format("%04d-%02d-%02d  %02d:%02d:%02d",currentTime.GetYear(),
-		currentTime.GetMonth(),currentTime.GetDay(),currentTime.GetHour(),currentTime.GetMinute(),currentTime.GetSecond());
-	rect.DeflateRect((int)(ratex*80),0,0,0);
-	pDC->DrawText(strTimePrint,rect,DT_LEFT);
+	pDC->SelectObject(&font90);
+	strtmp.Format("建模%s 设计服务%s 扫描业务%s 模型打印%s 有模型%s 无模型%s 加急%s",
+		m_modeling,m_design_server,m_scan,m_modeling_pring,m_has_modeling,m_no_modeling,m_urgent);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 
+	strtmp.Format("尺寸:%s  生产数量:%s  制作材料:%s",m_size,m_totel_number,m_material);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*270);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+	strtmp.Format("颜色:%s  打磨:%s  底座搭配:%s  发票随寄:%s",m_color,m_shine,m_bottom,m_bill);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*300);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+	strtmp.Format("用途:%s  误差范围:%s  体积:%s",m_usage,m_error_range,m_volume);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*330);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+	strtmp.Format("喷漆:%s",m_print);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*360);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+	strtmp.Format("其他要求:%s",m_other);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*390);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+
+	pDC->SelectObject(&font120);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*420);
+	pDC->DrawText("签名：",recttmp,DT_LEFT);
+
+	//table 3
+	pOldPen=pDC->SelectObject (&pen1);
+	//画表格外边框
+	recttmp = rect;
+	pDC->Rectangle (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*440),recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*590));
+	//创建画笔
+	pOldPen=pDC->SelectObject (&pen2);
+	//画横线
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*470));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*470));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*500));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*500));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*530));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*530));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*3),recttmp.top+(int)(ratey*560));
+	pDC->LineTo (recttmp.right-(int)(ratex*3),recttmp.top+(int)(ratey*560));
+	//画竖线
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*55),recttmp.top+(int)(ratey*440));
+	pDC->LineTo (recttmp.left+(int)(ratex*55),recttmp.top+(int)(ratey*590));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*135),recttmp.top+(int)(ratey*440));
+	pDC->LineTo (recttmp.left+(int)(ratex*135),recttmp.top+(int)(ratey*590));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*190),recttmp.top+(int)(ratey*440));
+	pDC->LineTo (recttmp.left+(int)(ratex*190),recttmp.top+(int)(ratey*590));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*440));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*590));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*330),recttmp.top+(int)(ratey*440));
+	pDC->LineTo (recttmp.left+(int)(ratex*330),recttmp.top+(int)(ratey*590));
+	
+
+
+	pDC->SelectObject(&font90);
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*450);
+	pDC->DrawText("销售部",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*450);
+	pDC->DrawText("主管",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*450);
+	pDC->DrawText("日期",recttmp,DT_LEFT);
+
+
+
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*480);
+	pDC->DrawText("技术部",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*480);
+	pDC->DrawText("主管",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*480);
+	pDC->DrawText("日期",recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*510);
+	pDC->DrawText("生产部",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*510);
+	pDC->DrawText("主管",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*510);
+	pDC->DrawText("日期",recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*540);
+	pDC->DrawText("质检",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*540);
+	pDC->DrawText("主管",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*540);
+	pDC->DrawText("日期",recttmp,DT_LEFT);
+
+	recttmp = rect;
+	recttmp.left += (int)(5*ratex);
+	recttmp.top += (int)(ratey*570);
+	pDC->DrawText("成品仓",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(140*ratex);
+	recttmp.top += (int)(ratey*570);
+	pDC->DrawText("快递单号",recttmp,DT_LEFT);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*570);
+	pDC->DrawText("日期",recttmp,DT_LEFT);
+	
 	if(isprinted)
 	{
+		pDC->EndPage();
 		pDC->EndDoc();
 	}
 }

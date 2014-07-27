@@ -19,23 +19,39 @@ public:
 
 	int screenx,screeny;	
 
-	CString m_strTime;
-	CString m_strIndex;
-	CString	m_strSellName;
-	CString	m_strSellPhone;
-	
-	CString m_strCompanyName;
-	CString	m_strUserAddress;
-	CString	m_strUserName;
-	CString	m_strUserPhone;
+	CString m_str_reveive_time;
+	CString m_str_end_date;
 
-	int m_dProCount;
-	pProductInfo m_pProInfo;
-		
-	CString m_strTotalPrice;
-	CString m_strSellPrice;
-	CString m_strTotalCount;
-	CString m_strUpperMoney;
+	CString	m_design_server;
+	CString	m_has_modeling;
+	CString	m_modeling;
+	CString	m_modeling_pring;
+	CString	m_no_modeling;
+	CString	m_scan;
+	CString	m_urgent;
+
+	CString	m_address;
+	CString	m_bill;
+	CString	m_bottom;
+	CString	m_color;
+	CString	m_department;
+	CString	m_error_range;
+	CString	m_listid;
+	CString	m_listname;
+	CString	m_material;
+	CString	m_money;
+	CString	m_print;
+	CString	m_people;
+	CString	m_phone;
+	CString	m_receivename;
+	CString	m_shine;
+	CString	m_size;	
+	CString	m_usage;
+	CString	m_volume;
+	CString	m_other;
+
+	CString	m_totel_number;
+	CString	m_true_number;
 	// Dialog Data
 	//{{AFX_DATA(CPreview)
 	enum { IDD = IDD_DIGPREVIEW };

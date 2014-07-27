@@ -92,6 +92,9 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_ModifyList)
+	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btexcel);
+	DDX_Control(pDX, IDC_BUTTON_PRINT, m_btprint);
+	DDX_Control(pDX, IDC_BUTTON_PREVIEW, m_btpreview);
 	DDX_Control(pDX, IDC_BUTTON_UNDO_LIST, m_bt_undo);
 	DDX_Control(pDX, IDC_BUTTON_CONTINUE_LIST, m_btcontinue);
 	DDX_Control(pDX, IDOK, m_btnok);
@@ -141,6 +144,9 @@ BEGIN_MESSAGE_MAP(CDialog_ModifyList, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_END_LIST, OnEndList)
 	ON_BN_CLICKED(IDC_BUTTON_UNDO_LIST, OnButtonUndoList)
 	ON_BN_CLICKED(IDC_BUTTON_CONTINUE_LIST, OnButtonContinueList)
+	ON_BN_CLICKED(IDC_BUTTON_PREVIEW, OnButtonPreview)
+	ON_BN_CLICKED(IDC_BUTTON_PRINT, OnButtonPrint)
+	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnButtonExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1498,4 +1504,408 @@ void CDialog_ModifyList::OnButtonContinueList()
 	}
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
+}
+
+void CDialog_ModifyList::SetPreviewDlg(CPreview *PreviewDlg)
+{
+	UpdateData();
+	updatedlg();
+	PreviewDlg->m_str_reveive_time = m_str_reveive_time;
+	PreviewDlg->m_str_end_date = m_str_end_date;
+	CString strtmp;
+	if(m_design_server)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_design_server = strtmp;
+	if(m_has_modeling)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_has_modeling = strtmp;
+	if(m_modeling)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_modeling = strtmp;
+	if(m_modeling_pring)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_modeling_pring = strtmp;
+	if(m_no_modeling)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_no_modeling = strtmp;
+	if(m_scan)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_scan = strtmp;
+	if(m_urgent)
+		strtmp.Format("%s","√");
+	else
+		strtmp.Format("%s"," ");
+	PreviewDlg->m_urgent = strtmp;
+	
+	PreviewDlg->m_address = m_address;
+	PreviewDlg->m_bill = m_bill;
+	PreviewDlg->m_bottom = m_bottom;
+	PreviewDlg->m_color = m_color;
+	PreviewDlg->m_department = m_department;
+	PreviewDlg->m_error_range = m_error_range;
+	PreviewDlg->m_listid = m_listid;
+	PreviewDlg->m_listname = m_listname;
+	PreviewDlg->m_material = m_material;
+	PreviewDlg->m_money = m_money;
+	PreviewDlg->m_print = m_print;
+	PreviewDlg->m_people = m_people;
+	PreviewDlg->m_phone = m_phone;
+	PreviewDlg->m_receivename = m_receivename;
+	PreviewDlg->m_shine = m_shine;
+	PreviewDlg->m_size = m_size;
+	PreviewDlg->m_usage = m_usage;
+	PreviewDlg->m_volume = m_volume;
+	PreviewDlg->m_other = m_other;
+
+	strtmp.Format("%d",m_totel_number);
+	PreviewDlg->m_totel_number = strtmp;
+	strtmp.Format("%d",m_true_number);
+	PreviewDlg->m_true_number = strtmp;
+}
+
+void CDialog_ModifyList::OnButtonPreview() 
+{
+	CPreview PreviewDlg;
+	SetPreviewDlg(&PreviewDlg);
+	PreviewDlg.DoModal();
+}
+
+void CDialog_ModifyList::OnButtonPrint() 
+{
+	CPreview PreviewDlg;
+	SetPreviewDlg(&PreviewDlg);
+	CPrintDialog m_printdlg(false);
+	if (m_printdlg.DoModal()==IDOK)
+	{
+		CDC dc1;		
+		dc1.Attach(m_printdlg.GetPrinterDC());			
+		int leftmargin;
+		leftmargin = dc1.GetDeviceCaps(PHYSICALOFFSETX);
+		CRect m_rect(-leftmargin,0,dc1.GetDeviceCaps(PHYSICALWIDTH)-leftmargin,dc1.GetDeviceCaps(PHYSICALHEIGHT));
+		char log[256] = {0};
+		sprintf(log,"OnButtonPrint \t%s,%d:leftmargin=%d rect [%dx%d, %dx%d]",__FILE__,__LINE__,
+			leftmargin,m_rect.left,m_rect.top,m_rect.right,m_rect.bottom);
+		writelog(log);
+		PreviewDlg.DrawReport(m_rect,&dc1,true);
+	}
+}
+
+void CDialog_ModifyList::updatedlg() 
+{
+	m_ComBill.GetWindowText(m_bill);
+	m_ComBottom.GetWindowText(m_bottom);
+	m_ComColor.GetWindowText(m_color);
+	m_ComDepartment.GetWindowText(m_department);
+	m_ComMaterial.GetWindowText(m_material);
+	m_ComPaint.GetWindowText(m_print);
+	m_ComShine.GetWindowText(m_shine);
+	m_ComSize.GetWindowText(m_size);
+	m_str_reveive_time.Format("%04d-%02d-%02d",m_receivedate.GetYear(),m_receivedate.GetMonth(),m_receivedate.GetDay());
+	m_str_end_date.Format("%04d-%02d-%02d",m_enddate.GetYear(),m_enddate.GetMonth(),m_enddate.GetDay());
+	CString strTotalNum;
+	GetDlgItem(IDC_EDIT_TOTEL_NUMBER)->GetWindowText(strTotalNum);
+	m_totel_number = atoi(strTotalNum);
+}
+
+void CDialog_ModifyList::OnButtonExcel() 
+{
+	UpdateData();
+	updatedlg();	
+	CString filename = "生产派单表.xls";
+	Range m_ExlRge; 
+	_Worksheet m_ExlSheet; 
+	Worksheets m_ExlSheets; 
+	_Workbook m_ExlBook; 
+	Workbooks m_ExlBooks; 
+	_Application m_ExlApp; 
+	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	//用m_ExlApp对象创建Excel2003进程 
+
+	if(!m_ExlApp.CreateDispatch("Excel.Application",NULL)) 
+	{ 
+		AfxMessageBox("创建Excel服务失败!"); 
+		return; 
+	} 
+
+	//设置为可见 
+	m_ExlApp.SetVisible(TRUE); 
+
+	///////////////////下面得到应用程序所在的路径/////////////////// 
+	CString theAppPath,theAppName; 
+	char Path[MAX_PATH]; 
+
+	GetModuleFileName(NULL,Path,MAX_PATH);//得到应用程序的全路径 
+	theAppPath=(CString)Path; 
+
+	theAppName=AfxGetApp()->m_pszAppName; 
+	theAppName+=".exe"; 
+
+	//把最后的文件名去掉 
+	int length1,length2; 
+
+	length1=theAppPath.GetLength(); 
+	length2=theAppName.GetLength(); 
+
+	theAppPath.Delete(length1-length2,length2); 
+	CString TempPath=""; 
+	TempPath=theAppPath+filename;//EXCEL模板的路径 
+//	CFile file;
+//	file.Open(TempPath,CFile::modeCreate|CFile::modeWrite);
+//	file.Close();
+
+
+	m_ExlBooks.AttachDispatch(m_ExlApp.GetWorkbooks(),TRUE); 
+
+	//m_ExlBook.AttachDispatch(m_ExlBooks.Add((_variant_t)TempPath),TRUE);//加载EXCEL模板 
+	m_ExlBook.AttachDispatch(m_ExlBooks.Add(covOptional),TRUE);//加载EXCEL模板 
+
+	m_ExlSheets.AttachDispatch(m_ExlBook.GetSheets(),TRUE);//加载Sheet页面 
+
+	//添加新的Sheet页面 
+	m_ExlSheets.Add(vtMissing,vtMissing,_variant_t((long)1),vtMissing); 
+
+	//删除第二个Sheet页面 
+	m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)2)),TRUE); 
+	m_ExlSheet.Delete(); 
+
+	//把第一个Sheet页面的名字改变为TestSheet 
+	m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)1)),TRUE);
+	CString strtmp;
+	strtmp.Format("%s生产派单表",m_department);
+	m_ExlSheet.SetName(strtmp); 
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetCells(),TRUE);//加载所有单元格
+	m_ExlRge.SetNumberFormatLocal(COleVariant("@")); 
+
+	//合并单元格
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A1"),_variant_t("F1")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A2"),_variant_t("F2")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A7"),_variant_t("F7")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A14"),_variant_t("F14")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B6"),_variant_t("F6")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("F13")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
+
+
+	////////设置表格内容//////// 
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetCells(),TRUE);//加载所有单元格 
+	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(1)),_variant_t(strtmp));
+
+	m_ExlRge.SetItem(_variant_t((long)(2)),_variant_t((long)(1)),_variant_t("基本资料"));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(1)),_variant_t("订单号"));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(2)),_variant_t(m_listid));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(3)),_variant_t("订单名称"));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(4)),_variant_t(m_listname));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(5)),_variant_t("经办人"));
+	m_ExlRge.SetItem(_variant_t((long)(3)),_variant_t((long)(6)),_variant_t(m_people));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(1)),_variant_t("收件人"));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(2)),_variant_t(m_receivename));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(3)),_variant_t("联系电话"));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(4)),_variant_t(m_phone));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(5)),_variant_t("部门"));
+	m_ExlRge.SetItem(_variant_t((long)(4)),_variant_t((long)(6)),_variant_t(m_department));
+	m_ExlRge.SetItem(_variant_t((long)(5)),_variant_t((long)(1)),_variant_t("派单日期"));
+	m_ExlRge.SetItem(_variant_t((long)(5)),_variant_t((long)(2)),_variant_t(m_str_reveive_time));
+	m_ExlRge.SetItem(_variant_t((long)(5)),_variant_t((long)(3)),_variant_t("交货日期"));
+	m_ExlRge.SetItem(_variant_t((long)(5)),_variant_t((long)(4)),_variant_t(m_str_end_date));
+	m_ExlRge.SetItem(_variant_t((long)(6)),_variant_t((long)(1)),_variant_t("详细地址"));
+	m_ExlRge.SetItem(_variant_t((long)(6)),_variant_t((long)(2)),_variant_t(m_address));
+
+	m_ExlRge.SetItem(_variant_t((long)(7)),_variant_t((long)(1)),_variant_t("制作要求"));
+	if(m_modeling)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(1)),_variant_t("建模 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(1)),_variant_t("建模"));
+	if(m_design_server)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(2)),_variant_t("设计服务 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(2)),_variant_t("设计服务"));
+	if(m_scan)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(3)),_variant_t("扫描业务 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(3)),_variant_t("扫描业务"));
+	if(m_modeling_pring)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(4)),_variant_t("模型打印 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(4)),_variant_t("模型打印"));
+	if(m_has_modeling)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(5)),_variant_t("有模型 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(5)),_variant_t("有模型"));
+	if(m_urgent)
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(6)),_variant_t("加急 √"));
+	else
+		m_ExlRge.SetItem(_variant_t((long)(8)),_variant_t((long)(6)),_variant_t("加急"));
+	
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(1)),_variant_t("尺寸"));
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(2)),_variant_t(m_size));
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(3)),_variant_t("生产数量"));
+	strtmp.Format("%d",m_totel_number);
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(4)),_variant_t(strtmp));
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(5)),_variant_t("制作材料"));
+	m_ExlRge.SetItem(_variant_t((long)(9)),_variant_t((long)(6)),_variant_t(m_material));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(1)),_variant_t("颜色"));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(2)),_variant_t(m_color));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(3)),_variant_t("底座搭配"));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(4)),_variant_t(m_bottom));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(5)),_variant_t("发票随寄"));
+	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(6)),_variant_t(m_bill));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(1)),_variant_t("用途"));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(2)),_variant_t(m_usage));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(3)),_variant_t("误差范围"));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(4)),_variant_t(m_error_range));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(5)),_variant_t("体积"));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(6)),_variant_t(m_volume));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(1)),_variant_t("喷漆"));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(2)),_variant_t(m_print));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(3)),_variant_t("打磨"));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(4)),_variant_t(m_shine));
+	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(1)),_variant_t("其他要求"));
+	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(2)),_variant_t(m_other));
+
+	m_ExlRge.SetItem(_variant_t((long)(14)),_variant_t((long)(1)),_variant_t("签名"));
+	m_ExlRge.SetItem(_variant_t((long)(15)),_variant_t((long)(1)),_variant_t("销售部"));
+	m_ExlRge.SetItem(_variant_t((long)(15)),_variant_t((long)(3)),_variant_t("主管"));
+	m_ExlRge.SetItem(_variant_t((long)(15)),_variant_t((long)(5)),_variant_t("日期"));
+	m_ExlRge.SetItem(_variant_t((long)(16)),_variant_t((long)(1)),_variant_t("技术部"));
+	m_ExlRge.SetItem(_variant_t((long)(16)),_variant_t((long)(3)),_variant_t("主管"));
+	m_ExlRge.SetItem(_variant_t((long)(16)),_variant_t((long)(5)),_variant_t("日期"));
+	m_ExlRge.SetItem(_variant_t((long)(17)),_variant_t((long)(1)),_variant_t("生产部"));
+	m_ExlRge.SetItem(_variant_t((long)(17)),_variant_t((long)(3)),_variant_t("主管"));
+	m_ExlRge.SetItem(_variant_t((long)(17)),_variant_t((long)(5)),_variant_t("日期"));
+	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(1)),_variant_t("质检"));
+	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(3)),_variant_t("主管"));
+	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(5)),_variant_t("日期"));
+	m_ExlRge.SetItem(_variant_t((long)(19)),_variant_t((long)(1)),_variant_t("成品仓"));
+	m_ExlRge.SetItem(_variant_t((long)(19)),_variant_t((long)(3)),_variant_t("快递单号"));
+	m_ExlRge.SetItem(_variant_t((long)(19)),_variant_t((long)(5)),_variant_t("日期"));
+
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A3"), _variant_t("F3")));//获取表单中的列"P"对象
+	m_ExlRge.SetColumnWidth(_variant_t((long)13));  //设置列宽为100
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetUsedRange());//加载已使用的单元格 
+	m_ExlRge.SetWrapText(_variant_t((long)1));//设置单元格内的文本为自动换行 
+
+	//设置齐方式为水平垂直居中 
+	//水平对齐：默认＝1,居中＝-4108,左＝-4131,右＝-4152 
+	//垂直对齐：默认＝2,居中＝-4108,左＝-4160,右＝-4107 
+	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4131));
+	m_ExlRge.SetVerticalAlignment(_variant_t((long)-4160));
+
+	///////设置整体的字体、字号及颜色////// 
+
+	Font ft; 
+
+	ft.AttachDispatch(m_ExlRge.GetFont()); 
+
+	ft.SetName(_variant_t("宋体"));//字体 
+	ft.SetColorIndex(_variant_t((long)11));//字的颜色 
+	ft.SetSize(_variant_t((long)12));//字号 
+
+	///////////设置标题字体及颜色////////// 
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A1"),_variant_t("F1"))); 
+
+	ft.AttachDispatch(m_ExlRge.GetFont()); 
+	ft.SetBold(_variant_t((long)1));//粗体 
+	ft.SetSize(_variant_t((long)15)); 
+	//ft.SetColorIndex(_variant_t((long)2)); 
+
+	//CellFormat cf; 
+	//cf.AttachDispatch(m_ExlRge.GetCells()); 
+
+	//居中
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A1"),_variant_t("F1")));
+	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A2"),_variant_t("F2")));
+	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
+	ft.AttachDispatch(m_ExlRge.GetFont()); 
+	ft.SetBold(_variant_t((long)1));//粗体 
+	ft.SetSize(_variant_t((long)14)); 
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A7"),_variant_t("F7")));
+	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
+	ft.AttachDispatch(m_ExlRge.GetFont()); 
+	ft.SetBold(_variant_t((long)1));//粗体 
+	ft.SetSize(_variant_t((long)14)); 
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A14"),_variant_t("F14")));
+	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
+	ft.AttachDispatch(m_ExlRge.GetFont()); 
+	ft.SetBold(_variant_t((long)1));//粗体 
+	ft.SetSize(_variant_t((long)14)); 
+
+	//////////////设置底色///////////////// 
+
+//	Interior it; 
+//	it.AttachDispatch(m_ExlRge.GetInterior()); 
+//	it.SetColorIndex(_variant_t((long)11));//标题底色 
+
+	////表格内容的底色//// 
+
+//	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A2"),_variant_t("D5"))); 
+
+//	it.AttachDispatch(m_ExlRge.GetInterior()); 
+
+//	it.SetColorIndex(_variant_t((long)15)); 
+
+
+	//////////////为表格设置边框///////////// 
+
+	Range UnitRge; 
+	CString CellName; 
+	int i = 0;
+	for(i=1;i<=19;i++) 
+	{ 
+		for(int j=1;j<=6;j++) 
+		{
+			CellName.Format("%c%d",j+64,i);//单元格的名称
+			UnitRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t(CellName),_variant_t(CellName)));//加载单元格
+			//LineStyle=线型 Weight=线宽 ColorIndex=线的颜色(-4105为自动)
+			UnitRge.BorderAround(_variant_t((long)1),_variant_t((long)2),_variant_t((long)-4105),vtMissing);//设置边框
+		}
+	} 
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("B13")));
+	m_ExlRge.SetRowHeight(COleVariant((short)120));
+	
+	//Range cols;
+	//cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
+	//cols.AutoFit();
+	m_ExlApp.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
+	m_ExlApp.SetUserControl(TRUE);
+
+	m_ExlBook.SaveAs(COleVariant(TempPath),covOptional,
+	covOptional,covOptional,
+	covOptional,covOptional,(long)0,covOptional,covOptional,covOptional,
+	covOptional,covOptional);
+
+	//释放对象（相当重要！） 
+	m_ExlRge.ReleaseDispatch(); 
+	m_ExlSheet.ReleaseDispatch(); 
+	m_ExlSheets.ReleaseDispatch(); 
+	m_ExlBook.ReleaseDispatch(); 
+	m_ExlBooks.ReleaseDispatch(); 
+	//m_ExlApp一定要释放，否则程序结束后还会有一个Excel进程驻留在内存中，而且程序重复运行的时候会出错 
+	m_ExlApp.ReleaseDispatch(); 
+
+	//退出程序
+	m_ExlApp.Quit(); 
+
 }

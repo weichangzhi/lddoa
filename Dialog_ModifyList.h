@@ -7,6 +7,7 @@
 // Dialog_ModifyList.h : header file
 //
 #include "XPButton.h"
+#include "Preview.h"
 /////////////////////////////////////////////////////////////////////////////
 // CDialog_ModifyList dialog
 
@@ -15,6 +16,8 @@ class CDialog_ModifyList : public CDialog
 // Construction
 public:
 	CDialog_ModifyList(CWnd* pParent = NULL);   // standard constructor
+	void SetPreviewDlg(CPreview *PreviewDlg);
+	void updatedlg();
 	CString m_str_reveive_time;
 	CString m_str_end_date;
 
@@ -50,6 +53,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
+	CXPButton	m_btexcel;
+	CXPButton	m_btprint;
+	CXPButton	m_btpreview;
 	CXPButton	m_bt_undo;
 	CXPButton	m_btcontinue;
 	CXPButton	m_btnok;
@@ -122,6 +128,9 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnButtonUndoList();
 	afx_msg void OnButtonContinueList();
+	afx_msg void OnButtonPreview();
+	afx_msg void OnButtonPrint();
+	afx_msg void OnButtonExcel();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

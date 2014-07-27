@@ -158,7 +158,8 @@ void CreateExcel(CString filename,CListCtrl *listctl)
 
 	//把第一个Sheet页面的名字改变为TestSheet 
 	m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)1)),TRUE); 
-	m_ExlSheet.SetName("订单资料"); 
+	//m_ExlSheet.SetName("订单资料"); filename
+	m_ExlSheet.SetName(filename); 
 
 
 	////////设置表格内容//////// 
