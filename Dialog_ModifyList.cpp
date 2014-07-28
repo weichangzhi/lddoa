@@ -1590,14 +1590,21 @@ void CDialog_ModifyList::OnButtonPrint()
 	if (m_printdlg.DoModal()==IDOK)
 	{
 		CDC dc1;		
-		dc1.Attach(m_printdlg.GetPrinterDC());			
+		dc1.Attach(m_printdlg.GetPrinterDC());
+		int screenx = dc1.GetDeviceCaps(LOGPIXELSX);
+		int screeny = dc1.GetDeviceCaps(LOGPIXELSY);
+		char log[256] = {0};
+		sprintf(log,"OnButtonPrint \t%s,%d:print [%dx%d]",__FILE__,__LINE__,screenx,screeny);
+		writelog(log);
+		PreviewDlg.screenx = screenx;
+		PreviewDlg.screeny = screeny;
 		int leftmargin;
 		leftmargin = dc1.GetDeviceCaps(PHYSICALOFFSETX);
-		CRect m_rect(-leftmargin,0,dc1.GetDeviceCaps(PHYSICALWIDTH)-leftmargin,dc1.GetDeviceCaps(PHYSICALHEIGHT));
-		char log[256] = {0};
-		sprintf(log,"OnButtonPrint \t%s,%d:leftmargin=%d rect [%dx%d, %dx%d]",__FILE__,__LINE__,
+		CRect m_rect(-leftmargin,0,dc1.GetDeviceCaps(PHYSICALWIDTH)-leftmargin,dc1.GetDeviceCaps(PHYSICALHEIGHT)) ;	
+		char log1[256] = {0};
+		sprintf(log1,"OnButtonPrint \t%s,%d:leftmargin=%d rect [%dx%d, %dx%d]",__FILE__,__LINE__,
 			leftmargin,m_rect.left,m_rect.top,m_rect.right,m_rect.bottom);
-		writelog(log);
+		writelog(log1);
 		PreviewDlg.DrawReport(m_rect,&dc1,true);
 	}
 }
@@ -1702,6 +1709,8 @@ void CDialog_ModifyList::OnButtonExcel()
     m_ExlRge.Merge(_variant_t((long)0));
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("F13")),TRUE); 
     m_ExlRge.Merge(_variant_t((long)0));
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("D12"),_variant_t("F12")),TRUE); 
+    m_ExlRge.Merge(_variant_t((long)0));
 
 
 	////////设置表格内容//////// 
@@ -1768,16 +1777,16 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(4)),_variant_t(m_bottom));
 	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(5)),_variant_t("发票随寄"));
 	m_ExlRge.SetItem(_variant_t((long)(10)),_variant_t((long)(6)),_variant_t(m_bill));
-	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(1)),_variant_t("用途"));
-	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(2)),_variant_t(m_usage));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(1)),_variant_t("打磨"));
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(2)),_variant_t(m_shine));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(3)),_variant_t("误差范围"));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(4)),_variant_t(m_error_range));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(5)),_variant_t("体积"));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(6)),_variant_t(m_volume));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(1)),_variant_t("喷漆"));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(2)),_variant_t(m_print));
-	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(3)),_variant_t("打磨"));
-	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(4)),_variant_t(m_shine));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(3)),_variant_t("用途"));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(4)),_variant_t(m_usage));
 	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(1)),_variant_t("其他要求"));
 	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(2)),_variant_t(m_other));
 
@@ -1792,7 +1801,7 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.SetItem(_variant_t((long)(17)),_variant_t((long)(3)),_variant_t("主管"));
 	m_ExlRge.SetItem(_variant_t((long)(17)),_variant_t((long)(5)),_variant_t("日期"));
 	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(1)),_variant_t("质检"));
-	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(3)),_variant_t("主管"));
+	//m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(3)),_variant_t("主管"));
 	m_ExlRge.SetItem(_variant_t((long)(18)),_variant_t((long)(5)),_variant_t("日期"));
 	m_ExlRge.SetItem(_variant_t((long)(19)),_variant_t((long)(1)),_variant_t("成品仓"));
 	m_ExlRge.SetItem(_variant_t((long)(19)),_variant_t((long)(3)),_variant_t("快递单号"));
@@ -1800,16 +1809,18 @@ void CDialog_ModifyList::OnButtonExcel()
 
 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A3"), _variant_t("F3")));//获取表单中的列"P"对象
-	m_ExlRge.SetColumnWidth(_variant_t((long)13));  //设置列宽为100
+	m_ExlRge.SetColumnWidth(_variant_t((long)14));  //设置列宽为100
 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetUsedRange());//加载已使用的单元格 
 	m_ExlRge.SetWrapText(_variant_t((long)1));//设置单元格内的文本为自动换行 
+	//m_ExlRge.SetColumnWidth(_variant_t((long)13));  //设置列宽为100
+	m_ExlRge.SetRowHeight(_variant_t((long)30	));
 
 	//设置齐方式为水平垂直居中 
 	//水平对齐：默认＝1,居中＝-4108,左＝-4131,右＝-4152 
 	//垂直对齐：默认＝2,居中＝-4108,左＝-4160,右＝-4107 
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4131));
-	m_ExlRge.SetVerticalAlignment(_variant_t((long)-4160));
+	m_ExlRge.SetVerticalAlignment(_variant_t((long)-4108));
 
 	///////设置整体的字体、字号及颜色////// 
 
@@ -1818,7 +1829,8 @@ void CDialog_ModifyList::OnButtonExcel()
 	ft.AttachDispatch(m_ExlRge.GetFont()); 
 
 	ft.SetName(_variant_t("宋体"));//字体 
-	ft.SetColorIndex(_variant_t((long)11));//字的颜色 
+	//ft.SetColorIndex(_variant_t((long)11));//字的颜色 
+	ft.SetColor( _variant_t((long) RGB(32, 32, 32) ) );
 	ft.SetSize(_variant_t((long)12));//字号 
 
 	///////////设置标题字体及颜色////////// 
@@ -1826,7 +1838,7 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A1"),_variant_t("F1"))); 
 
 	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	ft.SetBold(_variant_t((long)1));//粗体 
+	//ft.SetBold(_variant_t((long)0));//粗体 
 	ft.SetSize(_variant_t((long)15)); 
 	//ft.SetColorIndex(_variant_t((long)2)); 
 
@@ -1839,17 +1851,17 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A2"),_variant_t("F2")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
 	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	ft.SetBold(_variant_t((long)1));//粗体 
+	//ft.SetBold(_variant_t((long)0));//粗体 
 	ft.SetSize(_variant_t((long)14)); 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A7"),_variant_t("F7")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
 	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	ft.SetBold(_variant_t((long)1));//粗体 
+	//ft.SetBold(_variant_t((long)0));//粗体 
 	ft.SetSize(_variant_t((long)14)); 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A14"),_variant_t("F14")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
 	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	ft.SetBold(_variant_t((long)1));//粗体 
+	//ft.SetBold(_variant_t((long)0));//粗体 
 	ft.SetSize(_variant_t((long)14)); 
 
 	//////////////设置底色///////////////// 
@@ -1873,7 +1885,9 @@ void CDialog_ModifyList::OnButtonExcel()
 	CString CellName; 
 	int i = 0;
 	for(i=1;i<=19;i++) 
-	{ 
+	{
+		if((i==1)||(i==2)||(i==7)||(i==14))
+			continue;
 		for(int j=1;j<=6;j++) 
 		{
 			CellName.Format("%c%d",j+64,i);//单元格的名称
@@ -1885,9 +1899,9 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("B13")));
 	m_ExlRge.SetRowHeight(COleVariant((short)120));
 	
-	//Range cols;
-	//cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
-	//cols.AutoFit();
+	Range cols;
+	cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
+	cols.AutoFit();
 	m_ExlApp.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
 	m_ExlApp.SetUserControl(TRUE);
 
