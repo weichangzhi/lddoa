@@ -310,29 +310,168 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	pDC->MoveTo (recttmp.left+(int)(ratex*50),recttmp.top+(int)(ratey*335));
 	pDC->LineTo (recttmp.right-(int)(ratex*50),recttmp.top+(int)(ratey*335));
 
-	pDC->SelectObject(&font90);
+//竖线  line 2
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*95),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*95),recttmp.top+(int)(ratey*255));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*155),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*155),recttmp.top+(int)(ratey*255));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*255));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*255));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*255));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*385),recttmp.top+(int)(ratey*235));
+	pDC->LineTo (recttmp.left+(int)(ratex*385),recttmp.top+(int)(ratey*255));
+	//line 2
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*255));
+	pDC->LineTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*275));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*255));
+	pDC->LineTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*275));
+	//line 3
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*155),recttmp.top+(int)(ratey*275));
+	pDC->LineTo (recttmp.left+(int)(ratex*155),recttmp.top+(int)(ratey*295));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*275));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*295));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*385),recttmp.top+(int)(ratey*275));
+	pDC->LineTo (recttmp.left+(int)(ratex*385),recttmp.top+(int)(ratey*295));
+	//line 4
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*295));
+	pDC->LineTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*315));
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*295));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*315));
+
+	/*pDC->SelectObject(&font90);
 	strtmp.Format("建模%s 设计服务%s 扫描业务%s 模型打印%s 有模型%s 无模型%s 加急%s",
 		m_modeling,m_design_server,m_scan,m_modeling_pring,m_has_modeling,m_no_modeling,m_urgent);
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
 	recttmp.top += (int)(ratey*240);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	*/
+	pDC->SelectObject(&font90);
+	strtmp.Format("建模%s",m_modeling);
+	recttmp = rect;
+	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("设计服务%s",m_design_server);
+	recttmp = rect;
+	recttmp.left += (int)(100*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("扫描业务%s",m_scan);
+	recttmp = rect;
+	recttmp.left += (int)(160*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("模型打印%s",m_modeling_pring);
+	recttmp = rect;
+	recttmp.left += (int)(220*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("有模型%s",m_has_modeling);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("无模型%s",m_no_modeling);
+	recttmp = rect;
+	recttmp.left += (int)(340*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("加急%s",m_urgent);
+	recttmp = rect;
+	recttmp.left += (int)(390*ratex);
+	recttmp.top += (int)(ratey*240);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 
-	strtmp.Format("尺寸:%s  生产数量:%s  制作材料:%s",m_size,m_totel_number,m_material);
+
+/*	strtmp.Format("尺寸:%s  生产数量:%s  制作材料:%s",m_size,m_totel_number,m_material);
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
 	recttmp.top += (int)(ratey*260);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+*/
+	strtmp.Format("尺寸:%s",m_size);
+	recttmp = rect;
+	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*260);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("生产数量:%s",m_totel_number);
+	recttmp = rect;
+	recttmp.left += (int)(220*ratex);
+	recttmp.top += (int)(ratey*260);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("制作材料:%s",m_material);
+	recttmp = rect;
+	recttmp.left += (int)(340*ratex);
+	recttmp.top += (int)(ratey*260);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 
-	strtmp.Format("颜色:%s  打磨:%s  底座搭配:%s  发票随寄:%s",m_color,m_shine,m_bottom,m_bill);
+
+/*	strtmp.Format("颜色:%s  打磨:%s  底座搭配:%s  发票随寄:%s",m_color,m_shine,m_bottom,m_bill);
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
 	recttmp.top += (int)(ratey*280);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	*/
 
-	strtmp.Format("误差范围:%s  体积:%s  用途:%s",m_error_range,m_volume,m_usage);
+	strtmp.Format("颜色:%s",m_color);
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*280);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("打磨:%s",m_shine);
+	recttmp = rect;
+	recttmp.left += (int)(160*ratex);
+	recttmp.top += (int)(ratey*280);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("底座搭配:%s",m_bottom);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*280);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("发票随寄:%s",m_bill);
+	recttmp = rect;
+	recttmp.left += (int)(390*ratex);
+	recttmp.top += (int)(ratey*280);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+
+/*	strtmp.Format("误差范围:%s  体积:%s  用途:%s",m_error_range,m_volume,m_usage);
+	recttmp = rect;
+	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*300);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
+	*/
+
+	strtmp.Format("误差范围:%s",m_error_range);
+	recttmp = rect;
+	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*300);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("体积:%s",m_volume);
+	recttmp = rect;
+	recttmp.left += (int)(220*ratex);
+	recttmp.top += (int)(ratey*300);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	strtmp.Format("用途:%s",m_usage);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
 	recttmp.top += (int)(ratey*300);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
 

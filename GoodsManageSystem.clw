@@ -77,13 +77,13 @@ Resource30=IDD_DIALOG_MODIFY_PASSWD
 Resource31=IDD_DIALOG_MODIFY_PASSWD_ADMIN
 Resource32=IDD_GOODSMANAGESYSTEM_DIALOG
 Class34=Dialog_progress
-Resource33=IDD_DIGPREVIEW
+Resource33=IDR_MENU_POST
 Class35=Dialog_Menu_Post_TC
 Resource34=IDD_DIALOG_MODIFY_LIST1
 Class36=Dialog_List_Undo
 Resource35=IDD_DIALOG_ADD_USER
 Class37=Dialog_UndoRecord
-Resource36=IDR_MENU_POST
+Resource36=IDD_DIGPREVIEW
 
 [CLS:CDialog_AddUser]
 Type=0
