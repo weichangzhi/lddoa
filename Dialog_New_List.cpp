@@ -917,7 +917,7 @@ void CDialog_New_List::OnButtonExcel()
 	//把第一个Sheet页面的名字改变为TestSheet 
 	m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)1)),TRUE);
 	CString strtmp;
-	strtmp.Format("%s生产派单表",m_department);
+	strtmp.Format("%s 生产派单表",m_department);
 	m_ExlSheet.SetName(strtmp); 
 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetCells(),TRUE);//加载所有单元格
