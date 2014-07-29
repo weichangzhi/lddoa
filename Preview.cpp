@@ -128,12 +128,15 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	sprintf(log,"DrawReport \t%s,%d:rect [%dx%d, %dx%d],phy [%dx%d], screan[%dx%d],rate[%fx%f]",__FILE__,__LINE__,
 			rect.left,rect.top,rect.right,rect.bottom,phyx,phyy,screenx,screeny,ratex,ratey);
 	writelog(log);
+
+	CString strtmp;
+	strtmp.Format("%s 生产派单表",m_department);
 	if(isprinted)
 	{
 		DOCINFO   doc;     
 	    ZeroMemory(&doc,sizeof(doc));     
 	    doc.cbSize = sizeof(doc);     
-	    doc.lpszDocName = (LPCTSTR)"Print Test File";  
+	    doc.lpszDocName = (LPCTSTR)strtmp;;  
 		pDC->StartDoc(&doc);	
 		pDC->StartPage();
 	}
@@ -145,8 +148,7 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	CFont font120,font150,font90,font80;
 	CPen pen1,pen2,*pOldPen;
 
-	CString strtmp;
-	strtmp.Format("%s 生产派单表",m_department);
+	
 	font150.CreatePointFont(180,_T("宋体"),pDC);
 	pDC->SelectObject(&font150);
 	recttmp.top += (int)(ratey*40);
