@@ -1899,9 +1899,9 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("B13")));
 	m_ExlRge.SetRowHeight(COleVariant((short)120));
 	
-	Range cols;
-	cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
-	cols.AutoFit();
+	//Range cols;
+	//cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
+	//cols.AutoFit();
 	m_ExlApp.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
 	m_ExlApp.SetUserControl(TRUE);
 

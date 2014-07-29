@@ -149,7 +149,7 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	strtmp.Format("%s 生产派单表",m_department);
 	font150.CreatePointFont(180,_T("宋体"),pDC);
 	pDC->SelectObject(&font150);
-	recttmp.top += (int)(ratey*60);
+	recttmp.top += (int)(ratey*40);
 	pDC->DrawText(strtmp,recttmp,DT_CENTER);
 
 	//table 1
@@ -346,6 +346,7 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
 	recttmp.top += (int)(ratey*340);
+	recttmp.right-=(int)(ratex*52);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
 
 
