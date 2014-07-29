@@ -1630,7 +1630,8 @@ void CDialog_ModifyList::OnButtonExcel()
 {
 	UpdateData();
 	updatedlg();	
-	CString filename = "生产派单表.xls";
+	CString filename ;
+	filename.Format("%s-生产派单表-%s.xls",m_department,m_listid);
 	Range m_ExlRge; 
 	_Worksheet m_ExlSheet; 
 	Worksheets m_ExlSheets; 

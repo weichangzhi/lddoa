@@ -130,7 +130,7 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	writelog(log);
 
 	CString strtmp;
-	strtmp.Format("%s 生产派单表",m_department);
+	strtmp.Format("%s-生产派单表-%s",m_department,m_listid);
 	if(isprinted)
 	{
 		DOCINFO   doc;     
@@ -144,6 +144,7 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	{
 		ratex=1,ratey=1;
 	}
+	strtmp.Format("%s 生产派单表",m_department);
 	CRect recttmp(rect);
 	CFont font120,font150,font90,font80;
 	CPen pen1,pen2,*pOldPen;
