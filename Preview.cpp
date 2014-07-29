@@ -133,10 +133,10 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	strtmp.Format("%s-生产派单表-%s",m_department,m_listid);
 	if(isprinted)
 	{
-		DOCINFO   doc;     
-	    ZeroMemory(&doc,sizeof(doc));     
-	    doc.cbSize = sizeof(doc);     
-	    doc.lpszDocName = (LPCTSTR)strtmp;;  
+		DOCINFO   doc;
+	    ZeroMemory(&doc,sizeof(doc));
+	    doc.cbSize = sizeof(doc);
+	    doc.lpszDocName = (LPCTSTR)strtmp;
 		pDC->StartDoc(&doc);	
 		pDC->StartPage();
 	}
@@ -354,8 +354,12 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	pDC->MoveTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*295));
 	pDC->LineTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*315));
 	recttmp = rect;
-	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*295));
-	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*315));
+	pDC->MoveTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*295));
+	pDC->LineTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*315));
+	//line 6
+	recttmp = rect;
+	pDC->MoveTo (recttmp.left+(int)(ratex*115),recttmp.top+(int)(ratey*335));
+	pDC->LineTo (recttmp.left+(int)(ratex*115),recttmp.top+(int)(ratey*395));
 
 	/*pDC->SelectObject(&font90);
 	strtmp.Format("建模%s 设计服务%s 扫描业务%s 模型打印%s 有模型%s 无模型%s 加急%s",
@@ -467,14 +471,14 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.left += (int)(55*ratex);
 	recttmp.top += (int)(ratey*300);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
-	strtmp.Format("体积:%s",m_volume);
+	strtmp.Format("体积:%s cm3",m_volume);
 	recttmp = rect;
 	recttmp.left += (int)(220*ratex);
 	recttmp.top += (int)(ratey*300);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 	strtmp.Format("用途:%s",m_usage);
 	recttmp = rect;
-	recttmp.left += (int)(280*ratex);
+	recttmp.left += (int)(340*ratex);
 	recttmp.top += (int)(ratey*300);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
 
@@ -484,9 +488,15 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*320);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 
-	strtmp.Format("其他要求:%s",m_other);
+	strtmp.Format("其他要求");
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
+	recttmp.top += (int)(ratey*360);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+
+	strtmp.Format("%s",m_other);
+	recttmp = rect;
+	recttmp.left += (int)(120*ratex);
 	recttmp.top += (int)(ratey*340);
 	recttmp.right-=(int)(ratex*52);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
@@ -523,17 +533,17 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	pDC->MoveTo (recttmp.left+(int)(ratex*105),recttmp.top+(int)(ratey*435));
 	pDC->LineTo (recttmp.left+(int)(ratex*105),recttmp.top+(int)(ratey*535));
 	recttmp = rect;
-	pDC->MoveTo (recttmp.left+(int)(ratex*185),recttmp.top+(int)(ratey*435));
-	pDC->LineTo (recttmp.left+(int)(ratex*185),recttmp.top+(int)(ratey*535));
+	pDC->MoveTo (recttmp.left+(int)(ratex*220),recttmp.top+(int)(ratey*435));
+	pDC->LineTo (recttmp.left+(int)(ratex*220),recttmp.top+(int)(ratey*535));
 	recttmp = rect;
-	pDC->MoveTo (recttmp.left+(int)(ratex*240),recttmp.top+(int)(ratey*435));
-	pDC->LineTo (recttmp.left+(int)(ratex*240),recttmp.top+(int)(ratey*535));
+	pDC->MoveTo (recttmp.left+(int)(ratex*270),recttmp.top+(int)(ratey*435));
+	pDC->LineTo (recttmp.left+(int)(ratex*270),recttmp.top+(int)(ratey*535));
 	recttmp = rect;
-	pDC->MoveTo (recttmp.left+(int)(ratex*325),recttmp.top+(int)(ratey*435));
-	pDC->LineTo (recttmp.left+(int)(ratex*325),recttmp.top+(int)(ratey*535));
+	pDC->MoveTo (recttmp.left+(int)(ratex*390),recttmp.top+(int)(ratey*435));
+	pDC->LineTo (recttmp.left+(int)(ratex*390),recttmp.top+(int)(ratey*535));
 	recttmp = rect;
-	pDC->MoveTo (recttmp.left+(int)(ratex*380),recttmp.top+(int)(ratey*435));
-	pDC->LineTo (recttmp.left+(int)(ratex*380),recttmp.top+(int)(ratey*535));
+	pDC->MoveTo (recttmp.left+(int)(ratex*430),recttmp.top+(int)(ratey*435));
+	pDC->LineTo (recttmp.left+(int)(ratex*430),recttmp.top+(int)(ratey*535));
 	
 
 
@@ -543,11 +553,11 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*440);
 	pDC->DrawText("销售部",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(190*ratex);
+	recttmp.left += (int)(225*ratex);
 	recttmp.top += (int)(ratey*440);
 	pDC->DrawText("主管",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(330*ratex);
+	recttmp.left += (int)(395*ratex);
 	recttmp.top += (int)(ratey*440);
 	pDC->DrawText("日期",recttmp,DT_LEFT);
 
@@ -558,11 +568,11 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*460);
 	pDC->DrawText("技术部",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(190*ratex);
+	recttmp.left += (int)(225*ratex);
 	recttmp.top += (int)(ratey*460);
 	pDC->DrawText("主管",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(330*ratex);
+	recttmp.left += (int)(395*ratex);
 	recttmp.top += (int)(ratey*460);
 	pDC->DrawText("日期",recttmp,DT_LEFT);
 
@@ -571,11 +581,11 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*480);
 	pDC->DrawText("生产部",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(190*ratex);
+	recttmp.left += (int)(225*ratex);
 	recttmp.top += (int)(ratey*480);
 	pDC->DrawText("主管",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(330*ratex);
+	recttmp.left += (int)(395*ratex);
 	recttmp.top += (int)(ratey*480);
 	pDC->DrawText("日期",recttmp,DT_LEFT);
 
@@ -584,11 +594,11 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*500);
 	pDC->DrawText("质检",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(190*ratex);
+	recttmp.left += (int)(225*ratex);
 	recttmp.top += (int)(ratey*500);
 	pDC->DrawText("",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(330*ratex);
+	recttmp.left += (int)(395*ratex);
 	recttmp.top += (int)(ratey*500);
 	pDC->DrawText("日期",recttmp,DT_LEFT);
 
@@ -597,11 +607,11 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*520);
 	pDC->DrawText("成品仓",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(190*ratex);
+	recttmp.left += (int)(225*ratex);
 	recttmp.top += (int)(ratey*520);
 	pDC->DrawText("快递单号",recttmp,DT_LEFT);
 	recttmp = rect;
-	recttmp.left += (int)(330*ratex);
+	recttmp.left += (int)(395*ratex);
 	recttmp.top += (int)(ratey*520);
 	pDC->DrawText("日期",recttmp,DT_LEFT);
 	

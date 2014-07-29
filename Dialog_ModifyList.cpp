@@ -1783,7 +1783,8 @@ void CDialog_ModifyList::OnButtonExcel()
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(3)),_variant_t("Îó²î·¶Î§"));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(4)),_variant_t(m_error_range));
 	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(5)),_variant_t("Ìå»ý"));
-	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(6)),_variant_t(m_volume));
+	strtmp.Format("%s cm3",m_volume);
+	m_ExlRge.SetItem(_variant_t((long)(11)),_variant_t((long)(6)),_variant_t(strtmp));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(1)),_variant_t("ÅçÆá"));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(2)),_variant_t(m_print));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(3)),_variant_t("ÓÃÍ¾"));
