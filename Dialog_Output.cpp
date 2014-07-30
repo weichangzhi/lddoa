@@ -89,7 +89,7 @@ BOOL CDialog_Output::OnInitDialog()
 	m_list_output.InsertColumn(8, _T("制作材料"), LVCFMT_LEFT,150);
 	m_list_output.InsertColumn(9, _T("订单金额(元)"), LVCFMT_LEFT,110);
 	m_list_output.InsertColumn(10, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
-	m_list_output.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,90);
+	m_list_output.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,200);
 	m_list_output.InsertColumn(12, _T("业务部"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(13, _T("技术部"), LVCFMT_LEFT,80);
 	m_list_output.InsertColumn(14, _T("生产部"), LVCFMT_LEFT,80);

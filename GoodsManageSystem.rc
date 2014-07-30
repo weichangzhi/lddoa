@@ -665,8 +665,9 @@ BEGIN
     LTEXT           "元",IDC_STATIC,405,227,12,8
     CONTROL         "加急",IDC_CHECK_URGENT,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,452,153,32,10
-    PUSHBUTTON      "打印预览",IDC_BUTTON_PREVIEW,270,284,50,14
-    PUSHBUTTON      "打印",IDC_BUTTON_PRINT,329,284,50,14
+    PUSHBUTTON      "打印预览",IDC_BUTTON_PREVIEW,361,284,50,14,NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "打印",IDC_BUTTON_PRINT,275,284,50,14
     PUSHBUTTON      "导出",IDC_BUTTON_EXCEL,207,284,50,14
 END
 
@@ -781,9 +782,10 @@ BEGIN
                     WS_TABSTOP,458,157,32,10
     PUSHBUTTON      "销单",IDC_BUTTON_UNDO_LIST,401,333,50,14
     PUSHBUTTON      "续单",IDC_BUTTON_CONTINUE_LIST,471,333,50,14
-    PUSHBUTTON      "打印预览",IDC_BUTTON_PREVIEW,282,292,50,14
-    PUSHBUTTON      "打印",IDC_BUTTON_PRINT,361,292,50,14
-    PUSHBUTTON      "导出",IDC_BUTTON_EXCEL,206,292,50,14
+    PUSHBUTTON      "打印预览",IDC_BUTTON_PREVIEW,362,292,50,14,NOT 
+                    WS_VISIBLE
+    PUSHBUTTON      "打印",IDC_BUTTON_PRINT,274,292,50,14
+    PUSHBUTTON      "导出",IDC_BUTTON_EXCEL,190,292,50,14
 END
 
 IDD_DIALOG_LIST_QUERY DIALOG DISCARDABLE  0, 0, 539, 353
@@ -1105,8 +1107,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,4,1
- PRODUCTVERSION 1,1,4,1
+ FILEVERSION 1,1,5,1
+ PRODUCTVERSION 1,1,5,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1124,14 +1126,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "\0"
             VALUE "FileDescription", "GoodsManageSystem Microsoft 基础类应用程序\0"
-            VALUE "FileVersion", "1, 1, 4, 1\0"
+            VALUE "FileVersion", "1, 1, 5, 1\0"
             VALUE "InternalName", "GoodsManageSystem\0"
             VALUE "LegalCopyright", "版权所有 (C) 2010\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "GoodsManageSystem.EXE\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "GoodsManageSystem 应用程序\0"
-            VALUE "ProductVersion", "1, 1, 4, 1\0"
+            VALUE "ProductVersion", "1, 1, 5, 1\0"
             VALUE "SpecialBuild", "\0"
         END
     END

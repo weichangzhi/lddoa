@@ -81,7 +81,7 @@ BOOL CDialog_Schdeule::OnInitDialog()
 	m_list_schedule.InsertColumn(8, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
 	m_list_schedule.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
-	m_list_schedule.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,200);
 	m_list_schedule.InsertColumn(12, _T("业务"), LVCFMT_LEFT,170);
 	m_list_schedule.InsertColumn(13, _T("技术部"), LVCFMT_LEFT,170);
 	m_list_schedule.InsertColumn(14, _T("生产部"), LVCFMT_LEFT,170);
@@ -282,7 +282,7 @@ void CDialog_Schdeule::OnSchdeuleSelect()
 						}
 						break;
 					case 1://停留时间
-						m_list_schedule.SetItemText(index,11,"0");						
+						m_list_schedule.SetItemText(index,12,"0");						
 						for(i=13;i<=17;i++)
 						{
 							m_list_schedule.SetItemText(index,i,CalcTimeSpan(sql_row[i-2],sql_row[i-1]));
