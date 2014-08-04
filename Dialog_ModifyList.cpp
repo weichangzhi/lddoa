@@ -944,6 +944,19 @@ void CDialog_ModifyList::OnModifylist()
 			dlgpro->endpos();
 			return;
 		}
+		sql.Format("update fiproceeds set moneytotel=\"%s\",peoplebusiness=\"%s\"  where listid=\"%s\" ",m_money,m_people,m_listid);
+		ret = mysql_query(&myCont,sql);
+		if(ret!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
+			return;
+		}
+
 		dlgpro->setpos(950);
 		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)

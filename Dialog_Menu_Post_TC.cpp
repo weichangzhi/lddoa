@@ -137,14 +137,14 @@ void Dialog_Menu_Post_TC::OnOK()
 			return;
 		}
 	}
-	if(atoi(m_score)<=0)
+	/*if(atoi(m_score)<=0)
 	{
 		MessageBox("积分输入不正确，请重新输入","提示",MB_OK);
 		(CEdit*)GetDlgItem(IDC_EDIT_SCORE)->SetFocus();
 		((CEdit*)GetDlgItem(IDC_EDIT_SCORE))->SetSel(0, -1);
 		return;
 	}
-
+*/
 	CDialog_Login2 login2;
 	login2.m_department = strdepartment;
 	login2.m_permission = m_permission;

@@ -281,7 +281,7 @@ void Dialog_FI::OnFiadd()
 
 void Dialog_FI::OnExcel() 
 {
-	CreateExcel("财务统计.xls",&m_listFI);	
+	CreateExcel("财务统计.xls",&m_listFI);
 }
 
 void Dialog_FI::OnOK() 

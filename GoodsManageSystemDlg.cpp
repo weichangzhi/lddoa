@@ -7,6 +7,9 @@
 #include "Winuser.h"
 #include "Dialog_TipsSetting.h"
 #include "Dialog_Tips.h"
+#include "Dialog_FI_Proceeds.h"
+#include "Dialog_FI_Detail.h"
+#include "Dialog_FI_Check.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -218,7 +221,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_son3=m_tree.InsertItem("订单进度",23,23,root0,TVI_LAST);
 	HTREEITEM sub_son4=m_tree.InsertItem("进度明细",21,21,root0,TVI_LAST);
 	HTREEITEM sub_son5=m_tree.InsertItem("产能统计",20,20,root0,TVI_LAST);
-	HTREEITEM sub_son7=m_tree.InsertItem("财务统计",24,24,root0,TVI_LAST);
+	HTREEITEM sub_son7=m_tree.InsertItem("财务管理",24,24,root0,TVI_LAST);
 	//二层孙子节点
 	HTREEITEM sub_m_son00=m_tree.InsertItem("增加用户",5,5,sub_son0,TVI_LAST);
 	HTREEITEM sub_m_son01=m_tree.InsertItem("修改权限",4,4,sub_son0,TVI_LAST);
@@ -235,6 +238,11 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
 
+	HTREEITEM sub_m_son30=m_tree.InsertItem("收款开票",24,24,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son31=m_tree.InsertItem("核销",24,24,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son32=m_tree.InsertItem("查询",24,24,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son33=m_tree.InsertItem("明细",24,24,sub_son7,TVI_LAST);
+
 	m_treePages[0]=new CDIALOG_CLIENT;
 	m_treePages[1]=new CDialog_BaseInfo;
 	m_treePages[2]=new CDialog_post;
@@ -246,8 +254,10 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[8]=new CDialog_Making;
 	m_treePages[9]=new CDialog_Unpost;
 	m_treePages[10]=new Dialog_ChangeRecord;
-	m_treePages[11]=new Dialog_FI;
+	m_treePages[11]=new Dialog_FI_Check;
 	m_treePages[12]=new Dialog_UndoRecord;
+	m_treePages[13]=new Dialog_FI_Query;
+	m_treePages[14]=new Dialog_FI_Detail;
 
 
 	//建立节点对应的Dialog
@@ -262,12 +272,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[8]->Create(IDD_DIALOG_MAKEING,this);
 	m_treePages[9]->Create(IDD_DIALOG_UNPOST,this);
 	m_treePages[10]->Create(IDD_DIALOG_CHAGNE_RECORD,this);
-	m_treePages[11]->Create(IDD_DIALOG_FI,this);
+	m_treePages[11]->Create(IDD_DIALOG_FI_CHECK,this);
 	m_treePages[12]->Create(IDD_DIALOG_UNDO_RECORD,this);
+	m_treePages[13]->Create(IDD_DIALOG_FI_QUERY,this);
+	m_treePages[14]->Create(IDD_DIALOG_FI_DETAIL,this);
+
 
 	//把Dialog移到合适位置
 
-	m_tree.MoveWindow(0,0,230,height-20);
+	m_tree.MoveWindow(0,0,230,height-50);
 
 	CRect m_rect;
 	GetClientRect(m_rect);
@@ -312,17 +325,24 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
 	m_treePages[10]->ShowWindow(SW_HIDE);
 	m_treePages[11]->MoveWindow(m_rect);
-	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
+	((Dialog_FI_Check*)(m_treePages[11]))->m_listFI.MoveWindow(rectlist);
 	m_treePages[11]->ShowWindow(SW_HIDE);
 	m_treePages[12]->MoveWindow(m_rect);
 	((Dialog_UndoRecord*)(m_treePages[12]))->m_listUndoRecord.MoveWindow(rectlist);
 	m_treePages[12]->ShowWindow(SW_HIDE);
+	m_treePages[13]->MoveWindow(m_rect);
+	((Dialog_FI_Query*)(m_treePages[13]))->m_listFI.MoveWindow(rectlist);
+	m_treePages[13]->ShowWindow(SW_HIDE);
+	m_treePages[14]->MoveWindow(m_rect);
+	((Dialog_FI_Detail*)(m_treePages[14]))->m_listFI.MoveWindow(rectlist);
+	m_treePages[14]->ShowWindow(SW_HIDE);
 
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点  
-	m_tree.Expand(sub_son0,TVE_EXPAND);
+	//m_tree.Expand(sub_son0,TVE_EXPAND);
 	m_tree.Expand(sub_son1,TVE_EXPAND);
 	m_tree.Expand(sub_son2,TVE_EXPAND);
+	m_tree.Expand(sub_son7,TVE_EXPAND);
 
 	//logintips
 	CString strpathini="";
@@ -487,9 +507,13 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[10]->MoveWindow(m_rect);
 	((Dialog_ChangeRecord*)(m_treePages[10]))->m_listChangeRecord.MoveWindow(rectlist);
 	m_treePages[11]->MoveWindow(m_rect);
-	((Dialog_FI*)(m_treePages[11]))->m_listFI.MoveWindow(rectlistfi);
+	((Dialog_FI_Check*)(m_treePages[11]))->m_listFI.MoveWindow(rectlist);
 	m_treePages[12]->MoveWindow(m_rect);
 	((Dialog_UndoRecord*)(m_treePages[12]))->m_listUndoRecord.MoveWindow(rectlist);
+	m_treePages[13]->MoveWindow(m_rect);
+	((Dialog_FI_Query*)(m_treePages[13]))->m_listFI.MoveWindow(rectlist);
+	m_treePages[14]->MoveWindow(m_rect);
+	((Dialog_FI_Detail*)(m_treePages[14]))->m_listFI.MoveWindow(rectlist);
 
 
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
@@ -649,9 +673,30 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 		m_treePages[5]->ShowWindow(SW_SHOW);
 		icurrentpage = 5;
 	}
-	else if(node_name=="财务统计"){
+	else if(node_name=="财务管理"){
+		m_treePages[13]->ShowWindow(SW_SHOW);
+		icurrentpage = 13;
+	}
+	else if(node_name=="收款开票"){
+		m_treePages[13]->ShowWindow(SW_SHOW);
+		if(g_permission & FI)
+		{
+			Dialog_FI_Proceeds dlg;
+			dlg.DoModal();
+		}		
+		icurrentpage = 13;
+	}
+	else if(node_name=="核销"){
 		m_treePages[11]->ShowWindow(SW_SHOW);
 		icurrentpage = 11;
+	}
+	else if(node_name=="查询"){
+		m_treePages[13]->ShowWindow(SW_SHOW);
+		icurrentpage = 13;
+	}
+	else if(node_name=="明细"){
+		m_treePages[14]->ShowWindow(SW_SHOW);
+		icurrentpage = 14;
 	}
 	UpdateData(false);
 

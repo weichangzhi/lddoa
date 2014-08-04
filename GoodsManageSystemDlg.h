@@ -26,11 +26,12 @@
 #include "Dialog_FI.h"
 #include "XPButton.h"
 #include "Dialog_UndoRecord.h"
+#include "Dialog_FI_Query.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog
 
-#define MAX_TREE_PAGE 13
+#define MAX_TREE_PAGE 15
 class CGoodsManageSystemDlg : public CDialog
 {
 // Construction

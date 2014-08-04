@@ -122,8 +122,8 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	double ratey = (double)(printy)/screeny;
 	int phyx = pDC->GetDeviceCaps(PHYSICALWIDTH);
 	int phyy = pDC->GetDeviceCaps(PHYSICALHEIGHT);
-	ratex = (double)(phyx)/screenx;
-	ratey = (double)(phyy)/screeny;
+	ratex = (double)(phyx)/screenx * (screenx/600.0);
+	ratey = (double)(phyy)/screeny * (screeny/600.0);
 	char log[256] = {0};
 	sprintf(log,"DrawReport \t%s,%d:rect [%dx%d, %dx%d],phy [%dx%d], screan[%dx%d],rate[%fx%f]",__FILE__,__LINE__,
 			rect.left,rect.top,rect.right,rect.bottom,phyx,phyy,screenx,screeny,ratex,ratey);

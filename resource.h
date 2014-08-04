@@ -78,6 +78,10 @@
 #define IDI_UNDO                        225
 #define IDD_DIALOG_LIST_UNDO            226
 #define IDD_DIALOG_UNDO_RECORD          227
+#define IDD_DIALOG_FI_PROCEEDS          228
+#define IDD_DIALOG_FI_CHECK             229
+#define IDD_DIALOG_FI_QUERY             230
+#define IDD_DIALOG_FI_DETAIL            231
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -140,6 +144,7 @@
 #define IDC_EDIT_RECEIVE_NAME           1057
 #define IDC_DATETIMEPICKER_RECEIVEDATE  1061
 #define IDC_DATETIMEPICKER_ENDDATE      1062
+#define IDC_DATETIMEPICKER_BILL         1062
 #define IDC_EDIT_DEPARTMENT             1063
 #define IDC_EDIT_ADDRESS                1064
 #define IDC_EDIT_PHONE                  1065
@@ -308,6 +313,21 @@
 #define IDC_EDIT_PAYMENT                1240
 #define IDC_EDIT_REASON                 1241
 #define IDC_EDIT_TIME                   1243
+#define IDC_EDIT_MONEY_TOTEL            1246
+#define IDC_EDIT_PEOPLE_BUSINESS        1247
+#define IDC_EDIT_PROCEEDS_WAY           1248
+#define IDC_EDIT_MONEY_PROCEEDS         1249
+#define IDC_EDIT_PEOPLE_FI              1250
+#define IDC_EDIT_COMMENT                1251
+#define IDC_EDIT_BILL_WAY               1252
+#define IDC_EDIT_MONEY_BILL             1253
+#define IDC_EDIT_BILL_ID                1254
+#define IDC_BUTTON_PROCEEDS             1255
+#define IDC_COMBO_QUERY_WAY             1256
+#define IDC_EDIT_PEOPLE_BILL            1256
+#define IDC_EDIT_QUERY_LISTID           1257
+#define IDC_EDIT_COMMENT_BILL           1258
+#define IDC_BUTTON_CHECK                1259
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -328,7 +348,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1245
+#define _APS_NEXT_CONTROL_VALUE         1260
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

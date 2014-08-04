@@ -414,6 +414,19 @@ void CDialog_New_List::OnSubmitlist()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
+		dlgpro->setpos(950);
+		sql.Format("insert into fiproceeds(listid,moneytotel,peoplebusiness,moneyproceeds,moneybill) values (\"%s\",\"%s\",\"%s\",0,0)",m_listid,m_money,m_people);
+		if(mysql_query(&myCont,sql)!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
+			return;
+		}
+
 		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)
 		{

@@ -120,6 +120,22 @@ SOURCE=.\Dialog_FI.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_FI_Check.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Detail.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Proceeds.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Query.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_InputBaseinfo.cpp
 # End Source File
 # Begin Source File
@@ -270,6 +286,22 @@ SOURCE=.\Dialog_Detail.h
 # Begin Source File
 
 SOURCE=.\Dialog_FI.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Check.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Detail.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Proceeds.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_FI_Query.h
 # End Source File
 # Begin Source File
 
