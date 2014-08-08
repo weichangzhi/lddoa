@@ -31,7 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog
 
-#define MAX_TREE_PAGE 15
+#define MAX_TREE_PAGE 17
 class CGoodsManageSystemDlg : public CDialog
 {
 // Construction
@@ -40,6 +40,7 @@ public:
 	CImageList m_imagelist;
 	CDialog * m_treePages[MAX_TREE_PAGE];
 	CString node_name;
+	HTREEITEM m_itemNewList;
 	BOOL InitMytree();
 	BOOL bFirstin;
 	int icurrentpage;

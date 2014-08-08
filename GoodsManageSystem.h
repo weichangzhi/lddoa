@@ -13,7 +13,7 @@
 #endif
 
 #include "resource.h"		// main symbols
-
+#include "GoodsManageSystemDlg.h"
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemApp:
 // See GoodsManageSystem.cpp for the implementation of this class
@@ -23,7 +23,7 @@ class CGoodsManageSystemApp : public CWinApp
 {
 public:
 	CGoodsManageSystemApp();
-
+	CGoodsManageSystemDlg* maindlg;
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CGoodsManageSystemApp)

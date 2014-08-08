@@ -546,7 +546,7 @@ void CDialog_ModifyList::OnModifylist()
 		((CEdit*)GetDlgItem(IDC_EDIT_TOTEL_NUMBER))->SetSel(0, -1);
 		return;
 	}
-	if(!(m_money.IsEmpty()))
+	if(!(m_money.IsEmpty()) && (m_money.Compare("******")))
 	{
 		if(!IsNum(m_money))
 		{

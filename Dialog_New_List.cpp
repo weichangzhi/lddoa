@@ -61,6 +61,8 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_New_List)
+	DDX_Control(pDX, IDC_DATETIMEPICKER_ENDDATE, m_ctrlEndDate);
+	DDX_Control(pDX, IDC_DATETIMEPICKER_RECEIVEDATE, m_ctrlReveiveDate);
 	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btexcel);
 	DDX_Control(pDX, IDC_BUTTON_PRINT, m_btprint);
 	DDX_Control(pDX, IDC_BUTTON_PREVIEW, m_btpreview);

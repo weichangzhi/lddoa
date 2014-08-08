@@ -297,6 +297,7 @@ void CreateExcel(CString filename,CListCtrl *listctl)
 }
 
 MysqlConnect g_MysqlConnect = {"root", "weichangzhi", "localhost", "sys", 3306};
+MysqlConnect g_MysqlConnect_web = {"EXvision", "EXvision123", "115.29.167.122", "kppw55", 3306};
 CString g_user="";
 CString g_department="";
 int g_permission = 0;

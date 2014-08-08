@@ -82,6 +82,8 @@
 #define IDD_DIALOG_FI_CHECK             229
 #define IDD_DIALOG_FI_QUERY             230
 #define IDD_DIALOG_FI_DETAIL            231
+#define IDD_DIALOG_LIST_WEB             232
+#define IDD_DIALOG_STORAGE_IN           233
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -328,6 +330,21 @@
 #define IDC_EDIT_QUERY_LISTID           1257
 #define IDC_EDIT_COMMENT_BILL           1258
 #define IDC_BUTTON_CHECK                1259
+#define IDC_BUTTON_LIST_START           1261
+#define IDC_LIST_STORAGE_IN             1262
+#define IDC_BUTTON_NEW                  1266
+#define IDC_BUTTON_QUIT                 1267
+#define IDC_EDIT_STORAGE_IN_ID          1270
+#define IDC_RICHEDIT_PROVIDER           1271
+#define IDC_RICHEDIT_OPERATOR           1272
+#define IDC_RICHEDIT_DEPARTMENT         1273
+#define IDC_RICHEDIT_STORAGE            1274
+#define IDC_BUTTON_SAVE                 1275
+#define IDC_DATETIMEPICKER_PAYMENT      1276
+#define IDC_RICHEDIT_DIGEST             1277
+#define IDC_DATETIMEPICKER_CURRENT      1278
+#define IDC_RICHEDIT_MODIFY             1279
+#define IDC_EDIT_MODIFY2                1280
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -348,7 +365,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1260
+#define _APS_NEXT_CONTROL_VALUE         1281
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -252,8 +252,6 @@ void Dialog_FI_Check::OnButtonCheck()
 
 	CString sql;
 	MYSQL myCont;
-	MYSQL_RES *result;
-	MYSQL_ROW sql_row;
 	mysql_init(&myCont);
 	if(mysql_real_connect(&myCont,g_MysqlConnect.host,g_MysqlConnect.user,g_MysqlConnect.pswd,g_MysqlConnect.table,g_MysqlConnect.port,NULL,0))
 	{

@@ -82,6 +82,7 @@ typedef struct _MysqlConnect
 }MysqlConnect, *pMysqlConnect;
 
 extern MysqlConnect g_MysqlConnect;
+extern MysqlConnect g_MysqlConnect_web;
 
 extern CString g_user;
 extern CString g_department;

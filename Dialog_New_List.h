@@ -23,6 +23,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_New_List)
 	enum { IDD = IDD_DIALOG_NEW_LIST };
+	CDateTimeCtrl	m_ctrlEndDate;
+	CDateTimeCtrl	m_ctrlReveiveDate;
 	CXPButton	m_btexcel;
 	CXPButton	m_btprint;
 	CXPButton	m_btpreview;

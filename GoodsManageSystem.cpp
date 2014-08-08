@@ -73,6 +73,7 @@ BOOL CGoodsManageSystemApp::InitInstance()
 	{
 		writelog("login is ok");
 		CGoodsManageSystemDlg dlg;
+		maindlg = &dlg;
 		m_pMainWnd = &dlg;
 		char log[256] = {0};
 		sprintf(log,"login is ok2\t%s,%d",__FILE__,__LINE__);
