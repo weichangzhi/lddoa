@@ -86,6 +86,8 @@
 #define IDD_DIALOG_STORAGE_IN           233
 #define IDD_DIALOG_STORAGE_LEFT         234
 #define IDD_DIALOG_STORAGE_IN_DETAIL    235
+#define IDD_DIALOG_STORAGE_OUT          236
+#define IDD_DIALOG_STORAGE_OUT_DETAIL   237
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -373,7 +375,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1289
+#define _APS_NEXT_CONTROL_VALUE         1291
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

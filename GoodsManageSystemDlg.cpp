@@ -14,6 +14,8 @@
 #include "Dialog_Storage_In.h"
 #include "Dialog_Storage_Left.h"
 #include "Dialog_Storage_In_Detail.h"
+#include "Dialog_Storage_Out_Detail.h"
+#include "Dialog_Storage_Out.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -250,9 +252,9 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son33=m_tree.InsertItem("明细",24,24,sub_son7,TVI_LAST);
 
 	HTREEITEM sub_m_son40=m_tree.InsertItem("进货单",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son41=m_tree.InsertItem("出货单",20,20,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son41=m_tree.InsertItem("出库单",20,20,sub_son8,TVI_LAST);
 	HTREEITEM sub_m_son42=m_tree.InsertItem("进货明细",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son43=m_tree.InsertItem("出货明细",20,20,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son43=m_tree.InsertItem("出库明细",20,20,sub_son8,TVI_LAST);
 	HTREEITEM sub_m_son44=m_tree.InsertItem("库存余额",20,20,sub_son8,TVI_LAST);
 
 	m_itemNewList = sub_m_son10;
@@ -275,6 +277,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[16]=new Dialog_Storage_In;
 	m_treePages[17]=new Dialog_Storage_Left;
 	m_treePages[18]=new Dialog_Storage_In_Detail;
+	m_treePages[19]=new Dialog_Storage_Out;
+	m_treePages[20]=new Dialog_Storage_Out_Detail;
 
 
 	//建立节点对应的Dialog
@@ -297,6 +301,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[16]->Create(IDD_DIALOG_STORAGE_IN,this);
 	m_treePages[17]->Create(IDD_DIALOG_STORAGE_LEFT,this);
 	m_treePages[18]->Create(IDD_DIALOG_STORAGE_IN_DETAIL,this);
+	m_treePages[19]->Create(IDD_DIALOG_STORAGE_OUT,this);
+	m_treePages[20]->Create(IDD_DIALOG_STORAGE_OUT_DETAIL,this);
 
 
 	//把Dialog移到合适位置
@@ -369,8 +375,17 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	((Dialog_Storage_Left*)(m_treePages[17]))->m_listTotal.MoveWindow(rectlisttotal);
 	m_treePages[17]->ShowWindow(SW_HIDE);
 	m_treePages[18]->MoveWindow(m_rect);
-	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listStorageInDetail.MoveWindow(rectlist);
+	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listStorageInDetail.MoveWindow(rectlistoutput);
+	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listTotal.MoveWindow(rectlisttotal);
 	m_treePages[18]->ShowWindow(SW_HIDE);
+	m_treePages[19]->MoveWindow(m_rect);
+	((Dialog_Storage_Out*)(m_treePages[19]))->m_listStorageIn.MoveWindow(rectliststorage);
+	((Dialog_Storage_Out*)(m_treePages[19]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[19]->ShowWindow(SW_HIDE);
+	m_treePages[20]->MoveWindow(m_rect);
+	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listStorageInDetail.MoveWindow(rectlistoutput);
+	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[20]->ShowWindow(SW_HIDE);
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点
 	//m_tree.Expand(sub_son0,TVE_EXPAND);
@@ -564,6 +579,13 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	((Dialog_Storage_Left*)(m_treePages[17]))->m_listTotal.MoveWindow(rectlisttotal);
 	m_treePages[18]->MoveWindow(m_rect);
 	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listStorageInDetail.MoveWindow(rectlist);
+	((Dialog_Storage_In_Detail*)(m_treePages[16]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[19]->MoveWindow(m_rect);
+	((Dialog_Storage_Out*)(m_treePages[19]))->m_listStorageIn.MoveWindow(rectliststorage);
+	((Dialog_Storage_Out*)(m_treePages[19]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[20]->MoveWindow(m_rect);
+	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listStorageInDetail.MoveWindow(rectlist);
+	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listTotal.MoveWindow(rectlisttotal);
 
 
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
@@ -763,6 +785,14 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(node_name=="进货明细"){
 		m_treePages[18]->ShowWindow(SW_SHOW);
 		icurrentpage = 18;
+	}
+	else if(node_name=="出库单"){
+		m_treePages[19]->ShowWindow(SW_SHOW);
+		icurrentpage = 19;
+	}
+	else if(node_name=="出库明细"){
+		m_treePages[20]->ShowWindow(SW_SHOW);
+		icurrentpage = 20;
 	}
 	UpdateData(false);
 

@@ -1,9 +1,9 @@
-// Dialog_Storage_In_Detail.cpp : implementation file
+// Dialog_Storage_Out_Detail.cpp : implementation file
 //
 
 #include "stdafx.h"
 #include "goodsmanagesystem.h"
-#include "Dialog_Storage_In_Detail.h"
+#include "Dialog_Storage_Out_Detail.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -12,23 +12,23 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// Dialog_Storage_In_Detail dialog
+// Dialog_Storage_Out_Detail dialog
 
 
-Dialog_Storage_In_Detail::Dialog_Storage_In_Detail(CWnd* pParent /*=NULL*/)
-	: CDialog(Dialog_Storage_In_Detail::IDD, pParent)
+Dialog_Storage_Out_Detail::Dialog_Storage_Out_Detail(CWnd* pParent /*=NULL*/)
+	: CDialog(Dialog_Storage_Out_Detail::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(Dialog_Storage_In_Detail)
+	//{{AFX_DATA_INIT(Dialog_Storage_Out_Detail)
 	m_timebegin = 0;
 	m_timeend = 0;
 	//}}AFX_DATA_INIT
 }
 
 
-void Dialog_Storage_In_Detail::DoDataExchange(CDataExchange* pDX)
+void Dialog_Storage_Out_Detail::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(Dialog_Storage_In_Detail)
+	//{{AFX_DATA_MAP(Dialog_Storage_Out_Detail)
 	DDX_Control(pDX, IDC_LIST_TOTAL, m_listTotal);
 	DDX_Control(pDX, IDC_LIST_STORAGE_DETAIL, m_listStorageInDetail);
 	DDX_Control(pDX, IDOK, m_btok);
@@ -39,16 +39,15 @@ void Dialog_Storage_In_Detail::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Dialog_Storage_In_Detail, CDialog)
-	//{{AFX_MSG_MAP(Dialog_Storage_In_Detail)
+BEGIN_MESSAGE_MAP(Dialog_Storage_Out_Detail, CDialog)
+	//{{AFX_MSG_MAP(Dialog_Storage_Out_Detail)
 	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnButtonExcel)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// Dialog_Storage_In_Detail message handlers
-
-BOOL Dialog_Storage_In_Detail::PreTranslateMessage(MSG* pMsg) 
+// Dialog_Storage_Out_Detail message handlers
+BOOL Dialog_Storage_Out_Detail::PreTranslateMessage(MSG* pMsg) 
 {
 	if(pMsg->message == WM_KEYDOWN) 
 	{  
@@ -63,7 +62,7 @@ BOOL Dialog_Storage_In_Detail::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
-BOOL Dialog_Storage_In_Detail::OnInitDialog() 
+BOOL Dialog_Storage_Out_Detail::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	CTime time1 = CTime::GetCurrentTime();
@@ -76,14 +75,13 @@ BOOL Dialog_Storage_In_Detail::OnInitDialog()
 	m_listStorageInDetail.InsertColumn(2, _T("单据编号"), LVCFMT_LEFT,150);
 	m_listStorageInDetail.InsertColumn(3, _T("交货日期"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(4, _T("单据摘要"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(5, _T("供应商"), LVCFMT_LEFT,100);
+	m_listStorageInDetail.InsertColumn(5, _T("取货人"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(6, _T("经办人"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(7, _T("部门"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(8, _T("仓库"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(9, _T("明细摘要"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(10, _T("货物名称"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(11, _T("数量"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(12, _T("金额"), LVCFMT_LEFT,100);
+	m_listStorageInDetail.InsertColumn(9, _T("货物名称"), LVCFMT_LEFT,100);
+	m_listStorageInDetail.InsertColumn(10, _T("数量"), LVCFMT_LEFT,100);
+	m_listStorageInDetail.InsertColumn(11, _T("金额"), LVCFMT_LEFT,100);
 
 	m_listTotal.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listTotal.InsertColumn(0, _T("合计"), LVCFMT_LEFT,60);
@@ -98,14 +96,13 @@ BOOL Dialog_Storage_In_Detail::OnInitDialog()
 	m_listTotal.InsertColumn(9, _T(""), LVCFMT_LEFT,100);
 	m_listTotal.InsertColumn(10, _T(""), LVCFMT_LEFT,100);
 	m_listTotal.InsertColumn(11, _T(""), LVCFMT_LEFT,100);
-	m_listTotal.InsertColumn(12, _T(""), LVCFMT_LEFT,100);
 
 	UpdateData(FALSE);	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void Dialog_Storage_In_Detail::OnOK() 
+void Dialog_Storage_Out_Detail::OnOK() 
 {
 	m_listStorageInDetail.DeleteAllItems();
 	UpdateData();
@@ -115,7 +112,7 @@ void Dialog_Storage_In_Detail::OnOK()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_timeend.GetYear(),m_timeend.GetMonth(),m_timeend.GetDay()+1);
 
-	csSql.Format("select time_make,storage_in_id,time_payment,digest,provider,operator,department,storage  from storage_in_baseinfo where time_make<=\"%s\" and time_make>=\"%s\" " ,endtime,starttime); 
+	csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where time_make<=\"%s\" and time_make>=\"%s\" " ,endtime,starttime); 
 
 	MYSQL myCont;
     MYSQL_RES *result,*result2;
@@ -153,7 +150,7 @@ void Dialog_Storage_In_Detail::OnOK()
 					m_listStorageInDetail.SetItemText(index,8,sql_row[7]);
 					strid = sql_row[1];
 
-					csSql.Format("select item_digest,item_name,item_number,item_money  from storage_in_item where storage_in_id=\"%s\" " ,strid); 
+					csSql.Format("select item_name,item_number,item_money  from storage_out_item where storage_out_id=\"%s\" " ,strid); 
 					res=mysql_query(&myCont,csSql);//查询
 					if(!res)
 					{
@@ -177,9 +174,8 @@ void Dialog_Storage_In_Detail::OnOK()
 								m_listStorageInDetail.SetItemText(index,9,sql_row2[0]);
 								m_listStorageInDetail.SetItemText(index,10,sql_row2[1]);
 								m_listStorageInDetail.SetItemText(index,11,sql_row2[2]);
-								m_listStorageInDetail.SetItemText(index,12,sql_row2[3]);
-								number += atoi(sql_row2[2]);
-								money += atof(sql_row2[3]);
+								number += atoi(sql_row2[1]);
+								money += atof(sql_row2[2]);
 								indexitem++;
 								index++;
 							}
@@ -190,9 +186,9 @@ void Dialog_Storage_In_Detail::OnOK()
 							m_listStorageInDetail.SetItemText(index,2,"小计");
 							CString strtmp;
 							strtmp.Format("%d",number);
-							m_listStorageInDetail.SetItemText(index,11,strtmp);
+							m_listStorageInDetail.SetItemText(index,10,strtmp);
 							strtmp.Format("%0.2f",money);
-							m_listStorageInDetail.SetItemText(index,12,strtmp);
+							m_listStorageInDetail.SetItemText(index,11,strtmp);
 
 						}
 					}
@@ -219,16 +215,17 @@ void Dialog_Storage_In_Detail::OnOK()
 					m_listTotal.InsertColumn(2,"数量",LVCFMT_LEFT,150);
 					m_listTotal.DeleteColumn(3);
 					m_listTotal.InsertColumn(3,strtmp,LVCFMT_LEFT,100);
+					m_listTotal.DeleteColumn(10);
+					m_listTotal.InsertColumn(10,strtmp,LVCFMT_LEFT,100);
+					
+					strtmp.Format("%0.2f",totalmoney);
+					m_listTotal.DeleteColumn(5);					
+					m_listTotal.InsertColumn(5,"金额",LVCFMT_LEFT,100);
+					m_listTotal.DeleteColumn(6);
+					m_listTotal.InsertColumn(6,strtmp,LVCFMT_LEFT,100);
 					m_listTotal.DeleteColumn(11);
 					m_listTotal.InsertColumn(11,strtmp,LVCFMT_LEFT,100);
 					
-					strtmp.Format("%0.2f",totalmoney);
-					m_listTotal.DeleteColumn(5);
-					m_listTotal.InsertColumn(5,"金额",LVCFMT_LEFT,100);					
-					m_listTotal.DeleteColumn(6);
-					m_listTotal.InsertColumn(6,strtmp,LVCFMT_LEFT,100);
-					m_listTotal.DeleteColumn(12);
-					m_listTotal.InsertColumn(12,strtmp,LVCFMT_LEFT,100);
 				}
             }
         }
@@ -257,7 +254,7 @@ void Dialog_Storage_In_Detail::OnOK()
 	return;
 }
 
-void Dialog_Storage_In_Detail::OnButtonExcel() 
+void Dialog_Storage_Out_Detail::OnButtonExcel() 
 {
-	CreateExcel("进货明细.xls",&m_listStorageInDetail);
+	CreateExcel("出库明细.xls",&m_listStorageInDetail);
 }

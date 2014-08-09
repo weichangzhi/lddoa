@@ -144,6 +144,10 @@ SOURCE=.\Dialog_List_Undo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Web.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Login.cpp
 # End Source File
 # Begin Source File
@@ -204,6 +208,18 @@ SOURCE=.\Dialog_Schdeule.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_Storage_In.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_In_Detail.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Left.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Tips.cpp
 # End Source File
 # Begin Source File
@@ -217,6 +233,10 @@ SOURCE=.\Dialog_UndoRecord.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Unpost.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\EditListCtrl.cpp
 # End Source File
 # Begin Source File
 
@@ -317,6 +337,10 @@ SOURCE=.\Dialog_List_Undo.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Web.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Login.h
 # End Source File
 # Begin Source File
@@ -377,6 +401,18 @@ SOURCE=.\Dialog_Schdeule.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_Storage_In.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_In_Detail.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Left.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Tips.h
 # End Source File
 # Begin Source File
@@ -390,6 +426,10 @@ SOURCE=.\Dialog_UndoRecord.h
 # Begin Source File
 
 SOURCE=.\Dialog_Unpost.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\EditListCtrl.h
 # End Source File
 # Begin Source File
 

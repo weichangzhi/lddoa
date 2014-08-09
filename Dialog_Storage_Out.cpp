@@ -1,9 +1,9 @@
-// Dialog_Storage_In.cpp : implementation file
+// Dialog_Storage_Out.cpp : implementation file
 //
 
 #include "stdafx.h"
 #include "goodsmanagesystem.h"
-#include "Dialog_Storage_In.h"
+#include "Dialog_Storage_Out.h"
 #include "Dialog_progress.h"
 
 #ifdef _DEBUG
@@ -13,13 +13,13 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// Dialog_Storage_In dialog
+// Dialog_Storage_Out dialog
 
 
-Dialog_Storage_In::Dialog_Storage_In(CWnd* pParent /*=NULL*/)
-	: CDialog(Dialog_Storage_In::IDD, pParent)
+Dialog_Storage_Out::Dialog_Storage_Out(CWnd* pParent /*=NULL*/)
+	: CDialog(Dialog_Storage_Out::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(Dialog_Storage_In)
+	//{{AFX_DATA_INIT(Dialog_Storage_Out)
 	m_timeCurrent = 0;
 	m_timePayment = 0;
 	m_StorageInID = _T("");
@@ -34,23 +34,21 @@ Dialog_Storage_In::Dialog_Storage_In(CWnd* pParent /*=NULL*/)
 }
 
 
-void Dialog_Storage_In::DoDataExchange(CDataExchange* pDX)
+void Dialog_Storage_Out::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(Dialog_Storage_In)
-	DDX_Control(pDX, IDC_LIST_TOTAL, m_listTotal);
+	//{{AFX_DATA_MAP(Dialog_Storage_Out)
+	DDX_Control(pDX, IDC_EXCEL, m_btexcel);
+	DDX_Control(pDX, IDC_BUTTON_SAVE, m_btsave);
+	DDX_Control(pDX, IDC_BUTTON_QUIT, m_btquit);
 	DDX_Control(pDX, IDC_BUTTON_QUERY, m_btquery);
+	DDX_Control(pDX, IDC_BUTTON_PRINT, m_btprint);
+	DDX_Control(pDX, IDC_BUTTON_NEW, m_btnew);
 	DDX_Control(pDX, IDC_BUTTON_MODIFY, m_btmodify);
-	DDX_Control(pDX, IDC_EDIT_MODIFY2, m_edit2);
-	DDX_Control(pDX, IDC_RICHEDIT_MODIFY, m_edit);
-	DDX_Control(pDX, IDC_EXCEL, m_btExcel);
-	DDX_Control(pDX, IDC_BUTTON_SAVE, m_btSave);
-	DDX_Control(pDX, IDC_BUTTON_QUIT, m_btQuit);
-	DDX_Control(pDX, IDC_BUTTON_PRINT, m_btPrint);
-	DDX_Control(pDX, IDC_BUTTON_NEW, m_btNew);
-	DDX_Control(pDX, IDC_LIST_STORAGE_IN, m_listStorageIn);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_CURRENT, m_timeCurrent);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_PAYMENT, m_timePayment);
+	DDX_Control(pDX, IDC_LIST_TOTAL, m_listTotal);
+	DDX_Control(pDX, IDC_LIST_STORAGE_IN, m_listStorageIn);
 	DDX_Text(pDX, IDC_EDIT_STORAGE_IN_ID, m_StorageInID);
 	DDX_Text(pDX, IDC_RICHEDIT_DEPARTMENT, m_Department);
 	DDX_Text(pDX, IDC_RICHEDIT_DIGEST, m_Digest);
@@ -61,8 +59,8 @@ void Dialog_Storage_In::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Dialog_Storage_In, CDialog)
-	//{{AFX_MSG_MAP(Dialog_Storage_In)
+BEGIN_MESSAGE_MAP(Dialog_Storage_Out, CDialog)
+	//{{AFX_MSG_MAP(Dialog_Storage_Out)
 	ON_BN_CLICKED(IDC_EXCEL, OnExcel)
 	ON_BN_CLICKED(IDC_BUTTON_NEW, OnButtonNew)
 	ON_BN_CLICKED(IDC_BUTTON_PRINT, OnButtonPrint)
@@ -77,25 +75,9 @@ BEGIN_MESSAGE_MAP(Dialog_Storage_In, CDialog)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// Dialog_Storage_In message handlers
+// Dialog_Storage_Out message handlers
 
-BOOL Dialog_Storage_In::PreTranslateMessage(MSG* pMsg) 
-{
-	if(pMsg->message == WM_KEYDOWN) 
-	{  
-		switch(pMsg->wParam) 
-		{  
-		case VK_RETURN: //回车  
-			return TRUE;  
-		case VK_ESCAPE: //ESC  
-			return TRUE;  
-		}  
-	}
-
-	return CDialog::PreTranslateMessage(pMsg);
-}
-
-BOOL Dialog_Storage_In::OnInitDialog() 
+BOOL Dialog_Storage_Out::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 	
@@ -105,7 +87,7 @@ BOOL Dialog_Storage_In::OnInitDialog()
 	m_Operator = g_user;
 	m_Department = g_department;
 	static indexid=0;
-	m_StorageInID.Format("JH-%04d-%02d-%02d-%03d",m_timeCurrent.GetYear(),m_timeCurrent.GetMonth(),m_timeCurrent.GetDay(),++indexid);
+	m_StorageInID.Format("CK-%04d-%02d-%02d-%03d",m_timeCurrent.GetYear(),m_timeCurrent.GetMonth(),m_timeCurrent.GetDay(),++indexid);
 	
 	m_listStorageIn.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listStorageIn.InsertColumn(0, _T("行号"), LVCFMT_LEFT,60);
@@ -117,7 +99,6 @@ BOOL Dialog_Storage_In::OnInitDialog()
 	m_listStorageIn.InsertColumn(6, _T("单位"), LVCFMT_LEFT,80);
 	m_listStorageIn.InsertColumn(7, _T("单价"), LVCFMT_LEFT,80);
 	m_listStorageIn.InsertColumn(8, _T("金额"), LVCFMT_LEFT,100);
-	m_listStorageIn.InsertColumn(9, _T("行摘要"), LVCFMT_LEFT,230);
 
 	m_listTotal.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listTotal.InsertColumn(0, _T("合计"), LVCFMT_LEFT,60);
@@ -129,7 +110,6 @@ BOOL Dialog_Storage_In::OnInitDialog()
 	m_listTotal.InsertColumn(6, _T(""), LVCFMT_LEFT,80);
 	m_listTotal.InsertColumn(7, _T(""), LVCFMT_LEFT,80);
 	m_listTotal.InsertColumn(8, _T(""), LVCFMT_LEFT,100);
-	m_listTotal.InsertColumn(9, _T(""), LVCFMT_LEFT,230);
 
 	CString strindex ;
 	int index = 0;
@@ -147,31 +127,31 @@ BOOL Dialog_Storage_In::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void Dialog_Storage_In::OnExcel() 
+void Dialog_Storage_Out::OnExcel() 
 {
 	// TODO: Add your control notification handler code here
 	
 }
 
-void Dialog_Storage_In::OnButtonNew() 
+void Dialog_Storage_Out::OnButtonNew() 
 {
 	// TODO: Add your control notification handler code here
 	
 }
 
-void Dialog_Storage_In::OnButtonPrint() 
+void Dialog_Storage_Out::OnButtonPrint() 
 {
 	// TODO: Add your control notification handler code here
 	
 }
 
-void Dialog_Storage_In::OnButtonQuit() 
+void Dialog_Storage_Out::OnButtonQuit() 
 {
 	// TODO: Add your control notification handler code here
 	
 }
 
-void Dialog_Storage_In::OnButtonSave() 
+void Dialog_Storage_Out::OnButtonSave() 
 {
 	UpdateData();
 	int count = m_listStorageIn.GetItemCount();
@@ -248,7 +228,7 @@ void Dialog_Storage_In::OnButtonSave()
 	{
 		dlgpro->setpos(500);
 		mysql_query(&myCont, "SET NAMES GBK"); //设置编码格式,否则在cmd下无法显示中文
-		sql.Format("select * from storage_in_baseinfo,storage_in_item where storage_in_baseinfo.storage_in_id=\"%s\" and storage_in_item.storage_in_id=\"%s\" ",m_StorageInID,m_StorageInID);
+		sql.Format("select * from storage_out_baseinfo,storage_out_item where storage_out_baseinfo.storage_out_id=\"%s\" and storage_out_item.storage_out_id=\"%s\" ",m_StorageInID,m_StorageInID);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			const char *error = mysql_error(&myCont);
@@ -276,19 +256,6 @@ void Dialog_Storage_In::OnButtonSave()
 			else
 			{//新增记录
 				dlgpro->setpos(700);
-
-				sql.Format("insert into storage_in_baseinfo values (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
-					m_StorageInID,strtimecurrent,m_Provider,m_Operator,m_Department,strtimepayment,m_Storage,m_Digest);
-				if(mysql_query(&myCont,sql)!= 0)
-				{
-					const char *error = mysql_error(&myCont);
-					CString str;
-					str.Format("数据库错误(%s)",error);
-					MessageBox(str,"提示",MB_OK);
-					mysql_close(&myCont);//断开连接
-					dlgpro->endpos();
-					return;
-				}
 				int count = m_listStorageIn.GetItemCount();
 				int i=0,j=0;
 				for(i=0;i<count;i++)
@@ -305,7 +272,6 @@ void Dialog_Storage_In::OnButtonSave()
 					CString item_unit = m_listStorageIn.GetItemText(i,6);
 					float   item_price = atof(m_listStorageIn.GetItemText(i,7));
 					float   item_money = atof(m_listStorageIn.GetItemText(i,8));
-					CString item_digest = m_listStorageIn.GetItemText(i,9);
 
 					CTime time = CTime::GetCurrentTime();
 					CString curenttime;
@@ -337,21 +303,6 @@ void Dialog_Storage_In::OnButtonSave()
 						dlgpro->endpos();
 						return;
 					}
-
-					//item
-					sql.Format("insert into storage_in_item values (%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,\"%s\",%0.2f,%0.2f,\"%s\")",
-					0,m_StorageInID,storage_id,storage_name,SCB,item_name,(item_number),item_unit,(item_price),(item_money),item_digest);
-					if(mysql_query(&myCont,sql)!= 0)
-					{
-						const char *error = mysql_error(&myCont);
-						CString str;
-						str.Format("数据库错误(%s)",error);
-						MessageBox(str,"提示",MB_OK);
-						mysql_close(&myCont);//断开连接
-						dlgpro->endpos();
-						return;
-					}
-					dlgpro->setpos(800);
 					//left
 					sql.Format("select item_number,item_price from storage_left where scb=\"%s\" ",SCB);
 					if(mysql_query(&myCont,sql)!= 0)
@@ -364,7 +315,6 @@ void Dialog_Storage_In::OnButtonSave()
 						dlgpro->endpos();
 						return;
 					}
-					dlgpro->setpos(850);
 					result=mysql_store_result(&myCont);//保存查询到的数据到result
 					if(result)
 					{
@@ -381,12 +331,20 @@ void Dialog_Storage_In::OnButtonSave()
 									oldnumber = atoi(sql_row[0]);
 								if(sql_row[1]!=NULL)
 									oldprice = atof(sql_row[1]);					
-							}//while		
-							oldnumber += (item_number);
-							oldmoney = oldnumber* (item_price);
-							dlgpro->setpos(900);
-							sql.Format("update storage_left set item_number=%d,item_price=%f,item_money=%f,item_time=\"%s\" where scb=\"%s\" ",
-								oldnumber,(item_price),oldmoney,curenttime,SCB);
+							}//while
+							if(oldnumber<item_number)
+							{
+								CString str;
+								str.Format("%s 库存余额不足.",item_name);
+								MessageBox(str,"提示",MB_OK);
+								mysql_close(&myCont);//断开连接
+								dlgpro->endpos();
+								return;
+							}
+							oldnumber -= (item_number);
+							oldmoney = oldnumber* (oldprice);
+							sql.Format("update storage_left set item_number=%d,item_money=%f,item_time=\"%s\" where scb=\"%s\" ",
+								oldnumber,oldmoney,curenttime,SCB);
 							int ret = mysql_query(&myCont,sql);
 							if(ret!= 0)
 							{
@@ -400,20 +358,13 @@ void Dialog_Storage_In::OnButtonSave()
 							}
 						}
 						else
-						{//新增记录
-							dlgpro->setpos(900);
-							sql.Format("insert into storage_left values (\"%s\",\"%s\",%d,\"%s\",%f,%f,\"%s\")",
-								SCB,item_name,item_number,item_unit,item_price,item_money,curenttime);
-							if(mysql_query(&myCont,sql)!= 0)
-							{
-								const char *error = mysql_error(&myCont);
-								CString str;
-								str.Format("数据库错误(%s)",error);
-								MessageBox(str,"提示",MB_OK);
-								mysql_close(&myCont);//断开连接
-								dlgpro->endpos();
-								return;
-							}
+						{//
+							CString str;
+							str.Format("库存无此物品：%s ",item_name);
+							MessageBox(str,"提示",MB_OK);
+							mysql_close(&myCont);//断开连接
+							dlgpro->endpos();
+							return;
 						}
 					}
 					else
@@ -426,8 +377,34 @@ void Dialog_Storage_In::OnButtonSave()
 						dlgpro->endpos();
 						return;
 					}
-					dlgpro->setpos(950);
+					//item
+					sql.Format("insert into storage_out_item values (%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,\"%s\",%0.2f,%0.2f)",
+					0,m_StorageInID,storage_id,storage_name,SCB,item_name,(item_number),item_unit,(item_price),(item_money));
+					if(mysql_query(&myCont,sql)!= 0)
+					{
+						const char *error = mysql_error(&myCont);
+						CString str;
+						str.Format("数据库错误(%s)",error);
+						MessageBox(str,"提示",MB_OK);
+						mysql_close(&myCont);//断开连接
+						dlgpro->endpos();
+						return;
+					}
+					
 				}//for
+				dlgpro->setpos(900);
+				sql.Format("insert into storage_out_baseinfo values (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
+					m_StorageInID,strtimecurrent,m_Provider,m_Operator,m_Department,strtimepayment,m_Storage,m_Digest);
+				if(mysql_query(&myCont,sql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					dlgpro->endpos();
+					return;
+				}
 				dlgpro->setpos(980);
 			}
 		}
@@ -455,90 +432,55 @@ void Dialog_Storage_In::OnButtonSave()
 	if(result!=NULL) mysql_free_result(result);//释放结果资源
 	mysql_close(&myCont);//断开连接
 	dlgpro->endpos();
-	MessageBox("进货单保存成功","提示",MB_OK);
-
+	MessageBox("出库单保存成功","提示",MB_OK);
 }
 
-void Dialog_Storage_In::OnDblclkRicheditDepartment(NMHDR* pNMHDR, LRESULT* pResult) 
+void Dialog_Storage_Out::OnDblclkRicheditDepartment(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: Add your control notification handler code here
 	
 	*pResult = 0;
 }
 
-void Dialog_Storage_In::OnDblclkRicheditDigest(NMHDR* pNMHDR, LRESULT* pResult) 
+void Dialog_Storage_Out::OnDblclkRicheditDigest(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: Add your control notification handler code here
 	
 	*pResult = 0;
 }
 
-void Dialog_Storage_In::OnDblclkRicheditOperator(NMHDR* pNMHDR, LRESULT* pResult) 
+void Dialog_Storage_Out::OnDblclkRicheditOperator(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: Add your control notification handler code here
 	
 	*pResult = 0;
 }
 
-void Dialog_Storage_In::OnDblclkRicheditProvider(NMHDR* pNMHDR, LRESULT* pResult) 
+void Dialog_Storage_Out::OnDblclkRicheditProvider(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: Add your control notification handler code here
 	
 	*pResult = 0;
 }
 
-void Dialog_Storage_In::OnDblclkRicheditStorage(NMHDR* pNMHDR, LRESULT* pResult) 
+void Dialog_Storage_Out::OnDblclkRicheditStorage(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	// TODO: Add your control notification handler code here
 	
 	*pResult = 0;
 }
 
-/*
-void Dialog_Storage_In::OnKillfocusListStorageIn(NMHDR* pNMHDR, LRESULT* pResult) 
+BOOL Dialog_Storage_Out::PreTranslateMessage(MSG* pMsg) 
 {
-	return;
-	CString str;
-	m_edit2.GetWindowText(str);//取得编辑框的内容
-	m_listStorageIn.SetItemText(m_row,m_column,str);//将该内容更新到CListCtrl中
-	m_edit2.ShowWindow(SW_HIDE);//隐藏编辑框	
-	UpdateData(FALSE);
-	//*pResult = 0;
-}
-
-void Dialog_Storage_In::OnDblclkListStorageIn(NMHDR* pNMHDR, LRESULT* pResult) 
-{
-	NM_LISTVIEW* pNMListView=(NM_LISTVIEW*)pNMHDR;
-	CRect rc;
-	if(pNMListView->iItem!=-1)
-	{
-	   m_row=pNMListView->iItem;//m_row为被选中行的行序号（int类型成员变量）
-	   m_column=pNMListView->iSubItem;//m_column为被选中行的列序号（int类型成员变量）
-	   m_listStorageIn.GetSubItemRect(pNMListView->iItem, pNMListView->iSubItem,LVIR_LABEL,rc);//取得子项的矩形
-	   rc.left+=12;
-	   rc.top+=202;
-	   rc.right+=12;
-	   rc.bottom+=205;
-	   char * ch=new char [128];
-	   m_listStorageIn.GetItemText(pNMListView->iItem, pNMListView->iSubItem,ch,128);//取得子项的内容
-	   m_edit2.SetWindowText(ch);//将子项的内容显示到编辑框中
-	   m_edit2.ShowWindow(SW_SHOW);//显示编辑框
-	   m_edit2.MoveWindow(&rc);//将编辑框移动到子项上面，覆盖在子项上
-	   m_edit2.SetFocus();//使编辑框取得焦点
-	   m_edit2.CreateSolidCaret(1,rc.Height()-5);//创建一个光标
-	   m_edit2.ShowCaret();//显示光标
-	   m_edit2.SetSel(0,-1);//使光标移到最后面
+	if(pMsg->message == WM_KEYDOWN) 
+	{  
+		switch(pMsg->wParam) 
+		{  
+		case VK_RETURN: //回车  
+			return TRUE;  
+		case VK_ESCAPE: //ESC  
+			return TRUE;  
+		}  
 	}
-	*pResult = 0;
+	return CDialog::PreTranslateMessage(pMsg);
 }
-
-
-void Dialog_Storage_In::OnKillfocusEditModify2() 
-{
-	CString str;
-	m_edit2.GetWindowText(str);//取得编辑框的内容
-	m_listStorageIn.SetItemText(m_row,m_column,str);//将该内容更新到CListCtrl中
-	m_edit2.ShowWindow(SW_HIDE);//隐藏编辑框	
-	UpdateData(FALSE);
-}
-*/

@@ -1,39 +1,37 @@
-#if !defined(AFX_DIALOG_STORAGE_IN_H__C9688C71_E458_461E_BB38_D152938A68C2__INCLUDED_)
-#define AFX_DIALOG_STORAGE_IN_H__C9688C71_E458_461E_BB38_D152938A68C2__INCLUDED_
+#if !defined(AFX_DIALOG_STORAGE_OUT_H__72264C47_96F0_43BC_91FB_C98E140FD9CE__INCLUDED_)
+#define AFX_DIALOG_STORAGE_OUT_H__72264C47_96F0_43BC_91FB_C98E140FD9CE__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// Dialog_Storage_In.h : header file
+// Dialog_Storage_Out.h : header file
 //
 #include "EditListCtrl.h "
 #include "XPButton.h"
 /////////////////////////////////////////////////////////////////////////////
-// Dialog_Storage_In dialog
+// Dialog_Storage_Out dialog
 
-class Dialog_Storage_In : public CDialog
+class Dialog_Storage_Out : public CDialog
 {
 // Construction
 public:
-	Dialog_Storage_In(CWnd* pParent = NULL);   // standard constructor
+	Dialog_Storage_Out(CWnd* pParent = NULL);   // standard constructor
 	int m_row;
 	int m_column;
 // Dialog Data
-	//{{AFX_DATA(Dialog_Storage_In)
-	enum { IDD = IDD_DIALOG_STORAGE_IN };
-	CListCtrl	m_listTotal;
+	//{{AFX_DATA(Dialog_Storage_Out)
+	enum { IDD = IDD_DIALOG_STORAGE_OUT };
+	CXPButton	m_btexcel;
+	CXPButton	m_btsave;
+	CXPButton	m_btquit;
 	CXPButton	m_btquery;
+	CXPButton	m_btprint;
+	CXPButton	m_btnew;
 	CXPButton	m_btmodify;
-	CEdit	m_edit2;
-	CRichEditCtrl	m_edit;
-	CXPButton	m_btExcel;
-	CXPButton	m_btSave;
-	CXPButton	m_btQuit;
-	CXPButton	m_btPrint;
-	CXPButton	m_btNew;
-	CEditListCtrl	m_listStorageIn;
 	CTime	m_timeCurrent;
 	CTime	m_timePayment;
+	CListCtrl	m_listTotal;
+	CEditListCtrl	m_listStorageIn;
 	CString	m_StorageInID;
 	CString	m_Department;
 	CString	m_Digest;
@@ -45,7 +43,7 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(Dialog_Storage_In)
+	//{{AFX_VIRTUAL(Dialog_Storage_Out)
 	public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	protected:
@@ -56,7 +54,7 @@ public:
 protected:
 
 	// Generated message map functions
-	//{{AFX_MSG(Dialog_Storage_In)
+	//{{AFX_MSG(Dialog_Storage_Out)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnExcel();
 	afx_msg void OnButtonNew();
@@ -75,4 +73,4 @@ protected:
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif // !defined(AFX_DIALOG_STORAGE_IN_H__C9688C71_E458_461E_BB38_D152938A68C2__INCLUDED_)
+#endif // !defined(AFX_DIALOG_STORAGE_OUT_H__72264C47_96F0_43BC_91FB_C98E140FD9CE__INCLUDED_)
