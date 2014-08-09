@@ -22,6 +22,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_Storage_In)
 	enum { IDD = IDD_DIALOG_STORAGE_IN };
+	CListCtrl	m_listTotal;
+	CXPButton	m_btquery;
+	CXPButton	m_btmodify;
 	CEdit	m_edit2;
 	CRichEditCtrl	m_edit;
 	CXPButton	m_btExcel;
@@ -66,9 +69,9 @@ protected:
 	afx_msg void OnDblclkRicheditOperator(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDblclkRicheditProvider(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDblclkRicheditStorage(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnKillfocusListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnKillfocusEditModify2();
+	//afx_msg void OnKillfocusListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
+	//afx_msg void OnDblclkListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
+	//afx_msg void OnKillfocusEditModify2();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

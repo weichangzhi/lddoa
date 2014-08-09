@@ -98,7 +98,7 @@ BOOL CDialog_Output::OnInitDialog()
 	m_list_output.InsertColumn(17, _T("物流"), LVCFMT_LEFT,60);
 
 	m_list_total.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
-	m_list_total.InsertColumn(0, _T("总计："), LVCFMT_LEFT,60);
+	m_list_total.InsertColumn(0, _T("合计"), LVCFMT_LEFT,60);
 	m_list_total.InsertColumn(1, _T(""), LVCFMT_LEFT,100);
 	m_list_total.InsertColumn(2, _T(""), LVCFMT_LEFT,80);
 	m_list_total.InsertColumn(3, _T(""), LVCFMT_LEFT,80);

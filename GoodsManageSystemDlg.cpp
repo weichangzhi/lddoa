@@ -12,6 +12,8 @@
 #include "Dialog_FI_Check.h"
 #include "Dialog_List_Web.h"
 #include "Dialog_Storage_In.h"
+#include "Dialog_Storage_Left.h"
+#include "Dialog_Storage_In_Detail.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -271,6 +273,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[14]=new Dialog_FI_Detail;
 	m_treePages[15]=new Dialog_List_Web;
 	m_treePages[16]=new Dialog_Storage_In;
+	m_treePages[17]=new Dialog_Storage_Left;
+	m_treePages[18]=new Dialog_Storage_In_Detail;
 
 
 	//建立节点对应的Dialog
@@ -291,6 +295,8 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[14]->Create(IDD_DIALOG_FI_DETAIL,this);
 	m_treePages[15]->Create(IDD_DIALOG_LIST_WEB,this);
 	m_treePages[16]->Create(IDD_DIALOG_STORAGE_IN,this);
+	m_treePages[17]->Create(IDD_DIALOG_STORAGE_LEFT,this);
+	m_treePages[18]->Create(IDD_DIALOG_STORAGE_IN_DETAIL,this);
 
 
 	//把Dialog移到合适位置
@@ -307,7 +313,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	rectlist.DeflateRect(0,50,250,20);
 	rectlistoutput.DeflateRect(0,50,250,45);
 	rectlisttotal.DeflateRect(0,m_rect.bottom-22,250,0);
-	rectliststorage.DeflateRect(10,200,250,20);
+	rectliststorage.DeflateRect(0,240,250,45);
 
 	m_treePages[0]->MoveWindow(m_rect);
 	((CDIALOG_CLIENT*)(m_treePages[0]))->m_list_Clinet.MoveWindow(rectlist);
@@ -356,7 +362,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[15]->ShowWindow(SW_HIDE);
 	m_treePages[16]->MoveWindow(m_rect);
 	((Dialog_Storage_In*)(m_treePages[16]))->m_listStorageIn.MoveWindow(rectliststorage);
+	((Dialog_Storage_In*)(m_treePages[16]))->m_listTotal.MoveWindow(rectlisttotal);
 	m_treePages[16]->ShowWindow(SW_HIDE);
+	m_treePages[17]->MoveWindow(m_rect);
+	((Dialog_Storage_Left*)(m_treePages[17]))->m_list_StorageLeft.MoveWindow(rectlistoutput);
+	((Dialog_Storage_Left*)(m_treePages[17]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[17]->ShowWindow(SW_HIDE);
+	m_treePages[18]->MoveWindow(m_rect);
+	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listStorageInDetail.MoveWindow(rectlist);
+	m_treePages[18]->ShowWindow(SW_HIDE);
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点
 	//m_tree.Expand(sub_son0,TVE_EXPAND);
@@ -494,7 +508,7 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	rectlist.DeflateRect(0,50,250,20);
 	rectlistoutput.DeflateRect(0,50,250,45);
 	rectlisttotal.DeflateRect(0,m_rect.bottom-22,250,0);
-	rectliststorage.DeflateRect(10,200,250,20);
+	rectliststorage.DeflateRect(0,240,250,45);
 
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
 	writelog(log);
@@ -544,6 +558,12 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	((Dialog_List_Web*)(m_treePages[15]))->m_listweb.MoveWindow(rectlist);
 	m_treePages[16]->MoveWindow(m_rect);
 	((Dialog_Storage_In*)(m_treePages[16]))->m_listStorageIn.MoveWindow(rectliststorage);
+	((Dialog_Storage_In*)(m_treePages[16]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[17]->MoveWindow(m_rect);
+	((Dialog_Storage_Left*)(m_treePages[17]))->m_list_StorageLeft.MoveWindow(rectlistoutput);
+	((Dialog_Storage_Left*)(m_treePages[17]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[18]->MoveWindow(m_rect);
+	((Dialog_Storage_In_Detail*)(m_treePages[18]))->m_listStorageInDetail.MoveWindow(rectlist);
 
 
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
@@ -735,6 +755,14 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(node_name=="仓库管理" || node_name=="进货单"){
 		m_treePages[16]->ShowWindow(SW_SHOW);
 		icurrentpage = 16;
+	}
+	else if(node_name=="库存余额"){
+		m_treePages[17]->ShowWindow(SW_SHOW);
+		icurrentpage = 17;
+	}
+	else if(node_name=="进货明细"){
+		m_treePages[18]->ShowWindow(SW_SHOW);
+		icurrentpage = 18;
 	}
 	UpdateData(false);
 

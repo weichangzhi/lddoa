@@ -9,13 +9,6 @@
 
 #include <afxtempl.h>
 
-
-typedef struct  
-{
-	COLORREF colText;
-	COLORREF colTextBk;
-}TEXT_BK;
-
 /////////////////////////////////////////////////////////////////////////////
 // CLineColorListCtrl window
 

@@ -72,6 +72,12 @@ typedef struct _ProductInfo //一条记录结构
 	CString strTips;      //备注
 }ProductInfo, *pProductInfo ;
 
+typedef struct  
+{
+	COLORREF colText;
+	COLORREF colTextBk;
+}TEXT_BK;
+
 typedef struct _MysqlConnect
 {
 	char user[32];         //username
