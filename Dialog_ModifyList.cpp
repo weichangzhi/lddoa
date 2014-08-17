@@ -52,10 +52,9 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	m_true_number = 0;
 	m_other = _T("");
 	m_query_listid = _T("");
+	m_urgent = FALSE;
 	m_str_reveive_time = _T("");
 	m_str_end_date = _T("");
-	m_urgent = FALSE;
-
 	m_design_server1 = FALSE;
 	m_has_modeling1 = FALSE;
 	m_modeling1 = FALSE;
@@ -64,6 +63,8 @@ CDialog_ModifyList::CDialog_ModifyList(CWnd* pParent /*=NULL*/)
 	m_scan1 = FALSE;
 	m_urgent1 = FALSE;
 	m_totel_number1 = 0;
+	m_timestart2 = 0;
+	m_timeEnd2 = 0;
 	//}}AFX_DATA_INIT
 	CString m_str_reveive_time1 = _T("");
 	CString m_str_end_date1 = _T("");
@@ -132,6 +133,8 @@ void CDialog_ModifyList::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_RICHEDIT_OTHER, m_other);
 	DDX_Text(pDX, IDC_EDIT_QUERYLISTID, m_query_listid);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
+	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_START2, m_timestart2);
+	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_END2, m_timeEnd2);
 	//}}AFX_DATA_MAP
 }
 
@@ -160,6 +163,8 @@ BOOL CDialog_ModifyList::OnInitDialog()
 	CTime time1 = CTime::GetCurrentTime();
 	m_receivedate = time1;
 	m_enddate = time1;
+	m_timestart2 = time1;
+	m_timeEnd2 = time1;
 	m_people = g_user;
 	m_department = g_department;
 	m_ComDepartment.InsertString(0,"意造销售");
@@ -351,8 +356,12 @@ void CDialog_ModifyList::OnQueryList()
 						||((m_department.Compare("电商")==0) && (g_permission&MONEY_EC))
 						||((m_department.Compare("运营")==0) && (g_permission&MONEY_RUN))
 						||((m_department.Compare("加盟")==0) && (g_permission&MONEY_JOIN)))
+					{
 						m_money = sql_row[28];
-					
+						GetDlgItem(IDC_EDIT_MONDY)->EnableWindow(TRUE);
+					}
+					else
+						GetDlgItem(IDC_EDIT_MONDY)->EnableWindow(FALSE);
 
 					if(m_size.Compare("6cm半身单人")==0)
 						m_ComSize.SetCurSel(0);
@@ -792,7 +801,7 @@ void CDialog_ModifyList::OnModifylist()
 					tmp.Format("误差范围：%s -> %s； ",m_error_range1,m_error_range);
 					strChangeRecord += tmp;
 				}
-				if(m_money.Compare(m_money1)!=0)
+				if(m_money.Compare(m_money1)!=0 && (m_money.Compare("******")!=0))
 				{
 					tmp.Format("签单金额：%s -> %s； ",m_money1,m_money);
 					strChangeRecord += tmp;
@@ -927,25 +936,8 @@ void CDialog_ModifyList::OnModifylist()
 			return;
 		}
 
-		sql.Format("update baseinfo set listname=\"%s\",truelistnumber=%d,material=\"%s\",volume=\"%s\",reveivedate=\"%s\",enddate=\"%s\",people=\"%s\",receivepeople=\"%s\",phone=\"%s\",address=\"%s\",department=\"%s\", modeling=%d, designserver=%d, scan=%d, modlingprint=%d, hasmodeling=%d, nomodeling=%d,  size=\"%s\",totelnumber=%d,color=\"%s\",paint=\"%s\",shine=\"%s\",bottom=\"%s\",bill=\"%s\",usage1=\"%s\",errorrange=\"%s\",money=\"%s\",other=\"%s\" ,urgent=%d where listid=\"%s\" ", \
-		m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date, m_people,m_receivename ,m_phone, m_address,m_department , \
-		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
-		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,m_urgent,m_listid);
-		dlgpro->setpos(900);
-		int ret = mysql_query(&myCont,sql);
-		const char *error = mysql_error(&myCont);
-		if(ret!= 0)
-		{
-			const char *error = mysql_error(&myCont);
-			CString str;
-			str.Format("数据库错误(%s)",error);
-			MessageBox(str,"提示",MB_OK);
-			mysql_close(&myCont);//断开连接
-			dlgpro->endpos();
-			return;
-		}
 		sql.Format("update fiproceeds set moneytotel=\"%s\",peoplebusiness=\"%s\"  where listid=\"%s\" ",m_money,m_people,m_listid);
-		ret = mysql_query(&myCont,sql);
+		int ret = mysql_query(&myCont,sql);
 		if(ret!= 0)
 		{
 			const char *error = mysql_error(&myCont);
@@ -957,6 +949,34 @@ void CDialog_ModifyList::OnModifylist()
 			return;
 		}
 
+		if(m_money.Compare("******")==0)
+		{
+			sql.Format("update baseinfo set listname=\"%s\",truelistnumber=%d,material=\"%s\",volume=\"%s\",reveivedate=\"%s\",enddate=\"%s\",people=\"%s\",receivepeople=\"%s\",phone=\"%s\",address=\"%s\",department=\"%s\", modeling=%d, designserver=%d, scan=%d, modlingprint=%d, hasmodeling=%d, nomodeling=%d,  size=\"%s\",totelnumber=%d,color=\"%s\",paint=\"%s\",shine=\"%s\",bottom=\"%s\",bill=\"%s\",usage1=\"%s\",errorrange=\"%s\",other=\"%s\" ,urgent=%d where listid=\"%s\" ", \
+		m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date, m_people,m_receivename ,m_phone, m_address,m_department , \
+		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
+		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_other,m_urgent,m_listid);
+		}
+		else
+		{
+			sql.Format("update baseinfo set listname=\"%s\",truelistnumber=%d,material=\"%s\",volume=\"%s\",reveivedate=\"%s\",enddate=\"%s\",people=\"%s\",receivepeople=\"%s\",phone=\"%s\",address=\"%s\",department=\"%s\", modeling=%d, designserver=%d, scan=%d, modlingprint=%d, hasmodeling=%d, nomodeling=%d,  size=\"%s\",totelnumber=%d,color=\"%s\",paint=\"%s\",shine=\"%s\",bottom=\"%s\",bill=\"%s\",usage1=\"%s\",errorrange=\"%s\",money=\"%s\",other=\"%s\" ,urgent=%d where listid=\"%s\" ", \
+		m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date, m_people,m_receivename ,m_phone, m_address,m_department , \
+		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
+		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,m_urgent,m_listid);
+		}
+		dlgpro->setpos(900);
+		ret = mysql_query(&myCont,sql);
+		const char *error = mysql_error(&myCont);
+		if(ret!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			dlgpro->endpos();
+			return;
+		}
+		
 		dlgpro->setpos(950);
 		dlgpro->endpos();
 		if(mysql_affected_rows(&myCont)>0)
@@ -985,6 +1005,10 @@ void CDialog_ModifyList::OnModifylist()
 void CDialog_ModifyList::OnStartList() 
 {
 	UpdateData();
+	CString strTimeStart;
+	CString strTimeEnd;
+	strTimeStart.Format("%04d-%02d-%02d",m_timestart2.GetYear(),m_timestart2.GetMonth(),m_timestart2.GetDay());
+	strTimeEnd.Format("%04d-%02d-%02d",m_timeEnd2.GetYear(),m_timeEnd2.GetMonth(),m_timeEnd2.GetDay());
 	if(m_listid.IsEmpty())
 	{
 		MessageBox("无订单号，请重新输入","提示",MB_OK);
@@ -1167,7 +1191,7 @@ void CDialog_ModifyList::OnStartList()
 			return;
 		}
 		dlgpro->setpos(900);
-		sql.Format("update baseinfo set truelistnumber=%d  where listid=\"%s\" " ,m_true_number,m_listid);
+		sql.Format("update baseinfo set truelistnumber=%d,reveivedate=\"%s\",enddate=\"%s\"  where listid=\"%s\" " ,m_true_number,strTimeStart,strTimeEnd,m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			MessageBox("提交数据库失败","提示",MB_OK);

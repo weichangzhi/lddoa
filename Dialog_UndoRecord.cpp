@@ -70,7 +70,7 @@ BOOL Dialog_UndoRecord::OnInitDialog()
 	m_listUndoRecord.InsertColumn(6, _T("产品总数"), LVCFMT_LEFT,80);
 	m_listUndoRecord.InsertColumn(7, _T("材料"), LVCFMT_LEFT,150);
 	m_listUndoRecord.InsertColumn(8, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
-	m_listUndoRecord.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
+	m_listUndoRecord.InsertColumn(9, _T("派单日期"), LVCFMT_LEFT,100);
 	m_listUndoRecord.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
 	m_listUndoRecord.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,100);
 

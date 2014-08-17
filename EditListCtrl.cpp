@@ -2,7 +2,10 @@
 /* EditListCtrl.cpp                            */
 /***********************************************/
 #include "StdAfx.h"
+#include "goodsmanagesystem.h"
 #include "EditListCtrl.h"
+#include "Dialog_Storage_Left2.h"
+#include "Dialog_Storage_Name.h"
 
 
 // 大气象：确定运行时对象
@@ -39,21 +42,19 @@ CListCtrlEdit::~CListCtrlEdit(void)
 
 
 
-// 大气象：确定运行时对象
+// 确定运行时对象
 IMPLEMENT_DYNAMIC(CEditListCtrl,CListCtrl)
 
-// 大气象 2012-11-16 ↓
 BEGIN_MESSAGE_MAP(CEditListCtrl, CListCtrl)
     ON_WM_LBUTTONDBLCLK() // 可以切换到类视图，右击属性生成。
     ON_MESSAGE(WM_USER_EDIT_END,CEditListCtrl::OnEditEnd)
 	ON_MESSAGE(WM_USER_EDIT_DBCLK,CEditListCtrl::OnEditDbClk)
-	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnNMCustomdraw)
+	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, CEditListCtrl::OnNMCustomdraw)
 END_MESSAGE_MAP()
 
 void CEditListCtrl::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-    // 大气象：取得行列信息的固定方法
-    LVHITTESTINFO lvhti;    // 大气象：保存ListCtrl行列信息的结构
+    LVHITTESTINFO lvhti;
     lvhti.pt = point;
     nItem = CListCtrl::SubItemHitTest(&lvhti);
     if (nItem == -1) return;
@@ -81,7 +82,7 @@ void CEditListCtrl::ShowEdit(bool bShow, int nItem, int nSubItem, CRect rcCtrl)
     if (bShow == TRUE)
     {
         CString strItem = CListCtrl::GetItemText(nItem,nSubItem);
-        rcCtrl.top -= 2;    // 大气象：防止上边框被遮挡
+        rcCtrl.top -= 2;
         m_Edit.MoveWindow(&rcCtrl);
         m_Edit.ShowWindow(SW_SHOW);
         m_Edit.SetWindowText(strItem);
@@ -94,20 +95,82 @@ void CEditListCtrl::ShowEdit(bool bShow, int nItem, int nSubItem, CRect rcCtrl)
 LRESULT CEditListCtrl::OnEditEnd(WPARAM wParam,LPARAM lParam)
 {
     CString strText;
+	char log[256] = {0};
+	sprintf(log,"OnEditDbClk \t%s,%d: m_Edit=%p",__FILE__,__LINE__,m_Edit);
+	writelog(log);
     m_Edit.GetWindowText(strText);
+
     CListCtrl::SetItemText(nItem,nSubItem,strText);
+
+	sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,strText=%s",__FILE__,__LINE__,
+				nItem,nSubItem,strText);
+	writelog(log);
+	if(nSubItem==5 || nSubItem==7)
+	{
+		CString strnumber,strprice;
+		strnumber = CListCtrl::GetItemText(nItem,5);
+		strprice  = CListCtrl::GetItemText(nItem,7);
+		if(!strnumber.IsEmpty() && !strprice.IsEmpty())
+		{
+			CString strmoney;
+			strmoney.Format("%0.2f",atoi(strnumber)*atof(strprice));
+			CListCtrl::SetItemText(nItem,8,strmoney);
+		}
+		
+	}
     m_Edit.ShowWindow(SW_HIDE);
+	sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,strText=%s",__FILE__,__LINE__,
+				nItem,nSubItem,strText);
+	writelog(log);
 	
     return 0;
 }
 
 void CEditListCtrl::OnEditDbClk(UINT nFlags, CPoint point)
 {
-    CString strText;
-    m_Edit.GetWindowText(strText);
-	MessageBox("可以添加内容","提示",MB_OK);
     //CListCtrl::SetItemText(nItem,nSubItem,strText);
     //m_Edit.ShowWindow(SW_HIDE);
+	if(nSubItem==3 || nSubItem==4)
+	{
+		Dialog_Storage_Left2 dlg;
+		if(dlg.DoModal()==IDOK)
+		{
+			CListCtrl::SetItemText(nItem,3,dlg.m_scb);
+			CListCtrl::SetItemText(nItem,4,dlg.m_name);
+			CListCtrl::SetItemText(nItem,5,dlg.m_number);
+			CListCtrl::SetItemText(nItem,6,dlg.m_unit);
+			CListCtrl::SetItemText(nItem,7,dlg.m_price);
+			CString strmoney;
+			strmoney.Format("%0.2f",atoi(dlg.m_number) * atof(dlg.m_price));
+			CListCtrl::SetItemText(nItem,8,strmoney);
+			if(nSubItem==3)
+				m_Edit.SetWindowText(dlg.m_scb);
+			if(nSubItem==4)
+				m_Edit.SetWindowText(dlg.m_name);
+		}
+	}
+	if(nSubItem==1 || nSubItem==2)//仓库
+	{
+		Dialog_Storage_Name dlg;
+		if(dlg.DoModal()==IDOK)
+		{
+			char log[256] = {0};
+			sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,id=%s,name=%s",__FILE__,__LINE__,
+				nItem,nSubItem,dlg.storageid,dlg.storagename);
+			writelog(log);
+			CListCtrl::SetItemText(nItem,1,dlg.storageid);
+			CListCtrl::SetItemText(nItem,2,dlg.storagename);
+			sprintf(log,"OnEditDbClk \t%s,%d: m_edit=%p",__FILE__,__LINE__,m_Edit);
+			writelog(log);
+			if(nSubItem==1)
+				m_Edit.SetWindowText(dlg.storageid);
+			if(nSubItem==2)
+				m_Edit.SetWindowText(dlg.storagename);
+			sprintf(log,"OnEditDbClk \t%s,%d: m_edit=%p",__FILE__,__LINE__,m_Edit);
+			writelog(log);
+		}
+	}
+	OnEditEnd(NULL,NULL);
 }
 
 void CEditListCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)  
@@ -182,11 +245,12 @@ void CEditListCtrl::SetAllItemColor(DWORD iItem, COLORREF TextColor, COLORREF Te
 	
 }  
 
-
-// 大气象 2012-11-16 ↑
 CEditListCtrl::CEditListCtrl(void)
 {
 }
 CEditListCtrl::~CEditListCtrl(void)
 {
+	char log[256] = {0};
+	sprintf(log,"CEditListCtrl \t%s,%d:",__FILE__,__LINE__);
+	writelog(log);
 }

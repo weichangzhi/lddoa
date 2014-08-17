@@ -8,6 +8,7 @@
 //
 #include "EditListCtrl.h "
 #include "XPButton.h"
+#include "Dialog_Storage_Print.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_Storage_In dialog
 
@@ -16,16 +17,24 @@ class Dialog_Storage_In : public CDialog
 // Construction
 public:
 	Dialog_Storage_In(CWnd* pParent = NULL);   // standard constructor
+	BOOL GetConfig();
+	BOOL SetConfig();
+	void ResetStorageIn();
+	void SetPreviewDlg(Dialog_Storage_Print *PreviewDlg);
 	int m_row;
 	int m_column;
+	bool m_bModify;
 // Dialog Data
 	//{{AFX_DATA(Dialog_Storage_In)
 	enum { IDD = IDD_DIALOG_STORAGE_IN };
+	CStatic	m_static1;
+	CComboBox	m_comStorage;
+	CComboBox	m_comProvider;
+	CComboBox	m_comOperator;
+	CComboBox	m_comDepartment;
 	CListCtrl	m_listTotal;
 	CXPButton	m_btquery;
 	CXPButton	m_btmodify;
-	CEdit	m_edit2;
-	CRichEditCtrl	m_edit;
 	CXPButton	m_btExcel;
 	CXPButton	m_btSave;
 	CXPButton	m_btQuit;
@@ -35,11 +44,11 @@ public:
 	CTime	m_timeCurrent;
 	CTime	m_timePayment;
 	CString	m_StorageInID;
-	CString	m_Department;
 	CString	m_Digest;
-	CString	m_Operator;
-	CString	m_Provider;
-	CString	m_Storage;
+	CString	m_strDepartment;
+	CString	m_strOperator;
+	CString	m_strProvider;
+	CString	m_strStorage;
 	//}}AFX_DATA
 
 
@@ -63,11 +72,11 @@ protected:
 	afx_msg void OnButtonPrint();
 	afx_msg void OnButtonQuit();
 	afx_msg void OnButtonSave();
-	afx_msg void OnDblclkRicheditDepartment(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditDigest(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditOperator(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditProvider(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditStorage(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnButtonModify();
+	afx_msg void OnColumnclickListTotal(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnButtonQuery();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

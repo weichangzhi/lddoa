@@ -103,6 +103,8 @@ public:
 	CString	m_other;
 	CString	m_query_listid;
 	BOOL	m_urgent;
+	CTime	m_timestart2;
+	CTime	m_timeEnd2;
 	//}}AFX_DATA
 
 

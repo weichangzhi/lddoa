@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MT /W3 /GX /Zi /Od /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FAs /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x804 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,8 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 /nologo /subsystem:windows /machine:I386 /out:"Release/LDD办公系统.exe"
+# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /out:"Release/LDD办公系统.exe" /OPT:REF
+# SUBTRACT LINK32 /pdb:none
 
 !ELSEIF  "$(CFG)" == "GoodsManageSystem - Win32 Debug"
 
@@ -79,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libmysql.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/LDD办公系统.exe" /pdbtype:sept
+# ADD LINK32 libmysql.lib /nologo /subsystem:windows /map /debug /machine:I386 /out:"Debug/LDD办公系统.exe" /pdbtype:sept
 
 !ENDIF 
 
@@ -208,6 +209,10 @@ SOURCE=.\Dialog_Schdeule.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_Storage_ID.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Storage_In.cpp
 # End Source File
 # Begin Source File
@@ -217,6 +222,26 @@ SOURCE=.\Dialog_Storage_In_Detail.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Storage_Left.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Left2.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Name.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Out.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Out_Detail.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Print.cpp
 # End Source File
 # Begin Source File
 
@@ -401,6 +426,10 @@ SOURCE=.\Dialog_Schdeule.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_Storage_ID.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_Storage_In.h
 # End Source File
 # Begin Source File
@@ -410,6 +439,26 @@ SOURCE=.\Dialog_Storage_In_Detail.h
 # Begin Source File
 
 SOURCE=.\Dialog_Storage_Left.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Left2.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Name.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Out.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Out_Detail.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_Storage_Print.h
 # End Source File
 # Begin Source File
 

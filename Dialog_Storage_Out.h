@@ -8,6 +8,7 @@
 //
 #include "EditListCtrl.h "
 #include "XPButton.h"
+#include "Dialog_Storage_Print.h"
 /////////////////////////////////////////////////////////////////////////////
 // Dialog_Storage_Out dialog
 
@@ -18,9 +19,17 @@ public:
 	Dialog_Storage_Out(CWnd* pParent = NULL);   // standard constructor
 	int m_row;
 	int m_column;
+	BOOL GetConfig();
+	BOOL SetConfig();
+	void ResetStorageOut();
+	void SetPreviewDlg(Dialog_Storage_Print *PreviewDlg);
 // Dialog Data
 	//{{AFX_DATA(Dialog_Storage_Out)
 	enum { IDD = IDD_DIALOG_STORAGE_OUT };
+	CComboBox	m_comStorage;
+	CComboBox	m_comProvider;
+	CComboBox	m_comOperator;
+	CComboBox	m_comDepartment;
 	CXPButton	m_btexcel;
 	CXPButton	m_btsave;
 	CXPButton	m_btquit;
@@ -33,11 +42,11 @@ public:
 	CListCtrl	m_listTotal;
 	CEditListCtrl	m_listStorageIn;
 	CString	m_StorageInID;
-	CString	m_Department;
 	CString	m_Digest;
-	CString	m_Operator;
-	CString	m_Provider;
-	CString	m_Storage;
+	CString	m_strDepartment;
+	CString	m_strOperator;
+	CString	m_strProvider;
+	CString	m_strStorage;
 	//}}AFX_DATA
 
 
@@ -61,11 +70,11 @@ protected:
 	afx_msg void OnButtonPrint();
 	afx_msg void OnButtonQuit();
 	afx_msg void OnButtonSave();
-	afx_msg void OnDblclkRicheditDepartment(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditDigest(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditOperator(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditProvider(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDblclkRicheditStorage(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnButtonModify();
+	afx_msg void OnColumnclickListTotal(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnBuyQuery();
+	afx_msg void OnButtonQuery();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

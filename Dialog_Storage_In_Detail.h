@@ -19,12 +19,16 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Dialog_Storage_In_Detail)
 	enum { IDD = IDD_DIALOG_STORAGE_IN_DETAIL };
+	CComboBox	m_comSubWay;
+	CComboBox	m_comWay;
 	CListCtrl	m_listTotal;
 	CLineColorListCtrl	m_listStorageInDetail;
 	CXPButton	m_btok;
 	CXPButton	m_btexcel;
 	CTime	m_timebegin;
 	CTime	m_timeend;
+	CString	m_strWay;
+	CString	m_strSubWay;
 	//}}AFX_DATA
 
 
@@ -45,6 +49,7 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnButtonExcel();
+	afx_msg void OnSelchangeComboWay();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

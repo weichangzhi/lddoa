@@ -63,7 +63,7 @@ BOOL CDialog_Detail::OnInitDialog()
 	m_listdetail.InsertColumn(6, _T("产品总数"), LVCFMT_LEFT,80);
 	m_listdetail.InsertColumn(7, _T("制作材料"), LVCFMT_LEFT,150);
 	m_listdetail.InsertColumn(8, _T("订单体积(cm3)"), LVCFMT_LEFT,120);
-	m_listdetail.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
+	m_listdetail.InsertColumn(9, _T("派单日期"), LVCFMT_LEFT,100);
 	m_listdetail.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
 	m_listdetail.InsertColumn(11, _T("快递单号"), LVCFMT_LEFT,200);
 	m_listdetail.InsertColumn(12, _T("业务部  (下单时间 | 下单数量 | 负责人)"), LVCFMT_LEFT,320);

@@ -86,7 +86,7 @@ BOOL CDialog_Making::OnInitDialog()
 	m_list_schedule.InsertColumn(6, _T("产品总数"), LVCFMT_LEFT,80);
 	m_list_schedule.InsertColumn(7, _T("制作材料"), LVCFMT_LEFT,150);
 	m_list_schedule.InsertColumn(8, _T("产品体积(cm3)"), LVCFMT_LEFT,120);
-	m_list_schedule.InsertColumn(9, _T("收单日期"), LVCFMT_LEFT,100);
+	m_list_schedule.InsertColumn(9, _T("派单日期"), LVCFMT_LEFT,100);
 	m_list_schedule.InsertColumn(10, _T("交货日期"), LVCFMT_LEFT,100);
 	//m_list_schedule.InsertColumn(8, _T("快递单号"), LVCFMT_LEFT,120);
 	m_list_schedule.InsertColumn(11, _T("技术部"), LVCFMT_LEFT,60);
@@ -162,10 +162,15 @@ void CDialog_Making::OnMakingQuery()
 	CString strDepartment;
 	m_ComDepartment.GetWindowText(strDepartment);
 	int indexsel = m_ComDepartment.GetCurSel();
-	if (indexsel==5)
+	/*if (indexsel==5)
 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,starttime,endtime);
 	else
 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
+	*/
+	if (indexsel==5)
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 ");
+	else
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" " ,strDepartment);
 
 	Dialog_progress *dlgpro;
 	dlgpro=new Dialog_progress(); 

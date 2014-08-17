@@ -127,6 +127,7 @@ typedef struct _PermissionLimit
 #define PERMISSION_NUMBER 19
 extern PermissionLimit g_PermissionLimit[PERMISSION_NUMBER];
 #define CONFIGINI "config.ini"
+#define CONFIGINI_STORAGE "config_storage.ini"
 #define DEFAULT_TIME "15:00"
 #define OPEN_PROCESS 0
 

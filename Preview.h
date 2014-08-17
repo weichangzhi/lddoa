@@ -17,7 +17,7 @@ public:
 	CPreview(CWnd* pParent = NULL);   // standard constructor
 	void DrawReport(CRect rect, CDC *pDC, BOOL isprinted);
 
-	int screenx,screeny;	
+	int screenx,screeny;
 
 	CString m_str_reveive_time;
 	CString m_str_end_date;

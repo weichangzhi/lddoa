@@ -21,6 +21,8 @@ Dialog_Storage_Out_Detail::Dialog_Storage_Out_Detail(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(Dialog_Storage_Out_Detail)
 	m_timebegin = 0;
 	m_timeend = 0;
+	m_strWay = _T("");
+	m_strSubWay = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -29,12 +31,16 @@ void Dialog_Storage_Out_Detail::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Dialog_Storage_Out_Detail)
+	DDX_Control(pDX, IDC_COMBO_SUBWAY, m_comSubWay);
+	DDX_Control(pDX, IDC_COMBO_WAY, m_comWay);
 	DDX_Control(pDX, IDC_LIST_TOTAL, m_listTotal);
 	DDX_Control(pDX, IDC_LIST_STORAGE_DETAIL, m_listStorageInDetail);
 	DDX_Control(pDX, IDOK, m_btok);
 	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btexcel);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_BEGIN, m_timebegin);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER_END, m_timeend);
+	DDX_CBString(pDX, IDC_COMBO_WAY, m_strWay);
+	DDX_CBString(pDX, IDC_COMBO_SUBWAY, m_strSubWay);
 	//}}AFX_DATA_MAP
 }
 
@@ -42,6 +48,7 @@ void Dialog_Storage_Out_Detail::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Dialog_Storage_Out_Detail, CDialog)
 	//{{AFX_MSG_MAP(Dialog_Storage_Out_Detail)
 	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnButtonExcel)
+	ON_CBN_SELCHANGE(IDC_COMBO_WAY, OnSelchangeComboWay)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -69,11 +76,36 @@ BOOL Dialog_Storage_Out_Detail::OnInitDialog()
 	m_timebegin = time1;
 	m_timeend = time1;
 
+	m_comWay.InsertString(0,"部门");
+	m_comWay.InsertString(1,"仓库");
+	m_comWay.InsertString(2,"取货人");
+	m_comWay.InsertString(3,"经办人");
+	m_comWay.InsertString(4,"全部");
+	m_comWay.SetCurSel(0);
+	m_strWay = "部门";
+
+	CString strpathini="";
+	::GetCurrentDirectory(_MAX_PATH,strpathini.GetBuffer(_MAX_PATH));
+	strpathini.ReleaseBuffer();
+	strpathini = strpathini + "\\" + CONFIGINI_STORAGE;
+	int nCount = 0, i = 0;
+	CString strTemp,strtemp1;	
+	m_strSubWay = g_department;
+	m_comSubWay.ResetContent();
+	nCount = ::GetPrivateProfileInt("Department","Count",1,strpathini);
+	for(i=0;i<nCount;i++)
+	{
+		strTemp.Format("%d",i+1);
+		strTemp="Department"+strTemp;
+		::GetPrivateProfileString("Department",strTemp,"", strtemp1.GetBuffer(MAX_PATH),MAX_PATH,strpathini);
+		m_comSubWay.InsertString(i,strtemp1);
+	}
+
 	m_listStorageInDetail.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listStorageInDetail.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
 	m_listStorageInDetail.InsertColumn(1, _T("日期"), LVCFMT_LEFT,100);
-	m_listStorageInDetail.InsertColumn(2, _T("单据编号"), LVCFMT_LEFT,150);
-	m_listStorageInDetail.InsertColumn(3, _T("交货日期"), LVCFMT_LEFT,100);
+	m_listStorageInDetail.InsertColumn(2, _T("单据编号"), LVCFMT_LEFT,160);
+	m_listStorageInDetail.InsertColumn(3, _T("取货日期"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(4, _T("单据摘要"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(5, _T("取货人"), LVCFMT_LEFT,100);
 	m_listStorageInDetail.InsertColumn(6, _T("经办人"), LVCFMT_LEFT,100);
@@ -86,7 +118,7 @@ BOOL Dialog_Storage_Out_Detail::OnInitDialog()
 	m_listTotal.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listTotal.InsertColumn(0, _T("合计"), LVCFMT_LEFT,60);
 	m_listTotal.InsertColumn(1, _T(""), LVCFMT_LEFT,100);
-	m_listTotal.InsertColumn(2, _T(""), LVCFMT_LEFT,150);
+	m_listTotal.InsertColumn(2, _T(""), LVCFMT_LEFT,160);
 	m_listTotal.InsertColumn(3, _T(""), LVCFMT_LEFT,100);
 	m_listTotal.InsertColumn(4, _T(""), LVCFMT_LEFT,100);
 	m_listTotal.InsertColumn(5, _T(""), LVCFMT_LEFT,100);
@@ -112,7 +144,28 @@ void Dialog_Storage_Out_Detail::OnOK()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_timeend.GetYear(),m_timeend.GetMonth(),m_timeend.GetDay()+1);
 
-	csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where time_make<=\"%s\" and time_make>=\"%s\" " ,endtime,starttime); 
+	int cursel = m_comWay.GetCurSel();
+	switch (cursel)
+	{
+	case 0://部门
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where department=\"%s\" and time_make<=\"%s\" and time_make>=\"%s\" " ,m_strSubWay,endtime,starttime);
+		break;
+	case 1://仓库
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where storage=\"%s\" and time_make<=\"%s\" and time_make>=\"%s\" " ,m_strSubWay,endtime,starttime);
+		break;
+	case 2://取货人
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where provider=\"%s\" and time_make<=\"%s\" and time_make>=\"%s\" " ,m_strSubWay,endtime,starttime);
+		break;
+	case 3://经办人
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where operator=\"%s\" and time_make<=\"%s\" and time_make>=\"%s\" " ,m_strSubWay,endtime,starttime);
+		break;
+	case 4://全部
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where time_make<=\"%s\" and time_make>=\"%s\" " ,endtime,starttime); 
+		break;
+	default:
+		csSql.Format("select time_make,storage_out_id,time_payment,digest,provider,operator,department,storage  from storage_out_baseinfo where time_make<=\"%s\" and time_make>=\"%s\" " ,endtime,starttime); 
+		break;
+	}
 
 	MYSQL myCont;
     MYSQL_RES *result,*result2;
@@ -179,17 +232,19 @@ void Dialog_Storage_Out_Detail::OnOK()
 								indexitem++;
 								index++;
 							}
-							totalnumber += number;
-							totalmoney  += money;
-							strindex.Format("%d",index+1);
-							m_listStorageInDetail.InsertItem(index,strindex);
-							m_listStorageInDetail.SetItemText(index,2,"小计");
-							CString strtmp;
-							strtmp.Format("%d",number);
-							m_listStorageInDetail.SetItemText(index,10,strtmp);
-							strtmp.Format("%0.2f",money);
-							m_listStorageInDetail.SetItemText(index,11,strtmp);
-
+							if(num>0)
+							{
+								totalnumber += number;
+								totalmoney  += money;
+								strindex.Format("%d",index+1);
+								m_listStorageInDetail.InsertItem(index,strindex);
+								m_listStorageInDetail.SetItemText(index,2,"小计");
+								CString strtmp;
+								strtmp.Format("%d",number);
+								m_listStorageInDetail.SetItemText(index,10,strtmp);
+								strtmp.Format("%0.2f",money);
+								m_listStorageInDetail.SetItemText(index,11,strtmp);
+							}
 						}
 					}
 					else
@@ -257,4 +312,86 @@ void Dialog_Storage_Out_Detail::OnOK()
 void Dialog_Storage_Out_Detail::OnButtonExcel() 
 {
 	CreateExcel("出库明细.xls",&m_listStorageInDetail);
+}
+
+void Dialog_Storage_Out_Detail::OnSelchangeComboWay() 
+{
+	CString strpathini="";
+	::GetCurrentDirectory(_MAX_PATH,strpathini.GetBuffer(_MAX_PATH));
+	strpathini.ReleaseBuffer();
+	strpathini = strpathini + "\\" + CONFIGINI_STORAGE;
+	int nCount = 0, i = 0;
+	CString strTemp,strtemp1;
+
+	int cursel = m_comWay.GetCurSel();
+	switch (cursel)
+	{
+	case 0://部门
+		m_strSubWay = g_department;
+		m_comSubWay.ResetContent();
+		nCount = ::GetPrivateProfileInt("Department","Count",1,strpathini);
+		for(i=0;i<nCount;i++)
+		{
+			strTemp.Format("%d",i+1);
+			strTemp="Department"+strTemp;
+			::GetPrivateProfileString("Department",strTemp,"", strtemp1.GetBuffer(MAX_PATH),MAX_PATH,strpathini);
+			m_comSubWay.InsertString(i,strtemp1);
+		}
+		m_strWay = "部门";
+		break;
+	case 1://仓库
+		m_comSubWay.ResetContent();
+		nCount = ::GetPrivateProfileInt("Storage","Count",1,strpathini);
+		for(i=0;i<nCount;i++)
+		{
+			strTemp.Format("%d",i+1);
+			strTemp="Storage"+strTemp;
+			::GetPrivateProfileString("Storage",strTemp,"", strtemp1.GetBuffer(MAX_PATH),MAX_PATH,strpathini);
+			m_comSubWay.InsertString(i,strtemp1);
+		}
+		m_strWay = "仓库";
+		m_strSubWay = strtemp1;
+		break;
+	case 2://取货人
+		m_comSubWay.ResetContent();
+		nCount = ::GetPrivateProfileInt("receiver","Count",1,strpathini);
+		for(i=0;i<nCount;i++)
+		{
+			strTemp.Format("%d",i+1);
+			strTemp="receiver"+strTemp;
+			::GetPrivateProfileString("receiver",strTemp,"", strtemp1.GetBuffer(MAX_PATH),MAX_PATH,strpathini);
+			m_comSubWay.InsertString(i,strtemp1);
+		}
+		m_strWay = "取货人";
+		m_strSubWay = strtemp1;
+		break;
+	case 3://经办人
+		m_comSubWay.ResetContent();
+		nCount = ::GetPrivateProfileInt("Operator","Count",1,strpathini);
+		for(i=0;i<nCount;i++)
+		{
+			strTemp.Format("%d",i+1);
+			strTemp="Operator"+strTemp;
+			::GetPrivateProfileString("Operator",strTemp,"", strtemp1.GetBuffer(MAX_PATH),MAX_PATH,strpathini);
+			m_comSubWay.InsertString(i,strtemp1);
+		}
+		m_strWay = "经办人";
+		m_strSubWay = strtemp1;
+		break;
+	case 4://全部
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"全部");
+		m_comSubWay.SetCurSel(0);
+		m_strSubWay = "全部";
+		m_strWay = "全部";
+		break;
+	default:
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"全部");
+		m_comSubWay.SetCurSel(0);
+		m_strSubWay = "全部";
+		m_strWay = "全部";
+		break;
+	}
+	UpdateData(FALSE);
 }

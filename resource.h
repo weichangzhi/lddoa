@@ -88,6 +88,10 @@
 #define IDD_DIALOG_STORAGE_IN_DETAIL    235
 #define IDD_DIALOG_STORAGE_OUT          236
 #define IDD_DIALOG_STORAGE_OUT_DETAIL   237
+#define IDD_DIALOG_STORAGE_LEFT2        238
+#define IDD_DIALOG_STORAGE_NAME         239
+#define IDD_DIALOG_STORAGE_ID           240
+#define IDD_DIALOG_STORAGE_PRINT        241
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -162,7 +166,9 @@
 #define IDC_EDIT_PAINT                  1070
 #define IDC_EDIT_BOTTOM                 1071
 #define IDC_EDIT_ACCURACY               1072
+#define IDC_DATETIMEPICKER_START2       1072
 #define IDC_EDIT_ERRORRANGE             1073
+#define IDC_DATETIMEPICKER_END2         1074
 #define IDC_RICHEDIT_OTHER              1075
 #define IDC_BUTTON_START_LIST           1076
 #define IDC_BUTTON_END_LIST             1077
@@ -340,21 +346,19 @@
 #define IDC_BUTTON_NEW                  1266
 #define IDC_BUTTON_QUIT                 1267
 #define IDC_EDIT_STORAGE_IN_ID          1270
-#define IDC_RICHEDIT_PROVIDER           1271
-#define IDC_RICHEDIT_OPERATOR           1272
-#define IDC_RICHEDIT_DEPARTMENT         1273
-#define IDC_RICHEDIT_STORAGE            1274
 #define IDC_BUTTON_SAVE                 1275
 #define IDC_DATETIMEPICKER_PAYMENT      1276
 #define IDC_RICHEDIT_DIGEST             1277
 #define IDC_DATETIMEPICKER_CURRENT      1278
-#define IDC_RICHEDIT_MODIFY             1279
-#define IDC_EDIT_MODIFY2                1280
 #define IDC_BUTTON_MODIFY               1281
 #define IDC_BUTTON_QUERY                1282
 #define IDC_LIST_STORAGE_LEFT           1283
 #define IDC_DATETIMEPICKER_END          1287
 #define IDC_LIST_STORAGE_DETAIL         1288
+#define IDC_COMBO_STORAGE               1292
+#define IDC_COMBO_OPERATOR              1293
+#define IDC_COMBO_PROVIDER              1294
+#define IDC_EDIT_ID                     1298
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -373,9 +377,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        226
+#define _APS_NEXT_RESOURCE_VALUE        241
 #define _APS_NEXT_COMMAND_VALUE         32789
-#define _APS_NEXT_CONTROL_VALUE         1291
+#define _APS_NEXT_CONTROL_VALUE         1301
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

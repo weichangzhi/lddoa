@@ -223,12 +223,12 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_son0=m_tree.InsertItem("权限管理",10,10,root0,TVI_LAST);
 	HTREEITEM sub_son1=m_tree.InsertItem("订单资料",8,8,root0,TVI_LAST);
 	HTREEITEM sub_son2=m_tree.InsertItem("账目流转",18,18,root0,TVI_LAST);
-	HTREEITEM sub_son6=m_tree.InsertItem("在制品进度",19,19,root0,TVI_LAST);
-	HTREEITEM sub_son3=m_tree.InsertItem("订单进度",23,23,root0,TVI_LAST);
+	HTREEITEM sub_son6=m_tree.InsertItem("在制品进度",9,9,root0,TVI_LAST);
+	HTREEITEM sub_son3=m_tree.InsertItem("订单进度",13,13,root0,TVI_LAST);
 	HTREEITEM sub_son4=m_tree.InsertItem("进度明细",21,21,root0,TVI_LAST);
 	HTREEITEM sub_son5=m_tree.InsertItem("产能统计",20,20,root0,TVI_LAST);
 	HTREEITEM sub_son7=m_tree.InsertItem("财务管理",24,24,root0,TVI_LAST);
-	HTREEITEM sub_son8=m_tree.InsertItem("仓库管理",20,20,root0,TVI_LAST);
+	HTREEITEM sub_son8=m_tree.InsertItem("仓库管理",22,22,root0,TVI_LAST);
 	//二层孙子节点
 	HTREEITEM sub_m_son00=m_tree.InsertItem("增加用户",5,5,sub_son0,TVI_LAST);
 	HTREEITEM sub_m_son01=m_tree.InsertItem("修改权限",4,4,sub_son0,TVI_LAST);
@@ -246,16 +246,16 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
 
-	HTREEITEM sub_m_son30=m_tree.InsertItem("收款开票",24,24,sub_son7,TVI_LAST);
-	HTREEITEM sub_m_son31=m_tree.InsertItem("核销",24,24,sub_son7,TVI_LAST);
-	HTREEITEM sub_m_son32=m_tree.InsertItem("查询",24,24,sub_son7,TVI_LAST);
-	HTREEITEM sub_m_son33=m_tree.InsertItem("明细",24,24,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son30=m_tree.InsertItem("收款开票",4,4,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son31=m_tree.InsertItem("核销",11,11,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son32=m_tree.InsertItem("查询",9,9,sub_son7,TVI_LAST);
+	HTREEITEM sub_m_son33=m_tree.InsertItem("明细",21,21,sub_son7,TVI_LAST);
 
-	HTREEITEM sub_m_son40=m_tree.InsertItem("进货单",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son41=m_tree.InsertItem("出库单",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son42=m_tree.InsertItem("进货明细",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son43=m_tree.InsertItem("出库明细",20,20,sub_son8,TVI_LAST);
-	HTREEITEM sub_m_son44=m_tree.InsertItem("库存余额",20,20,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son40=m_tree.InsertItem("进货单",17,17,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son41=m_tree.InsertItem("出库单",16,16,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son42=m_tree.InsertItem("进货明细",13,13,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son43=m_tree.InsertItem("出库明细",21,21,sub_son8,TVI_LAST);
+	HTREEITEM sub_m_son44=m_tree.InsertItem("库存余额",9,9,sub_son8,TVI_LAST);
 
 	m_itemNewList = sub_m_son10;
 	m_treePages[0]=new CDIALOG_CLIENT;
@@ -388,11 +388,12 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[20]->ShowWindow(SW_HIDE);
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点
-	//m_tree.Expand(sub_son0,TVE_EXPAND);
-	m_tree.Expand(sub_son1,TVE_EXPAND);
-	m_tree.Expand(sub_son2,TVE_EXPAND);
-	//m_tree.Expand(sub_son7,TVE_EXPAND);
-	m_tree.Expand(sub_son8,TVE_EXPAND);
+	//m_tree.Expand(sub_son0,TVE_EXPAND);//权限管理
+	m_tree.Expand(sub_son1,TVE_EXPAND);//订单资料
+	//m_tree.Expand(sub_son2,TVE_EXPAND);//账目流转
+	//m_tree.Expand(sub_son7,TVE_EXPAND);//财务管理
+	//m_tree.Expand(sub_son8,TVE_EXPAND);//仓库管理
+	m_tree.SelectItem(sub_son6);
 
 	//logintips
 	CString strpathini="";
