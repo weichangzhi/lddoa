@@ -77,6 +77,9 @@ protected:
 	afx_msg void OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnButtonQuery();
+	afx_msg void OnMenuitemSelectStorage();
+	afx_msg void OnMenuitemSelectItem();
+	afx_msg void OnRclickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

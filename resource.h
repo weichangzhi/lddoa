@@ -18,8 +18,10 @@
 #define IDR_MENU_TIPS                   139
 #define IDI_ICON1                       140
 #define IDR_MENU_POST                   140
+#define IDR_MENU_STORAGE                140
 #define IDI_ICON2                       141
 #define IDI_ICON3                       142
+#define IDR_MENU_POST1                  142
 #define IDD_DIGPREVIEW                  143
 #define IDD_DIALOG_BASEINFO             144
 #define IDD_DIALOG_INPUT_BASEINFO       145
@@ -372,13 +374,15 @@
 #define ID_MENUITEM_POST_PD             32785
 #define ID_MENUITEM_POST_QC             32786
 #define ID_MENUITEM_POST_STORAGE        32787
+#define ID_MENUITEM_SELECT_STORAGE      32789
+#define ID_MENUITEM_SELECT_ITEM         32790
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        241
-#define _APS_NEXT_COMMAND_VALUE         32789
+#define _APS_NEXT_COMMAND_VALUE         32791
 #define _APS_NEXT_CONTROL_VALUE         1301
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -8,31 +8,53 @@
 #include "Dialog_Storage_Name.h"
 
 
-// 大气象：确定运行时对象
+// 确定运行时对象
 IMPLEMENT_DYNAMIC(CListCtrlEdit,CRichEditCtrl)
 
-// 大气象 2012-11-16 ↓
+
 BEGIN_MESSAGE_MAP(CListCtrlEdit, CRichEditCtrl)
-    ON_WM_KILLFOCUS()// 大气象：与对话框中控件消息映射定义不同。
-	ON_WM_LBUTTONDBLCLK()
+	//{{AFX_MSG_MAP(Dialog_Storage_In)
+    ON_WM_KILLFOCUS()// 与对话框中控件消息映射定义不同。
+	//ON_WM_LBUTTONDBLCLK()
+	//ON_WM_LBUTTONUP()
+	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
+
 void CListCtrlEdit::OnKillFocus(CWnd* pNewWnd)
 {
     CRichEditCtrl::OnKillFocus(pNewWnd);
-    // 大气象：向父窗口发消息
+    // 向父窗口发消息
     CWnd* pParent = this->GetParent();
     ::PostMessage(pParent->GetSafeHwnd(),WM_USER_EDIT_END,0,0);
 }
 
+/*
 void CListCtrlEdit::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
     CRichEditCtrl::OnLButtonDblClk(nFlags, point);
-    // 大气象：向父窗口发消息
+    // 向父窗口发消息
     CWnd* pParent = this->GetParent();
+	char log[256] = {0};
+	sprintf(log,"OnLButtonDblClk \t%s,%d: pParent=%p,hwnd=%p",__FILE__,__LINE__,pParent,pParent->GetSafeHwnd());
+	writelog(log);
+
     ::PostMessage(pParent->GetSafeHwnd(),WM_USER_EDIT_DBCLK,0,0);
 }
 
-// 大气象 2012-11-16 ↑
+
+void CListCtrlEdit::OnLButtonUp(UINT nFlags, CPoint point)
+{
+    CRichEditCtrl::OnLButtonUp(nFlags, point);
+    // 向父窗口发消息
+    CWnd* pParent = this->GetParent();
+	char log[256] = {0};
+	sprintf(log,"OnLButtonUp \t%s,%d: pParent=%p,hwnd=%p",__FILE__,__LINE__,pParent,pParent->GetSafeHwnd());
+	writelog(log);
+
+    ::PostMessage(pParent->GetSafeHwnd(),WM_USER_EDIT_DBCLK,0,0);
+}*/
+
+
 CListCtrlEdit::CListCtrlEdit(void)
 {
 }
@@ -48,7 +70,7 @@ IMPLEMENT_DYNAMIC(CEditListCtrl,CListCtrl)
 BEGIN_MESSAGE_MAP(CEditListCtrl, CListCtrl)
     ON_WM_LBUTTONDBLCLK() // 可以切换到类视图，右击属性生成。
     ON_MESSAGE(WM_USER_EDIT_END,CEditListCtrl::OnEditEnd)
-	ON_MESSAGE(WM_USER_EDIT_DBCLK,CEditListCtrl::OnEditDbClk)
+	//ON_MESSAGE(WM_USER_EDIT_DBCLK,CEditListCtrl::OnEditDbClk)
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, CEditListCtrl::OnNMCustomdraw)
 END_MESSAGE_MAP()
 
@@ -94,12 +116,11 @@ void CEditListCtrl::ShowEdit(bool bShow, int nItem, int nSubItem, CRect rcCtrl)
 }
 LRESULT CEditListCtrl::OnEditEnd(WPARAM wParam,LPARAM lParam)
 {
-    CString strText;
-	char log[256] = {0};
-	sprintf(log,"OnEditDbClk \t%s,%d: m_Edit=%p",__FILE__,__LINE__,m_Edit);
-	writelog(log);
+    CString strText;	
     m_Edit.GetWindowText(strText);
-
+	char log[1024] = {0};
+	sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,%s",__FILE__,__LINE__,nItem,nSubItem,strText);
+	writelog(log);
     CListCtrl::SetItemText(nItem,nSubItem,strText);
 
 	sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,strText=%s",__FILE__,__LINE__,
@@ -119,17 +140,16 @@ LRESULT CEditListCtrl::OnEditEnd(WPARAM wParam,LPARAM lParam)
 		
 	}
     m_Edit.ShowWindow(SW_HIDE);
-	sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,strText=%s",__FILE__,__LINE__,
+	sprintf(log,"OnEditDbClk \t%s,%d:  %d-%d,strText=%s",__FILE__,__LINE__,
 				nItem,nSubItem,strText);
 	writelog(log);
 	
     return 0;
 }
 
+/*
 void CEditListCtrl::OnEditDbClk(UINT nFlags, CPoint point)
 {
-    //CListCtrl::SetItemText(nItem,nSubItem,strText);
-    //m_Edit.ShowWindow(SW_HIDE);
 	if(nSubItem==3 || nSubItem==4)
 	{
 		Dialog_Storage_Left2 dlg;
@@ -154,7 +174,7 @@ void CEditListCtrl::OnEditDbClk(UINT nFlags, CPoint point)
 		Dialog_Storage_Name dlg;
 		if(dlg.DoModal()==IDOK)
 		{
-			char log[256] = {0};
+			char log[1024] = {0};
 			sprintf(log,"OnEditDbClk \t%s,%d: %d-%d,id=%s,name=%s",__FILE__,__LINE__,
 				nItem,nSubItem,dlg.storageid,dlg.storagename);
 			writelog(log);
@@ -168,10 +188,11 @@ void CEditListCtrl::OnEditDbClk(UINT nFlags, CPoint point)
 				m_Edit.SetWindowText(dlg.storagename);
 			sprintf(log,"OnEditDbClk \t%s,%d: m_edit=%p",__FILE__,__LINE__,m_Edit);
 			writelog(log);
+		//OnEditEnd(NULL,NULL);
 		}
 	}
-	OnEditEnd(NULL,NULL);
 }
+*/
 
 void CEditListCtrl::OnNMCustomdraw(NMHDR *pNMHDR, LRESULT *pResult)  
 {  

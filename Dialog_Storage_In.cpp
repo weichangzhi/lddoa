@@ -6,6 +6,8 @@
 #include "Dialog_Storage_In.h"
 #include "Dialog_progress.h"
 #include "Dialog_Storage_ID.h"
+#include "Dialog_Storage_Name.h"
+#include "Dialog_Storage_Left2.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -78,6 +80,9 @@ BEGIN_MESSAGE_MAP(Dialog_Storage_In, CDialog)
 	ON_NOTIFY(NM_CLICK, IDC_LIST_STORAGE_IN, OnClickListStorageIn)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON_QUERY, OnButtonQuery)
+	ON_COMMAND(ID_MENUITEM_SELECT_STORAGE, OnMenuitemSelectStorage)
+	ON_COMMAND(ID_MENUITEM_SELECT_ITEM, OnMenuitemSelectItem)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST_STORAGE_IN, OnRclickListStorageIn)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1275,7 +1280,7 @@ void Dialog_Storage_In::OnColumnclickListTotal(NMHDR* pNMHDR, LRESULT* pResult)
 void Dialog_Storage_In::OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	char log[256] = {0};
-	sprintf(log,"OnClickListStorageIn \t%s,%d: ",__FILE__,__LINE__);
+	sprintf(log,"OnClickListStorageIn \t%s,%d,m_listStorageIn=%p",__FILE__,__LINE__,m_listStorageIn);
 	writelog(log);
 	int number = 0;
 	float money = 0;
@@ -1284,6 +1289,8 @@ void Dialog_Storage_In::OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		number += atoi(m_listStorageIn.GetItemText(i,5));
 		money += atof(m_listStorageIn.GetItemText(i,8));
+		sprintf(log,"OnClickListStorageIn \t%s,%d,number=%d,money=%0.2f ",__FILE__,__LINE__,number,money);
+		writelog(log);
 	}
 	strtmp.Format("%d",number);
 	m_listTotal.DeleteColumn(5);
@@ -1292,7 +1299,8 @@ void Dialog_Storage_In::OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult)
 	strtmp.Format("%0.2f",money);
 	m_listTotal.DeleteColumn(8);
 	m_listTotal.InsertColumn(8, strtmp, LVCFMT_LEFT,100);
-
+	sprintf(log,"OnClickListStorageIn \t%s,%d,number=%d,money=%0.2f ",__FILE__,__LINE__,number,money);
+	writelog(log);
 	*pResult = 0;
 }
 
@@ -1448,4 +1456,49 @@ void Dialog_Storage_In::OnButtonQuery()
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接	
+}
+
+void Dialog_Storage_In::OnMenuitemSelectStorage() 
+{
+	int nItem=m_listStorageIn.GetSelectionMark();
+	if(nItem == -1) return;
+
+	Dialog_Storage_Name dlg;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		m_listStorageIn.SetItemText(nItem,1,dlg.storageid);
+		m_listStorageIn.SetItemText(nItem,2,dlg.storagename);
+	}	
+}
+
+void Dialog_Storage_In::OnMenuitemSelectItem() 
+{
+	int nItem = m_listStorageIn.GetSelectionMark();
+	if(nItem == -1) return;
+	Dialog_Storage_Left2 dlg;
+	if(dlg.DoModal()==IDOK)
+	{
+		m_listStorageIn.SetItemText(nItem,3,dlg.m_scb);
+		m_listStorageIn.SetItemText(nItem,4,dlg.m_name);
+		m_listStorageIn.SetItemText(nItem,5,dlg.m_number);
+		m_listStorageIn.SetItemText(nItem,6,dlg.m_unit);
+		m_listStorageIn.SetItemText(nItem,7,dlg.m_price);
+		CString strmoney;
+		strmoney.Format("%0.2f",atoi(dlg.m_number) * atof(dlg.m_price));
+		m_listStorageIn.SetItemText(nItem,8,strmoney);
+	}
+}
+
+void Dialog_Storage_In::OnRclickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	CMenu       menu ,* pSubMenu;//定义下面要用到的cmenu对象	
+	menu.LoadMenu(IDR_MENU_STORAGE);//装载自定义的右键菜单
+	pSubMenu = menu.GetSubMenu(0);//获取第一个弹出菜单，所以第一个菜单必须有子菜单	
+    CPoint oPoint;//定义一个用于确定光标位置的位置	
+    GetCursorPos( &oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标
+	int istat=m_listStorageIn.GetSelectionMark();//用istat存放当前选定的是第几项	
+	if(istat == -1) return;
+	pSubMenu->TrackPopupMenu (TPM_LEFTALIGN, oPoint.x, oPoint.y, this); //在指定位置显示弹出菜单
+	*pResult = 0;
 }

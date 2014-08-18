@@ -79,6 +79,7 @@ BOOL Dialog_Storage_Name::PreTranslateMessage(MSG* pMsg)
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
+
 HBRUSH Dialog_Storage_Name::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor) 
 {
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -89,6 +90,7 @@ HBRUSH Dialog_Storage_Name::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}  
 	return hbr;
 }
+
 
 BOOL Dialog_Storage_Name::OnInitDialog() 
 {

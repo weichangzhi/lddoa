@@ -75,6 +75,9 @@ protected:
 	afx_msg void OnClickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnBuyQuery();
 	afx_msg void OnButtonQuery();
+	afx_msg void OnRclickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnMenuitemSelectItem();
+	afx_msg void OnMenuitemSelectStorage();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

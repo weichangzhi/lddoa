@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=Dialog_Storage_Print
+LastClass=Dialog_Storage_Out
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "goodsmanagesystem.h"
@@ -54,65 +54,66 @@ Class42=CSortHeaderCtrl
 Class43=CSortListCtrl
 Class44=CXPButton
 
-ResourceCount=50
-Resource1=IDR_MENU_TIPS
-Resource2=IDD_DIALOG_POST
-Resource3=IDD_DIALOG_STORAGE_OUT
-Resource4=IDD_DIALOG_UNDO_RECORD
-Resource5=IDD_DIALOG_FI
-Resource6=IDD_DIALOG_MODIFY_PERMISSION
-Resource7=IDD_DIALOG_STORAGE_IN
-Resource8=IDD_DIALOG_LOGIN2
-Resource9=IDD_DIALOG_STORAGE_IN_DETAIL
-Resource10=IDD_DIALOG_MODIFY_LIST1
-Resource11=IDD_DIALOG_STORAGE_OUT_DETAIL
-Resource12=IDD_DIALOG_FI_DETAIL
-Resource13=IDD_DIALOG_MAKEING
-Resource14=IDD_ABOUTBOX
-Resource15=IDD_DIALOG_STORAGE_PRINT
-Resource16=IDD_DIALOG_DETAIL
-Resource17=IDD_DIALOG_LIST_QUERY
-Resource18=IDD_DIALOG_UNPOST
-Resource19=IDD_DIALOG_SCHEDULE
-Resource20=IDD_DIALOG_FI_CHECK
-Resource21=IDD_DIALOG_STORAGE_NAME
-Resource22=IDD_DIALOG_SELL
-Resource23=IDD_DIALOG_MENU_POST
-Resource24=IDD_DIALOG_STORAGE_LEFT
-Resource25=IDD_DIALOG_ADD_USER
-Resource26=IDD_DIALOG_BASEINFO
-Resource27=IDD_DIALOG_STORAGE_LEFT2
-Resource28=IDD_DIALOG_CHAGNE_RECORD
-Resource29=IDD_DIALOG_MODIFY_PASSWD
-Resource30=IDD_DIGPREVIEW
-Resource31=IDD_DIALOG_MENU_POST_TC
-Resource32=IDD_DIALOG_OUTPUT1
-Resource33=IDD_DIALOG_LIST_WEB
-Resource34=IDD_TIPS_SETTING
-Resource35=IDD_DIALOG_TIPS
-Resource36=IDD_DIALOG_FI_PROCEEDS
-Resource37=IDD_DIALOG_LOGIN
-Resource38=IDD_DIALOG_MODIFY_PASSWD_ADMIN
-Resource39=IDD_DIALOG_LIST_UNDO
-Resource40=IDD_DIALOG_NEW_LIST
-Resource41=IDD_DIALOG_CLIENT
-Resource42=IDR_MENUMAIN
+ResourceCount=51
+Resource1=IDD_DIALOG_UNPOST
+Resource2=IDD_DIALOG_MODIFY_PASSWD
+Resource3=IDD_TIPS_SETTING
+Resource4=IDD_DIALOG_MODIFY_PASSWD_ADMIN
+Resource5=IDD_DIALOG_STORAGE_LEFT2
+Resource6=IDR_MENU_STORAGE
+Resource7=IDR_MENUMAIN
+Resource8=IDD_DIALOG_FI_PROCEEDS
+Resource9=IDD_DIALOG_CHAGNE_RECORD
+Resource10=IDD_DIALOG_OUTPUT1
+Resource11=IDD_DIALOG_MENU_POST_TC
+Resource12=IDD_DIALOG_NEW_LIST
+Resource13=IDD_DIALOG_ADD_USER
+Resource14=IDD_DIALOG_MENU_POST
+Resource15=IDD_DIALOG_LIST_QUERY
+Resource16=IDD_GOODSMANAGESYSTEM_DIALOG
+Resource17=IDD_DIALOG_SELL
+Resource18=IDD_DIALOG_FI_QUERY
+Resource19=IDD_DIALOG_MAKEING
+Resource20=IDD_DIALOG_MODIFY_LIST1
+Resource21=IDD_DIALOG_PROGRESS
+Resource22=IDD_DIALOG_TIPS
+Resource23=IDD_DIALOG_LIST_WEB
+Resource24=IDD_DIALOG_FI_DETAIL
+Resource25=IDD_DIALOG_STORAGE_OUT_DETAIL
+Resource26=IDD_DIALOG_LIST_UNDO
+Resource27=IDD_DIGPREVIEW
+Resource28=IDD_DIALOG_INPUT_BASEINFO
+Resource29=IDD_DIALOG_MODIFY_PERMISSION
+Resource30=IDD_DIALOG_STORAGE_OUT
+Resource31=IDD_DIALOG_FI
+Resource32=IDD_DIALOG_DELETE_USER
+Resource33=IDD_DIALOG_STORAGE_ID
+Resource34=IDD_DIALOG_STORAGE_NAME
+Resource35=IDD_ABOUTBOX
+Resource36=IDD_DIALOG_DETAIL
+Resource37=IDD_DIALOG_STORAGE_LEFT
+Resource38=IDR_MENU_TIPS
+Resource39=IDD_DIALOG_SCHEDULE
+Resource40=IDD_DIALOG_STORAGE_IN_DETAIL
+Resource41=IDD_DIALOG_STORAGE_IN
+Resource42=IDD_DIALOG_FI_CHECK
 Class45=Dialog_Storage_Left
-Resource43=IDR_MENU1
+Resource43=IDD_DIALOG_LOGIN
 Class46=Dialog_Storage_In_Detail
-Resource44=IDD_DIALOG_INPUT_BASEINFO
+Resource44=IDD_DIALOG_UNDO_RECORD
 Class47=Dialog_Storage_Out
-Resource45=IDD_GOODSMANAGESYSTEM_DIALOG
+Resource45=IDD_DIALOG_LOGIN2
 Class48=Dialog_Storage_Out_Detail
-Resource46=IDD_DIALOG_STORAGE_ID
+Resource46=IDD_DIALOG_CLIENT
 Class49=Dialog_Storage_Left2
-Resource47=IDD_DIALOG_PROGRESS
+Resource47=IDD_DIALOG_POST
 Class50=Dialog_Storage_Name
-Resource48=IDD_DIALOG_FI_QUERY
+Resource48=IDD_DIALOG_BASEINFO
 Class51=Dialog_Storage_ID
-Resource49=IDD_DIALOG_DELETE_USER
+Resource49=IDR_MENU1
 Class52=Dialog_Storage_Print
-Resource50=IDR_MENU_POST
+Resource50=IDD_DIALOG_STORAGE_PRINT
+Resource51=IDR_MENU_POST1
 
 [CLS:CDialog_AddUser]
 Type=0
@@ -221,18 +222,21 @@ Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_Making.h
 ImplementationFile=Dialog_Making.cpp
+LastObject=CDialog_Making
 
 [CLS:Dialog_Menu_Post]
 Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_Menu_Post.h
 ImplementationFile=Dialog_Menu_Post.cpp
+LastObject=Dialog_Menu_Post
 
 [CLS:Dialog_Menu_Post_TC]
 Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_Menu_Post_TC.h
 ImplementationFile=Dialog_Menu_Post_TC.cpp
+LastObject=Dialog_Menu_Post_TC
 
 [CLS:CDialog_Modify_Permission]
 Type=0
@@ -266,24 +270,28 @@ Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_New_List.h
 ImplementationFile=Dialog_New_List.cpp
+LastObject=IDC_RICHEDIT_OTHER
 
 [CLS:CDialog_Output]
 Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_Output.h
 ImplementationFile=Dialog_Output.cpp
+LastObject=CDialog_Output
 
 [CLS:CDialog_post]
 Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_post.h
 ImplementationFile=Dialog_post.cpp
+LastObject=CDialog_post
 
 [CLS:Dialog_progress]
 Type=0
 BaseClass=CDialog
 HeaderFile=Dialog_progress.h
 ImplementationFile=Dialog_progress.cpp
+LastObject=Dialog_progress
 
 [CLS:CDialog_Query_list]
 Type=0
@@ -304,7 +312,7 @@ HeaderFile=Dialog_Storage_In.h
 ImplementationFile=Dialog_Storage_In.cpp
 Filter=D
 VirtualFilter=dWC
-LastObject=Dialog_Storage_In
+LastObject=IDC_LIST_STORAGE_IN
 
 [CLS:Dialog_Tips]
 Type=0
@@ -1320,15 +1328,6 @@ Class=?
 Command1=ID_MENUITEM_TIPS
 CommandCount=1
 
-[MNU:IDR_MENU_POST]
-Type=1
-Class=?
-Command1=ID_MENUITEM_POST_TC
-Command2=ID_MENUITEM_POST_PD
-Command3=ID_MENUITEM_POST_QC
-Command4=ID_MENUITEM_POST_STORAGE
-CommandCount=4
-
 [CLS:Dialog_Storage_Left]
 Type=0
 HeaderFile=Dialog_Storage_Left.h
@@ -1401,7 +1400,7 @@ ImplementationFile=Dialog_Storage_Out.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=IDC_BUTTON_QUERY
+LastObject=ID_MENUITEM_SELECT_STORAGE
 
 [DLG:IDD_DIALOG_STORAGE_OUT_DETAIL]
 Type=1
@@ -1425,7 +1424,7 @@ HeaderFile=Dialog_Storage_Out_Detail.h
 ImplementationFile=Dialog_Storage_Out_Detail.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=IDC_COMBO_WAY
+LastObject=Dialog_Storage_Out_Detail
 VirtualFilter=dWC
 
 [DLG:IDD_DIALOG_STORAGE_LEFT2]
@@ -1462,7 +1461,7 @@ ImplementationFile=Dialog_Storage_Name.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=IDCANCEL
+LastObject=Dialog_Storage_Name
 
 [DLG:IDD_DIALOG_STORAGE_ID]
 Type=1
@@ -1480,7 +1479,7 @@ ImplementationFile=Dialog_Storage_ID.cpp
 BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
-LastObject=IDOK
+LastObject=Dialog_Storage_ID
 
 [DLG:IDD_DIALOG_STORAGE_PRINT]
 Type=1
@@ -1495,4 +1494,20 @@ BaseClass=CDialog
 Filter=D
 LastObject=Dialog_Storage_Print
 VirtualFilter=dWC
+
+[MNU:IDR_MENU_STORAGE]
+Type=1
+Class=?
+Command1=ID_MENUITEM_SELECT_STORAGE
+Command2=ID_MENUITEM_SELECT_ITEM
+CommandCount=2
+
+[MNU:IDR_MENU_POST1]
+Type=1
+Class=?
+Command1=ID_MENUITEM_POST_TC
+Command2=ID_MENUITEM_POST_PD
+Command3=ID_MENUITEM_POST_QC
+Command4=ID_MENUITEM_POST_STORAGE
+CommandCount=4
 

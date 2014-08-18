@@ -7,6 +7,8 @@
 #include "Dialog_progress.h"
 #include "Dialog_Storage_Left2.h"
 #include "Dialog_Storage_ID.h"
+#include "Dialog_Storage_Name.h"
+#include "Dialog_Storage_Left2.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -77,6 +79,9 @@ BEGIN_MESSAGE_MAP(Dialog_Storage_Out, CDialog)
 	ON_NOTIFY(NM_CLICK, IDC_LIST_STORAGE_IN, OnClickListStorageIn)
 	ON_COMMAND(IDM_BUY_QUERY, OnBuyQuery)
 	ON_BN_CLICKED(IDC_BUTTON_QUERY, OnButtonQuery)
+	ON_NOTIFY(NM_RCLICK, IDC_LIST_STORAGE_IN, OnRclickListStorageIn)
+	ON_COMMAND(ID_MENUITEM_SELECT_ITEM, OnMenuitemSelectItem)
+	ON_COMMAND(ID_MENUITEM_SELECT_STORAGE, OnMenuitemSelectStorage)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1111,4 +1116,49 @@ void Dialog_Storage_Out::OnButtonQuery()
     }
     if(result!=NULL) mysql_free_result(result);//释放结果资源
     mysql_close(&myCont);//断开连接
+}
+
+void Dialog_Storage_Out::OnRclickListStorageIn(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	CMenu       menu ,* pSubMenu;//定义下面要用到的cmenu对象	
+	menu.LoadMenu(IDR_MENU_STORAGE);//装载自定义的右键菜单
+	pSubMenu = menu.GetSubMenu(0);//获取第一个弹出菜单，所以第一个菜单必须有子菜单	
+    CPoint oPoint;//定义一个用于确定光标位置的位置	
+    GetCursorPos( &oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标
+	int istat=m_listStorageIn.GetSelectionMark();//用istat存放当前选定的是第几项	
+	if(istat == -1) return;
+	pSubMenu->TrackPopupMenu (TPM_LEFTALIGN, oPoint.x, oPoint.y, this); //在指定位置显示弹出菜单
+	*pResult = 0;
+}
+
+void Dialog_Storage_Out::OnMenuitemSelectItem() 
+{
+	int nItem = m_listStorageIn.GetSelectionMark();
+	if(nItem == -1) return;
+	Dialog_Storage_Left2 dlg;
+	if(dlg.DoModal()==IDOK)
+	{
+		m_listStorageIn.SetItemText(nItem,3,dlg.m_scb);
+		m_listStorageIn.SetItemText(nItem,4,dlg.m_name);
+		m_listStorageIn.SetItemText(nItem,5,dlg.m_number);
+		m_listStorageIn.SetItemText(nItem,6,dlg.m_unit);
+		m_listStorageIn.SetItemText(nItem,7,dlg.m_price);
+		CString strmoney;
+		strmoney.Format("%0.2f",atoi(dlg.m_number) * atof(dlg.m_price));
+		m_listStorageIn.SetItemText(nItem,8,strmoney);
+	}
+}
+
+void Dialog_Storage_Out::OnMenuitemSelectStorage() 
+{
+	int nItem=m_listStorageIn.GetSelectionMark();
+	if(nItem == -1) return;
+
+	Dialog_Storage_Name dlg;
+	int ret = dlg.DoModal();
+	if (ret==IDOK)
+	{
+		m_listStorageIn.SetItemText(nItem,1,dlg.storageid);
+		m_listStorageIn.SetItemText(nItem,2,dlg.storagename);
+	}
 }
