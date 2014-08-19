@@ -272,6 +272,10 @@ BOOL Dialog_Storage_In::SetConfig()
 BOOL Dialog_Storage_In::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
+	if((g_permission & POST_STORAGE)==0)
+	{
+		GetDlgItem(IDC_BUTTON_SAVE)->EnableWindow(FALSE);
+	}
 	CTime time1 = CTime::GetCurrentTime();
 	m_timeCurrent = time1;
 	m_timePayment = time1;

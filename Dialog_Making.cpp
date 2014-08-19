@@ -334,7 +334,7 @@ void CDialog_Making::OnRclickListSchdeule(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// TODO: Add your control notification handler code here
 	CMenu       menu ,* pSubMenu;//定义下面要用到的cmenu对象	
-	menu.LoadMenu(IDR_MENU_POST);//装载自定义的右键菜单
+	menu.LoadMenu(IDR_MENU_POST1);//装载自定义的右键菜单
 	pSubMenu = menu.GetSubMenu(0);//获取第一个弹出菜单，所以第一个菜单必须有子菜单	
     CPoint oPoint;//定义一个用于确定光标位置的位置	
     GetCursorPos( &oPoint);//获取当前光标的位置，以便使得菜单可以跟随光标

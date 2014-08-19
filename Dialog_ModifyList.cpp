@@ -211,6 +211,11 @@ BOOL CDialog_ModifyList::OnInitDialog()
 	m_ComMaterial.InsertString(9,"ABSËÜÁÏ");
 	m_ComMaterial.InsertString(10,"PLA");
 	m_ComMaterial.InsertString(11,"CNC");
+	m_ComMaterial.InsertString(12,"À¶À¯");
+	m_ComMaterial.InsertString(13,"Í¸Ã÷Ê÷Ö¬");
+	m_ComMaterial.InsertString(14,"°ëÍ¸Ã÷Ê÷Ö¬");
+	m_ComMaterial.InsertString(15,"CNCÂÁºÏ½ð");
+	m_ComMaterial.InsertString(16,"CNC ABS");
 	//m_ComMaterial.SetCurSel(0);
 	m_ComColor.InsertString(0,"°×");
 	m_ComColor.InsertString(1,"È«²Ê");
@@ -422,7 +427,17 @@ void CDialog_ModifyList::OnQueryList()
 						m_ComMaterial.SetCurSel(10);
 					else if(m_material.Compare("CNC")==0)
 						m_ComMaterial.SetCurSel(11);
-					else 
+					else if(m_material.Compare("À¶À¯")==0)
+						m_ComMaterial.SetCurSel(12);
+					else if(m_material.Compare("Í¸Ã÷Ê÷Ö¬")==0)
+						m_ComMaterial.SetCurSel(13);
+					else if(m_material.Compare("°ëÍ¸Ã÷Ê÷Ö¬")==0)
+						m_ComMaterial.SetCurSel(14);
+					else if(m_material.Compare("CNCÂÁºÏ½ð")==0)
+						m_ComMaterial.SetCurSel(15);
+					else if(m_material.Compare("CNC ABS")==0)
+						m_ComMaterial.SetCurSel(16);
+					else
 						m_ComMaterial.SetWindowText(m_material);
 					
 					if(m_color.Compare("°×")==0)
@@ -935,8 +950,15 @@ void CDialog_ModifyList::OnModifylist()
 			dlgpro->endpos();
 			return;
 		}
+		if(m_money.Compare("******")==0)
+		{
+			sql.Format("update fiproceeds set peoplebusiness=\"%s\"  where listid=\"%s\" ",m_people,m_listid);
+		}
+		else
+		{
+			sql.Format("update fiproceeds set moneytotel=\"%s\",peoplebusiness=\"%s\"  where listid=\"%s\" ",m_money,m_people,m_listid);
+		}
 
-		sql.Format("update fiproceeds set moneytotel=\"%s\",peoplebusiness=\"%s\"  where listid=\"%s\" ",m_money,m_people,m_listid);
 		int ret = mysql_query(&myCont,sql);
 		if(ret!= 0)
 		{

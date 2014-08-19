@@ -162,6 +162,11 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_ComMaterial.InsertString(9,"ABSËÜÁÏ");
 	m_ComMaterial.InsertString(10,"PLA");
 	m_ComMaterial.InsertString(11,"CNC");
+	m_ComMaterial.InsertString(12,"À¶À¯");
+	m_ComMaterial.InsertString(13,"Í¸Ã÷Ê÷Ö¬");
+	m_ComMaterial.InsertString(14,"°ëÍ¸Ã÷Ê÷Ö¬");
+	m_ComMaterial.InsertString(15,"CNCÂÁºÏ½ð");
+	m_ComMaterial.InsertString(16,"CNC ABS");
 	m_ComMaterial.SetCurSel(0);
 	m_ComColor.InsertString(0,"°×");
 	m_ComColor.InsertString(1,"È«²Ê");

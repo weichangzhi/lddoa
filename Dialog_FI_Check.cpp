@@ -57,6 +57,7 @@ BOOL Dialog_FI_Check::OnInitDialog()
 	{
 		GetDlgItem(IDOK)->EnableWindow(FALSE);
 		GetDlgItem(IDC_EXCEL)->EnableWindow(FALSE);
+		GetDlgItem(IDC_BUTTON_CHECK)->EnableWindow(FALSE);
 	}
 	m_com_queryway.InsertString(0,"可核销");
 	m_com_queryway.InsertString(1,"已核销");
@@ -136,6 +137,10 @@ void Dialog_FI_Check::OnOK()
 				
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
+					CString strtmp;
+					strtmp = sql_row[3];
+					if(strtmp.IsEmpty())
+						continue;
 					float moneyproceedsleft = 0;
 					float moneybillleft = 0;
 					CString strindex ;
