@@ -198,7 +198,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*95);
 	pDC->DrawText("基本资料",recttmp,DT_CENTER);
 
-	
+	COLORREF clrOld = pDC->SetTextColor(RGB(255,0,0));
+    pDC->SetTextColor(clrOld);
+
 	//line 1
 	font90.CreatePointFont(100,_T("宋体"),pDC);
 	pDC->SelectObject(&font90);
@@ -209,7 +211,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(110*ratex);
 	recttmp.top += (int)(ratey*120);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_listid,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 
 	recttmp = rect;
 	recttmp.left += (int)(190*ratex);
@@ -218,7 +222,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(250*ratex);
 	recttmp.top += (int)(ratey*120);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_listname,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 
 	recttmp = rect;
 	recttmp.left += (int)(330*ratex);
@@ -227,7 +233,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(380*ratex);
 	recttmp.top += (int)(ratey*120);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_people,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 //line 2
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
@@ -236,7 +244,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(110*ratex);
 	recttmp.top += (int)(ratey*140);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_receivename,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 
 	recttmp = rect;
 	recttmp.left += (int)(190*ratex);
@@ -245,7 +255,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(250*ratex);
 	recttmp.top += (int)(ratey*140);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_phone,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 
 	recttmp = rect;
 	recttmp.left += (int)(330*ratex);
@@ -254,7 +266,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(380*ratex);
 	recttmp.top += (int)(ratey*140);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_department,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 //line 3
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
@@ -263,7 +277,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(110*ratex);
 	recttmp.top += (int)(ratey*160);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_str_reveive_time,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 
 	recttmp = rect;
 	recttmp.left += (int)(190*ratex);
@@ -272,7 +288,9 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp = rect;
 	recttmp.left += (int)(250*ratex);
 	recttmp.top += (int)(ratey*160);
+	pDC->SetTextColor(RGB(255,0,0));
 	pDC->DrawText(m_str_end_date,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
 //line 4
 	recttmp = rect;
 	recttmp.left += (int)(55*ratex);
