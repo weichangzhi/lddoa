@@ -112,6 +112,9 @@ BEGIN_MESSAGE_MAP(CDialog_New_List, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_PREVIEW, OnButtonPreview)
 	ON_BN_CLICKED(IDC_BUTTON_PRINT, OnButtonPrint)
 	ON_BN_CLICKED(IDC_BUTTON_EXCEL, OnButtonExcel)
+	ON_WM_HSCROLL()
+	ON_WM_VSCROLL()
+	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -217,6 +220,10 @@ BOOL CDialog_New_List::OnInitDialog()
 		m_ComMaterial.SetCurSel(-1);
 		m_ComSize.SetCurSel(-1);
 	}
+
+	GetWindowRect(m_rect);
+	m_nScrollPos = 0;
+	m_nHScrollPos = 0;
 
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -1099,20 +1106,45 @@ void CDialog_New_List::OnButtonExcel()
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A2"),_variant_t("F2")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
-	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	//ft.SetBold(_variant_t((long)0));//´ÖÌå 
-	ft.SetSize(_variant_t((long)14)); 
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	//ft.SetBold(_variant_t((long)0));//´ÖÌå
+	ft.SetSize(_variant_t((long)14));
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A7"),_variant_t("F7")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
-	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	//ft.SetBold(_variant_t((long)0));//´ÖÌå 
-	ft.SetSize(_variant_t((long)14)); 
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	//ft.SetBold(_variant_t((long)0));//´ÖÌå
+	ft.SetSize(_variant_t((long)14));
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A14"),_variant_t("F14")));
 	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4108));
-	ft.AttachDispatch(m_ExlRge.GetFont()); 
-	//ft.SetBold(_variant_t((long)0));//´ÖÌå 
-	ft.SetSize(_variant_t((long)14)); 
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	//ft.SetBold(_variant_t((long)0));//´ÖÌå
+	ft.SetSize(_variant_t((long)14));
 
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B3"),_variant_t("B12")));
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	ft.SetColor( _variant_t((long) RGB(255,0,0 )) );
+	ft.SetSize(_variant_t((long)12));//×ÖºÅ
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("D3"),_variant_t("D12")));
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	ft.SetColor( _variant_t((long) RGB(255,0,0 )) );
+	ft.SetSize(_variant_t((long)12));//×ÖºÅ
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("F3"),_variant_t("F12")));
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	ft.SetColor( _variant_t((long) RGB(255,0,0 )) );
+	ft.SetSize(_variant_t((long)12));//×ÖºÅ
+
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A8"),_variant_t("F8")));
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	ft.SetColor( _variant_t((long) RGB(32,32,32 )) );
+	ft.SetSize(_variant_t((long)12));//×ÖºÅ
+	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("A6"),_variant_t("F6")));
+	ft.AttachDispatch(m_ExlRge.GetFont());
+	ft.SetColor( _variant_t((long) RGB(32,32,32 )) );
+	ft.SetSize(_variant_t((long)12));//×ÖºÅ
+	
 	//////////////ÉèÖÃµ×É«///////////////// 
 
 //	Interior it; 
@@ -1170,4 +1202,119 @@ void CDialog_New_List::OnButtonExcel()
 
 	//ÍË³ö³ÌÐò
 	m_ExlApp.Quit(); 
+}
+
+void CDialog_New_List::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+{
+	int nDelta;
+	int nMaxPos = m_rect.Width() - m_nCurWidth;
+	switch (nSBCode)
+	{
+	case SB_LINERIGHT:
+		if (m_nHScrollPos >= nMaxPos)
+			return;
+		nDelta =  min(nMaxPos/100,nMaxPos-m_nHScrollPos);
+		break;
+	case SB_LINELEFT:
+		if (m_nHScrollPos <= 0)
+			return;
+		nDelta = -min(nMaxPos/100,m_nHScrollPos);
+		break;
+	case SB_PAGEDOWN:
+		if (m_nHScrollPos >= nMaxPos)
+			return;
+		nDelta =  min(nMaxPos/10,nMaxPos-m_nHScrollPos);
+		break;
+	case SB_THUMBPOSITION:
+		nDelta = (int)nPos - m_nHScrollPos;
+		break;
+	case SB_PAGEUP:
+		if (m_nHScrollPos <= 0)
+			return;
+		nDelta = -min(nMaxPos/10,m_nHScrollPos);
+		break;
+	default:
+		return;
+	}
+	m_nHScrollPos += nDelta;
+	SetScrollPos(SB_HORZ,m_nHScrollPos,TRUE);
+	ScrollWindow(-nDelta,0);
+	CDialog::OnHScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CDialog_New_List::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+{
+	int nDelta;
+	int nMaxPos = m_rect.Height() - m_nCurHeight;
+	switch (nSBCode)
+	{
+	case SB_LINEDOWN:
+		if (m_nScrollPos >= nMaxPos)
+			return;
+		nDelta =  min(nMaxPos/100,nMaxPos-m_nScrollPos);
+		break;
+	case SB_LINEUP:
+		if (m_nScrollPos <= 0)
+			return;
+		nDelta = -min(nMaxPos/100,m_nScrollPos);
+		break;
+	case SB_PAGEDOWN:
+		if (m_nScrollPos >= nMaxPos)
+			return;
+		nDelta =  min(nMaxPos/10,nMaxPos-m_nScrollPos);
+		break;
+	case SB_THUMBPOSITION:
+		nDelta = (int)nPos - m_nScrollPos;
+		break;
+	case SB_PAGEUP:
+		if (m_nScrollPos <= 0)
+			return;
+		nDelta = -min(nMaxPos/10,m_nScrollPos);
+		break;
+	default:
+		return;
+	}
+	m_nScrollPos += nDelta;
+	SetScrollPos(SB_VERT,m_nScrollPos,TRUE);
+	ScrollWindow(0,-nDelta);
+	CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+}
+
+void CDialog_New_List::OnSize(UINT nType, int cx, int cy) 
+{
+	CDialog::OnSize(nType, cx, cy);
+	// TODO: Add your message handler code here. 
+	m_nCurHeight = cy;
+	m_nCurWidth = cx;
+	int nScrollMax;
+	if (cy < m_rect.Height())
+	{
+		nScrollMax = m_rect.Height() - cy;
+	}
+	else
+		nScrollMax = 0; 
+	SCROLLINFO si;
+	si.cbSize = sizeof(SCROLLINFO);
+	si.fMask = SIF_ALL; // SIF_ALL = SIF_PAGE | SIF_RANGE | SIF_POS; 
+	si.nMin = 0;
+	si.nMax = nScrollMax;
+	si.nPage = si.nMax/10;
+	si.nPos = 0;
+	SetScrollInfo(SB_VERT, &si, TRUE);	
+
+	int nHScrollMax;
+	if (cx < m_rect.Width())
+	{
+		nHScrollMax = m_rect.Width() - cx;
+	}
+	else
+		nHScrollMax = 0; 
+	SCROLLINFO si1;
+	si1.cbSize = sizeof(SCROLLINFO);
+	si1.fMask = SIF_ALL; // SIF_ALL = SIF_PAGE | SIF_RANGE | SIF_POS; 
+	si1.nMin = 0;
+	si1.nMax = nHScrollMax;
+	si1.nPage = si1.nMax/10;
+	si1.nPos = 0;
+	SetScrollInfo(SB_HORZ, &si1, TRUE);	
 }

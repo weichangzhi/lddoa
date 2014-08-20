@@ -16,6 +16,12 @@ class CDialog_post : public CDialog
 public:
 	CDialog_post(CWnd* pParent = NULL);   // standard constructor
 	int m_permission;
+
+	int m_nCurHeight;
+	int m_nScrollPos;
+	int m_nCurWidth;
+	int m_nHScrollPos;
+	CRect m_rect;
 // Dialog Data
 	//{{AFX_DATA(CDialog_post)
 	enum { IDD = IDD_DIALOG_POST };
@@ -68,6 +74,9 @@ protected:
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
 	afx_msg void OnSelchangeDepartment();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

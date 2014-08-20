@@ -20,6 +20,12 @@ public:
 	void updatedlg();
 	CString m_str_reveive_time;
 	CString m_str_end_date;
+
+	int m_nCurHeight;
+	int m_nScrollPos;
+	int m_nCurWidth;
+	int m_nHScrollPos;
+	CRect m_rect;
 // Dialog Data
 	//{{AFX_DATA(CDialog_New_List)
 	enum { IDD = IDD_DIALOG_NEW_LIST };
@@ -97,6 +103,9 @@ protected:
 	afx_msg void OnButtonPreview();
 	afx_msg void OnButtonPrint();
 	afx_msg void OnButtonExcel();
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

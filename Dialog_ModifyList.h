@@ -50,6 +50,11 @@ public:
 	CString	m_volume1;
 	CString	m_other1;
 	
+	int m_nCurHeight;
+	int m_nScrollPos;
+	int m_nCurWidth;
+	int m_nHScrollPos;
+	CRect m_rect;
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
@@ -133,6 +138,9 @@ protected:
 	afx_msg void OnButtonPreview();
 	afx_msg void OnButtonPrint();
 	afx_msg void OnButtonExcel();
+	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
