@@ -126,7 +126,8 @@ BOOL Dialog_ListExpress::OnInitDialog()
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void Dialog_ListExpress::OnButtonExcel() 
+/*
+void Dialog_ListExpress::OnButtonExcel1() 
 {
 	UpdateData();
 	CString strlistid;
@@ -195,8 +196,8 @@ void Dialog_ListExpress::OnButtonExcel()
 
 	m_ExlBooks.AttachDispatch(m_ExlApp.GetWorkbooks(),TRUE); 
 
-	//m_ExlBook.AttachDispatch(m_ExlBooks.Add((_variant_t)TempPath),TRUE);//加载EXCEL模板 
-	m_ExlBook.AttachDispatch(m_ExlBooks.Add(covOptional),TRUE);//加载EXCEL模板 
+	m_ExlBook.AttachDispatch(m_ExlBooks.Add((_variant_t)TempPath),TRUE);//加载EXCEL模板 
+	//m_ExlBook.AttachDispatch(m_ExlBooks.Add(covOptional),TRUE);//加载EXCEL模板 
 
 	m_ExlSheets.AttachDispatch(m_ExlBook.GetSheets(),TRUE);//加载Sheet页面 
 
@@ -208,10 +209,10 @@ void Dialog_ListExpress::OnButtonExcel()
 	m_ExlSheet.Delete(); 
 
 	//把第一个Sheet页面的名字改变为TestSheet 
-	m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)1)),TRUE);
-	CString strtmp;
-	strtmp.Format("订单打印");
-	m_ExlSheet.SetName(strtmp); 
+	//m_ExlSheet.AttachDispatch(m_ExlSheets.GetItem(_variant_t((long)1)),TRUE);
+	//CString strtmp;
+	//strtmp.Format("订单打印");
+	//m_ExlSheet.SetName(strtmp); 
 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetCells(),TRUE);//加载所有单元格
 	m_ExlRge.SetNumberFormatLocal(COleVariant("@")); 
@@ -224,6 +225,7 @@ void Dialog_ListExpress::OnButtonExcel()
 	CString strtmp1;
 
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetCells(),TRUE);//加载所有单元格 
+	/*
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(1)),_variant_t("寄件客户编号"));
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(2)),_variant_t("寄件人"));
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(3)),_variant_t("寄件公司"));
@@ -246,6 +248,7 @@ void Dialog_ListExpress::OnButtonExcel()
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(20)),_variant_t("备注2"));
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(21)),_variant_t("备注3"));
 	m_ExlRge.SetItem(_variant_t((long)(1)),_variant_t((long)(22)),_variant_t("其他"));
+	
 	int curline = 1,j=0;
 	for(i=0; i<m_listBaseInfo.GetItemCount(); i++)
 	{
@@ -294,8 +297,14 @@ void Dialog_ListExpress::OnButtonExcel()
 	//设置齐方式为水平垂直居中 
 	//水平对齐：默认＝1,居中＝-4108,左＝-4131,右＝-4152 
 	//垂直对齐：默认＝2,居中＝-4108,左＝-4160,右＝-4107 
-	m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4131));
-	m_ExlRge.SetVerticalAlignment(_variant_t((long)-4108));
+
+
+
+	//m_ExlRge.SetHorizontalAlignment(_variant_t((long)-4131));
+	//m_ExlRge.SetVerticalAlignment(_variant_t((long)-4108));
+
+
+
 
 	///////设置整体的字体、字号及颜色////// 
 
@@ -356,7 +365,7 @@ void Dialog_ListExpress::OnButtonExcel()
 
 
 	//////////////为表格设置边框///////////// 
-
+/*
 	Range UnitRge; 
 	CString CellName; 
 	for(i=1;i<=selcount+1;i++) 
@@ -371,16 +380,20 @@ void Dialog_ListExpress::OnButtonExcel()
 			UnitRge.BorderAround(_variant_t((long)1),_variant_t((long)2),_variant_t((long)-4105),vtMissing);//设置边框
 		}
 	} 
+	*/
+
 //	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("B13")));
 //	m_ExlRge.SetRowHeight(COleVariant((short)120));
 	
 	//Range cols;
 	//cols=m_ExlRge.GetEntireColumn();//选择A:A列，设置宽度为自动适应
 	//cols.AutoFit();
-	m_ExlApp.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
-	m_ExlApp.SetUserControl(TRUE);
 
-	m_ExlBook.SaveAs(COleVariant(TempPath),covOptional,
+
+//	m_ExlApp.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
+//	m_ExlApp.SetUserControl(TRUE);
+
+/*	m_ExlBook.SaveAs(COleVariant(TempPath),covOptional,
 	covOptional,covOptional,
 	covOptional,covOptional,(long)0,covOptional,covOptional,covOptional,
 	covOptional,covOptional);
@@ -398,6 +411,156 @@ void Dialog_ListExpress::OnButtonExcel()
 	m_ExlApp.Quit(); 
 	
 }
+*/
+
+void Dialog_ListExpress::OnButtonExcel() 
+{
+	UpdateData();
+	CString strlistid;
+	int selcount = 0;
+	int i=0;
+	for(i=0; i<m_listBaseInfo.GetItemCount(); i++)
+	{
+	   //if( m_listFI.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED || m_listFI.GetCheck(i))
+		if(m_listBaseInfo.GetCheck(i))
+		{
+			CString strtmp = m_listBaseInfo.GetItemText(i,1);
+			strtmp+=",";
+			strlistid+=strtmp;
+			selcount++;
+		}
+	}
+	if(selcount==0)
+	{
+		MessageBox("请选择订单后在导出","提示",MB_OK);
+		return;
+	}
+	
+	CString filename ;
+	filename.Format("订单打印.xls");
+
+	///////////////////下面得到应用程序所在的路径/////////////////// 
+	CString theAppPath,theAppName; 
+	char Path[MAX_PATH]; 
+
+	GetModuleFileName(NULL,Path,MAX_PATH);//得到应用程序的全路径 
+	theAppPath=(CString)Path; 
+
+	theAppName=AfxGetApp()->m_pszAppName; 
+	theAppName+=".exe"; 
+
+	//把最后的文件名去掉
+	int length1,length2; 
+
+	length1=theAppPath.GetLength(); 
+	length2=theAppName.GetLength(); 
+
+	theAppPath.Delete(length1-length2,length2); 
+	CString TempPath=""; 
+	TempPath=theAppPath+filename;//EXCEL模板的路径 
+
+
+	_Application app;
+	Workbooks books;
+	_Workbook book;
+	Worksheets sheets;
+	_Worksheet sheet;
+	LPDISPATCH lpDisp;//接口指针
+	COleVariant covOptional((long)DISP_E_PARAMNOTFOUND, VT_ERROR);
+	if( !app.CreateDispatch("Excel.Application") )
+	{
+		this->MessageBox("无法创建Excel应用！");
+		return;
+	}
+
+	books.AttachDispatch(app.GetWorkbooks(),TRUE);
+	book.AttachDispatch(books.Add(_variant_t(TempPath)));
+	LPDISPATCH pWorksheets = app.GetWorksheets();
+	ASSERT(pWorksheets != NULL);
+	sheets.AttachDispatch(pWorksheets, TRUE);
+	//获得当前操作的sheet
+	LPDISPATCH pWorksheet = sheets.GetItem(_variant_t("Sheet1"));
+	ASSERT(pWorksheet != NULL);
+	sheet.AttachDispatch(pWorksheet, TRUE);
+	Range range,oCurCell,UnitRge;
+	range.AttachDispatch(sheet.GetCells(), TRUE);
+	range.SetNumberFormatLocal(COleVariant("@")); 
+
+	
+
+	sheets.AttachDispatch( book.GetActiveSheet(), TRUE );
+	// 获得使用的区域Range( 区域 )
+	range.AttachDispatch( sheet.GetUsedRange(), TRUE );
+	long lgUsedRowNum = 0;
+	range.AttachDispatch( range.GetRows(), TRUE );
+	lgUsedRowNum = range.GetCount();
+	// 获得使用的列数
+	long lgUsedColumnNum = 0;
+	range.AttachDispatch( range.GetColumns(), TRUE );
+	lgUsedColumnNum = range.GetCount();	
+	//得到全部Cells，此时,CurrRange是cells的集合
+	range.AttachDispatch( sheet.GetCells(), TRUE );		
+/*	// 遍历整个Excel表格
+	for ( i = 2; i <= lgUsedRowNum; i++)
+	{
+		for ( int j = 1; j <= lgUsedColumnNum; j++ )
+		{
+			range.SetItem(_variant_t((long)(i)),_variant_t((long)(j)),_variant_t(""));			
+		}
+	}
+	*/
+
+	CString CellName;
+	CellName.Format("V%d",lgUsedRowNum);//单元格的名称
+	UnitRge.AttachDispatch(sheet.GetRange(_variant_t("A2"),_variant_t(CellName)));//加载单元格
+	long   xlUp   =   -4162;   
+	UnitRge.Delete(COleVariant(xlUp));   
+
+
+	int curline = 1,j=0;
+	for(i=0; i<m_listBaseInfo.GetItemCount(); i++)
+	{
+		//if( m_listFI.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED || m_listFI.GetCheck(i))
+		if(m_listBaseInfo.GetCheck(i))
+		{
+			curline++;
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(1)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(2)),_variant_t(m_listBaseInfo.GetItemText(i,3)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(3)),_variant_t("武汉落地创意文化传播有限公司"));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(4)),_variant_t(m_listBaseInfo.GetItemText(i,5)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(5)),_variant_t(m_listBaseInfo.GetItemText(i,6)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(6)),_variant_t(m_listBaseInfo.GetItemText(i,7)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(7)),_variant_t(m_listBaseInfo.GetItemText(i,8)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(8)),_variant_t(m_listBaseInfo.GetItemText(i,9)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(9)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(10)),_variant_t(m_listBaseInfo.GetItemText(i,11)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(11)),_variant_t(m_listBaseInfo.GetItemText(i,12)));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(12)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(13)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(14)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(15)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(16)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(17)),_variant_t("N-否"));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(18)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(19)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(20)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(21)),_variant_t(""));
+			range.SetItem(_variant_t((long)(curline)),_variant_t((long)(22)),_variant_t(""));
+		}
+	}
+	app.SetVisible(TRUE);//显示Excel表格，并设置状态为用户可控制
+	app.SetUserControl(TRUE);
+	book.SaveCopyAs(_variant_t(TempPath));
+	range.ReleaseDispatch(); 
+	sheet.ReleaseDispatch(); 
+	sheets.ReleaseDispatch(); 
+	book.ReleaseDispatch(); 
+	books.ReleaseDispatch(); 
+	//m_ExlApp一定要释放，否则程序结束后还会有一个Excel进程驻留在内存中，而且程序重复运行的时候会出错 
+	app.ReleaseDispatch(); 
+
+	app.Quit();	
+}
 
 void Dialog_ListExpress::OnButtonPrint() 
 {
@@ -410,8 +573,18 @@ void Dialog_ListExpress::OnButtonAdd()
 	UpdateData();
 	m_bSelectAll=0;
 	UpdateData(FALSE);
+
+	CString starttime;
+	starttime.Format("%04d-%02d-%02d",m_timeBegin.GetYear(),m_timeBegin.GetMonth(),m_timeBegin.GetDay());
+	CString endtime;
+	endtime.Format("%04d-%02d-%02d",m_timeEnd.GetYear(),m_timeEnd.GetMonth(),m_timeEnd.GetDay()+1);
 	CString csSql;
-	csSql.Format("select baseinfo.listid,baseinfo.listname,people,truelistnumber,receivepeople,baseinfo.phone,address  from baseinfo where  listid=\"%s\" " ,m_strListNo);
+	if(!m_strListNo.IsEmpty())
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,truelistnumber,receivepeople,baseinfo.phone,address  from baseinfo where  listid=\"%s\" " ,m_strListNo);
+	else
+	{
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,truelistnumber,receivepeople,baseinfo.phone,address  from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime);
+	}
 	int count = m_listBaseInfo.GetItemCount();
 	CString strSenderUser;
 
@@ -455,6 +628,7 @@ void Dialog_ListExpress::OnButtonAdd()
 					if(index%2==0)
 						m_listBaseInfo.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));
 					index++;
+					count++;
                 }
 				m_btSelectAll.ShowWindow(TRUE);
             }
@@ -551,7 +725,9 @@ void Dialog_ListExpress::OnButtonDelete()
 	CString strlistid;
 	int selcount = 0;
 	int i=0;
-	for(i=0; i<m_listBaseInfo.GetItemCount(); i++)
+	int count = 0;
+	count = m_listBaseInfo.GetItemCount();
+	for(i=0; i<count; i++)
 	{
 		if(m_listBaseInfo.GetCheck(i))
 		{
@@ -560,6 +736,8 @@ void Dialog_ListExpress::OnButtonDelete()
 			strlistid+=strtmp;
 			selcount++;
 			m_listBaseInfo.DeleteItem(i);
+			count = m_listBaseInfo.GetItemCount();
+			i = -1;
 		}
 	}
 	if(selcount==0)

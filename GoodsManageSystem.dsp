@@ -141,11 +141,23 @@ SOURCE=.\Dialog_InputBaseinfo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Shipping.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_List_Undo.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\Dialog_List_Web.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_ListExpress.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_ListShippingPrint.cpp
 # End Source File
 # Begin Source File
 
@@ -206,6 +218,14 @@ SOURCE=.\Dialog_Query_list.cpp
 # Begin Source File
 
 SOURCE=.\Dialog_Schdeule.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_SendUser.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_SendUserAdd.cpp
 # End Source File
 # Begin Source File
 
@@ -358,11 +378,23 @@ SOURCE=.\Dialog_InputBaseinfo.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Dialog_List_Shipping.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Dialog_List_Undo.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\Dialog_List_Web.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_ListExpress.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_ListShippingPrint.h
 # End Source File
 # Begin Source File
 
@@ -423,6 +455,14 @@ SOURCE=.\Dialog_Query_list.h
 # Begin Source File
 
 SOURCE=.\Dialog_Schdeule.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_SendUser.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Dialog_SendUserAdd.h
 # End Source File
 # Begin Source File
 
