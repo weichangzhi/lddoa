@@ -31,7 +31,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CGoodsManageSystemDlg dialog
 
-#define MAX_TREE_PAGE 21
+#define MAX_TREE_PAGE 24
 class CGoodsManageSystemDlg : public CDialog
 {
 // Construction

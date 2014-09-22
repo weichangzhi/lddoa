@@ -48,6 +48,7 @@ public:
 	CString	m_size;	
 	CString	m_usage;
 	CString	m_volume;
+	CString m_score;
 	CString	m_other;
 
 	CString	m_totel_number;

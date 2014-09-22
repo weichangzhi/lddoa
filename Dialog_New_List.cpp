@@ -50,9 +50,11 @@ CDialog_New_List::CDialog_New_List(CWnd* pParent /*=NULL*/)
 	m_volume = _T("");
 	m_true_number = 0;
 	m_other = _T("");
+	m_urgent = FALSE;
+	m_strClass = _T("");
 	m_str_reveive_time = _T("");
 	m_str_end_date = _T("");
-	m_urgent = FALSE;
+	m_strDepTC = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -61,6 +63,8 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_New_List)
+	DDX_Control(pDX, IDC_COMBO_DEP_TC, m_ComDepTC);
+	DDX_Control(pDX, IDC_COMBO_LIST_CLASS, m_ComClass);
 	DDX_Control(pDX, IDC_DATETIMEPICKER_ENDDATE, m_ctrlEndDate);
 	DDX_Control(pDX, IDC_DATETIMEPICKER_RECEIVEDATE, m_ctrlReveiveDate);
 	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btexcel);
@@ -99,6 +103,8 @@ void CDialog_New_List::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_VOLUEME, m_volume);
 	DDX_Text(pDX, IDC_RICHEDIT_OTHER, m_other);
 	DDX_Check(pDX, IDC_CHECK_URGENT, m_urgent);
+	DDX_CBString(pDX, IDC_COMBO_LIST_CLASS, m_strClass);
+	DDX_CBString(pDX, IDC_COMBO_DEP_TC, m_strDepTC);
 	//}}AFX_DATA_MAP
 }
 
@@ -189,6 +195,14 @@ BOOL CDialog_New_List::OnInitDialog()
 	m_ComBill.InsertString(0,"否");
 	m_ComBill.InsertString(1,"是");
 	m_ComBill.SetCurSel(0);
+	m_ComClass.InsertString(0,"打印类订单");
+	m_ComClass.InsertString(1,"设计类订单");
+	m_ComClass.SetCurSel(0);
+	m_strClass = "打印类订单";
+	m_ComDepTC.InsertString(0,"技术部意造");
+	m_ComDepTC.InsertString(1,"技术部记梦馆");
+	m_ComDepTC.SetCurSel(0);
+	m_strDepTC = "技术部意造";
 
 	if(m_department.Compare("意造销售")==0)
 	{
@@ -316,6 +330,7 @@ void CDialog_New_List::OnSubmitlist()
 	m_ComPaint1.GetWindowText(m_print);
 	m_ComShine.GetWindowText(m_shine);
 	m_ComSize.GetWindowText(m_size);
+
 	CDialog_Login2 login2;
 	if(m_urgent)
 		login2.m_urgent = 1;
@@ -411,12 +426,12 @@ void CDialog_New_List::OnSubmitlist()
 			return;
 		}
 
-		sql.Format("insert into baseinfo(listid,listname,truelistnumber,material,volume,reveivedate,enddate,sendid,people,receivepeople,phone,address,department,modeling,designserver,scan,modlingprint,hasmodeling,nomodeling,size,totelnumber,color,paint,shine,bottom,bill,usage1,errorrange,money,other,savelisttime,savelistpeople,urgent)  \
+		sql.Format("insert into baseinfo(listid,listname,truelistnumber,material,volume,reveivedate,enddate,sendid,people,receivepeople,phone,address,department,modeling,designserver,scan,modlingprint,hasmodeling,nomodeling,size,totelnumber,color,paint,shine,bottom,bill,usage1,errorrange,money,other,savelisttime,savelistpeople,urgent,listclass)  \
 			   values (\"%s\",\"%s\",%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\", \
-		%d, %d, %d, %d, %d, %d,  \"%s\",%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d)", \
+		%d, %d, %d, %d, %d, %d,  \"%s\",%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,\"%s\")", \
 		m_listid,m_listname,m_true_number, m_material, m_volume, m_str_reveive_time,m_str_end_date,"", m_people,m_receivename ,m_phone, m_address,m_department , \
 		m_modeling,m_design_server, m_scan, m_modeling_pring,m_has_modeling,m_no_modeling,m_size ,m_totel_number, \
-		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,starttime,login2.m_user,m_urgent);
+		m_color,m_print,m_shine,m_bottom, m_bill, m_usage ,m_error_range ,m_money,m_other,starttime,login2.m_user,m_urgent,m_strClass);
 		dlgpro->setpos(900);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
@@ -429,7 +444,7 @@ void CDialog_New_List::OnSubmitlist()
 			return;
 		}
 		dlgpro->setpos(950);
-		sql.Format("insert into fiproceeds(listid,moneytotel,peoplebusiness,moneyproceeds,moneybill) values (\"%s\",\"%s\",\"%s\",0,0)",m_listid,m_money,m_people);
+		sql.Format("insert into fiproceeds(listid,listname,moneytotel,peoplebusiness,moneyproceeds,moneybill) values (\"%s\",\"%s\",\"%s\",\"%s\",0,0)",m_listid,m_listname,m_money,m_people);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			const char *error = mysql_error(&myCont);
@@ -649,7 +664,7 @@ void CDialog_New_List::OnStartList()
 			return;
 		}
 		dlgpro->setpos(950);
-		sql.Format("update baseinfo set truelistnumber=%d  where listid=\"%s\" " ,m_true_number,m_listid);
+		sql.Format("update baseinfo set truelistnumber=%d,tc=\"%s\"  where listid=\"%s\" " ,m_true_number,m_strDepTC,m_listid);
 		if(mysql_query(&myCont,sql)!= 0)
 		{
 			const char *error = mysql_error(&myCont);
@@ -818,6 +833,7 @@ void CDialog_New_List::SetPreviewDlg(CPreview *PreviewDlg)
 	PreviewDlg->m_size = m_size;
 	PreviewDlg->m_usage = m_usage;
 	PreviewDlg->m_volume = m_volume;
+	PreviewDlg->m_score = "";
 	PreviewDlg->m_other = m_other;
 
 	strtmp.Format("%d",m_totel_number);
@@ -964,8 +980,8 @@ void CDialog_New_List::OnButtonExcel()
     m_ExlRge.Merge(_variant_t((long)0));
 	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("B13"),_variant_t("F13")),TRUE); 
     m_ExlRge.Merge(_variant_t((long)0));
-	m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("D12"),_variant_t("F12")),TRUE); 
-    m_ExlRge.Merge(_variant_t((long)0));
+	//m_ExlRge.AttachDispatch(m_ExlSheet.GetRange(_variant_t("D12"),_variant_t("F12")),TRUE); 
+    //m_ExlRge.Merge(_variant_t((long)0));
 
 
 	////////设置表格内容//////// 
@@ -1043,6 +1059,8 @@ void CDialog_New_List::OnButtonExcel()
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(2)),_variant_t(m_print));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(3)),_variant_t("用途"));
 	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(4)),_variant_t(m_usage));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(5)),_variant_t("积分"));
+	m_ExlRge.SetItem(_variant_t((long)(12)),_variant_t((long)(6)),_variant_t(""));
 	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(1)),_variant_t("其他要求"));
 	m_ExlRge.SetItem(_variant_t((long)(13)),_variant_t((long)(2)),_variant_t(m_other));
 

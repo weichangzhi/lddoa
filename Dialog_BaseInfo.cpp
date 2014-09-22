@@ -26,6 +26,7 @@ CDialog_BaseInfo::CDialog_BaseInfo(CWnd* pParent /*=NULL*/)
 	m_time_bgein = 0;
 	m_time_end = 0;
 	m_strSubWay = _T("");
+	m_strStore = _T("");
 	//}}AFX_DATA_INIT
 }
 
@@ -34,6 +35,7 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDialog_BaseInfo)
+	DDX_Control(pDX, IDC_COMBO_STORE, m_comStore);
 	DDX_Control(pDX, IDC_BUTTON_SELL_SELECT, m_btnquery);
 	DDX_Control(pDX, IDC_BUTTON_EXCEL, m_btnexcel);
 	DDX_Control(pDX, IDC_COMBO_SUBWAY, m_comSubWay);
@@ -42,6 +44,7 @@ void CDialog_BaseInfo::DoDataExchange(CDataExchange* pDX)
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER1, m_time_bgein);
 	DDX_DateTimeCtrl(pDX, IDC_DATETIMEPICKER2, m_time_end);
 	DDX_CBString(pDX, IDC_COMBO_SUBWAY, m_strSubWay);
+	DDX_CBString(pDX, IDC_COMBO_STORE, m_strStore);
 	//}}AFX_DATA_MAP
 }
 
@@ -72,45 +75,92 @@ void CDialog_BaseInfo::OnButtonSellSelect()
 	CString endtime;
 	endtime.Format("%04d-%02d-%02d",m_time_end.GetYear(),m_time_end.GetMonth(),m_time_end.GetDay()+1);
 
+	int selstore = m_comStore.GetCurSel();
 	int cursel = m_com_baseinfo.GetCurSel();
-	switch (cursel)
+	if(selstore==0)
 	{
-	case 0://订单号
-		if(m_strSubWay.IsEmpty())
+		switch (cursel)
+		{
+		case 0://订单号
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+			else
+				csSql.Format("select * from baseinfo where  listid=\"%s\" and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,starttime,endtime); 
+			break;
+		case 1://尺寸
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+			else
+				csSql = "select * from baseinfo where  size LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";	
+			break;
+		case 2://收件人
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+			else
+				csSql = "select * from baseinfo where  receivepeople LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+			break;
+		case 3://经办人
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+			else
+				csSql = "select * from baseinfo where  people LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+			break;
+		case 4://部门
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
+			else
+				csSql = "select * from baseinfo where  department = '" + m_strSubWay + "'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+			break;
+		case 5://所有
 			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		else
-			csSql.Format("select * from baseinfo where  listid=\"%s\" and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,starttime,endtime); 
-		break;
-	case 1://尺寸
-		if(m_strSubWay.IsEmpty())
-			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		else
-			csSql = "select * from baseinfo where  size LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
-		break;
-	case 2://收件人
-		if(m_strSubWay.IsEmpty())
-			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		else
-			csSql = "select * from baseinfo where  receivepeople LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
-		break;
-	case 3://经办人
-		if(m_strSubWay.IsEmpty())
-			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		else
-			csSql = "select * from baseinfo where  people LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
-		break;
-	case 4://部门
-		if(m_strSubWay.IsEmpty())
-			csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		else
-			csSql = "select * from baseinfo where  department = '" + m_strSubWay + "'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
-		break;
-	case 5://所有
-		csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
-		break;
-	default:
-		break;
+			break;
+		default:
+			break;
+		}
 	}
+	else
+	{
+		switch (cursel)
+		{
+		case 0://订单号
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime); 
+			else
+				csSql.Format("select * from baseinfo where  listid=\"%s\" and receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,m_strStore,starttime,endtime);
+			break;
+		case 1://尺寸
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime); 
+			else
+				csSql.Format("select * from baseinfo where size LIKE \'%s\' and  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,m_strStore,starttime,endtime); 
+		break;
+		case 2://收件人
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where receivepeople LIKE \'%s\' and  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime); 
+			else
+				csSql.Format("select * from baseinfo where receivepeople LIKE \'%s\' or  receivepeople LIKE \'%s\' and  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,m_strStore,starttime,endtime); 
+				//csSql = "select * from baseinfo where  receivepeople LIKE '" + m_strSubWay + "%'  and savelisttime>= '" + starttime + "' and savelisttime<= '" +endtime + "'";
+			break;
+		case 3://经办人
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where receivepeople LIKE \'%s\' and  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime); 
+			else
+				csSql.Format("select * from baseinfo where people LIKE \'%s\' and receivepeople LIKE \'%s\' and  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,m_strStore,starttime,endtime); 
+			break;
+		case 4://部门
+			if(m_strSubWay.IsEmpty())
+				csSql.Format("select * from baseinfo where  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime);
+			else
+				csSql.Format("select * from baseinfo where  department=\"%s\" and  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strSubWay,m_strStore,starttime,endtime);
+			break;
+		case 5://所有
+			csSql.Format("select * from baseinfo where  receivepeople LIKE \'%s\' and savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,m_strStore,starttime,endtime); 
+			break;
+		default:
+			break;
+		}
+	}
+	
 	//csSql.Format("select * from baseinfo where  savelisttime>=\"%s\"and savelisttime<=\"%s\" " ,starttime,endtime); 
     MYSQL myCont;
     MYSQL_RES *result;
@@ -214,6 +264,23 @@ BOOL CDialog_BaseInfo::OnInitDialog()
 
 	m_comSubWay.InsertString(0,"所有");
 	m_comSubWay.SetCurSel(0);
+	m_comStore.InsertString(0,"所有");
+	m_comStore.InsertString(1,"北京朝日三维");
+	m_comStore.InsertString(2,"北京海淀店");
+	m_comStore.InsertString(3,"北京三里屯店");
+	m_comStore.InsertString(4,"长沙店");
+	m_comStore.InsertString(5,"公司样品");
+	m_comStore.InsertString(6,"海口店");
+	m_comStore.InsertString(7,"汉口店");
+	m_comStore.InsertString(8,"乐山店");
+	m_comStore.InsertString(9,"上海店");
+	m_comStore.InsertString(10,"绍兴店");
+	m_comStore.InsertString(11,"太原店");
+	m_comStore.InsertString(12,"天津店");
+	m_comStore.InsertString(13,"乌鲁木齐店");
+	m_comStore.InsertString(14,"郑州店");
+	m_comStore.SetCurSel(0);
+	m_strStore = "所有";
 	
 	m_list_baseinfo.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES | WS_HSCROLL | WS_VSCROLL);
 	m_list_baseinfo.InsertColumn(0, _T("序号"), LVCFMT_LEFT,60);
@@ -245,7 +312,6 @@ BOOL CDialog_BaseInfo::OnInitDialog()
 	m_list_baseinfo.InsertColumn(26, _T("误差范围"), LVCFMT_LEFT,90);
 	m_list_baseinfo.InsertColumn(27, _T("体积"), LVCFMT_LEFT,90);
 	m_list_baseinfo.InsertColumn(28, _T("其他要求"), LVCFMT_LEFT,90);
-
 
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -310,7 +376,22 @@ void CDialog_BaseInfo::OnSelchangeComboBaseinfo()
 		break;
 	case 2://收件人
 		m_comSubWay.ResetContent();
-		m_comSubWay.InsertString(0,g_user);
+		m_comSubWay.ResetContent();
+		m_comSubWay.InsertString(0,"所有");
+		m_comSubWay.InsertString(1,"北京朝日三维");
+		m_comSubWay.InsertString(2,"北京海淀店");
+		m_comSubWay.InsertString(3,"北京三里屯店");
+		m_comSubWay.InsertString(4,"长沙店");
+		m_comSubWay.InsertString(5,"公司样品");
+		m_comSubWay.InsertString(6,"海口店");
+		m_comSubWay.InsertString(7,"汉口店");
+		m_comSubWay.InsertString(8,"乐山店");
+		m_comSubWay.InsertString(9,"上海店");
+		m_comSubWay.InsertString(10,"绍兴店");
+		m_comSubWay.InsertString(11,"太原店");
+		m_comSubWay.InsertString(12,"天津店");
+		m_comSubWay.InsertString(13,"乌鲁木齐店");
+		m_comSubWay.InsertString(14,"郑州店");
 		m_comSubWay.SetCurSel(0);
 		break;
 	case 3://经办人
@@ -347,6 +428,7 @@ void CDialog_BaseInfo::OnSelchangeComboBaseinfo()
 	default:
 		break;
 	}
+	m_strStore = "所有";
 }
 
 void CDialog_BaseInfo::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 

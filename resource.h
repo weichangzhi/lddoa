@@ -94,6 +94,13 @@
 #define IDD_DIALOG_STORAGE_NAME         239
 #define IDD_DIALOG_STORAGE_ID           240
 #define IDD_DIALOG_STORAGE_PRINT        241
+#define IDR_MENU_FI                     241
+#define IDD_DIALOG_LIST_SHIPPING        242
+#define IDD_DIALOG_LIST_SHIPPING_PRINT  243
+#define IDD_DIALOG_SEND_USER            244
+#define IDD_DIALOG_SEND_USER_ADD        245
+#define IDR_MENU_SEND_USER              246
+#define IDD_DIALOG_LIST_EXPRESS         246
 #define IDC_TAB1                        1000
 #define IDC_COMBO_CLIENT                1001
 #define IDC_EDIT_CLIENT                 1002
@@ -361,6 +368,18 @@
 #define IDC_COMBO_OPERATOR              1293
 #define IDC_COMBO_PROVIDER              1294
 #define IDC_EDIT_ID                     1298
+#define IDC_EDIT_LISTNAME               1302
+#define IDC_COMBO_PROCEEDS_WAY          1303
+#define IDC_COMBO_BILL_WAY              1304
+#define IDC_BUTTON_INPUT                1305
+#define IDC_BUTTON_OUTPUT               1306
+#define IDC_COMBO_LIST_CLASS            1307
+#define IDC_COMBO_DEP_TC                1309
+#define IDC_COMBO_STORE                 1310
+#define IDC_CHECK_SELECTALL             1311
+#define IDC_EDIT_USERNAME               1312
+#define IDC_STATIC_PHONE                1313
+#define IDC_BUTTON_DELETE               1314
 #define ID_MENUITEM_INPUTSELL           32147
 #define IDM_CLIENT_ADD                  32776
 #define IDM_CLIENT_QUERY                32777
@@ -376,14 +395,17 @@
 #define ID_MENUITEM_POST_STORAGE        32787
 #define ID_MENUITEM_SELECT_STORAGE      32789
 #define ID_MENUITEM_SELECT_ITEM         32790
+#define IDM_MODIFY                      32791
+#define IDM_DELETE                      32792
+#define IDM_DEL                         32793
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        241
-#define _APS_NEXT_COMMAND_VALUE         32791
-#define _APS_NEXT_CONTROL_VALUE         1301
+#define _APS_NEXT_RESOURCE_VALUE        247
+#define _APS_NEXT_COMMAND_VALUE         32794
+#define _APS_NEXT_CONTROL_VALUE         1315
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -158,6 +158,7 @@ void Dialog_Menu_Post_TC::OnOK()
 
 	
 	int totelnumber,businessnumber,tcnumber,pdnumber,qcnumber,storagenumber,sendnumber,post,end,hasstoragenumber,undolist;
+	CString strClass;
 	MYSQL myCont;
 	MYSQL_RES *result;
 	MYSQL_ROW sql_row;
@@ -217,8 +218,44 @@ void Dialog_Menu_Post_TC::OnOK()
 			mysql_close(&myCont);//断开连接
 			return;
 		}
-
 		
+		sql.Format("select listclass from baseinfo where listid=\"%s\" ",m_list);
+		if(mysql_query(&myCont,sql)!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+		result=mysql_store_result(&myCont);//保存查询到的数据到result
+		if(result)
+		{
+			int j;
+			j=mysql_num_fields(result);//查看多少列
+			unsigned __int64 num = mysql_num_rows(result);//行数
+			int index = 0;
+			sql_row=mysql_fetch_row(result);//获取具体的数据
+			if(sql_row==NULL)
+			{
+				MessageBox("无此订单号（可能还没下单）","提示",MB_OK);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				return;
+			}
+			strClass		= (sql_row[0]);
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+
 		CTime time = CTime::GetCurrentTime();
 		CString currenttime;
 		//currenttime.Format("%04d-%02d-%02d-%02d:%02d",time.GetYear(),time.GetMonth(),time.GetDay(),time.GetHour(),time.GetMinute());
@@ -273,17 +310,32 @@ void Dialog_Menu_Post_TC::OnOK()
 					mysql_close(&myCont);//断开连接
 				return;
 			}
-			sql.Format("update schedule set tcnumber=%d,pdnumber=%d  where listid=\"%s\" ",tcnumber-postnumber,pdnumber+postnumber,m_list);
-			if(mysql_query(&myCont,sql)!= 0)
+			if(strClass.Compare("设计类订单")==0)
 			{
-				const char *error = mysql_error(&myCont);
-				CString str;
-				str.Format("数据库错误(%s)",error);
-				MessageBox(str,"提示",MB_OK);
-				mysql_close(&myCont);//断开连接
-				return;
+				sql.Format("update schedule set tcnumber=%d,pdnumber=%d  where listid=\"%s\" ",tcnumber-postnumber,pdnumber+postnumber,m_list);
+				if(mysql_query(&myCont,sql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
 			}
-
+			else
+			{
+				sql.Format("update schedule set tcnumber=%d,pdnumber=%d  where listid=\"%s\" ",tcnumber-postnumber,pdnumber+postnumber,m_list);
+				if(mysql_query(&myCont,sql)!= 0)
+				{
+					const char *error = mysql_error(&myCont);
+					CString str;
+					str.Format("数据库错误(%s)",error);
+					MessageBox(str,"提示",MB_OK);
+					mysql_close(&myCont);//断开连接
+					return;
+				}
+			}
 			sql.Format("update scheduledetail set tcendtime=\"%s\",tcnumber=%d,tcpeople=\"%s\",pdstarttme=\"%s\" where listid=\"%s\" ",currenttime,postnumber,login2.m_user,currenttime,m_list);
 			if(mysql_query(&myCont,sql)!= 0)
 			{
@@ -304,7 +356,7 @@ void Dialog_Menu_Post_TC::OnOK()
 				MessageBox(str,"提示",MB_OK);
 				mysql_close(&myCont);//断开连接
 				return;
-			}
+			}			
 			break;
 		default:
 			break;

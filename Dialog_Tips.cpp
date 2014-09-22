@@ -87,11 +87,11 @@ void Dialog_Tips::querysql()
 	CString strDepartment = g_department;
 	if ((strDepartment.Compare("技术部意造")==0) || (strDepartment.Compare("技术部记梦馆")==0))
 	{
-		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.tcnumber from baseinfo,schedule  where schedule.tcnumber>0 and baseinfo.listid=schedule.listid");
+		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.tcnumber from baseinfo,schedule  where schedule.undolist=0 and schedule.tcnumber>0 and baseinfo.listid=schedule.listid");
 	}
 	else if(strDepartment.Compare("生产部")==0)
 	{
-		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.pdnumber from baseinfo,schedule  where schedule.pdnumber>0 and baseinfo.listid=schedule.listid");
+		csSql.Format("select baseinfo.listid,baseinfo.listname,baseinfo.material,baseinfo.enddate,baseinfo.urgent,schedule.pdnumber from baseinfo,schedule  where schedule.undolist=0 and schedule.pdnumber>0 and baseinfo.listid=schedule.listid");
 	}
 
 	MYSQL myCont;

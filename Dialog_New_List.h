@@ -29,6 +29,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_New_List)
 	enum { IDD = IDD_DIALOG_NEW_LIST };
+	CComboBox	m_ComDepTC;
+	CComboBox	m_ComClass;
 	CDateTimeCtrl	m_ctrlEndDate;
 	CDateTimeCtrl	m_ctrlReveiveDate;
 	CXPButton	m_btexcel;
@@ -77,6 +79,8 @@ public:
 	int		m_true_number;
 	CString	m_other;
 	BOOL	m_urgent;
+	CString	m_strClass;
+	CString	m_strDepTC;
 	//}}AFX_DATA
 
 

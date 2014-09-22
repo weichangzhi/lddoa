@@ -49,6 +49,8 @@ public:
 	CString	m_usage1;
 	CString	m_volume1;
 	CString	m_other1;
+	CString m_score1;
+	CString m_strClass1;
 	
 	int m_nCurHeight;
 	int m_nScrollPos;
@@ -58,6 +60,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_ModifyList)
 	enum { IDD = IDD_DIALOG_MODIFY_LIST1 };
+	CComboBox	m_ComDepTc;
+	CComboBox	m_ComClass;
 	CXPButton	m_btexcel;
 	CXPButton	m_btprint;
 	CXPButton	m_btpreview;
@@ -110,6 +114,9 @@ public:
 	BOOL	m_urgent;
 	CTime	m_timestart2;
 	CTime	m_timeEnd2;
+	CString	m_score;
+	CString	m_strClass;
+	CString	m_strDepTC;
 	//}}AFX_DATA
 
 

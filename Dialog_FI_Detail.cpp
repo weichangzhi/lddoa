@@ -71,19 +71,20 @@ BOOL Dialog_FI_Detail::OnInitDialog()
 	m_listFI.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES);
 	m_listFI.InsertColumn(0, _T("序号"), LVCFMT_LEFT,50);
 	m_listFI.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(2, _T("签单金额（元）"), LVCFMT_LEFT,130);
-	m_listFI.InsertColumn(3, _T("业务经办人"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(4, _T("收款方式"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(5, _T("收款金额（元）"), LVCFMT_LEFT,130);
-	m_listFI.InsertColumn(6, _T("收款人"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(7, _T("收款日期"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(8, _T("收款备注"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(9, _T("发票类型"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(10, _T("开票金额（元）"), LVCFMT_LEFT,130);
-	m_listFI.InsertColumn(11, _T("开票人"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(3, _T("签单金额（元）"), LVCFMT_LEFT,130);
+	m_listFI.InsertColumn(4, _T("业务经办人"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(5, _T("收款方式"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(6, _T("收款金额（元）"), LVCFMT_LEFT,130);
+	m_listFI.InsertColumn(7, _T("收款人"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(8, _T("收款日期"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(9, _T("收款备注"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(10, _T("发票类型"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(11, _T("开票金额（元）"), LVCFMT_LEFT,130);
 	m_listFI.InsertColumn(12, _T("发票号码"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(13, _T("开票日期"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(14, _T("开票备注"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(13, _T("开票人"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(14, _T("开票日期"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(15, _T("开票备注"), LVCFMT_LEFT,100);
 
 	UpdateData(FALSE);	
 	
@@ -130,7 +131,7 @@ void Dialog_FI_Detail::OnOK()
 					strindex.Format("%d",index+1);
 					m_listFI.InsertItem(index,strindex);
 					int i=0;
-					for(i=1;i<=14;i++)
+					for(i=1;i<=15;i++)
 					{
 						m_listFI.SetItemText(index,i,sql_row[i]);
 					}

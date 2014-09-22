@@ -15,10 +15,14 @@ class Dialog_FI_Proceeds : public CDialog
 // Construction
 public:
 	Dialog_FI_Proceeds(CWnd* pParent = NULL);   // standard constructor
-
+	void OnProceedsInput();
 // Dialog Data
 	//{{AFX_DATA(Dialog_FI_Proceeds)
 	enum { IDD = IDD_DIALOG_FI_PROCEEDS };
+	CXPButton	m_output;
+	CXPButton	m_input;
+	CComboBox	m_comProceedsWay;
+	CComboBox	m_comBillWay;
 	CXPButton	m_btcancel;
 	CXPButton	m_btok;
 	CXPButton	m_btquery;
@@ -37,6 +41,7 @@ public:
 	CTime	m_timeBill;
 	CString	m_comment_Bill;
 	CString	m_people_bill;
+	CString	m_listName;
 	//}}AFX_DATA
 
 
@@ -57,6 +62,8 @@ protected:
 	afx_msg void OnProceeds();
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
+	afx_msg void OnButtonInput();
+	afx_msg void OnButtonOutput();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

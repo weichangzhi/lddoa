@@ -66,12 +66,13 @@ BOOL Dialog_FI_Check::OnInitDialog()
 	m_listFI.SetExtendedStyle(LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_CHECKBOXES );
 	m_listFI.InsertColumn(0, _T("序号"), LVCFMT_LEFT,50);
 	m_listFI.InsertColumn(1, _T("订单号"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(2, _T("收款方式"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(3, _T("发票类型"), LVCFMT_LEFT,100);
-	m_listFI.InsertColumn(4, _T("签单金额（元）"), LVCFMT_LEFT,140);
-	m_listFI.InsertColumn(5, _T("已收款金额（元）"), LVCFMT_LEFT,140);
-	m_listFI.InsertColumn(6, _T("已开票金额（元）"), LVCFMT_LEFT,140);
-	m_listFI.InsertColumn(7, _T("核销状态"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(2, _T("订单名称"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(3, _T("收款方式"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(4, _T("发票类型"), LVCFMT_LEFT,100);
+	m_listFI.InsertColumn(5, _T("签单金额（元）"), LVCFMT_LEFT,140);
+	m_listFI.InsertColumn(6, _T("已收款金额（元）"), LVCFMT_LEFT,140);
+	m_listFI.InsertColumn(7, _T("已开票金额（元）"), LVCFMT_LEFT,140);
+	m_listFI.InsertColumn(8, _T("核销状态"), LVCFMT_LEFT,100);
 	DWORD style = m_listFI.GetExtendedStyle();
 
 	UpdateData(FALSE);	
@@ -94,13 +95,13 @@ void Dialog_FI_Check::OnOK()
 	switch(indexsel)
 	{
 	case 0://可核销
-		csSql.Format("select listid,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d and moneyproceeds>=moneytotel and moneybill>=moneytotel ",0);
+		csSql.Format("select listid,listname,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d and moneyproceeds>=moneytotel and moneybill>=moneytotel ",0);
 		break;
 	case 1://已核销
-		csSql.Format("select listid,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d",1);
+		csSql.Format("select listid,listname,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d",1);
 		break;
 	default:
-		csSql.Format("select listid,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d and moneyproceeds>=moneytotel and moneybill>=moneytotel ",0);
+		csSql.Format("select listid,listname,proceedsway,billway,moneytotel,moneyproceeds,moneybill  from fiproceeds where ficheck=%d and moneyproceeds>=moneytotel and moneybill>=moneytotel ",0);
 		break;
 	}
 
@@ -138,7 +139,7 @@ void Dialog_FI_Check::OnOK()
                 while(sql_row=mysql_fetch_row(result))//获取具体的数据
                 {
 					CString strtmp;
-					strtmp = sql_row[3];
+					strtmp = sql_row[4];
 					if(strtmp.IsEmpty())
 						continue;
 					float moneyproceedsleft = 0;
@@ -147,15 +148,15 @@ void Dialog_FI_Check::OnOK()
 					strindex.Format("%d",index+1);
 					m_listFI.InsertItem(index,strindex);
 					int i=0;
-					for(i=1;i<=6;i++)
+					for(i=1;i<=7;i++)
 					{
 						m_listFI.SetItemText(index,i,sql_row[i-1]);
 					}
 					int indexsel = m_com_queryway.GetCurSel();
 					if(indexsel==0)
-						m_listFI.SetItemText(index,7,"待核销");
+						m_listFI.SetItemText(index,8,"待核销");
 					else
-						m_listFI.SetItemText(index,7,"已核销");
+						m_listFI.SetItemText(index,8,"已核销");
 					if(index%2==0)
 						m_listFI.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));//灰色
 					index++;

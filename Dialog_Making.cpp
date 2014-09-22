@@ -103,7 +103,10 @@ BOOL CDialog_Making::OnInitDialog()
 	m_ComDepartment.InsertString(2,"运营");
 	m_ComDepartment.InsertString(3,"加盟");
 	m_ComDepartment.InsertString(4,"研发");
-	m_ComDepartment.InsertString(5,"全部");
+	m_ComDepartment.InsertString(5,"技术部意造");
+	m_ComDepartment.InsertString(6,"技术部记梦馆");
+	m_ComDepartment.InsertString(7,"全部");
+
 	if(m_department.Compare("意造销售")==0)
 		m_ComDepartment.SetCurSel(0);
 	else if(m_department.Compare("电商")==0)
@@ -114,8 +117,12 @@ BOOL CDialog_Making::OnInitDialog()
 		m_ComDepartment.SetCurSel(3);
 	else if(m_department.Compare("研发")==0)
 		m_ComDepartment.SetCurSel(4);
-	else
+	else if(m_department.Compare("技术部意造")==0)
 		m_ComDepartment.SetCurSel(5);
+	else if(m_department.Compare("技术部记梦馆")==0)
+		m_ComDepartment.SetCurSel(6);
+	else
+		m_ComDepartment.SetCurSel(7);
 
     LOGFONT logfont;
     memset( &logfont,0,sizeof( logfont ) );
@@ -167,10 +174,32 @@ void CDialog_Making::OnMakingQuery()
 	else
 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" and  businessendtime>=\"%s\" and businessendtime<=\"%s\"  " ,strDepartment,starttime,endtime);
 	*/
-	if (indexsel==5)
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 ");
-	else
-		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" " ,strDepartment);
+	switch(indexsel)
+	{
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" " ,strDepartment);
+		break;
+	case 5:
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.tc=\"%s\" " ,"技术部意造");
+		break;
+	case 6:
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.tc=\"%s\" " ,"技术部记梦馆");
+		break;
+	case 7:
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 ");
+		break;
+	default :
+		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 ");
+		break;
+	}
+// 	if (indexsel==5)
+// 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0  and undolist=0 ");
+// 	else
+// 		csSql.Format("select baseinfo.listid,baseinfo.listname,people,desinger,department,truelistnumber,material,volume,reveivedate,enddate,schedule.tcnumber,schedule.pdnumber,schedule.qcnumber,schedule.storagenumber,schedule.hasstoragenumber,baseinfo.urgent,listclass from baseinfo,schedule,scheduledetail where baseinfo.listid=schedule.listid and schedule.listid=scheduledetail.listid and end=0 and undolist=0 and baseinfo.department=\"%s\" " ,strDepartment);
 
 	Dialog_progress *dlgpro;
 	dlgpro=new Dialog_progress(); 
@@ -239,6 +268,12 @@ void CDialog_Making::OnMakingQuery()
                 {
 					if((atoi(sql_row[14]) >= atoi(sql_row[5])) && (atoi(sql_row[5])!=0))//成品仓已过账的数目达到总数，就不显示
 						continue;
+					int tcnumber = atoi(sql_row[10]);
+					
+					CString strClass;
+					strClass = sql_row[16];
+					if(strClass.Compare("设计类订单")==0 && tcnumber<=0)
+						continue;
 					CString strindex ;
 					strindex.Format("%d",index+1);
 					m_list_schedule.InsertItem(index,strindex);
@@ -254,7 +289,6 @@ void CDialog_Making::OnMakingQuery()
 						else
 							m_list_schedule.SetItemText(index,i,sql_row[i-1]);
 					}
-					int tcnumber = atoi(sql_row[10]);
 					int pdnumber = atoi(sql_row[11]);
 					if(index%2==0)
 						m_list_schedule.SetItemColor(index,RGB(0,0,0),RGB(230,230,230));//灰色
@@ -400,6 +434,48 @@ void CDialog_Making::updatelist(int cursel)
 			mysql_close(&myCont);//断开连接
 			return;
         }
+
+		csSql.Format("select listclass from baseinfo where listid=\"%s\" ",listid);
+		if(mysql_query(&myCont,csSql)!= 0)
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+		result=mysql_store_result(&myCont);//保存查询到的数据到result
+		if(result)
+		{
+			int j;
+			j=mysql_num_fields(result);//查看多少列
+			unsigned __int64 num = mysql_num_rows(result);//行数
+			int index = 0;
+			sql_row=mysql_fetch_row(result);//获取具体的数据
+			if(sql_row==NULL)
+			{
+				MessageBox("无此订单号（可能还没下单）","提示",MB_OK);
+				if(result!=NULL) mysql_free_result(result);//释放结果资源
+				mysql_close(&myCont);//断开连接
+				return;
+			}
+			CString strClass		= (sql_row[0]);
+			if(strClass.Compare("设计类订单")==0)
+			{
+				m_list_schedule.DeleteItem(cursel);
+			}
+		}
+		else
+		{
+			const char *error = mysql_error(&myCont);
+			CString str;
+			str.Format("数据库错误(%s)",error);
+			MessageBox(str,"提示",MB_OK);
+			mysql_close(&myCont);//断开连接
+			return;
+		}
+
     }
     else
     {
@@ -429,6 +505,7 @@ void CDialog_Making::OnMenuitemPostTC()
 	int ret = dlg.DoModal();
 	if (ret==IDOK)
 	{
+		
 		updatelist(istat);
 		return;
 		CString strleftnumber ;

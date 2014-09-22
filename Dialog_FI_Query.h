@@ -17,7 +17,6 @@ class Dialog_FI_Query : public CDialog
 // Construction
 public:
 	Dialog_FI_Query(CWnd* pParent = NULL);   // standard constructor
-
 // Dialog Data
 	//{{AFX_DATA(Dialog_FI_Query)
 	enum { IDD = IDD_DIALOG_FI_QUERY };
@@ -26,6 +25,8 @@ public:
 	CLineColorListCtrl	m_listFI;
 	CComboBox	m_comQueryWay;
 	CXPButton	m_btproceeds;
+	CTime	m_timebegin;
+	CTime	m_timeend;
 	//}}AFX_DATA
 
 
@@ -48,6 +49,9 @@ protected:
 	afx_msg void OnExcel();
 	afx_msg void OnButtonProceeds();
 	afx_msg void OnColumnclickListFi(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnRclickListFi(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnModify();
+	afx_msg void OnDelete();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

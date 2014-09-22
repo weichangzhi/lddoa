@@ -45,6 +45,7 @@ CPreview::CPreview(CWnd* pParent /*=NULL*/)
 	m_size = _T("");
 	m_usage = _T("");
 	m_volume = _T("");
+	m_score = _T("");
 	m_other = _T("");
 	m_str_reveive_time = _T("");
 	m_str_end_date = _T("");
@@ -405,6 +406,12 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	//line 5
 	pDC->MoveTo (recttmp.left+(int)(ratex*100),recttmp.top+(int)(ratey*315));
 	pDC->LineTo (recttmp.left+(int)(ratex*100),recttmp.top+(int)(ratey*335));
+	pDC->MoveTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*315));
+	pDC->LineTo (recttmp.left+(int)(ratex*215),recttmp.top+(int)(ratey*335));	
+	pDC->MoveTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*315));
+	pDC->LineTo (recttmp.left+(int)(ratex*275),recttmp.top+(int)(ratey*335));
+	pDC->MoveTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*315));
+	pDC->LineTo (recttmp.left+(int)(ratex*335),recttmp.top+(int)(ratey*335));
 	//line 6
 	recttmp = rect;
 	pDC->MoveTo (recttmp.left+(int)(ratex*100),recttmp.top+(int)(ratey*335));
@@ -484,14 +491,15 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	strtmp.Format("%s",m_size);
 	recttmp = rect;
 	recttmp.left += (int)(105*ratex);
+	recttmp.right = recttmp.left + (int)(110*ratex);
 	recttmp.top += (int)(ratey*260);
-	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT|DT_EDITCONTROL|DT_WORDBREAK);
 	strtmp.Format("%s",m_totel_number);
 	recttmp = rect;
 	recttmp.left += (int)(280*ratex);
 	recttmp.right = recttmp.left + (int)(52*ratex);
 	recttmp.top += (int)(ratey*260);
-	pDC->DrawText(strtmp,recttmp,DT_RIGHT);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 	strtmp.Format("%s",m_material);
 	recttmp = rect;
 	recttmp.left += (int)(390*ratex);
@@ -605,6 +613,21 @@ void CPreview::DrawReport(CRect rect, CDC *pDC, BOOL isprinted)
 	recttmp.top += (int)(ratey*320);
 	pDC->DrawText(strtmp,recttmp,DT_LEFT);
 	pDC->SetTextColor(clrOld);
+
+	strtmp.Format("积分");
+	recttmp = rect;
+	recttmp.left += (int)(220*ratex);
+	recttmp.top += (int)(ratey*320);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	pDC->SetTextColor(RGB(255,0,0));
+	strtmp.Format("%s",m_score);
+	recttmp = rect;
+	recttmp.left += (int)(280*ratex);
+	recttmp.top += (int)(ratey*320);
+	pDC->DrawText(strtmp,recttmp,DT_LEFT);
+	pDC->SetTextColor(clrOld);
+
+
 
 	strtmp.Format("其他要求");
 	recttmp = rect;

@@ -21,6 +21,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CDialog_BaseInfo)
 	enum { IDD = IDD_DIALOG_BASEINFO };
+	CComboBox	m_comStore;
 	CXPButton	m_btnquery;
 	CXPButton	m_btnexcel;
 	CComboBox	m_comSubWay;
@@ -29,6 +30,7 @@ public:
 	CTime	m_time_bgein;
 	CTime	m_time_end;
 	CString	m_strSubWay;
+	CString	m_strStore;
 	//}}AFX_DATA
 
 

@@ -16,6 +16,9 @@
 #include "Dialog_Storage_In_Detail.h"
 #include "Dialog_Storage_Out_Detail.h"
 #include "Dialog_Storage_Out.h"
+#include "Dialog_List_Shipping.h"
+#include "Dialog_SendUser.h"
+#include "Dialog_ListExpress.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -227,6 +230,7 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	HTREEITEM sub_son3=m_tree.InsertItem("订单进度",13,13,root0,TVI_LAST);
 	HTREEITEM sub_son4=m_tree.InsertItem("进度明细",21,21,root0,TVI_LAST);
 	HTREEITEM sub_son5=m_tree.InsertItem("产能统计",20,20,root0,TVI_LAST);
+	HTREEITEM sub_son9=m_tree.InsertItem("发货管理",22,22,root0,TVI_LAST);
 	HTREEITEM sub_son7=m_tree.InsertItem("财务管理",24,24,root0,TVI_LAST);
 	HTREEITEM sub_son8=m_tree.InsertItem("仓库管理",22,22,root0,TVI_LAST);
 	//二层孙子节点
@@ -245,6 +249,10 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 
 	HTREEITEM sub_m_son20=m_tree.InsertItem("过账",17,17,sub_son2,TVI_LAST);
 	HTREEITEM sub_m_son21=m_tree.InsertItem("退账",16,16,sub_son2,TVI_LAST);
+
+	HTREEITEM sub_m_son50=m_tree.InsertItem("发货清单",25,25,sub_son9,TVI_LAST);
+	HTREEITEM sub_m_son51=m_tree.InsertItem("经办人资料库",5,5,sub_son9,TVI_LAST);
+	HTREEITEM sub_m_son52=m_tree.InsertItem("快递单打印",13,13,sub_son9,TVI_LAST);
 
 	HTREEITEM sub_m_son30=m_tree.InsertItem("收款开票",4,4,sub_son7,TVI_LAST);
 	HTREEITEM sub_m_son31=m_tree.InsertItem("核销",11,11,sub_son7,TVI_LAST);
@@ -279,6 +287,9 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[18]=new Dialog_Storage_In_Detail;
 	m_treePages[19]=new Dialog_Storage_Out;
 	m_treePages[20]=new Dialog_Storage_Out_Detail;
+	m_treePages[21]=new Dialog_List_Shipping;
+	m_treePages[22]=new Dialog_SendUser;
+	m_treePages[23]=new Dialog_ListExpress;
 
 
 	//建立节点对应的Dialog
@@ -303,7 +314,9 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	m_treePages[18]->Create(IDD_DIALOG_STORAGE_IN_DETAIL,this);
 	m_treePages[19]->Create(IDD_DIALOG_STORAGE_OUT,this);
 	m_treePages[20]->Create(IDD_DIALOG_STORAGE_OUT_DETAIL,this);
-
+	m_treePages[21]->Create(IDD_DIALOG_LIST_SHIPPING,this);
+	m_treePages[22]->Create(IDD_DIALOG_SEND_USER,this);
+	m_treePages[23]->Create(IDD_DIALOG_LIST_EXPRESS,this);
 
 	//把Dialog移到合适位置
 
@@ -386,6 +399,15 @@ BOOL CGoodsManageSystemDlg::OnInitDialog()
 	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listStorageInDetail.MoveWindow(rectlistoutput);
 	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listTotal.MoveWindow(rectlisttotal);
 	m_treePages[20]->ShowWindow(SW_HIDE);
+	m_treePages[21]->MoveWindow(m_rect);
+	((Dialog_List_Shipping*)(m_treePages[21]))->m_listBaseInfo.MoveWindow(rectlist);
+	m_treePages[21]->ShowWindow(SW_HIDE);
+	m_treePages[22]->MoveWindow(m_rect);
+	((Dialog_SendUser*)(m_treePages[22]))->m_listSendUser.MoveWindow(rectlist);
+	m_treePages[22]->ShowWindow(SW_HIDE);
+	m_treePages[23]->MoveWindow(m_rect);
+	((Dialog_ListExpress*)(m_treePages[23]))->m_listBaseInfo.MoveWindow(rectlist);
+	m_treePages[23]->ShowWindow(SW_HIDE);
 
 	m_tree.Expand(m_tree.GetRootItem(),TVE_EXPAND);//展开/叠起结点
 	//m_tree.Expand(sub_son0,TVE_EXPAND);//权限管理
@@ -587,6 +609,12 @@ void CGoodsManageSystemDlg::OnSize(UINT nType, int cx, int cy)
 	m_treePages[20]->MoveWindow(m_rect);
 	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listStorageInDetail.MoveWindow(rectlist);
 	((Dialog_Storage_Out_Detail*)(m_treePages[20]))->m_listTotal.MoveWindow(rectlisttotal);
+	m_treePages[21]->MoveWindow(m_rect);
+	((Dialog_List_Shipping*)(m_treePages[21]))->m_listBaseInfo.MoveWindow(rectlist);
+	m_treePages[22]->MoveWindow(m_rect);
+	((Dialog_SendUser*)(m_treePages[22]))->m_listSendUser.MoveWindow(rectlist);
+	m_treePages[21]->MoveWindow(m_rect);
+	((Dialog_ListExpress*)(m_treePages[21]))->m_listBaseInfo.MoveWindow(rectlist);
 
 
 	sprintf(log,"OnSize \t%s,%d",__FILE__,__LINE__);
@@ -794,6 +822,18 @@ void CGoodsManageSystemDlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	else if(node_name=="出库明细"){
 		m_treePages[20]->ShowWindow(SW_SHOW);
 		icurrentpage = 20;
+	}
+	else if(node_name=="发货管理" || node_name=="发货清单"){
+		m_treePages[21]->ShowWindow(SW_SHOW);
+		icurrentpage = 21;
+	}
+	else if(node_name=="经办人资料库"){
+		m_treePages[22]->ShowWindow(SW_SHOW);
+		icurrentpage = 22;
+	}
+	else if(node_name=="快递单打印"){
+		m_treePages[23]->ShowWindow(SW_SHOW);
+		icurrentpage = 23;
 	}
 	UpdateData(false);
 
